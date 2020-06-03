@@ -1,0 +1,6 @@
+{
+  "name": "ApiDS",
+  "connector": "memory",
+  "localStorage": "",
+  "file": ""
+}
