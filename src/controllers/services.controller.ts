@@ -1,15 +1,11 @@
-import {Request, RestBindings, post, get} from '@loopback/rest';
-import {inject} from '@loopback/context';
-import {CacheBindings, LabShareCache} from '@labshare/services-cache';
-import {
-  NotificationsBindings,
-  LabShareNotifications,
-  NotificationType,
-} from '@labshare/services-notifications';
-import {LogBindings, LabShareLogger} from '@labshare/services-logger';
-import {ComputeApiBindings} from '../keys';
-import {ApplicationConfig} from '@loopback/core';
-import {authenticate} from '@labshare/services-auth';
+import { Request, RestBindings, post, get } from '@loopback/rest';
+import { inject } from '@loopback/context';
+import { CacheBindings, LabShareCache } from '@labshare/services-cache';
+import { NotificationsBindings, LabShareNotifications, NotificationType } from '@labshare/services-notifications';
+import { LogBindings, LabShareLogger } from '@labshare/services-logger';
+import { ComputeApiBindings } from '../keys';
+import { ApplicationConfig } from '@loopback/core';
+import { authenticate } from '@labshare/services-auth';
 
 /**
  * A simple controller to bounce back http requests
@@ -50,12 +46,8 @@ export class ServicesController {
   async saveCache() {
     const cachedObject = await this.cache.getItem('TEST');
     if (!cachedObject) {
-      await this.cache.setItem(
-        'TEST',
-        {value: 'from cache'},
-        {isCachedForever: true},
-      );
-      return {value: `Cache added, try again`};
+      await this.cache.setItem('TEST', { value: 'from cache' }, { isCachedForever: true });
+      return { value: `Cache added, try again` };
     }
     return cachedObject;
   }

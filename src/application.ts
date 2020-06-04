@@ -1,29 +1,18 @@
-import {LogBindings, ServicesLoggerComponent} from '@labshare/services-logger';
-import {
-  AuthenticationBindings,
-  ServicesAuthComponent,
-} from '@labshare/services-auth';
-import {CacheBindings, ServicesCacheComponent} from '@labshare/services-cache';
-import {
-  NotificationsBindings,
-  ServicesNotificationsComponent,
-} from '@labshare/services-notifications';
-import {BootMixin} from '@loopback/boot';
-import {ApplicationConfig} from '@loopback/core';
-import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
-import {
-  RestExplorerBindings,
-  RestExplorerComponent,
-} from '@loopback/rest-explorer';
-import {ServiceMixin} from '@loopback/service-proxy';
+import { LogBindings, ServicesLoggerComponent } from '@labshare/services-logger';
+import { AuthenticationBindings, ServicesAuthComponent } from '@labshare/services-auth';
+import { CacheBindings, ServicesCacheComponent } from '@labshare/services-cache';
+import { NotificationsBindings, ServicesNotificationsComponent } from '@labshare/services-notifications';
+import { BootMixin } from '@loopback/boot';
+import { ApplicationConfig } from '@loopback/core';
+import { RepositoryMixin } from '@loopback/repository';
+import { RestApplication } from '@loopback/rest';
+import { RestExplorerBindings, RestExplorerComponent } from '@loopback/rest-explorer';
+import { ServiceMixin } from '@loopback/service-proxy';
 import path from 'path';
 
-import {LabShareSequence} from './sequence';
-import {ComputeApiBindings} from './keys';
-export class ComputeApplication extends BootMixin(
-  ServiceMixin(RepositoryMixin(RestApplication)),
-) {
+import { LabShareSequence } from './sequence';
+import { ComputeApiBindings } from './keys';
+export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
     // Set up the custom sequence
@@ -70,9 +59,7 @@ export class ComputeApplication extends BootMixin(
     this.bind(ComputeApiBindings.CONFIG).to(options);
     this.bind(LogBindings.LOG_CONFIG).to(options?.services?.log);
     this.bind(CacheBindings.CACHE_CONFIG).to(options?.services?.cache);
-    this.bind(NotificationsBindings.NOTIFICATIONS_CONFIG).to(
-      options?.services?.notifications,
-    );
+    this.bind(NotificationsBindings.NOTIFICATIONS_CONFIG).to(options?.services?.notifications);
     this.bind(AuthenticationBindings.AUTH_CONFIG).to(options?.services?.auth);
   }
 }

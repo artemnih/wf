@@ -1,23 +1,7 @@
-import {
-  Count,
-  CountSchema,
-  Filter,
-  FilterExcludingWhere,
-  repository,
-  Where,
-} from '@loopback/repository';
-import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-} from '@loopback/rest';
-import {DemoItem} from '../models';
-import {DemoItemRepository} from '../repositories';
+import { Count, CountSchema, Filter, FilterExcludingWhere, repository, Where } from '@loopback/repository';
+import { post, param, get, getModelSchemaRef, patch, put, del, requestBody } from '@loopback/rest';
+import { DemoItem } from '../models';
+import { DemoItemRepository } from '../repositories';
 
 export class DemoItemController {
   constructor(
@@ -29,7 +13,7 @@ export class DemoItemController {
     responses: {
       '200': {
         description: 'DemoItem model instance',
-        content: {'application/json': {schema: getModelSchemaRef(DemoItem)}},
+        content: { 'application/json': { schema: getModelSchemaRef(DemoItem) } },
       },
     },
   })
@@ -53,7 +37,7 @@ export class DemoItemController {
     responses: {
       '200': {
         description: 'DemoItem model count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -69,16 +53,14 @@ export class DemoItemController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(DemoItem, {includeRelations: true}),
+              items: getModelSchemaRef(DemoItem, { includeRelations: true }),
             },
           },
         },
       },
     },
   })
-  async find(
-    @param.filter(DemoItem) filter?: Filter<DemoItem>,
-  ): Promise<DemoItem[]> {
+  async find(@param.filter(DemoItem) filter?: Filter<DemoItem>): Promise<DemoItem[]> {
     return this.demoItemRepository.find(filter);
   }
 
@@ -86,7 +68,7 @@ export class DemoItemController {
     responses: {
       '200': {
         description: 'DemoItem PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -94,7 +76,7 @@ export class DemoItemController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(DemoItem, {partial: true}),
+          schema: getModelSchemaRef(DemoItem, { partial: true }),
         },
       },
     })
@@ -110,7 +92,7 @@ export class DemoItemController {
         description: 'DemoItem model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(DemoItem, {includeRelations: true}),
+            schema: getModelSchemaRef(DemoItem, { includeRelations: true }),
           },
         },
       },
@@ -118,7 +100,7 @@ export class DemoItemController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(DemoItem, {exclude: 'where'})
+    @param.filter(DemoItem, { exclude: 'where' })
     filter?: FilterExcludingWhere<DemoItem>,
   ): Promise<DemoItem> {
     return this.demoItemRepository.findById(id, filter);
@@ -136,7 +118,7 @@ export class DemoItemController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(DemoItem, {partial: true}),
+          schema: getModelSchemaRef(DemoItem, { partial: true }),
         },
       },
     })
@@ -152,10 +134,7 @@ export class DemoItemController {
       },
     },
   })
-  async replaceById(
-    @param.path.number('id') id: number,
-    @requestBody() demoItem: DemoItem,
-  ): Promise<void> {
+  async replaceById(@param.path.number('id') id: number, @requestBody() demoItem: DemoItem): Promise<void> {
     await this.demoItemRepository.replaceById(id, demoItem);
   }
 

@@ -1,19 +1,13 @@
-import {
-  inject,
-  lifeCycleObserver,
-  LifeCycleObserver,
-  ValueOrPromise,
-} from '@loopback/core';
-import {juggler} from '@loopback/repository';
+import { inject, lifeCycleObserver, LifeCycleObserver, ValueOrPromise } from '@loopback/core';
+import { juggler } from '@loopback/repository';
 import config from './api-ds.datasource.config.json';
 
 @lifeCycleObserver('datasource')
-export class ApiDsDataSource extends juggler.DataSource
-  implements LifeCycleObserver {
+export class ApiDsDataSource extends juggler.DataSource implements LifeCycleObserver {
   static dataSourceName = 'ApiDS';
 
   constructor(
-    @inject('datasources.config.ApiDS', {optional: true})
+    @inject('datasources.config.ApiDS', { optional: true })
     dsConfig: object = config,
   ) {
     super(dsConfig);

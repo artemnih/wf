@@ -1,15 +1,6 @@
-import {inject} from '@loopback/context';
-import {
-  FindRoute,
-  InvokeMethod,
-  ParseParams,
-  Reject,
-  RequestContext,
-  RestBindings,
-  Send,
-  SequenceHandler,
-} from '@loopback/rest';
-import {AuthenticationBindings, AuthenticateFn} from '@labshare/services-auth';
+import { inject } from '@loopback/context';
+import { FindRoute, InvokeMethod, ParseParams, Reject, RequestContext, RestBindings, Send, SequenceHandler } from '@loopback/rest';
+import { AuthenticationBindings, AuthenticateFn } from '@labshare/services-auth';
 
 const SequenceActions = RestBindings.SequenceActions;
 
@@ -27,7 +18,7 @@ export class LabShareSequence implements SequenceHandler {
 
   async handle(context: RequestContext) {
     try {
-      const {request, response} = context;
+      const { request, response } = context;
       const route = this.findRoute(request);
       // Authenticate the request. We need this sequence action to run before "invoke" to ensure authentication
       // occurs first.

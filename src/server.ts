@@ -1,5 +1,5 @@
-import {ComputeApplication} from './application';
-import {ApplicationConfig} from '@loopback/core';
+import { ComputeApplication } from './application';
+import { ApplicationConfig } from '@loopback/core';
 import express from 'express';
 import pEvent from 'p-event';
 import * as http from 'http';
@@ -26,10 +26,7 @@ export class ExpressServer {
 
   public async start() {
     await this.api.start();
-    this.server = this.app.listen(
-      this.options.rest.port,
-      this.options.rest.host,
-    );
+    this.server = this.app.listen(this.options.rest.port, this.options.rest.host);
 
     await pEvent(this.server, 'listening');
   }
