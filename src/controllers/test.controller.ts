@@ -6,8 +6,7 @@ export class TestController {
   constructor(
     @repository(TestRepository)
     public testRepo: TestRepository,
-  ) { }
-
+  ) {}
 
   @get('/test', {
     responses: {
@@ -20,5 +19,4 @@ export class TestController {
   async count(): Promise<string> {
     return this.testRepo.getType();
   }
-
 }

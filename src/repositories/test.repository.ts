@@ -11,5 +11,4 @@ export class TestRepository {
   public getType() {
     return this.driver.getType();
   }
-
 }

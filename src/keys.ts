@@ -1,11 +1,10 @@
 import { BindingKey } from '@loopback/context';
-import { Driver } from './shared/driver';
+import { Driver as DriverModel } from './shared/driver';
 
 export namespace ComputeApiBindings {
-  export const CONFIG = BindingKey.create<any>('Compute.config');
+  export const CONFIG = BindingKey.create<object>('Compute.config');
 }
 
 export namespace DriverBindings {
-  export const Driver = BindingKey.create<Driver>('Compute.Driver');
+  export const Driver = BindingKey.create<DriverModel>('Compute.Driver');
 }
-

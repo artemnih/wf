@@ -7,7 +7,7 @@ export class DemoItemController {
   constructor(
     @repository(DemoItemRepository)
     public demoItemRepository: DemoItemRepository,
-  ) { }
+  ) {}
 
   @post('/demo-items', {
     responses: {

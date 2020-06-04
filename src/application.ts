@@ -63,6 +63,5 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
     this.bind(NotificationsBindings.NOTIFICATIONS_CONFIG).to(options?.services?.notifications);
     this.bind(AuthenticationBindings.AUTH_CONFIG).to(options?.services?.auth);
     this.bind(DriverBindings.Driver).toClass(DriverOne);
-
   }
 }
