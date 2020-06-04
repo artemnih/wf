@@ -1,13 +1,13 @@
 import { Count, CountSchema, Filter, FilterExcludingWhere, repository, Where } from '@loopback/repository';
 import { post, param, get, getModelSchemaRef, patch, put, del, requestBody } from '@loopback/rest';
-import { DemoItem } from '../models';
-import { DemoItemRepository } from '../repositories';
+import { DemoItemRepository } from '../repositories/demo-item.repository';
+import { DemoItem } from '../models/demo-item.model';
 
 export class DemoItemController {
   constructor(
     @repository(DemoItemRepository)
     public demoItemRepository: DemoItemRepository,
-  ) {}
+  ) { }
 
   @post('/demo-items', {
     responses: {
