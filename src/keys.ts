@@ -1,5 +1,11 @@
 import { BindingKey } from '@loopback/context';
+import { Driver } from './shared/driver';
+
 export namespace ComputeApiBindings {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export const CONFIG = BindingKey.create<any>('Compute.config');
 }
+
+export namespace DriverBindings {
+  export const Driver = BindingKey.create<Driver>('Compute.Driver');
+}
+

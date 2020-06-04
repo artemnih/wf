@@ -8,10 +8,11 @@ import { RepositoryMixin } from '@loopback/repository';
 import { RestApplication } from '@loopback/rest';
 import { RestExplorerBindings, RestExplorerComponent } from '@loopback/rest-explorer';
 import { ServiceMixin } from '@loopback/service-proxy';
-import path from 'path';
-
 import { LabShareSequence } from './sequence';
-import { ComputeApiBindings } from './keys';
+import { ComputeApiBindings, DriverBindings } from './keys';
+import path from 'path';
+import { DriverOne } from './test-drivers/driver-one';
+
 export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
@@ -61,5 +62,7 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
     this.bind(CacheBindings.CACHE_CONFIG).to(options?.services?.cache);
     this.bind(NotificationsBindings.NOTIFICATIONS_CONFIG).to(options?.services?.notifications);
     this.bind(AuthenticationBindings.AUTH_CONFIG).to(options?.services?.auth);
+    this.bind(DriverBindings.Driver).toClass(DriverOne);
+
   }
 }
