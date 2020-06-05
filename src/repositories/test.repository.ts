@@ -1,14 +1,16 @@
-import { inject } from '@loopback/core';
-import { DriverBindings } from '../keys';
-import { Driver } from '../shared/driver';
+import { inject, ApplicationConfig } from '@loopback/core';
+import { ComputeApiBindings } from '../keys';
+import { DriverFactory } from '../factories/driver.factory';
 
 export class TestRepository {
-  private driver: Driver;
-  constructor(@inject(DriverBindings.Driver) driver: Driver) {
-    this.driver = driver;
-  }
 
-  public getType() {
-    return this.driver.getType();
-  }
+    constructor(
+        @inject(ComputeApiBindings.DRVIER_FACTORY) private driverFactory: DriverFactory,
+        @inject(ComputeApiBindings.CONFIG) config: ApplicationConfig
+    ) { }
+
+    public getType(driverType: string) {
+        const driver = this.driverFactory.getInstance(driverType);
+        return driver.getType();
+    }
 }
