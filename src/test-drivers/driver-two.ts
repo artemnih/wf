@@ -1,4 +1,4 @@
-import { Driver, BaseDriver } from '../shared/driver';
+import { BaseDriver } from '../shared/driver';
 
 export class DriverTwo extends BaseDriver {
   private type = 'Default Driver Two';

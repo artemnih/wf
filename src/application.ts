@@ -66,12 +66,11 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
     this.bind(AuthenticationBindings.AUTH_CONFIG).to(options?.services?.auth);
 
     const factory = new DriverFactory();
-    factory.add('d1', DriverOne, { name: "Driver One, Config A" });
-    factory.add('d2', DriverOne, { name: "Driver One, Config B" });
-    factory.add('d3', DriverTwo, { name: "Driver Two, Config C" });
+    factory.add('d1', DriverOne, { name: 'Driver One, Config A' });
+    factory.add('d2', DriverOne, { name: 'Driver One, Config B' });
+    factory.add('d3', DriverTwo, { name: 'Driver Two, Config C' });
 
     this.bind(ComputeApiBindings.DRVIER_FACTORY).to(factory);
-
   }
 }
 
