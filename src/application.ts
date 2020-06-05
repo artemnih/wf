@@ -9,9 +9,11 @@ import { RestApplication } from '@loopback/rest';
 import { RestExplorerBindings, RestExplorerComponent } from '@loopback/rest-explorer';
 import { ServiceMixin } from '@loopback/service-proxy';
 import { LabShareSequence } from './sequence';
-import { ComputeApiBindings, DriverBindings } from './keys';
+import { ComputeApiBindings } from './keys';
 import path from 'path';
 import { DriverOne } from './test-drivers/driver-one';
+import { DriverTwo } from './test-drivers/driver-two';
+import { DriverFactory } from './factories/driver.factory';
 
 export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
@@ -62,6 +64,13 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
     this.bind(CacheBindings.CACHE_CONFIG).to(options?.services?.cache);
     this.bind(NotificationsBindings.NOTIFICATIONS_CONFIG).to(options?.services?.notifications);
     this.bind(AuthenticationBindings.AUTH_CONFIG).to(options?.services?.auth);
-    this.bind(DriverBindings.Driver).toClass(DriverOne);
+
+    const factory = new DriverFactory({
+      d1: DriverOne,
+      d2: DriverTwo
+    });
+
+    this.bind(ComputeApiBindings.DRVIER_FACTORY).to(factory);
+
   }
 }
