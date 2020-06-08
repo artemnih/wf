@@ -1,28 +1,28 @@
 import { BaseDriver } from '../shared/driver';
-import { exec } from 'child_process';
+import { exec, ExecException } from 'child_process';
 import { Config } from '../shared/driver-config';
 
 export interface DriverOneConfig extends Config {
-    demoValue: string;
+  demoValue: string;
 }
 
 export class DriverOne extends BaseDriver {
-    private config: DriverOneConfig;
+  private config: DriverOneConfig;
 
-    constructor(config: DriverOneConfig) {
-        super(config);
-        this.config = config;
-    }
+  constructor(config: DriverOneConfig) {
+    super(config);
+    this.config = config;
+  }
 
-    getType(): string {
-        var yourscript = exec('echo "DriverOne Termnial Output"', (error: any, stdout: string, stderr: string) => {
-            console.log(stdout);
-            console.log(stderr);
-            if (error !== null) {
-                console.log(`exec error: ${error}`);
-            }
-        });
+  getType(): string {
+    exec('echo "DriverOne Termnial Output"', (error: ExecException | null, stdout: string, stderr: string) => {
+      console.log(stdout);
+      console.log(stderr);
+      if (error !== null) {
+        console.log(`exec error: ${error}`);
+      }
+    });
 
-        return this.config.demoValue;
-    }
+    return this.config.demoValue;
+  }
 }

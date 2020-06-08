@@ -1,3 +1,3 @@
 type ObjectAlias = object;
 
-export interface Config extends ObjectAlias { }
+export interface Config extends ObjectAlias {}

@@ -68,7 +68,7 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
     // Factory that provides available driver instance
     const factory = new DriverFactory({
       DriverOne,
-      DriverTwo
+      DriverTwo,
     });
     this.bind(ComputeApiBindings.DRVIER_FACTORY).to(factory);
   }
