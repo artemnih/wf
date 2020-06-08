@@ -1,21 +1,23 @@
-import { Dictionary } from '../shared/types/dictionary';
+import { Dictionary } from '../shared/dictionary';
 import { Class } from '@loopback/repository';
-import { BaseDriver } from '../shared/driver';
-
-export interface DriverPayload {
-  driverClass: Class<BaseDriver>;
-  config: object;
-}
+import { Driver } from '../shared/driver';
+import { Config } from '../shared/driver-config';
 
 export class DriverFactory {
-  private driverClasses: Dictionary<DriverPayload> = {};
+  private driverClasses: Dictionary<Class<Driver>> = {};
 
-  getInstance(name: string) {
-    const { driverClass, config } = this.driverClasses[name];
-    return new driverClass({ config: config });
+  constructor(driverClasses: Dictionary<Class<Driver>> = {}) {
+    for (const [key, value] of Object.entries(driverClasses)) {
+      this.add(key, value);
+    }
   }
 
-  add(name: string, driverClass: Class<BaseDriver>, config: object) {
-    this.driverClasses[name] = { driverClass, config };
+  getInstance(name: string, config: Config) {
+    if (!this.driverClasses[name]) throw new Error(`Driver with name ${name} was not found`);
+    return new this.driverClasses[name](config);
+  }
+
+  add(name: string, driverType: Class<Driver>) {
+    this.driverClasses[name] = driverType;
   }
 }

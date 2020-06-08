@@ -11,14 +11,14 @@ module.exports = {
   services: {
     auth: {
       authUrl: process.env.SERVICES_AUTH_URL || 'https://a-ci.labshare.org/_api',
-      tenant: process.env.SERVICES_AUTH_TENANT 
+      tenant: process.env.SERVICES_AUTH_TENANT
     },
     log: {
       enableMetadata: true
     },
     notifications: {
       email: {
-        type:process.env.SERVICES_NOTIFICATIONS_EMAIL_TYPE || 'smtp',
+        type: process.env.SERVICES_NOTIFICATIONS_EMAIL_TYPE || 'smtp',
         settings: {
           defaultFromEmail: process.env.SERVICES_NOTIFICATIONS_EMAIL_USER,
           service: process.env.SERVICES_NOTIFICATIONS_EMAIL_SERVICE || 'gmail',
@@ -31,23 +31,43 @@ module.exports = {
     },
     cache: {
       type: process.env.SERVICES_NOTIFICATIONS_CACHE_TYPE || 'memory',
-      memory:{
-        isGlobalCache:true
+      memory: {
+        isGlobalCache: true
       }
-  
+
     },
   },
   compute: {
-    basePath:'/',
+    basePath: '/',
     test: 'TEST',
-    email:{
+    email: {
       to: process.env.TEMPLATE_EMAIL_TO
     },
-    db:{
+    db: {
       name: "ApiDS",
       connector: "memory",
       localStorage: "",
       file: ""
+    }
+  },
+  drivers: {
+    example1: {
+      type: "DriverOne",
+      config: {
+        demoValue: "Driver One with configuration A"
+      }
+    },
+    example2: {
+      type: "DriverOne",
+      config: {
+        demoValue: "Driver One with configuration B"
+      }
+    },
+    example3: {
+      type: "DriverTwo",
+      config: {
+        demoValue: "Driver Two with configuration C"
+      }
     }
   }
 };

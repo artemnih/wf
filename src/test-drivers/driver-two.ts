@@ -1,14 +1,19 @@
 import { BaseDriver } from '../shared/driver';
+import { Config } from '../shared/driver-config';
+
+export interface DriverTwoConfig extends Config {
+  demoValue: string;
+}
 
 export class DriverTwo extends BaseDriver {
-  private type = 'Default Driver Two';
+  private config: DriverTwoConfig;
 
-  constructor(n: string) {
-    super(n);
-    this.type = n;
+  constructor(config: DriverTwoConfig) {
+    super(config);
+    this.config = config;
   }
 
   getType(): string {
-    return this.type;
+    return this.config.demoValue;
   }
 }
