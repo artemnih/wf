@@ -1,8 +1,6 @@
 import { inject, ApplicationConfig } from '@loopback/core';
 import { ComputeApiBindings } from '../keys';
 import { DriverFactory } from '../factories/driver.factory';
-import { Dictionary } from '../shared/dictionary';
-import { DriverManifest } from '../shared/driver-manifest';
 
 export class TestRepository {
   constructor(
