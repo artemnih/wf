@@ -10,15 +10,8 @@ export class TestRepository {
     @inject(ComputeApiBindings.CONFIG) private config: ApplicationConfig,
   ) {}
 
-  public getType(configurationName: string) {
-    const drivers = this.config.drivers as Dictionary<DriverManifest>;
-
-    if (!drivers[configurationName]) throw new Error(`Driver configuration ${configurationName} was not found`);
-
-    const manifest = drivers[configurationName];
-    const driverType = manifest.type;
-    const driverConfig = manifest.config;
-    const driver = this.driverFactory.getInstance(driverType, driverConfig);
+  public getType(manifestName: string) {
+    const driver = this.driverFactory.getInstance(manifestName);
     return driver.getType();
   }
 }
