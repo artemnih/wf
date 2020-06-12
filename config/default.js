@@ -44,10 +44,10 @@ module.exports = {
       to: process.env.TEMPLATE_EMAIL_TO
     },
     db: {
-      name: "ApiDS",
-      connector: "memory",
-      localStorage: "",
-      file: ""
+      port: 27017,
+      url: process.env.DB_CONNECTION_STRING,
+      name: "mongodb",
+      connector: "mongodb"
     }
   },
   drivers: {
