@@ -58,7 +58,7 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
   }
 
   setUpBindings(options: ApplicationConfig): void {
-    this.bind('datasources.config.ApiDS').to(options.compute?.db);
+    this.bind('datasources.config.ComputeDS').to(options.compute?.db);
     this.bind(ComputeApiBindings.CONFIG).to(options);
     this.bind(LogBindings.LOG_CONFIG).to(options?.services?.log);
     this.bind(CacheBindings.CACHE_CONFIG).to(options?.services?.cache);

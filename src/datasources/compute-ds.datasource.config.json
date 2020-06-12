@@ -1,0 +1,6 @@
+{
+  "name": "CatalogDS",
+  "connector": "mongodb",
+  "localStorage": "",
+  "file": ""
+}
