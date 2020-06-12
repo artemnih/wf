@@ -10,7 +10,7 @@ export class TestController {
 
   @get('/test/{driver}')
   async findById(@param.path.string('driver') driver: string): Promise<string> {
-    return this.testRepo.getType(driver);
+    return this.testRepo.getDriverName(driver);
   }
 
   @get('/test/', {
@@ -22,6 +22,6 @@ export class TestController {
     },
   })
   async count(): Promise<string> {
-    return this.testRepo.getType('d1'); // hardcoded for testing
+    return this.testRepo.getDriverName('d1'); // hardcoded for testing
   }
 }

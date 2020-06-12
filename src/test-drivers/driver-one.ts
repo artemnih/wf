@@ -14,7 +14,7 @@ export class DriverOne extends BaseDriver {
     this.config = config;
   }
 
-  getType(): string {
+  getName(): string {
     exec('echo "DriverOne Termnial Output"', (error: ExecException | null, stdout: string, stderr: string) => {
       console.log(stdout);
       console.log(stderr);

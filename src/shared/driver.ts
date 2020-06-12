@@ -1,8 +1,8 @@
 export interface Driver {
-  getType(): string;
+  getName(): string;
 }
 
 export abstract class BaseDriver implements Driver {
   constructor(config: object) {}
-  abstract getType(): string;
+  abstract getName(): string;
 }

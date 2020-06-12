@@ -13,7 +13,7 @@ export class DriverTwo extends BaseDriver {
     this.config = config;
   }
 
-  getType(): string {
+  getName(): string {
     return this.config.demoValue;
   }
 }
