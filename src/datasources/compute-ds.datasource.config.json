@@ -1,5 +1,5 @@
 {
-  "name": "CatalogDS",
+  "name": "ComputeDS",
   "connector": "mongodb",
   "localStorage": "",
   "file": ""

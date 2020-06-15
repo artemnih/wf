@@ -1,13 +1,16 @@
 import { Entity, model, property } from '@loopback/repository';
 
-@model()
+@model({
+  name: 'drivers',
+  settings: { strict: false },
+})
 export class ServiceConfig extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  id?: number;
+  id?: string;
 
   @property({
     type: 'string',
