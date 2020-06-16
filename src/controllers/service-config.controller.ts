@@ -7,7 +7,7 @@ export class ServiceConfigController {
   constructor(
     @repository(ServiceConfigRepository)
     public serviceConfigRepository: ServiceConfigRepository,
-  ) { }
+  ) {}
 
   @post('/service-configs', {
     responses: {
