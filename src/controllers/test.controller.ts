@@ -1,11 +1,11 @@
-import { CountSchema, repository } from '@loopback/repository';
+import { repository } from '@loopback/repository';
 import { get, param } from '@loopback/rest';
-import { TestRepository } from '../repositories/test.repository';
+import { DriverRepository } from '../repositories/driver.repository';
 
 export class TestController {
   constructor(
-    @repository(TestRepository)
-    public testRepo: TestRepository,
+    @repository(DriverRepository)
+    public testRepo: DriverRepository,
   ) {}
 
   @get('/test/{driver}')
@@ -13,15 +13,8 @@ export class TestController {
     return this.testRepo.getDriverName(driver);
   }
 
-  @get('/test/', {
-    responses: {
-      '200': {
-        description: 'TestItem model count',
-        content: { 'application/json': { schema: CountSchema } },
-      },
-    },
-  })
-  async count(): Promise<string> {
-    return this.testRepo.getDriverName('d1'); // hardcoded for testing
+  @get('/compute/{name}')
+  async compute(@param.path.string('name') name: string): Promise<void> {
+    return this.testRepo.compute(name, 'script');
   }
 }
