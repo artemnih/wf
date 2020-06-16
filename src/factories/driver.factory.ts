@@ -21,7 +21,7 @@ export class DriverFactory {
   }
 
   getInstance(name: string) {
-    if (!this.manifests[name]) throw new Error(`Manifest with name ${name} was not found`);
+    if (!this.manifests[name]) throw new Error(`Manifest with name "${name}" was not found`);
 
     const manifest = this.manifests[name];
     const driverType = manifest.type;
