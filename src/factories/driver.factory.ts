@@ -1,38 +1,29 @@
-import { Dictionary } from '../shared/dictionary';
-import { Class } from '@loopback/repository';
-import { Driver } from '../shared/driver';
-import { inject } from '@loopback/core';
-import { ComputeApiBindings } from '../keys';
-import { DriverManifest } from '../shared/driver-manifest';
+import { PackageManager } from '../utils/package-manager'; // uncomment if using dynamic npm install
+import { ServiceConfig } from '../models/service-config.model';
+import { Driver } from '../types/driver';
 
 export class DriverFactory {
-  private driverClasses: Dictionary<Class<Driver>> = {};
-  private manifests: Dictionary<DriverManifest> = {};
 
-  constructor(driverClasses: Dictionary<Class<Driver>>, manifests: Dictionary<DriverManifest>) {
-    for (const [key, value] of Object.entries(driverClasses)) {
-      this.add(key, value);
+    public async getInstance(serviceConfig: ServiceConfig) {
+        // const DriverClass = (await import('../drivers/microservice-driver')).default;
+        const DriverClass = (await import(serviceConfig.package)).default;
+        return new DriverClass(serviceConfig.config) as Driver;
     }
-    this.manifests = manifests;
-  }
 
-  greet(@inject(ComputeApiBindings.CONFIG) config: object) {
-    console.log(config);
-  }
+    public async install(packageName: string) {
+        try {
+            const DriverClass = (await import(packageName)).default;
+            console.log('already installed');
+            return DriverClass;
+        }
+        catch (e) {
+            if (e.message === `Cannot find module '${packageName}'`) {
+                console.log('installing missing dep')
+                await PackageManager.install(packageName);
+                console.log('finished installing missing dep');
+            }
+            console.log('failed to do work')
+        }
+    }
 
-  getInstance(name: string) {
-    if (!this.manifests[name]) throw new Error(`Manifest with name "${name}" was not found`);
-
-    const manifest = this.manifests[name];
-    const driverType = manifest.type;
-    const config = manifest.config;
-
-    if (!this.driverClasses[driverType]) throw new Error(`Driver with name ${driverType} was not found`);
-
-    return new this.driverClasses[driverType](config);
-  }
-
-  add(name: string, driverType: Class<Driver>) {
-    this.driverClasses[name] = driverType;
-  }
 }
