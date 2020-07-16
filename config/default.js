@@ -49,25 +49,5 @@ module.exports = {
       name: "mongodb",
       connector: "mongodb"
     }
-  },
-  drivers: {
-    example1: {
-      type: "DriverOne",
-      config: {
-        demoValue: "Driver One with configuration A"
-      }
-    },
-    example2: {
-      type: "DriverOne",
-      config: {
-        demoValue: "Driver One with configuration B"
-      }
-    },
-    example3: {
-      type: "DriverTwo",
-      config: {
-        demoValue: "Driver Two with configuration C"
-      }
-    }
   }
 };
