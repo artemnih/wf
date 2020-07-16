@@ -9,7 +9,7 @@ export class ServiceConfig extends Entity {
   @property({ type: 'string' }) title: string;
   @property({ type: 'string' }) package: string;
   @property({ type: 'object' }) config: object;
-  
+
   constructor(data?: Partial<ServiceConfig>) {
     super(data);
   }

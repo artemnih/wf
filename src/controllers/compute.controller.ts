@@ -1,13 +1,13 @@
 import { repository } from '@loopback/repository';
-import { get, param, post, requestBody } from '@loopback/rest';
+import { param, post, requestBody } from '@loopback/rest';
 import { ComputeRepository } from '../repositories/compute.repository';
 import { ServiceConfigRepository } from '../repositories/service-config.repository';
 
 export class ComputeController {
   constructor(
     @repository(ComputeRepository) public computeRepo: ComputeRepository,
-    @repository(ServiceConfigRepository) public serviceConfigRepo: ServiceConfigRepository
-  ) { }
+    @repository(ServiceConfigRepository) public serviceConfigRepo: ServiceConfigRepository,
+  ) {}
 
   @post('/compute/{name}')
   async compute(
@@ -18,7 +18,7 @@ export class ComputeController {
         'application/xml': {},
       },
     })
-    script: string
+    script: string,
   ): Promise<void> {
     const config = await this.serviceConfigRepo.getByTitle(name);
     if (!config) throw new Error('Config not found');
@@ -26,9 +26,7 @@ export class ComputeController {
   }
 
   @post('/install/{name}')
-  async compute1(
-    @param.path.string('name') name: string
-  ): Promise<void> {
+  async compute1(@param.path.string('name') name: string): Promise<void> {
     const config = await this.serviceConfigRepo.getByTitle(name);
     if (!config) throw new Error('Config not found');
     return this.computeRepo.install(config);

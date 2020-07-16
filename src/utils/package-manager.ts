@@ -1,5 +1,4 @@
 export class PackageManager {
-
   public static async install(pacakgeName: string) {
     return new Promise((resolve, reject) => {
       const npm = require('npm');
@@ -26,5 +25,4 @@ export class PackageManager {
       );
     });
   }
-
 }
