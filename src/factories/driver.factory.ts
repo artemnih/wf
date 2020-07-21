@@ -12,15 +12,14 @@ export class DriverFactory {
   public async install(packageName: string) {
     try {
       const DriverClass = (await import(packageName)).default;
-      console.log('already installed');
+      console.log('Dependency already installed');
       return DriverClass;
     } catch (e) {
       if (e.message === `Cannot find module '${packageName}'`) {
-        console.log('installing missing dep');
+        console.log('Installing missing dependency');
         await PackageManager.install(packageName);
-        console.log('finished installing missing dep');
+        console.log('Finished installing missing dep');
       }
-      console.log('failed to do work');
     }
   }
 }

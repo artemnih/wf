@@ -16,7 +16,6 @@ export default class {
     let data = '';
 
     return new Promise((resolve, reject) => {
-      console.log('inside the driver');
       const requestUrl = new URL(this.config.url);
       requestUrl.port = this.config.port;
       requestUrl.pathname = this.config.methods.compute;
@@ -29,7 +28,6 @@ export default class {
 
         // The whole response has been received. Print out the result.
         resp.on('end', () => {
-          console.log(data);
           resolve(data);
         });
       }).on('error', (err: Error) => {
