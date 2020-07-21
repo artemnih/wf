@@ -1,4 +1,3 @@
-// prettier-ignore
 module.exports = {
   rest: {
     port: +(process.env.API_PORT || 8000),
