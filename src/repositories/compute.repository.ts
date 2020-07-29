@@ -4,7 +4,7 @@ import { DriverFactory } from '../factories/driver.factory';
 import { ServiceConfig } from '../models/service-config.model';
 
 export class ComputeRepository {
-  constructor(@inject(ComputeApiBindings.DRVIER_FACTORY) private driverFactory: DriverFactory) { }
+  constructor(@inject(ComputeApiBindings.DRIVER_FACTORY) private driverFactory: DriverFactory) { }
 
   public async compute(serviceConfig: ServiceConfig, script: string) {
     const driver = await this.driverFactory.getInstance(serviceConfig);
