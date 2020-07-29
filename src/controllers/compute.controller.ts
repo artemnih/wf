@@ -26,7 +26,7 @@ export class ComputeController {
   }
 
   @post('/install/{name}')
-  async compute1(@param.path.string('name') name: string): Promise<void> {
+  async install(@param.path.string('name') name: string): Promise<void> {
     const config = await this.serviceConfigRepo.getByTitle(name);
     if (!config) throw new Error('Config not found');
     return this.computeRepo.install(config);
