@@ -1,0 +1,6 @@
+{
+  "name": "ComputeDS",
+  "connector": "mongodb",
+  "localStorage": "",
+  "file": ""
+}

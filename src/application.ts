@@ -11,8 +11,6 @@ import { ServiceMixin } from '@loopback/service-proxy';
 import { LabShareSequence } from './sequence';
 import { ComputeApiBindings } from './keys';
 import path from 'path';
-import { DriverOne } from './test-drivers/driver-one';
-import { DriverTwo } from './test-drivers/driver-two';
 import { DriverFactory } from './factories/driver.factory';
 
 export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
@@ -58,7 +56,7 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
   }
 
   setUpBindings(options: ApplicationConfig): void {
-    this.bind('datasources.config.ApiDS').to(options.compute?.db);
+    this.bind('datasources.config.ComputeDS').to(options.compute?.db);
     this.bind(ComputeApiBindings.CONFIG).to(options);
     this.bind(LogBindings.LOG_CONFIG).to(options?.services?.log);
     this.bind(CacheBindings.CACHE_CONFIG).to(options?.services?.cache);
@@ -66,14 +64,7 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
     this.bind(AuthenticationBindings.AUTH_CONFIG).to(options?.services?.auth);
 
     // Factory that provides available driver instance
-    const factory = new DriverFactory(
-      {
-        DriverOne,
-        DriverTwo,
-      },
-      options.drivers,
-    );
-
-    this.bind(ComputeApiBindings.DRVIER_FACTORY).to(factory);
+    const factory = new DriverFactory();
+    this.bind(ComputeApiBindings.DRIVER_FACTORY).to(factory);
   }
 }

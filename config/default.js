@@ -1,4 +1,3 @@
-// prettier-ignore
 module.exports = {
   rest: {
     port: +(process.env.API_PORT || 8000),
@@ -44,30 +43,10 @@ module.exports = {
       to: process.env.TEMPLATE_EMAIL_TO
     },
     db: {
-      name: "ApiDS",
-      connector: "memory",
-      localStorage: "",
-      file: ""
-    }
-  },
-  drivers: {
-    example1: {
-      type: "DriverOne",
-      config: {
-        demoValue: "Driver One with configuration A"
-      }
-    },
-    example2: {
-      type: "DriverOne",
-      config: {
-        demoValue: "Driver One with configuration B"
-      }
-    },
-    example3: {
-      type: "DriverTwo",
-      config: {
-        demoValue: "Driver Two with configuration C"
-      }
+      port: 27017,
+      url: process.env.DB_CONNECTION_STRING,
+      name: "mongodb",
+      connector: "mongodb"
     }
   }
 };

@@ -1,38 +1,43 @@
-import { Dictionary } from '../shared/dictionary';
-import { Class } from '@loopback/repository';
-import { Driver } from '../shared/driver';
-import { inject } from '@loopback/core';
-import { ComputeApiBindings } from '../keys';
-import { DriverManifest } from '../shared/driver-manifest';
+import { PackageManager } from '../utils/package-manager';
+import { ServiceConfig } from '../models/service-config.model';
+import { Driver } from '../types/driver';
 
 export class DriverFactory {
-  private driverClasses: Dictionary<Class<Driver>> = {};
-  private manifests: Dictionary<DriverManifest> = {};
 
-  constructor(driverClasses: Dictionary<Class<Driver>>, manifests: Dictionary<DriverManifest>) {
-    for (const [key, value] of Object.entries(driverClasses)) {
-      this.add(key, value);
+  public async getInstance(serviceConfig: ServiceConfig, allowInstallAndRetry = true): Promise<Driver | undefined> {
+    const packageName = serviceConfig.package;
+    try {
+      const DriverClass = (await import(packageName)).default;
+      return new DriverClass(serviceConfig.config) as Driver;
+    } catch (e) {
+      if (e.message === `Cannot find module '${packageName}'`) {
+        console.log('Driver is not installed');
+        if (allowInstallAndRetry) {
+          console.log('Attempting to install the driver and try again');
+          
+          await this.install(packageName);
+          console.log('Get driver again');
+
+          // eslint-disable-next-line no-return-await
+          return await this.getInstance(serviceConfig, false);
+        } else {
+          console.log('Failed to get drivers');
+        }
+      }
     }
-    this.manifests = manifests;
   }
 
-  greet(@inject(ComputeApiBindings.CONFIG) config: object) {
-    console.log(config);
-  }
-
-  getInstance(name: string) {
-    if (!this.manifests[name]) throw new Error(`Manifest with name ${name} was not found`);
-
-    const manifest = this.manifests[name];
-    const driverType = manifest.type;
-    const config = manifest.config;
-
-    if (!this.driverClasses[driverType]) throw new Error(`Driver with name ${driverType} was not found`);
-
-    return new this.driverClasses[driverType](config);
-  }
-
-  add(name: string, driverType: Class<Driver>) {
-    this.driverClasses[name] = driverType;
+  public async install(packageName: string) {
+    try {
+      const DriverClass = (await import(packageName)).default;
+      console.log('Dependency already installed');
+      return DriverClass;
+    } catch (e) {
+      if (e.message === `Cannot find module '${packageName}'`) {
+        console.log('Installing missing dependency');
+        await PackageManager.install(packageName);
+        console.log('Finished installing missing dep');
+      }
+    }
   }
 }
