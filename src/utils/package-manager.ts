@@ -1,5 +1,5 @@
 export class PackageManager {
-  public static async install(pacakgeName: string) {
+  public static async install(packageName: string) {
     return new Promise((resolve, reject) => {
       const npm = require('npm');
       npm.load(
@@ -11,7 +11,7 @@ export class PackageManager {
           if (err) {
             reject(err);
           }
-          npm.commands.install([pacakgeName], (er: Error, data: object) => {
+          npm.commands.install([packageName], (er: Error, data: object) => {
             if (er) {
               reject(er);
             }
