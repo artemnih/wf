@@ -1,0 +1,23 @@
+compute:
+  name: compute
+  image: kevinpatrickhannon/compute:rename-workflow
+  ingress:
+    enabled: false
+    host: COMPUTE_INGRESS_REPLACE
+  argo:
+    name: compute-argo
+  slurm:
+    host: HPC_LOGON_NODE_REPLACE
+  mongo:
+    name: compute-mongodb
+
+mongodb:
+  persistence:
+    enabled: false
+    size: 256Mi
+    storageClass: local
+  auth:
+    ## @param auth.enabled Enable authentication
+    ## ref: https://docs.mongodb.com/manual/tutorial/enable-authentication/
+    ##
+    enabled: false

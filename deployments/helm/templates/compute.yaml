@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-{{.Values.compute.name }}"
+spec:
+  type: NodePort
+  ports:
+    - port: 8000
+      targetPort: 8000
+  selector:
+    app: {{ .Values.compute.name }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.compute.name }}
+  name: "{{ .Release.Name }}-{{.Values.compute.name }}"
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.compute.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.compute.name }}
+      name: {{ .Values.compute.name }}
+    spec:
+      containers:
+        - name: compute
+          image: {{ .Values.compute.image }}
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MONGO_CONNECTION_NAME
+              value: {{ .Values.compute.mongo.name }}
+            - name: ARGO_SERVICE_NAME
+              value: {{ .Values.compute.argo.name }}
+            - name: ARGO_SERVICE_PORT
+              value: '7999'
+            - name: SLURM_SERVICE_HOST
+              value: {{ .Values.compute.slurm.host }}
+            - name: SLURM_SERVICE_PORT
+              value: '7998'
+            - name: COMPUTE_SERVICE_NAME
+              value: {{ .Values.compute.name }}

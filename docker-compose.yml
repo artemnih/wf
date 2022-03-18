@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  compute:
+    container_name: compute
+    image: kevinpatrickhannon/compute:rename-workflow
+    ports: 
+      - 8000:8000
+    expose:
+      - 7999
+    environment:
+      MONGO_CONNECTION_NAME: mongo
+      ARGO_SERVICE_NAME: argo
+      ARGO_SERVICE_PORT: 7999
+      SLURM_SERVICE_HOST: login.hpc.ncats.io
+      SLURM_SERVICE_PORT: 7998
+      COMPUTE_SERVICE_NAME: compute
+  mongo:
+    container_name: mongo
+    image: "mongo"
+    volumes:
+      - ~/data:/data
+    ports: 
+      - 27017:27017
+
+  argo:
+    container_name: argo
+    image: "kevinpatrickhannon/argo:plugin-gen"
+    ports: 
+     - 7999:7999
+
+
