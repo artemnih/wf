@@ -1,0 +1,102 @@
+{
+	"name": "montage-recycle-slurm",
+	"driver": "slurm",
+	"inputs": {
+		"montageFilePattern": "string",
+		"montageInpDir": "Directory",
+		"montageLayout": "string[]",
+		"montageImageSpacing": "int",
+		"montageGridSpacing": "int",
+		"montageOutputName": "Directory",
+		"recycleGroupBy": "string",
+		"recycleCollectionRegex": "string",
+		"recycleOutputName": "Directory"
+	},
+	"outputs": {
+		"recycleoutDir": {
+			"type": "Directory",
+			"outputSource": "recycle/recycleoutDir"
+		},
+		"recycleStdErr": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdErr"
+		},
+		"recycleStdOut": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdOut"
+		},
+		"montageoutDir": {
+			"type": "Directory",
+			"outputSource": "montage/montageoutDir"
+		},
+		"montageStdErr": {
+			"type": "File",
+			"outputSource": "montage/montageStdErr"
+		},
+		"montageStdOut": {
+			"type": "File",
+			"outputSource": "montage/montageStdOut"
+		}
+	},
+	"cwlJobInputs": {
+		"montageFilePattern": "p00_x{xx}_y{yy}_r{rr}_c01.ome.zarr",
+		"montageInpDir": {
+			"class": "Directory",
+			"path": "/home/ec2-user/cwl/montage-recycle/data"
+		},
+		"montageLayout": [
+			"r",
+			"xy"
+		],
+		"montageImageSpacing": 10,
+		"montageGridSpacing": 20,
+		"montageOutputName": {
+			"class": "Directory",
+			"path": "montage"
+		},
+		"recycleCollectionRegex": "p{tt}_x{xx}_y{yy}_r{rr}_c{cc}.ome.zarr",
+		"recycleCollectionDir": {
+			"class": "Directory",
+			"path": "/home/ec2-user/cwl/montage-recycle/data"
+		},
+		"recycleGroupBy": "r",
+		"recycleOutputName": {
+			"class": "Directory",
+			"path": "recycle"
+		}
+	},
+	"steps": {
+		"montage": {
+			"run": "plugin:612fc61ba21dcd5b4f2abbe1",
+			"in": {
+				"filePattern": "montageFilePattern",
+				"inpDir": "montageInpDir",
+				"imageSpacing": "montageImageSpacing",
+				"gridSpacing": "montageGridSpacing",
+				"layout": "montageLayout",
+				"outDir": "montageOutputName"
+			},
+			"out": [
+				"montageoutDir",
+				"montageStdOut",
+				"montageStdErr"
+			]
+		},
+		"recycle": {
+			"run": "plugin:612fc674a21dcd5b4f2abbe2",
+			"in": {
+				"groupBy": "recycleGroupBy",
+				"collectionRegex": "recycleCollectionRegex",
+				"stitchRegex": "recycleCollectionRegex",
+				"stitchDir": "montage/montageoutDir",
+				"collectionDir": "montageInpDir",
+				"outDir": "recycleOutputName"
+			},
+			"out": [
+				"recycleoutDir",
+				"recycleStdOut",
+				"recycleStdErr"
+			]
+		}
+	}
+}

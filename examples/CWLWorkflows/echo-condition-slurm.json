@@ -1,0 +1,36 @@
+{
+	"name": "echo-condition-slurm",
+	"driver": "slurm",
+	"inputs": {
+		"condValue": "boolean",
+		"hello1": "string"
+	},
+	"outputs": {
+		"echoStdOut": {
+			"type": "File",
+			"outputSource": "echo/echoStdOut"
+		},
+		"echoStdErr": {
+			"type": "File",
+			"outputSource": "echo/echoStdErr"
+		}
+	},
+	"cwlJobInputs": {
+		"condValue": false,
+		"hello1": "hello kevin"
+	},
+	"steps": {
+		"echo": {
+			"run": "plugin:6148da6f08b2c40710890b09",
+			"in": {
+				"message": "hello1",
+				"condValue": "condValue"
+			},
+			"out": [
+				"echoStdOut",
+				"echoStdErr"
+			],
+			"when": "$(inputs.condValue)"
+		}
+	}
+}

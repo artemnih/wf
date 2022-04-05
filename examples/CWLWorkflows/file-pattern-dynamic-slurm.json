@@ -1,0 +1,80 @@
+{
+	"name": "file-pattern-dynamic-slurm",
+	"driver": "slurm",
+	"inputs": {
+		"file-pattern-input": "Directory",
+		"pattern": "string",
+		"file-pattern-output": "Directory",
+		"chunkSize": "int",
+		"inpDir": "Directory",
+		"outDir": "Directory"
+	},
+	"outputs": {
+		"ome2zarroutDir": {
+			"type": "Directory[]",
+			"outputSource": [
+				"ome2zarr/ome2zarroutDir"
+			]
+		},
+		"ome2zarrStdOut": {
+			"type": "File[]",
+			"outputSource": [
+				"ome2zarr/ome2zarrStdOut"
+			]
+		},
+		"ome2zarrStdErr": {
+			"type": "File[]",
+			"outputSource": [
+				"ome2zarr/ome2zarrStdErr"
+			]
+		}
+	},
+	"cwlJobInputs": {
+		"inpDir": {
+			"class": "Directory",
+			"path": "/project/labshare-compute/data/tiff-converter"
+		},
+		"outDir": {
+			"class": "Directory",
+			"path": "zarr"
+		},
+		"file-pattern-input": {
+			"class": "Directory",
+			"path": "/project/labshare-compute/data/tiff-converter"
+		},
+		"pattern": "x{x+}_y{y+}_wx{t}_wy{p}_c{c}.ome.tif",
+		"chunkSize": 2,
+		"file-pattern-output": {
+			"class": "Directory",
+			"path": "/project/labshare-compute/toil-temp/output"
+		}
+	},
+	"steps": {
+		"filepattern": {
+			"run": "plugin:620282f3b9473c00178e1fd6",
+			"in": {
+				"inpDir": "file-pattern-input",
+				"pattern": "pattern",
+				"outDir": "file-pattern-output",
+				"chunkSize": "chunkSize"
+			},
+			"out": [
+				"filepatternoutDir"
+			]
+		},
+		"ome2zarr": {
+			"run": "plugin:61ae7a98f7ab3a5033f3390b",
+			"scatter": "filePattern",
+			"in": {
+				"filePattern": "filepattern/filepatternoutDir",
+				"inpDir": "inpDir",
+				"outDir": "outDir"
+			},
+			"out": [
+				"ome2zarroutDir",
+				"ome2zarrStdOut",
+				"ome2zarrStdErr"
+			]
+		}
+	}
+}

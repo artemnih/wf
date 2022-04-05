@@ -1,0 +1,41 @@
+{
+	"name": "echo-scatter-argo",
+	"driver": "argo",
+	"inputs": {
+		"messageArray": "string[]"
+	},
+	"outputs": {
+		"echoStdOut": {
+			"type": "File[]",
+			"outputSource": [
+				"echo/echoStdOut"
+			]
+		},
+		"echoStdErr": {
+			"type": "File[]",
+			"outputSource": [
+				"echo/echoStdErr"
+			]
+		}
+	},
+	"cwlJobInputs": {
+		"messageArray": [
+			"hello kevin",
+			"hello world",
+			"hello world2"
+		]
+	},
+	"steps": {
+		"echo": {
+			"run": "plugin:6148da6f08b2c40710890b09",
+			"scatter": "message",
+			"in": {
+				"message": "messageArray"
+			},
+			"out": [
+				"echoStdOut",
+				"echoStdErr"
+			]
+		}
+	}
+}

@@ -1,0 +1,96 @@
+{
+   "id": "612fc61ba21dcd5b4f2abbe1",
+   "title": "Montage",
+   "name": "Montage",
+   "description": "Advanced montaging plugin.",
+   "baseCommand": [
+      "python3",
+      "/opt/executables/main.py"
+   ],
+   "version": "0.2.2",
+   "author": "Nick Schaub (nick.schaub@nih.gov)",
+   "institution": "National Center for Advancing Translational Sciences, National Institutes of Health",
+   "repository": "https://github.com/labshare/polus-plugins",
+   "website": "https://ncats.nih.gov/preclinical/core/informatics",
+   "citation": "",
+   "containerId": "kevinpatrickhannon/polus-montage:test",
+   "pluginHardwareRequirements": {
+      "gpu": "none"
+   },
+   "inputs": [
+      {
+         "name": "filePattern",
+         "type": "string",
+         "label": "Filename pattern used to parse data",
+         "required": true
+      },
+      {
+         "name": "inpDir",
+         "type": "path",
+         "label": "Input image collection to be processed by this plugin",
+         "required": true
+      },
+      {
+         "name": "layout",
+         "type": "string[]",
+         "required": false,
+         "label": "Threshold value for manual setting"
+      },
+      {
+         "name": "imageSpacing",
+         "type": "int",
+         "label": "Spacing between images at the lowest subgrid",
+         "required": false
+      },
+      {
+         "name": "gridSpacing",
+         "type": "int",
+         "label": "Input image collection to be processed by this plugin",
+         "required": false
+      }
+   ],
+   "outputs": [
+      {
+         "name": "outDir",
+         "type": "path",
+         "label": "Output collection"
+      }
+   ],
+   "ui": [
+      {
+         "key": "inputs.filePattern",
+         "title": "Filename pattern",
+         "type": "PluginUIType.text",
+         "description": "Filename pattern used to parse data"
+      },
+      {
+         "key": "inputs.inpDir",
+         "title": "Input collection",
+         "description": "Input image collection to be processed by this plugin",
+         "type": "PluginUIType.text"
+      },
+      {
+         "key": "inputs.layout",
+         "title": "Grid layout",
+         "description": "Specify montage organization",
+         "type": "PluginUIType.text"
+      },
+      {
+         "key": "inputs.imageSpacing",
+         "title": "Image spacing",
+         "description": "Space between images",
+         "type": "PluginUIType.text"
+      },
+      {
+         "key": "inputs.gridSpacing",
+         "title": "Grid spacing multiplier",
+         "description": "Spacing between subgrids",
+         "type": "PluginUIType.text"
+      },
+      {
+         "name": "outDir",
+         "type": "PluginUIType.text",
+         "description": "Output collection"
+      }
+   ]
+}

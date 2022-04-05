@@ -1,0 +1,20 @@
+{
+	"name": "sleep-slurm",
+	"driver": "slurm",
+	"inputs": {
+		"sleepParam": "string"
+	},
+	"outputs": {},
+	"cwlJobInputs": {
+		"sleepParam": "1000"
+	},
+	"steps": {
+		"sleep": {
+			"run": "plugin:618020c9b5eb007f68bb6a64",
+			"in": {
+				"sleepParam": "sleepParam"
+			},
+			"out": []
+		}
+	}
+}

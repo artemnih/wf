@@ -1,0 +1,62 @@
+{
+	"name": "montage-recycle",
+	"inputs": {
+		"montageFilePattern": "string",
+		"montageInpDir": "Directory",
+		"montageLayout": "string[]",
+		"montageOutputName": "Directory",
+		"recycleGroupBy": "string",
+		"recycleCollectionRegex": "string",
+		"recycleOutputName": "Directory"
+	},
+	"outputs": {
+		"recycleoutDir": {
+			"type": "Directory",
+			"outputSource": "recycle/recycleOut"
+		},
+		"recycleStdErr": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdErr"
+		},
+		"recycleStdOut": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdOut"
+		},
+		"montageoutDir": {
+			"type": "Directory",
+			"outputSource": "montage/montageOut"
+		},
+		"montageStdErr": {
+			"type": "File",
+			"outputSource": "montage/montageStdErr"
+		},
+		"montageStdOut": {
+			"type": "File",
+			"outputSource": "montage/montageStdOut"
+		}
+	},
+	"steps": {
+		"montage": {
+			"run": "plugin:612fc61ba21dcd5b4f2abbe1",
+			"in": {
+				"filePattern": "montageFilePattern",
+				"inpDir": "montageInpDir",
+				"layout": "montageLayout",
+				"outDir": "montageOutputName"
+			},
+			"out": ["montageoutDir", "montageStdOut", "montageStdErr"]
+		},
+		"recycle": {
+			"run": "plugin:612fc674a21dcd5b4f2abbe2",
+			"in": {
+				"groupBy": "recycleGroupBy",
+				"collectionRegex": "recycleCollectionRegex",
+				"stitchRegex": "recycleCollectionRegex",
+				"stitchDir": "montage/montageoutDir",
+				"collectionDir": "montageInpDir",
+				"outDir": "recycleOutputName"
+			},
+			"out": ["recycleoutDir", "recycleStdOut", "recycleStdErr"]
+		}
+	}
+}

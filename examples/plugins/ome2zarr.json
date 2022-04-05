@@ -1,0 +1,55 @@
+{
+	"id": "61ae7a98f7ab3a5033f3390b",
+	"name": "ome2zarr",
+	"version": "0.2.0",
+	"title": "ome2zarr",
+	"description": "Convert Bioformats supported format to OME Zarr.",
+	"author": "Nick Schaub (nick.schaub@nih.gov)",
+	"institution": "National Center for Advancing Translational Sciences, National Institutes of Health",
+	"repository": "https://github.com/labshare/polus-plugins",
+	"website": "https://ncats.nih.gov/preclinical/core/informatics",
+	"citation": "",
+	"containerId": "kevinpatrickhannon/polus-ome-zarr-converter-plugin:test1",
+	"baseCommand": [
+		"python3",
+		"/opt/executables/main.py"
+	],
+	"pluginHardwareRequirements": {
+		"gpu": "none"
+	},
+	"inputs": [
+		{
+			"name": "inpDir",
+			"type": "path",
+			"label": "Input generic data collection to be processed by this plugin",
+			"required": true
+		},
+		{
+			"name": "filePattern",
+			"type": "string",
+			"label": "A filepattern, used to select data to be converted",
+			"required": true
+		}
+	],
+	"outputs": [
+		{
+			"name": "outDir",
+			"type": "path",
+			"label": "Output collection"
+		}
+	],
+	"ui": [
+		{
+			"key": "inputs.inpDir",
+			"title": "Input generic collection",
+			"description": "Input generic data collection to be processed by this plugin",
+			"type": "text"
+		},
+		{
+			"key": "inputs.filePattern",
+			"title": "Filepattern",
+			"description": "A filepattern, used to select data for conversion",
+			"type": "text"
+		}
+	]
+}

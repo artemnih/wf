@@ -1,0 +1,49 @@
+{
+	"name": "sleep-echo-argo",
+	"driver": "argo",
+	"inputs": {
+		"sleepParam": "string",
+		"hello1": "string"
+	},
+	"outputs": {
+		"echoStdOut": {
+			"type": "File",
+			"outputSource": "echo/echoStdOut"
+		},
+		"echoStdErr": {
+			"type": "File",
+			"outputSource": "echo/echoStdErr"
+		}
+	},
+	"cwlJobInputs": {
+		"sleepParam1": "100",
+		"sleepParam2": "10000",
+		"hello1": "hello kevin"
+	},
+	"steps": {
+		"sleep": {
+			"run": "plugin:618020c9b5eb007f68bb6a64",
+			"in": {
+				"sleepParam": "sleepParam1"
+			},
+			"out": []
+		},
+		"echo": {
+			"run": "plugin:6148da6f08b2c40710890b09",
+			"in": {
+				"message": "hello1"
+			},
+			"out": [
+				"echoStdOut",
+				"echoStdErr"
+			]
+		},
+		"sleep2": {
+			"run": "plugin:618020c9b5eb007f68bb6a64",
+			"in": {
+				"sleepParam": "sleepParam2"
+			},
+			"out": []
+		}
+	}
+}

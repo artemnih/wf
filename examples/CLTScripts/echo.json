@@ -1,0 +1,34 @@
+{
+	"id": "6148da6f08b2c40710890b09",
+	"cwlScript": {
+		"cwlVersion": "v1.0",
+		"id": "echo",
+		"class": "CommandLineTool",
+		"requirements": {
+			"DockerRequirement": {
+				"dockerPull": "busybox"
+			}
+		},
+		"baseCommand": [
+			"echo"
+		],
+		"stdout": "echo.out",
+		"stderr": "echo.err",
+		"inputs": {
+			"message": {
+				"type": "string",
+				"inputBinding": {
+					"position": 1
+				}
+			}
+		},
+		"outputs": {
+			"echoStdOut": {
+				"type": "stdout"
+			},
+			"echoStdErr": {
+				"type": "stderr"
+			}
+		}
+	}
+}

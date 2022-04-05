@@ -1,0 +1,25 @@
+{
+	"title": "echo",
+	"name": "echo",
+	"description": "A simple hello world test",
+	"baseCommand": [
+		"echo"
+	],
+	"version": "1.0.0",
+	"author": "Kevin Hannon",
+	"institution": "National Center for Advancing Translational Sciences, National Institutes of Health",
+	"containerId": "busybox",
+	"pluginHardwareRequirements": {
+		"gpu": "none"
+	},
+	"inputs": [
+		{
+			"name": "message",
+			"type": "1",
+			"label": "Parameter to pass to echo",
+			"required": true
+		}
+	],
+	"outputs": [],
+	"ui": []
+}
