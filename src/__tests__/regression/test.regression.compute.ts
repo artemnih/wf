@@ -25,9 +25,6 @@ describe('Post Scripts', () => {
   it('Post echo script', async () => {
     await postPlugin(`${exampleScripts}/echo.json`);
   });
-  it('Post threshold script', async () => {
-    await postPlugin(`${exampleScripts}/threshold.json`);
-  });
   it('Post montage script', async () => {
     await postPlugin(`${exampleScripts}/montage.json`);
   });
@@ -40,19 +37,16 @@ describe('Post Scripts', () => {
 });
 describe('Submit Regression Tests From Examples', () => {
   it('Run Echo Workflow', async () => {
-    await postWorkflow(`${examplePath}/echo.json`);
+    await postWorkflow(`${examplePath}/echo-slurm.json`);
   });
   it('Run Echo Argo Workflow', async () => {
     await postWorkflow(`${examplePath}/echo-argo.json`);
   });
 
   it('Run montage-argo workflow', async () => {
-    await postWorkflow(`${examplePath}/montage-argo.json`);
+    await postWorkflow(`${examplePath}/montage-argo-slurm.json`);
   });
   it('Run montage-recycle-argo workflow', async () => {
     await postWorkflow(`${examplePath}/montage-recycle-argo.json`);
-  });
-  it('Run montage-recycle-assemble workflow', async () => {
-    await postWorkflow(`${examplePath}/montage-recycle-assemble.json`);
   });
 });

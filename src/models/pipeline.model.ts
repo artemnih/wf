@@ -5,6 +5,7 @@ export class Pipeline extends Entity {
   @property({
     type: 'string',
     id: true,
+    generated: true,
     mongodb: {
       dataType: 'ObjectID', // or perhaps 'objectid'?
     },
@@ -17,6 +18,11 @@ export class Pipeline extends Entity {
   })
   name: string;
 
+  @property({
+    type: 'string',
+    required: true,
+  })
+  version: string;
   @property({
     type: 'object',
     required: true,

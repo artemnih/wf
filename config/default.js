@@ -9,8 +9,8 @@ module.exports = {
   },
   services: {
     auth: {
-      authUrl: process.env.SERVICES_AUTH_URL || 'https://a-ci.labshare.org/_api',
-      tenant: process.env.SERVICES_AUTH_TENANT,
+      authUrl: process.env.SERVICES_AUTH_URL,
+      tenant: process.env.SERVICES_AUTH_TENANT
     },
     log: {
       enableMetadata: true,

@@ -29,7 +29,7 @@
 	},
 	"steps": {
 		"sleep": {
-			"run": "plugin:618020c9b5eb007f68bb6a64",
+			"run": "plugin:sleep:0.0.1",
 			"in": {
 				"sleepParam": "sleepParam"
 			},
@@ -39,7 +39,7 @@
 			]
 		},
 		"echo": {
-			"run": "plugin:6148da6f08b2c40710890b09",
+			"run": "plugin:echo:0.0.1",
 			"in": {
 				"message": "hello1"
 			},

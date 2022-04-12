@@ -2,6 +2,7 @@ import { Job, Plugin, Workflow } from '../models';
 import { workflowToCwl } from '../services/CWLConvertors';
 import { existsSync, readFileSync } from 'fs';
 import { PluginRepository } from '../repositories';
+import { HttpErrors } from '@loopback/rest';
 
 export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: object, pluginRepository: PluginRepository): Promise<Job[]> {
   const workflow = workflowToCwl(workflowModel);
@@ -51,5 +52,9 @@ async function getScript(path: string, pluginRepository: PluginRepository): Prom
     return new Plugin({ cwlScript: { ...CLT } });
   }
   const pathSplit = path.split(':');
-  return pluginRepository.findById(pathSplit[1]);
+  const plugin = await pluginRepository.findOne({ where: { name: pathSplit[1], version: pathSplit[2] } });
+  if (!plugin) {
+    throw new HttpErrors.NotFound(`The plugin with name of ${pathSplit[1]} and version of ${pathSplit[2]} was not found`);
+  }
+  return plugin as Plugin;
 }

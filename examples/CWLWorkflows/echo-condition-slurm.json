@@ -21,7 +21,7 @@
 	},
 	"steps": {
 		"echo": {
-			"run": "plugin:6148da6f08b2c40710890b09",
+			"run": "plugin:echo:0.0.1",
 			"in": {
 				"message": "hello1",
 				"condValue": "condValue"

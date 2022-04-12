@@ -1,8 +1,10 @@
 import { Filter, FilterExcludingWhere, repository } from '@loopback/repository';
-import { del, get, getModelSchemaRef, patch, param, post, requestBody } from '@loopback/rest';
+import { del, get, getModelSchemaRef, patch, param, post, requestBody, HttpErrors } from '@loopback/rest';
 import { Pipeline } from '../models';
 import { PipelineRepository } from '../repositories';
+import { authenticate } from '@labshare/services-auth';
 
+@authenticate()
 export class PipelineController {
   constructor(
     @repository(PipelineRepository)
@@ -29,7 +31,12 @@ export class PipelineController {
     })
     pipeline: Pipeline,
   ): Promise<Pipeline> {
-    return this.pipelineRepository.create(pipeline);
+    const pipelineExist = await this.pipelineRepository.checkIfPipelineExists(pipeline.name, pipeline.version);
+    if (!pipelineExist) {
+      return this.pipelineRepository.create(pipeline);
+    } else {
+      throw new HttpErrors.UnprocessableEntity(`A Pipeline with name ${pipeline.name} and version ${pipeline.version} already exists.`);
+    }
   }
   @get('/compute/pipelines', {
     responses: {

@@ -1,21 +1,16 @@
 import { Pipeline, Workflow } from '../models';
-import { default as axios } from 'axios';
+import { PipelineRepository } from '../repositories';
 
-export function workflowToPipeline(workflow: Workflow): Pipeline {
+export function workflowToPipeline(workflow: Workflow, name: string, version: string): Pipeline {
   return new Pipeline({
     inputs: workflow.inputs,
     outputs: workflow.outputs,
     steps: workflow.steps,
-    name: workflow.name,
+    name,
+    version,
   });
 }
 
-export async function postPipeline(pipeline: Pipeline): Promise<Pipeline> {
-  require('dotenv').config();
-  const config = require('config');
-
-  const url = `http://${config.compute.computeName}:${config.rest.port}/compute/pipelines`;
-
-  const response = await axios.post(url, { ...pipeline });
-  return response.data;
+export async function createPipeline(pipeline: Pipeline, pipelineRepository: PipelineRepository): Promise<Pipeline> {
+  return pipelineRepository.create(pipeline);
 }

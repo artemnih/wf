@@ -4,7 +4,7 @@ export { ComputeApplication };
 export { ComputeApplication as app };
 require('dotenv').config();
 const config = require('config');
-
+const axios = require("axios");
 export async function main() {
   const server = new ExpressServer(config);
   await server.boot();

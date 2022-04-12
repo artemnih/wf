@@ -1,5 +1,6 @@
 {
-	"id": "6140d6550e01180bcd90c012",
+	"name": "assemble",
+	"version": "0.0.1",
 	"cwlScript": {
 		"cwlVersion": "v1.0",
 		"id": "assemble",

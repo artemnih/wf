@@ -1,6 +1,6 @@
 {
-	"id": "61ae7eeff7ab3a5033f33918",
 	"name": "montage-recycle",
+	"version": "0.0.1",
 	"inputs": {
 		"montageFilePattern": "string",
 		"montageInpDir": "Directory",
@@ -38,7 +38,7 @@
 	},
 	"steps": {
 		"montage": {
-			"run": "plugin:612fc61ba21dcd5b4f2abbe1",
+			"run": "plugin:montage:0.2.2",
 			"in": {
 				"filePattern": "montageFilePattern",
 				"inpDir": "montageInpDir",
@@ -52,7 +52,7 @@
 			]
 		},
 		"recycle": {
-			"run": "plugin:612fc674a21dcd5b4f2abbe2",
+			"run": "plugin:recycle:0.1.0",
 			"in": {
 				"groupBy": "recycleGroupBy",
 				"collectionRegex": "recycleCollectionRegex",

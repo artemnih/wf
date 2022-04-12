@@ -7,4 +7,8 @@ export class PluginRepository extends DefaultCrudRepository<Plugin, typeof Plugi
   constructor(@inject('datasources.PluginDb') dataSource: PluginDbDataSource) {
     super(Plugin, dataSource);
   }
+  async checkIfPluginExists(name: string, version: string): Promise<boolean> {
+    const exists = await this.count({ name, version });
+    return exists.count > 0;
+  }
 }

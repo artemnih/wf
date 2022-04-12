@@ -1,9 +1,11 @@
+import { authenticate } from '@labshare/services-auth';
 import { Filter, FilterExcludingWhere, repository } from '@loopback/repository';
-import { get, del, getModelSchemaRef, param, post, requestBody } from '@loopback/rest';
+import { get, del, getModelSchemaRef, param, post, requestBody, HttpErrors } from '@loopback/rest';
 import { Plugin } from '../models';
 import { PluginRepository } from '../repositories';
 import { convertPluginToCLT } from '../services/PolusToCLT';
 
+@authenticate()
 export class PluginController {
   constructor(
     @repository(PluginRepository)
@@ -34,7 +36,12 @@ export class PluginController {
     if (!plugin.cwlScript) {
       plugin.cwlScript = convertPluginToCLT(plugin);
     }
-    return this.pluginRepository.create(plugin);
+    const pluginExist = await this.pluginRepository.checkIfPluginExists(plugin.name, plugin.version)
+    if(!pluginExist){
+      return this.pluginRepository.create(plugin);
+    } else {
+      throw new HttpErrors.UnprocessableEntity(`A Plugin with name ${plugin.name} and version ${plugin.version} already exists.`);
+    }
   }
 
   @get('/compute/plugins', {
@@ -79,6 +86,7 @@ export class PluginController {
     },
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
+    console.log(`Plugin ${id} deleted`);
     await this.pluginRepository.deleteById(id);
   }
 }

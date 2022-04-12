@@ -1,11 +1,11 @@
 {
 	"title": "echo",
 	"name": "echo",
+	"version": "0.0.1",
 	"description": "A simple hello world test",
 	"baseCommand": [
 		"echo"
 	],
-	"version": "1.0.0",
 	"author": "Kevin Hannon",
 	"institution": "National Center for Advancing Translational Sciences, National Institutes of Health",
 	"containerId": "busybox",

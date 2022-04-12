@@ -30,49 +30,50 @@ export class WorkflowRepository extends DefaultCrudRepository<Workflow, typeof W
     workflowWithPotentialPipelines: Workflow,
     pluginRepository: PluginRepository,
     pipelineRepository: PipelineRepository,
+    token: string,
   ): Promise<object> {
     this.changeDriver(workflowWithPotentialPipelines);
     const workflow = await pipelineToWorkflow(workflowWithPotentialPipelines, pipelineRepository);
     console.info('Workflow submitted: ', workflow);
     const jobs = await workflowToJobs(workflow, workflow.cwlJobInputs, pluginRepository);
-    return this.driver.compute(workflowToCwl(workflow), cwlJobInputs(workflow), jobs);
+    return this.driver.compute(workflowToCwl(workflow), cwlJobInputs(workflow), jobs, token);
   }
-  async getWorkflowStatus(id: string, workflow: Workflow): Promise<object> {
+  async getWorkflowStatus(id: string, workflow: Workflow, token: string): Promise<object> {
     this.changeDriver(workflow);
-    return this.driver.getWorkflowStatus(id);
+    return this.driver.getWorkflowStatus(id, token);
   }
-  async getWorkflowOutput(id: string, workflow: Workflow): Promise<object> {
+  async getWorkflowOutput(id: string, workflow: Workflow, token: string): Promise<object> {
     this.changeDriver(workflow);
-    return this.driver.getWorkflowOutput(id);
+    return this.driver.getWorkflowOutput(id, token);
   }
-  async getWorkflowLogs(id: string, workflow: Workflow): Promise<object> {
+  async getWorkflowLogs(id: string, workflow: Workflow, token: string): Promise<object> {
     this.changeDriver(workflow);
-    return this.driver.getWorkflowLogs(id);
+    return this.driver.getWorkflowLogs(id, token);
   }
-  async getWorkflowJobs(id: string, workflow: Workflow): Promise<object> {
+  async getWorkflowJobs(id: string, workflow: Workflow, token: string): Promise<object> {
     this.changeDriver(workflow);
-    return this.driver.getWorkflowJobs(id);
+    return this.driver.getWorkflowJobs(id, token);
   }
-  async stopWorkflow(id: string, workflow: Workflow): Promise<object> {
+  async stopWorkflow(id: string, workflow: Workflow, token: string): Promise<object> {
     this.changeDriver(workflow);
-    return this.driver.stopWorkflow(id);
+    return this.driver.stopWorkflow(id, token);
   }
-  async pauseWorkflow(id: string, workflow: Workflow): Promise<object> {
+  async pauseWorkflow(id: string, workflow: Workflow, token: string): Promise<object> {
     this.changeDriver(workflow);
-    return this.driver.pauseWorkflow(id);
+    return this.driver.pauseWorkflow(id, token);
   }
-  async restartWorkflow(id: string, workflow: Workflow): Promise<object> {
+  async restartWorkflow(id: string, workflow: Workflow, token: string): Promise<object> {
     this.changeDriver(workflow);
-    return this.driver.restartWorkflow(id);
+    return this.driver.restartWorkflow(id, token);
   }
-  async resumeWorkflow(id: string, workflow: Workflow): Promise<object> {
+  async resumeWorkflow(id: string, workflow: Workflow, token: string): Promise<object> {
     this.changeDriver(workflow);
-    return this.driver.resumeWorkflow(id);
+    return this.driver.resumeWorkflow(id, token);
   }
-  async resubmitWorkflow(workflow: Workflow): Promise<object> {
-    return this.submitWorkflowToDriver(workflow, this.pluginRepository, this.pipelineRepository);
+  async resubmitWorkflow(workflow: Workflow, token: string): Promise<object> {
+    return this.submitWorkflowToDriver(workflow, this.pluginRepository, this.pipelineRepository, token);
   }
-  async healthDriverCheck(driverType: string): Promise<object> {
-    return this.driver.health(driverType);
+  async healthDriverCheck(driverType: string, token: string): Promise<object> {
+    return this.driver.health(driverType, token);
   }
 }

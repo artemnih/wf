@@ -4,6 +4,7 @@ export class Plugin extends Entity {
   @property({
     type: 'string',
     id: true,
+    generated: true,
     mongodb: {
       dataType: 'ObjectID', // or perhaps 'objectid'?
     },
@@ -20,13 +21,13 @@ export class Plugin extends Entity {
     type: 'string',
     required: false,
   })
-  name?: string;
+  name: string;
 
   @property({
     type: 'string',
-    required: false,
+    required: true,
   })
-  version?: string;
+  version: string;
 
   @property({
     type: 'string',

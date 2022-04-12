@@ -2,7 +2,7 @@ version: "3.9"
 services:
   compute:
     container_name: compute
-    image: kevinpatrickhannon/compute:rename-workflow
+    image: kevinpatrickhannon/compute:dynamic-scatter
     ports: 
       - 8000:8000
     expose:
@@ -11,7 +11,7 @@ services:
       MONGO_CONNECTION_NAME: mongo
       ARGO_SERVICE_NAME: argo
       ARGO_SERVICE_PORT: 7999
-      SLURM_SERVICE_HOST: login.hpc.ncats.io
+      SLURM_SERVICE_HOST: HPC_LOGON_NODE_REPLACE
       SLURM_SERVICE_PORT: 7998
       COMPUTE_SERVICE_NAME: compute
   mongo:

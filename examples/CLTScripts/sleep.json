@@ -1,5 +1,6 @@
 {
-	"id": "618020c9b5eb007f68bb6a64",
+	"name": "sleep",
+	"version": "0.0.1",
 	"cwlScript": {
 		"cwlVersion": "v1.0",
 		"id": "sleep",

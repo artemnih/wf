@@ -12,12 +12,34 @@ describe('Plugin Controller', () => {
       const controller = new PluginController(repository);
 
       const script = {
+        name: 'hello',
+        version: '1.0.0',
         cwlScript: {},
       };
       const scriptModel = new Plugin(script);
       repository.stubs.create.resolves(scriptModel);
+      repository.stubs.checkIfPluginExists.resolves(false);
+
       const details = await controller.create(scriptModel);
       expect(details).to.be.eql(scriptModel);
+    });
+    it('mock an existing plugin', async () => {
+      const controller = new PluginController(repository);
+
+      const script = {
+        name: 'hello',
+        version: '1.0.0',
+        cwlScript: {},
+      };
+      const scriptModel = new Plugin(script);
+      repository.stubs.create.resolves(scriptModel);
+      repository.stubs.checkIfPluginExists.resolves(true);
+
+      try {
+        await controller.create(scriptModel);
+      } catch (error) {
+        expect(error.message).to.be.eql('A Plugin with name hello and version 1.0.0 already exists.');
+      }
     });
     it('Create an echo tool', async () => {
       const controller = new PluginController(repository);
@@ -46,6 +68,7 @@ describe('Plugin Controller', () => {
         ui: [],
       };
       repository.stubs.create.resolves(new Plugin(echoPlugin));
+      repository.stubs.checkIfPluginExists.resolves(false);
       const plugin = await controller.create(new Plugin(echoPlugin));
       expect(plugin).to.be.eql(new Plugin(echoPlugin));
     });

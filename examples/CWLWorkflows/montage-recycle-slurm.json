@@ -42,7 +42,7 @@
 		"montageFilePattern": "p00_x{xx}_y{yy}_r{rr}_c01.ome.zarr",
 		"montageInpDir": {
 			"class": "Directory",
-			"path": "/home/ec2-user/cwl/montage-recycle/data"
+			"path": "/home/kevin.hannon/data/images_dummy"
 		},
 		"montageLayout": [
 			"r",
@@ -57,7 +57,7 @@
 		"recycleCollectionRegex": "p{tt}_x{xx}_y{yy}_r{rr}_c{cc}.ome.zarr",
 		"recycleCollectionDir": {
 			"class": "Directory",
-			"path": "/home/ec2-user/cwl/montage-recycle/data"
+			"path": "/home/kevin.hannon/data/images_dummy"
 		},
 		"recycleGroupBy": "r",
 		"recycleOutputName": {
@@ -67,7 +67,7 @@
 	},
 	"steps": {
 		"montage": {
-			"run": "plugin:612fc61ba21dcd5b4f2abbe1",
+			"run": "plugin:montage:0.2.2",
 			"in": {
 				"filePattern": "montageFilePattern",
 				"inpDir": "montageInpDir",
@@ -83,7 +83,7 @@
 			]
 		},
 		"recycle": {
-			"run": "plugin:612fc674a21dcd5b4f2abbe2",
+			"run": "plugin:recycle:0.1.0",
 			"in": {
 				"groupBy": "recycleGroupBy",
 				"collectionRegex": "recycleCollectionRegex",

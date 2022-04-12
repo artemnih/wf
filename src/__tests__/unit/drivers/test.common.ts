@@ -17,53 +17,55 @@ describe('DriverUrl', () => {
   });
 });
 describe('HealthCommon', () => {
+  const dummyToken = '';
   beforeEach(() => sinon.createSandbox());
   afterEach(() => sinon.restore());
   it('argo', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'Dummy argo health' }] }));
     sinon.stub(axios, 'get').returns(resolved);
-    const object = await healthCommon('argo');
+    const object = await healthCommon('argo', dummyToken);
     expect(object).to.be.eql([{ message: 'Dummy argo health' }]);
   });
   it('slurm', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'Dummy slurm health' }] }));
     sinon.stub(axios, 'get').returns(resolved);
-    const object = await healthCommon('slurm');
+    const object = await healthCommon('slurm', dummyToken);
     expect(object).to.be.eql([{ message: 'Dummy slurm health' }]);
   });
   it('no driver', async () => {
     try {
-      await healthCommon('noDriver');
+      await healthCommon('noDriver', dummyToken);
     } catch (error) {
       expect(error.message).to.be.eql('Unsupported Driver');
     }
   });
 });
 describe('DriverCommon', () => {
+  const dummyToken = '';
   beforeEach(() => sinon.createSandbox());
   afterEach(() => sinon.restore());
   it('argo get', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock get' }] }));
     sinon.stub(axios, 'request').returns(resolved);
-    const object = await driverCommon('fake', 'argo', 'mock', 'GET');
+    const object = await driverCommon('fake', 'argo', 'mock', dummyToken, 'GET');
     expect(object).to.be.eql([{ message: 'mock get' }]);
   });
   it('argo get lowercase', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock get' }] }));
     sinon.stub(axios, 'request').returns(resolved);
-    const object = await driverCommon('fake', 'argo', 'mock', 'get');
+    const object = await driverCommon('fake', 'argo', 'mock', dummyToken, 'get');
     expect(object).to.be.eql([{ message: 'mock get' }]);
   });
 
   it('slurm get', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock get' }] }));
     sinon.stub(axios, 'request').returns(resolved);
-    const object = await driverCommon('fake', 'slurm', 'mock', 'GET');
+    const object = await driverCommon('fake', 'slurm', 'mock', dummyToken, 'GET');
     expect(object).to.be.eql([{ message: 'mock get' }]);
   });
   it('no driver', async () => {
     try {
-      await driverCommon('fake', 'noDriver', 'mock', 'GET');
+      await driverCommon('fake', 'noDriver', 'mock', dummyToken, 'GET');
     } catch (error) {
       expect(error.message).to.be.eql('Unsupported Driver');
     }
@@ -71,48 +73,49 @@ describe('DriverCommon', () => {
   it('argo put', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock put' }] }));
     sinon.stub(axios, 'request').returns(resolved);
-    const object = await driverCommon('fake', 'argo', 'mock', 'PUT');
+    const object = await driverCommon('fake', 'argo', 'mock', dummyToken, 'PUT');
     expect(object).to.be.eql([{ message: 'mock put' }]);
   });
   it('argo put lowercase', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock put' }] }));
     sinon.stub(axios, 'request').returns(resolved);
-    const object = await driverCommon('fake', 'argo', 'mock', 'put');
+    const object = await driverCommon('fake', 'argo', 'mock', dummyToken, 'put');
     expect(object).to.be.eql([{ message: 'mock put' }]);
   });
 
   it('slurm put', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock put' }] }));
     sinon.stub(axios, 'request').returns(resolved);
-    const object = await driverCommon('fake', 'slurm', 'mock', 'PUT');
+    const object = await driverCommon('fake', 'slurm', 'mock', dummyToken, 'PUT');
     expect(object).to.be.eql([{ message: 'mock put' }]);
   });
   it('no driver put', async () => {
     try {
-      await driverCommon('fake', 'noDriver', 'mock', 'PUT');
+      await driverCommon('fake', 'noDriver', 'mock', dummyToken, 'PUT');
     } catch (error) {
       expect(error.message).to.be.eql('Unsupported Driver');
     }
   });
 });
 describe('ComputeCommon', () => {
+  const dummyToken = '';
   beforeEach(() => sinon.createSandbox());
   afterEach(() => sinon.restore());
   it('argo', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'Dummy' }] }));
     sinon.stub(axios, 'post').returns(resolved);
-    const object = await computeCommon({}, {}, [], 'argo');
+    const object = await computeCommon({}, {}, [], 'argo', dummyToken);
     expect(object).to.be.eql({ data: [{ message: 'Dummy' }] });
   });
   it('slurm', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'Dummy' }] }));
     sinon.stub(axios, 'post').returns(resolved);
-    const object = await computeCommon({}, {}, [], 'slurm');
+    const object = await computeCommon({}, {}, [], 'slurm', dummyToken);
     expect(object).to.be.eql({ data: [{ message: 'Dummy' }] });
   });
   it('no driver', async () => {
     try {
-      await computeCommon({}, {}, [], 'nodriver');
+      await computeCommon({}, {}, [], 'nodriver', dummyToken);
     } catch (error) {
       expect(error.message).to.be.eql('Unsupported Driver');
     }

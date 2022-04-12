@@ -62,7 +62,7 @@
 	},
 	"steps": {
 		"montage-recycle": {
-			"run": "pipeline:61ae7eeff7ab3a5033f33918",
+			"run": "pipeline:montage-recycle:0.0.1",
 			"in": {
 				"filePattern": "montageFilePattern",
 				"inpDir": "montageInpDir",

@@ -1,8 +1,10 @@
-import { Filter, FilterExcludingWhere, repository } from '@loopback/repository';
-import { get, getModelSchemaRef, put, patch, param, post, requestBody, ResponseObject } from '@loopback/rest';
+import { authenticate } from '@labshare/services-auth';
+import { inject } from '@loopback/context';
+import { DateType, Filter, FilterExcludingWhere, repository } from '@loopback/repository';
+import { get, getModelSchemaRef, put, patch, param, post, requestBody, Request, RestBindings, ResponseObject, HttpErrors } from '@loopback/rest';
 import { Workflow } from '../models';
 import { PipelineRepository, PluginRepository, WorkflowRepository } from '../repositories';
-import { postPipeline, workflowToPipeline } from '../services/workflowToPipeline';
+import { createPipeline, workflowToPipeline } from '../services/workflowToPipeline';
 
 const STATUS_RESPONSE: ResponseObject = {
   description: 'Workflow Status',
@@ -54,10 +56,12 @@ interface Status {
   status: string;
   dateFinished: string;
 }
+@authenticate()
 export class WorkflowController {
   constructor(
     @repository(WorkflowRepository)
     public workflowRepository: WorkflowRepository,
+    @inject(RestBindings.Http.REQUEST) private req: Request,
     @repository(PluginRepository)
     public pluginRepository: PluginRepository,
     @repository(PipelineRepository)
@@ -85,8 +89,15 @@ export class WorkflowController {
     })
     workflow: Workflow,
   ): Promise<Workflow> {
+    console.log(this.req);
+    workflow.dateCreated = new DateType().defaultValue().toISOString();
     const workflowCreated = await this.workflowRepository.create(workflow);
-    await this.workflowRepository.submitWorkflowToDriver(workflowCreated, this.pluginRepository, this.pipelineRepository);
+    await this.workflowRepository.submitWorkflowToDriver(
+      workflowCreated,
+      this.pluginRepository,
+      this.pipelineRepository,
+      this.req.headers.authorization as string,
+    );
     return workflowCreated;
   }
   @post('/compute/workflows/{id}/resubmit', {
@@ -104,7 +115,7 @@ export class WorkflowController {
     const foundWorkflow = await this.workflowRepository.findById(id);
     foundWorkflow.id = undefined;
     const newWorkflow = await this.workflowRepository.create(foundWorkflow);
-    await this.workflowRepository.resubmitWorkflow(newWorkflow);
+    await this.workflowRepository.resubmitWorkflow(newWorkflow, this.req.headers.authorization as string);
     return newWorkflow;
   }
 
@@ -173,7 +184,7 @@ export class WorkflowController {
   })
   async getWorkflowStatus(@param.path.string('id') id: string): Promise<object> {
     const foundWorkflow = await this.workflowRepository.findById(id);
-    const newStatus = (await this.workflowRepository.getWorkflowStatus(id, foundWorkflow)) as Status;
+    const newStatus = (await this.workflowRepository.getWorkflowStatus(id, foundWorkflow, this.req.headers.authorization as string)) as Status;
     foundWorkflow.status = newStatus['status'] !== foundWorkflow.status ? newStatus['status'] : foundWorkflow.status;
     if (newStatus['dateFinished']) {
       foundWorkflow.dateFinished = newStatus['dateFinished'];
@@ -188,7 +199,7 @@ export class WorkflowController {
   })
   async getWorkflowOutput(@param.path.string('id') id: string): Promise<object> {
     const foundWorkflow = await this.workflowRepository.findById(id);
-    return this.workflowRepository.getWorkflowOutput(id, foundWorkflow);
+    return this.workflowRepository.getWorkflowOutput(id, foundWorkflow, this.req.headers.authorization as string);
   }
   @get('/compute/workflows/{id}/logs', {
     responses: {
@@ -197,7 +208,7 @@ export class WorkflowController {
   })
   async getWorkflowLogs(@param.path.string('id') id: string): Promise<object> {
     const foundWorkflow = await this.workflowRepository.findById(id);
-    return this.workflowRepository.getWorkflowLogs(id, foundWorkflow);
+    return this.workflowRepository.getWorkflowLogs(id, foundWorkflow, this.req.headers.authorization as string);
   }
   @get('/compute/workflows/{id}/jobs', {
     responses: {
@@ -206,7 +217,7 @@ export class WorkflowController {
   })
   async getWorkflowJobs(@param.path.string('id') id: string): Promise<object> {
     const foundWorkflow = await this.workflowRepository.findById(id);
-    return this.workflowRepository.getWorkflowJobs(id, foundWorkflow);
+    return this.workflowRepository.getWorkflowJobs(id, foundWorkflow, this.req.headers.authorization as string);
   }
   @put('/compute/workflows/{id}/stop', {
     responses: {
@@ -222,7 +233,7 @@ export class WorkflowController {
   })
   async stopWorkflow(@param.path.string('id') id: string): Promise<void> {
     const foundWorkflow = await this.workflowRepository.findById(id);
-    await this.workflowRepository.stopWorkflow(id, foundWorkflow);
+    await this.workflowRepository.stopWorkflow(id, foundWorkflow, this.req.headers.authorization as string);
     foundWorkflow.status = 'CANCELLED';
     return this.workflowRepository.updateById(id, foundWorkflow);
   }
@@ -240,7 +251,7 @@ export class WorkflowController {
   })
   async restartWorkflow(@param.path.string('id') id: string): Promise<void> {
     const foundWorkflow = await this.workflowRepository.findById(id);
-    await this.workflowRepository.restartWorkflow(id, foundWorkflow);
+    await this.workflowRepository.restartWorkflow(id, foundWorkflow, this.req.headers.authorization as string);
     foundWorkflow.status = 'RESTARTED';
     return this.workflowRepository.updateById(id, foundWorkflow);
   }
@@ -259,7 +270,7 @@ export class WorkflowController {
   })
   async pauseWorkflow(@param.path.string('id') id: string): Promise<void> {
     const foundWorkflow = await this.workflowRepository.findById(id);
-    await this.workflowRepository.pauseWorkflow(id, foundWorkflow);
+    await this.workflowRepository.pauseWorkflow(id, foundWorkflow, this.req.headers.authorization as string);
     foundWorkflow.status = 'PAUSED';
     return this.workflowRepository.updateById(id, foundWorkflow);
   }
@@ -282,10 +293,14 @@ export class WorkflowController {
       },
     },
   })
-  async saveAsPipeline(@param.path.string('id') id: string): Promise<string> {
+  async saveAsPipeline(
+    @param.path.string('id') id: string,
+    @param.path.string('name') name: string,
+    @param.path.string('version') version: string,
+  ): Promise<string> {
     const foundWorkflow = await this.workflowRepository.findById(id);
-    const pipeline = workflowToPipeline(foundWorkflow);
-    const pipelineToWorkflow = await postPipeline(pipeline);
+    const pipeline = workflowToPipeline(foundWorkflow, name, version);
+    const pipelineToWorkflow = await createPipeline(pipeline, this.pipelineRepository);
     console.log(`Workflow ${id} converted to pipeline with pipeline id ${pipelineToWorkflow.id}`);
     return pipelineToWorkflow.id as string;
   }
@@ -318,6 +333,7 @@ export class WorkflowController {
     },
   })
   healthDriver(@param.path.string('driver') driver: string): Promise<object> {
-    return this.workflowRepository.healthDriverCheck(driver);
+    return this.workflowRepository.healthDriverCheck(driver, this.req.headers.authorization as string);
+    // Reply with a greeting, the current time, the url, and request headers
   }
 }

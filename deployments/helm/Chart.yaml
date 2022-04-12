@@ -3,9 +3,9 @@ name: polus-compute
 description: Polus Compute
 type: application
 version: 0.1.0
-appVersion: "0.1.0"
 dependencies:
   - name: mongodb
     version: ~11.0.3
     repository: https://charts.bitnami.com/bitnami
     condition: mongodb.enabled
+appVersion: "0.1.0"

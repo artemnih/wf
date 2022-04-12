@@ -1,13 +1,12 @@
 {
-   "id": "61b37271af295729861d3968",
    "title": "Assemble",
    "name": "Assemble",
+   "version": "1.1.2",
    "description": "A scalable image assembling plugin.",
    "baseCommand": [
       "python3",
       "/opt/executables/main.py"
    ],
-   "version": "1.1.2",
    "author": "Nick Schaub (nick.schaub@nih.gov)",
    "institution": "National Center for Advancing Translational Sciences, National Institutes of Health",
    "repository": "https://github.com/labshare/polus-plugins",

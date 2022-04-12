@@ -1,5 +1,6 @@
 {
-	"id": "6148da6f08b2c40710890b09",
+	"name": "echo",
+	"version": "1.0.0",
 	"cwlScript": {
 		"cwlVersion": "v1.0",
 		"id": "echo",

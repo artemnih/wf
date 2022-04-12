@@ -1,13 +1,12 @@
 {
-   "id": "612fc674a21dcd5b4f2abbe2",
    "title": "recycle",
    "name": "recycle",
+   "version": "0.1.0",
    "description": "Advanced recycling plugin.",
    "baseCommand": [
       "python3",
       "/opt/executables/main.py"
    ],
-   "version": "0.1.0",
    "author": "Nick Schaub (nick.schaub@nih.gov)",
    "institution": "National Center for Advancing Translational Sciences, National Institutes of Health",
    "repository": "https://github.com/labshare/polus-plugins",

@@ -7,4 +7,8 @@ export class PipelineRepository extends DefaultCrudRepository<Pipeline, typeof P
   constructor(@inject('datasources.PipelineDb') dataSource: PipelineDbDataSource) {
     super(Pipeline, dataSource);
   }
+  async checkIfPipelineExists(name: string, version: string): Promise<boolean> {
+    const exists = await this.count({ name, version });
+    return exists.count > 0;
+  }
 }

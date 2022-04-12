@@ -1,10 +1,11 @@
-import { DateType, Entity, model, property } from '@loopback/repository';
+import { Entity, model, property } from '@loopback/repository';
 
 @model({ settings: { strict: false } })
 export class Workflow extends Entity {
   @property({
     type: 'string',
     id: true,
+    generated: true,
     mongodb: {
       dataType: 'ObjectID', // or perhaps 'objectid'?
     },
@@ -54,7 +55,6 @@ export class Workflow extends Entity {
 
   @property({
     type: 'date',
-    default: new DateType().defaultValue().toISOString(),
   })
   dateCreated: string;
   

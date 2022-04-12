@@ -10,6 +10,9 @@ compute:
     host: HPC_LOGON_NODE_REPLACE
   mongo:
     name: compute-mongodb
+  auth:
+    url: SERVICES_AUTH_URL
+    tenant: SERVICES_AUTH_TENANT
 
 mongodb:
   persistence:

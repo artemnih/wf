@@ -10,7 +10,7 @@
 	},
 	"steps": {
 		"sleep": {
-			"run": "plugin:618020c9b5eb007f68bb6a64",
+			"run": "plugin:sleep:0.0.1",
 			"in": {
 				"sleepParam": "sleepParam"
 			},

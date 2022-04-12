@@ -2,7 +2,10 @@ import { Filter, FilterExcludingWhere, repository } from '@loopback/repository';
 import { get, getModelSchemaRef, param, post, requestBody, patch } from '@loopback/rest';
 import { Job } from '../models';
 import { JobRepository } from '../repositories';
+import { authenticate } from '@labshare/services-auth';
 
+
+@authenticate()
 export class JobController {
   constructor(
     @repository(JobRepository)

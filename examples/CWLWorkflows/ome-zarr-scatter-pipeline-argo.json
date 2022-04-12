@@ -42,7 +42,7 @@
 	},
 	"steps": {
 		"ome2zarr": {
-			"run": "pipeline:61b26b4e0eec1313532383b2",
+			"run": "pipeline:ome-to-zarr-scatter:0.0.1",
 			"scatter": "filePattern",
 			"in": {
 				"filePattern": "filePatternArray",

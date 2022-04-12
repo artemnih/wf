@@ -12,6 +12,9 @@ compute:
     port: 7998
   mongo:
     name: compute-mongodb
+  auth:
+    url: SERVICES_AUTH_URL
+    tenant: SERVICES_AUTH_TENANT
 
 mongo:
   persistence:

@@ -1,5 +1,6 @@
 {
-	"id": "612fc61ba21dcd5b4f2abbe1",
+	"name": "montage",
+	"version": "0.0.1",
 	"cwlScript": {
 		"cwlVersion": "v1.0",
 		"id": "montage",

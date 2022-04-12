@@ -12,9 +12,22 @@ describe('Pipeline Controller', () => {
       const controller = new PipelineController(repository);
 
       repository.stubs.create.resolves(new Pipeline());
+      repository.stubs.checkIfPipelineExists.resolves(false);
       const plugin = await controller.create(new Pipeline());
       expect(plugin).to.be.eql(new Pipeline());
     });
+    it('Create a mocked duplicated pipeline', async () => {
+      const controller = new PipelineController(repository);
+
+      repository.stubs.create.resolves(new Pipeline({ name: 'hello', version: '1.0.0' }));
+      repository.stubs.checkIfPipelineExists.resolves(true);
+      try {
+        await controller.create(new Pipeline({ name: 'hello', version: '1.0.0' }));
+      } catch (error) {
+        expect(error.message).to.be.eql('A Pipeline with name hello and version 1.0.0 already exists.');
+      }
+    });
+
     it('Delete a pipeline', async () => {
       const controller = new PipelineController(repository);
 

@@ -3,35 +3,35 @@ import { Job } from '../models';
 import { driverCommon, computeCommon, healthCommon } from './common';
 
 export class SlurmDriver implements Driver {
-  compute(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[]) {
-    return computeCommon(cwlWorkflow, cwlJobInputs, jobs, 'slurm');
+  compute(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[], token: string) {
+    return computeCommon(cwlWorkflow, cwlJobInputs, jobs, 'slurm', token);
   }
-  health(driverType: string) {
-    return healthCommon(driverType);
+  health(driverType: string, token: string) {
+    return healthCommon(driverType, token);
   }
 
-  async getWorkflowStatus(workflowId: string): Promise<object> {
-    return driverCommon(workflowId, 'slurm', 'status');
+  async getWorkflowStatus(workflowId: string, token: string): Promise<object> {
+    return driverCommon(workflowId, 'slurm', 'status', token);
   }
-  async getWorkflowOutput(workflowId: string): Promise<object> {
-    return driverCommon(workflowId, 'slurm', 'outputs');
+  async getWorkflowOutput(workflowId: string, token: string): Promise<object> {
+    return driverCommon(workflowId, 'slurm', 'outputs', token);
   }
-  async getWorkflowLogs(workflowId: string): Promise<object> {
-    return driverCommon(workflowId, 'slurm', 'logs');
+  async getWorkflowLogs(workflowId: string, token: string): Promise<object> {
+    return driverCommon(workflowId, 'slurm', 'logs', token);
   }
-  async getWorkflowJobs(workflowId: string): Promise<object> {
-    return driverCommon(workflowId, 'slurm', 'jobs');
+  async getWorkflowJobs(workflowId: string, token: string): Promise<object> {
+    return driverCommon(workflowId, 'slurm', 'jobs', token);
   }
-  async stopWorkflow(workflowId: string): Promise<object> {
-    return driverCommon(workflowId, 'slurm', 'stop', 'PUT');
+  async stopWorkflow(workflowId: string, token: string): Promise<object> {
+    return driverCommon(workflowId, 'slurm', 'stop', token, 'PUT');
   }
-  async pauseWorkflow(workflowId: string): Promise<object> {
-    return driverCommon(workflowId, 'slurm', 'pause', 'PUT');
+  async pauseWorkflow(workflowId: string, token: string): Promise<object> {
+    return driverCommon(workflowId, 'slurm', 'pause', token, 'PUT');
   }
-  async restartWorkflow(workflowId: string): Promise<object> {
-    return driverCommon(workflowId, 'slurm', 'restart', 'PUT');
+  async restartWorkflow(workflowId: string, token: string): Promise<object> {
+    return driverCommon(workflowId, 'slurm', 'restart', token, 'PUT');
   }
-  async resumeWorkflow(workflowId: string): Promise<object> {
-    return driverCommon(workflowId, 'slurm', 'resume');
+  async resumeWorkflow(workflowId: string, token: string): Promise<object> {
+    return driverCommon(workflowId, 'slurm', 'resume', token);
   }
 }

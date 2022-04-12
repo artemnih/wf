@@ -1,6 +1,7 @@
 import { Pipeline, Workflow } from '../models';
 import { existsSync, readFileSync } from 'fs';
 import { PipelineRepository } from '../repositories';
+import { HttpErrors } from '@loopback/rest';
 
 export interface CwlStep {
   [key: string]: CwlStepEntry;
@@ -46,5 +47,9 @@ async function getPipeline(path: string, pipelineRepository: PipelineRepository)
     const pipeline = JSON.parse(readFileSync(pathSplit[1], 'utf8'));
     return new Pipeline(pipeline);
   }
-  return pipelineRepository.findById(pathSplit[1]);
+  const plugin = await pipelineRepository.findOne({ where: { name: pathSplit[1], version: pathSplit[2] } });
+  if (!plugin) {
+    throw new HttpErrors.NotFound(`The plugin with name of ${pathSplit[1]} and version of ${pathSplit[2]} was not found`);
+  }
+  return plugin as Pipeline;
 }
