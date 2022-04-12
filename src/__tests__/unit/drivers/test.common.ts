@@ -12,9 +12,6 @@ describe('DriverUrl', () => {
   it('driverUrl slurm', () => {
     expect(driverUrl('slurm')).to.be.eql('http://127.0.0.1:7998');
   });
-  it('driverUrl cwl', () => {
-    expect(driverUrl('cwl')).to.be.eql('http://127.0.0.1:7998');
-  });
   it('driverUrl nodriver', () => {
     throws(() => driverUrl('nodriver'), 'Unsupported Driver');
   });
@@ -34,12 +31,6 @@ describe('HealthCommon', () => {
     const object = await healthCommon('slurm');
     expect(object).to.be.eql([{ message: 'Dummy slurm health' }]);
   });
-  it('cwl', async () => {
-    const resolved = new Promise((r) => r({ data: [{ message: 'Dummy slurm health' }] }));
-    sinon.stub(axios, 'get').returns(resolved);
-    const object = await healthCommon('slurm');
-    expect(object).to.be.eql([{ message: 'Dummy slurm health' }]);
-  });
   it('no driver', async () => {
     try {
       await healthCommon('noDriver');
@@ -53,27 +44,21 @@ describe('DriverCommon', () => {
   afterEach(() => sinon.restore());
   it('argo get', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock get' }] }));
-    sinon.stub(axios, 'get').returns(resolved);
+    sinon.stub(axios, 'request').returns(resolved);
     const object = await driverCommon('fake', 'argo', 'mock', 'GET');
     expect(object).to.be.eql([{ message: 'mock get' }]);
   });
   it('argo get lowercase', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock get' }] }));
-    sinon.stub(axios, 'get').returns(resolved);
+    sinon.stub(axios, 'request').returns(resolved);
     const object = await driverCommon('fake', 'argo', 'mock', 'get');
     expect(object).to.be.eql([{ message: 'mock get' }]);
   });
 
   it('slurm get', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock get' }] }));
-    sinon.stub(axios, 'get').returns(resolved);
+    sinon.stub(axios, 'request').returns(resolved);
     const object = await driverCommon('fake', 'slurm', 'mock', 'GET');
-    expect(object).to.be.eql([{ message: 'mock get' }]);
-  });
-  it('cwl get', async () => {
-    const resolved = new Promise((r) => r({ data: [{ message: 'mock get' }] }));
-    sinon.stub(axios, 'get').returns(resolved);
-    const object = await driverCommon('fake', 'cwl', 'mock', 'GET');
     expect(object).to.be.eql([{ message: 'mock get' }]);
   });
   it('no driver', async () => {
@@ -85,27 +70,21 @@ describe('DriverCommon', () => {
   });
   it('argo put', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock put' }] }));
-    sinon.stub(axios, 'put').returns(resolved);
+    sinon.stub(axios, 'request').returns(resolved);
     const object = await driverCommon('fake', 'argo', 'mock', 'PUT');
     expect(object).to.be.eql([{ message: 'mock put' }]);
   });
   it('argo put lowercase', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock put' }] }));
-    sinon.stub(axios, 'put').returns(resolved);
+    sinon.stub(axios, 'request').returns(resolved);
     const object = await driverCommon('fake', 'argo', 'mock', 'put');
     expect(object).to.be.eql([{ message: 'mock put' }]);
   });
 
   it('slurm put', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'mock put' }] }));
-    sinon.stub(axios, 'put').returns(resolved);
+    sinon.stub(axios, 'request').returns(resolved);
     const object = await driverCommon('fake', 'slurm', 'mock', 'PUT');
-    expect(object).to.be.eql([{ message: 'mock put' }]);
-  });
-  it('cwl put', async () => {
-    const resolved = new Promise((r) => r({ data: [{ message: 'mock put' }] }));
-    sinon.stub(axios, 'put').returns(resolved);
-    const object = await driverCommon('fake', 'cwl', 'mock', 'PUT');
     expect(object).to.be.eql([{ message: 'mock put' }]);
   });
   it('no driver put', async () => {
@@ -123,19 +102,13 @@ describe('ComputeCommon', () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'Dummy' }] }));
     sinon.stub(axios, 'post').returns(resolved);
     const object = await computeCommon({}, {}, [], 'argo');
-    expect(object).to.be.eql({ data: [{ message: 'Dummy' }]});
+    expect(object).to.be.eql({ data: [{ message: 'Dummy' }] });
   });
   it('slurm', async () => {
     const resolved = new Promise((r) => r({ data: [{ message: 'Dummy' }] }));
     sinon.stub(axios, 'post').returns(resolved);
     const object = await computeCommon({}, {}, [], 'slurm');
-    expect(object).to.be.eql({ data: [{ message: 'Dummy' }]});
-  });
-  it('cwl', async () => {
-    const resolved = new Promise((r) => r({ data: [{ message: 'Dummy' }] }));
-    sinon.stub(axios, 'post').returns(resolved);
-    const object = await computeCommon({}, {}, [], 'cwl');
-    expect(object).to.be.eql({ data: [{ message: 'Dummy' }]});
+    expect(object).to.be.eql({ data: [{ message: 'Dummy' }] });
   });
   it('no driver', async () => {
     try {

@@ -1,7 +1,7 @@
 module.exports = {
   rest: {
-    port: +(process.env.API_PORT || 8000),
-    host: process.env.API_HOST || '0.0.0.0',
+    port: +(process.env.COMPUTE_API_PORT || 8000),
+    host: process.env.COMPUTE_API_HOST || '0.0.0.0',
     openApiSpec: {
       setServersFromRequest: true,
     },
@@ -10,10 +10,10 @@ module.exports = {
   services: {
     auth: {
       authUrl: process.env.SERVICES_AUTH_URL || 'https://a-ci.labshare.org/_api',
-      tenant: process.env.SERVICES_AUTH_TENANT
+      tenant: process.env.SERVICES_AUTH_TENANT,
     },
     log: {
-      enableMetadata: true
+      enableMetadata: true,
     },
     notifications: {
       email: {
@@ -26,27 +26,39 @@ module.exports = {
             pass: process.env.SERVICES_NOTIFICATIONS_EMAIL_PASSWORD,
           },
         },
-      }
+      },
     },
     cache: {
       type: process.env.SERVICES_NOTIFICATIONS_CACHE_TYPE || 'memory',
       memory: {
-        isGlobalCache: true
-      }
-
+        isGlobalCache: true,
+      },
     },
   },
   compute: {
     basePath: '/',
     test: 'TEST',
     email: {
-      to: process.env.TEMPLATE_EMAIL_TO
+      to: process.env.TEMPLATE_EMAIL_TO,
     },
+    drivers: {
+      argoDriver: {
+        host: process.env.ARGO_SERVICE_NAME || '127.0.0.1',
+        port: process.env.ARGO_SERVICE_PORT || '7999',  
+      },
+      slurmDriver: {
+        host: process.env.SLURM_SERVICE_HOST || '127.0.0.1',
+        port: process.env.SLURM_SERVICE_PORT || '7998',
+      },
+    },
+    computeName: process.env.COMPUTE_SERVICE_NAME || '127.0.0.1',
     db: {
-      port: 27017,
-      url: process.env.DB_CONNECTION_STRING,
-      name: "mongodb",
-      connector: "mongodb"
-    }
-  }
+      port: process.env.MONGO_CONNECTION_PORT || 27017,
+      url: process.env.MONGO_CONNECTION_NAME || 'localhost',
+      name: 'mongodb',
+      connector: 'mongodb',
+      username: '',
+      password: ''
+    },
+  },
 };

@@ -8,15 +8,15 @@ describe('DriverFactory', () => {
     const argo = DriverFactory.createDriver('Argo');
     expect(argo).to.instanceof(ArgoDriver);
   });
-  it('Build Argo uppercase Driver', () => {
+  it('Build ARGO Driver', () => {
     const argoUpper = DriverFactory.createDriver('ARGO');
     expect(argoUpper).to.instanceof(ArgoDriver);
   });
-  it('Build CWL Driver', () => {
-    const cwl = DriverFactory.createDriver('Slurm');
+  it('Build slurm Driver', () => {
+    const cwl = DriverFactory.createDriver('slurm');
     expect(cwl).to.instanceof(SlurmDriver);
   });
-  it('Build CWL uppercase Driver', () => {
+  it('Build SLURM Driver', () => {
     const cwl = DriverFactory.createDriver('SLURM');
     expect(cwl).to.instanceof(SlurmDriver);
   });

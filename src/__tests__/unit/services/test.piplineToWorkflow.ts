@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Workflow } from '../../../models';
 import { pipelineToWorkflow } from '../../../services/pipelineToWorkflow';
-import { expect } from '@loopback/testlab';
+import { expect, StubbedInstanceWithSinonAccessor, createStubInstance } from '@loopback/testlab';
+import { PipelineRepository } from '../../../repositories';
 
 describe('Pipeline to Workflow Conversion', () => {
+  let pipelineRepository: StubbedInstanceWithSinonAccessor<PipelineRepository>;
+  beforeEach(givenStubbedRepository);
   it('sleep workflow with no pipeline', async () => {
     const sleepWorkflow = new Workflow({
       name: 'sleep-cwl',
@@ -26,7 +29,7 @@ describe('Pipeline to Workflow Conversion', () => {
         },
       },
     });
-    const actual = await pipelineToWorkflow(sleepWorkflow);
+    const actual = await pipelineToWorkflow(sleepWorkflow, pipelineRepository);
     expect(actual).to.be.eql(sleepWorkflow);
   });
   it('sleep Pipeline to Workflow Test', async () => {
@@ -47,7 +50,7 @@ describe('Pipeline to Workflow Conversion', () => {
         },
       },
     });
-    const actual = await pipelineToWorkflow(sleepPipeline);
+    const actual = await pipelineToWorkflow(sleepPipeline, pipelineRepository);
     expect(actual).to.be.eql(
       new Workflow({
         id: '619e5c4da004a6cd3f33cb74',
@@ -149,7 +152,7 @@ describe('Pipeline to Workflow Conversion', () => {
         },
       },
     });
-    const actual = await pipelineToWorkflow(montageRecycle);
+    const actual = await pipelineToWorkflow(montageRecycle, pipelineRepository);
     expect(actual).to.be.eql(
       new Workflow({
         id: '619e5c4da004a6cd3f33cb74',
@@ -304,7 +307,7 @@ describe('Pipeline to Workflow Conversion', () => {
         },
       },
     });
-    const actual = await pipelineToWorkflow(multipleTemplates);
+    const actual = await pipelineToWorkflow(multipleTemplates, pipelineRepository);
     expect(actual).to.be.eql(
       new Workflow({
         id: '619e5c4da004a6cd3f33cb74',
@@ -447,7 +450,7 @@ describe('Pipeline to Workflow Conversion', () => {
         },
       },
     });
-    const actual = await pipelineToWorkflow(multipleTemplates);
+    const actual = await pipelineToWorkflow(multipleTemplates, pipelineRepository);
     expect(actual).to.be.eql(
       new Workflow({
         id: '619e5c4da004a6cd3f33cb74',
@@ -524,4 +527,7 @@ describe('Pipeline to Workflow Conversion', () => {
       }),
     );
   });
+  function givenStubbedRepository() {
+    pipelineRepository = createStubInstance(PipelineRepository);
+  }
 });

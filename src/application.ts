@@ -11,7 +11,7 @@ import { ServiceMixin } from '@loopback/service-proxy';
 import { LabShareSequence } from './sequence';
 import { ComputeApiBindings } from './keys';
 import path from 'path';
-import { DriverFactory } from './factories/driver.factory';
+import { DriverFactory } from './drivers/driver-base';
 
 export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
@@ -64,7 +64,8 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
     this.bind(AuthenticationBindings.AUTH_CONFIG).to(options?.services?.auth);
 
     // Factory that provides available driver instance
-    const factory = new DriverFactory();
+    const driverType = process.env.COMPUTE_DRIVER ? process.env.COMPUTE_DRIVER : 'SLURM';
+    const factory = DriverFactory.createDriver(driverType);
     this.bind(ComputeApiBindings.DRIVER_FACTORY).to(factory);
   }
 }

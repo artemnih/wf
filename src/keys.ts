@@ -1,5 +1,5 @@
 import { BindingKey } from '@loopback/context';
-import { DriverFactory } from './factories/driver.factory';
+import { DriverFactory } from './drivers/driver-base';
 
 export namespace ComputeApiBindings {
   export const CONFIG = BindingKey.create<object>('Compute.config');

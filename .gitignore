@@ -4,7 +4,8 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+*.err 
+*.out
 # Runtime data
 pids
 *.pid
@@ -64,5 +65,9 @@ typings/
 *.tsbuildinfo
 .vscode/launch.json
 
+# Mac stuff
+.DS_Store
+#Local testing
+src/__tests__/data/integration
 # Helm cache
 deployments/helm/charts

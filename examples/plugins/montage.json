@@ -15,7 +15,7 @@
    "citation": "",
    "containerId": "kevinpatrickhannon/polus-montage:test",
    "pluginHardwareRequirements": {
-      "gpu": "none"
+      "gpuVendor": "none"
    },
    "inputs": [
       {

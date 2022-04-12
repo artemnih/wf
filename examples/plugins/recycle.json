@@ -15,7 +15,7 @@
    "citation": "",
    "containerId": "kevinpatrickhannon/polus-recycle-vector:test",
    "pluginHardwareRequirements": {
-      "gpu": "none"
+      "gpuVendor": "none"
    },
    "inputs": [
       {

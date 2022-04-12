@@ -15,7 +15,7 @@
     "/opt/executables/main.py"
   ],
   "pluginHardwareRequirements": {
-    "gpu": "none"
+    "gpuVendor": "none"
   },
   "inputs": [
     {

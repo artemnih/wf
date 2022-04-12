@@ -10,7 +10,7 @@
 	"institution": "National Center for Advancing Translational Sciences, National Institutes of Health",
 	"containerId": "busybox",
 	"pluginHardwareRequirements": {
-		"gpu": "none"
+		"gpuVendor": "none"
 	},
 	"inputs": [
 		{
