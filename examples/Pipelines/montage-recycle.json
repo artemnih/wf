@@ -54,9 +54,7 @@
 		"recycle": {
 			"run": "plugin:recycle:1.5.1",
 			"in": {
-				"groupBy": "recycleGroupBy",
-				"collectionRegex": "recycleCollectionRegex",
-				"stitchRegex": "recycleCollectionRegex",
+				"filepattern": "recycleCollectionRegex",
 				"stitchDir": "montage/montageoutDir",
 				"collectionDir": "montageInpDir",
 				"outDir": "recycleOutputName"

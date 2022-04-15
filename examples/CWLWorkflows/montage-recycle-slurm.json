@@ -8,8 +8,6 @@
 		"montageImageSpacing": "int",
 		"montageGridSpacing": "int",
 		"montageOutputName": "Directory",
-		"recycleGroupBy": "string",
-		"recycleCollectionRegex": "string",
 		"recycleOutputName": "Directory"
 	},
 	"outputs": {
@@ -54,12 +52,10 @@
 			"class": "Directory",
 			"path": "montage"
 		},
-		"recycleCollectionRegex": "p{tt}_x{xx}_y{yy}_r{rr}_c{cc}.ome.zarr",
 		"recycleCollectionDir": {
 			"class": "Directory",
 			"path": "/home/kevin.hannon/data/images_dummy"
 		},
-		"recycleGroupBy": "r",
 		"recycleOutputName": {
 			"class": "Directory",
 			"path": "recycle"
@@ -67,7 +63,7 @@
 	},
 	"steps": {
 		"montage": {
-			"run": "plugin:montage:0.2.2",
+			"run": "plugin:montage:0.3.1",
 			"in": {
 				"filePattern": "montageFilePattern",
 				"inpDir": "montageInpDir",
@@ -85,9 +81,7 @@
 		"recycle": {
 			"run": "plugin:recycle:1.5.1",
 			"in": {
-				"groupBy": "recycleGroupBy",
-				"collectionRegex": "recycleCollectionRegex",
-				"stitchRegex": "recycleCollectionRegex",
+				"filepattern": "recycleFilePattern",
 				"stitchDir": "montage/montageoutDir",
 				"collectionDir": "montageInpDir",
 				"outDir": "recycleOutputName"

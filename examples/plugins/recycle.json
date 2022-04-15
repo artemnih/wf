@@ -30,22 +30,10 @@
          "required": true
       },
       {
-         "name": "stitchRegex",
+         "name": "filepattern",
          "type": "string",
          "required": true,
-         "label": "Regular expression file format for stich"
-      },
-      {
-         "name": "collectionRegex",
-         "type": "string",
-         "label": "Regular expression file format for collection ",
-         "required": true
-      },
-      {
-         "name": "groupBy",
-         "type": "string",
-         "label": "grid spacing",
-         "required": false
+         "label": "Filepattern to select files for vector recycling"
       }
    ],
    "outputs": [

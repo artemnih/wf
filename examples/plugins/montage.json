@@ -12,7 +12,7 @@
    "repository": "https://github.com/labshare/polus-plugins",
    "website": "https://ncats.nih.gov/preclinical/core/informatics",
    "citation": "",
-   "containerId": "labshare/polus-montage-plugin:compute-0.3.1",
+   "containerId": "labshare/polus-montage-plugin:compute-0.3.2",
    "pluginHardwareRequirements": {
       "gpuVendor": "none"
    },
