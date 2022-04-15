@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: compute
-          image: {{ .Values.compute.image }}
+          image: {{ .Values.compute.image.name }}
           ports:
             - containerPort: 8000
           env:
@@ -44,3 +44,5 @@ spec:
               value: '7998'
             - name: COMPUTE_SERVICE_NAME
               value: {{ .Values.compute.name }}
+      imagePullSecrets:
+        - name: {{ .Values.compute.image.secret}}

@@ -1,13 +1,13 @@
 {
 	"name": "recycle",
-	"version": "0.0.1",
+	"version": "1.5.1",
 	"cwlScript": {
 		"cwlVersion": "v1.0",
 		"id": "recycle",
 		"class": "CommandLineTool",
 		"requirements": {
 			"DockerRequirement": {
-				"dockerPull": "kevinpatrickhannon/polus-recycle-vector:test"
+				"dockerPull": "labshare/polus-recycle-vector-plugin:compute-1.5.1"
 			},
 			"InitialWorkDirRequirement": {
 				"listing": [

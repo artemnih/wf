@@ -51,7 +51,7 @@
 	},
 	"steps": {
 		"filepattern": {
-			"run": "plugin:filePattern:0.2.0",
+			"run": "plugin:filePattern:0.2.1",
 			"in": {
 				"inpDir": "file-pattern-input",
 				"pattern": "pattern",
@@ -63,7 +63,7 @@
 			]
 		},
 		"ome2zarr": {
-			"run": "plugin:ome2zarr:0.2.0",
+			"run": "plugin:ome2zarr:0.2.1",
 			"scatter": "filePattern",
 			"in": {
 				"filePattern": "filepattern/filepatternoutDir",

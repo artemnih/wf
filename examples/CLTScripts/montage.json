@@ -1,13 +1,13 @@
 {
 	"name": "montage",
-	"version": "0.0.1",
+	"version": "0.3.1",
 	"cwlScript": {
 		"cwlVersion": "v1.0",
 		"id": "montage",
 		"class": "CommandLineTool",
 		"requirements": {
 			"DockerRequirement": {
-				"dockerPull": "kevinpatrickhannon/polus-montage:test"
+				"dockerPull": "labshare/polus-montage-plugin:compute-0.3.1"
 			},
 			"InlineJavascriptRequirement": {},
 			"InitialWorkDirRequirement": {

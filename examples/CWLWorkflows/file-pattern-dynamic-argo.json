@@ -61,7 +61,7 @@
 			]
 		},
 		"ome2zarr": {
-			"run": "plugin:ome2zarr:0.2.0",
+			"run": "plugin:ome2zarr:0.2.1",
 			"scatter": "filePattern",
 			"in": {
 				"filePattern": "filepattern/filepatternoutDir",

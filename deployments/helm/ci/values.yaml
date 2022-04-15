@@ -1,6 +1,8 @@
 compute:
   name: compute
-  image: kevinpatrickhannon/compute:rename-workflow
+  image:
+    name: polusai/compute:0.0.1
+    secret: notebooks-hub-polusai-secret
   ingress:
     enabled: true
     host: COMPUTE_INGRESS_REPLACE

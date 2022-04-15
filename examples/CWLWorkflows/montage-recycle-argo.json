@@ -74,7 +74,7 @@
 	},
 	"steps": {
 		"montage": {
-			"run": "plugin:montage:0.2.2",
+			"run": "plugin:montage:0.3.1",
 			"in": {
 				"filePattern": "montageFilePattern",
 				"inpDir": "montageInpDir",
@@ -88,7 +88,7 @@
 			]
 		},
 		"recycle": {
-			"run": "plugin:recycle:0.1.0",
+			"run": "plugin:recycle:1.5.1",
 			"in": {
 				"groupBy": "recycleGroupBy",
 				"collectionRegex": "recycleCollectionRegex",
