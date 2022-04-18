@@ -1,0 +1,12 @@
+{
+	"file-pattern-input": {
+		"class": "Directory",
+		"path": "/home/kevin.hannon/data/tiff-converter"
+	},
+	"pattern": "x{x+}_y{y+}_wx{t}_wy{p}_c{c}.ome.tif",
+	"file-pattern-output": {
+		"class": "Directory",
+		"path": "zarr"
+	}, 
+	"chunkSize": 2
+}

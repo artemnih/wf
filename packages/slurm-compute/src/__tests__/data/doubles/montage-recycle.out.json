@@ -1,0 +1,74 @@
+{
+    "montageStdErr": {
+        "location": "file:///tmp/cwl/9d552c97f50001f6d2f1823f0362afaa6b61c4f7",
+        "basename": "9d552c97f50001f6d2f1823f0362afaa6b61c4f7",
+        "nameroot": "9d552c97f50001f6d2f1823f0362afaa6b61c4f7",
+        "nameext": "",
+        "class": "File",
+        "checksum": "sha1$fb639c3f629c689067b05b776f444db675bdacd4",
+        "size": 889
+    },
+    "montageStdOut": {
+        "location": "file:///tmp/cwl/a3a583e4bff1eb90860678aed943dab9f49b4fce",
+        "basename": "a3a583e4bff1eb90860678aed943dab9f49b4fce",
+        "nameroot": "a3a583e4bff1eb90860678aed943dab9f49b4fce",
+        "nameext": "",
+        "class": "File",
+        "checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
+        "size": 0
+    },
+    "montageoutDir": {
+        "location": "file:///tmp/cwl/montage",
+        "basename": "montage",
+        "nameroot": "montage",
+        "nameext": "",
+        "class": "Directory",
+        "listing": [
+            {
+                "class": "File",
+                "location": "file:///tmp/cwl/montage/img-global-positions-1.txt",
+                "basename": "img-global-positions-1.txt",
+                "size": 77,
+                "nameroot": "img-global-positions-1",
+                "nameext": ".txt",
+                "checksum": "sha1$96b269a9577572ad170574c88567d36d1c79be89"
+            }
+        ]
+    },
+    "recycleStdErr": {
+        "location": "file:///tmp/cwl/8d47b387bfbd9e5bfbb4b2debdba4d1160d9151e",
+        "basename": "8d47b387bfbd9e5bfbb4b2debdba4d1160d9151e",
+        "nameroot": "8d47b387bfbd9e5bfbb4b2debdba4d1160d9151e",
+        "nameext": "",
+        "class": "File",
+        "checksum": "sha1$927915945a6244c5b6b9f9b047361cf1f4132cce",
+        "size": 893
+    },
+    "recycleStdOut": {
+        "location": "file:///tmp/cwl/d21f2fcffd7fc610353d639d199e53cf115e6fc4",
+        "basename": "d21f2fcffd7fc610353d639d199e53cf115e6fc4",
+        "nameroot": "d21f2fcffd7fc610353d639d199e53cf115e6fc4",
+        "nameext": "",
+        "class": "File",
+        "checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
+        "size": 0
+    },
+    "recycleoutDir": {
+        "location": "file:///tmp/cwl/recycle",
+        "basename": "recycle",
+        "nameroot": "recycle",
+        "nameext": "",
+        "class": "Directory",
+        "listing": [
+            {
+                "class": "File",
+                "location": "file:///tmp/cwl/recycle/img-global-positions-1.txt",
+                "basename": "img-global-positions-1.txt",
+                "size": 77,
+                "nameroot": "img-global-positions-1",
+                "nameext": ".txt",
+                "checksum": "sha1$96b269a9577572ad170574c88567d36d1c79be89"
+            }
+        ]
+    }
+}
