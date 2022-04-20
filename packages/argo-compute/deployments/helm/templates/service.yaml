@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}"
+spec:
+  type: NodePort
+  ports:
+    - port: 7999
+      targetPort: 7999
+  selector:
+    app: {{.Values.argo.name}}
