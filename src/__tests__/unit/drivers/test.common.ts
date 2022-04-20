@@ -10,7 +10,11 @@ describe('DriverUrl', () => {
     expect(driverUrl('argo')).to.be.eql('http://127.0.0.1:7999');
   });
   it('driverUrl slurm', () => {
-    expect(driverUrl('slurm')).to.be.eql('http://127.0.0.1:7998');
+    require('dotenv').config();
+    const config = require('config');
+    const host = config.compute.drivers.slurmDriver.host;
+    const port = config.compute.drivers.slurmDriver.port;
+    expect(driverUrl('slurm')).to.be.eql(`http://${host}:${port}`);
   });
   it('driverUrl nodriver', () => {
     throws(() => driverUrl('nodriver'), 'Unsupported Driver');

@@ -1,7 +1,7 @@
 compute:
   name: compute
   image:
-    name: polusai/compute:0.0.1
+    name: polusai/compute-api:0.0.1
     secret: notebooks-hub-polusai-secret
   ingress:
     enabled: true

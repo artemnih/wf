@@ -40,7 +40,7 @@ describe('PluginToScript Convertor', () => {
       class: 'CommandLineTool',
       'CustomResourceRequirement:gpuVendor': 'none',
       requirements: {
-        DockerRequirement: { dockerPull: 'kevinpatrickhannon/polus-montage:test' },
+        DockerRequirement: { dockerPull: 'labshare/polus-montage-plugin:compute-0.3.2' },
         InlineJavascriptRequirement: {},
         ResourceRequirement: {},
         InitialWorkDirRequirement: { listing: [{ entry: '$(inputs.outDir)', writable: true }] },
@@ -74,7 +74,7 @@ describe('PluginToScript Convertor', () => {
       class: 'CommandLineTool',
       'CustomResourceRequirement:gpuVendor': 'none',
       requirements: {
-        DockerRequirement: { dockerPull: 'kevinpatrickhannon/polus-recycle-vector:test' },
+        DockerRequirement: { dockerPull: 'labshare/polus-recycle-vector-plugin:compute-1.5.1' },
         InlineJavascriptRequirement: {},
         ResourceRequirement: {},
         InitialWorkDirRequirement: { listing: [{ entry: '$(inputs.outDir)', writable: true }] },
@@ -83,9 +83,7 @@ describe('PluginToScript Convertor', () => {
       inputs: {
         stitchDir: { type: 'Directory', inputBinding: { prefix: '--stitchDir' } },
         collectionDir: { type: 'Directory', inputBinding: { prefix: '--collectionDir' } },
-        stitchRegex: { type: 'string', inputBinding: { prefix: '--stitchRegex' } },
-        collectionRegex: { type: 'string', inputBinding: { prefix: '--collectionRegex' } },
-        groupBy: { type: 'string?', inputBinding: { prefix: '--groupBy' } },
+        filepattern: { type: 'string', inputBinding: { prefix: '--filepattern' } },
         outDir: { type: 'Directory', inputBinding: { prefix: '--outDir' } },
       },
       outputs: {
@@ -106,7 +104,7 @@ describe('PluginToScript Convertor', () => {
       class: 'CommandLineTool',
       'CustomResourceRequirement:gpuVendor': 'none',
       requirements: {
-        DockerRequirement: { dockerPull: 'kevinpatrickhannon/polus-ome-zarr-converter-plugin:test1' },
+        DockerRequirement: { dockerPull: 'labshare/polus-ome-zarr-converter-plugin:compute-0.2.1' },
         InlineJavascriptRequirement: {},
         ResourceRequirement: {},
         InitialWorkDirRequirement: { listing: [{ entry: '$(inputs.outDir)', writable: true }] },

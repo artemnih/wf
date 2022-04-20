@@ -1,21 +1,10 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: "{{ .Release.Name }}-{{.Values.compute.name }}"
-spec:
-  type: NodePort
-  ports:
-    - port: 8000
-      targetPort: 8000
-  selector:
-    app: {{ .Values.compute.name }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: {{ .Values.compute.name }}
-  name: "{{ .Release.Name }}-{{.Values.compute.name }}"
+  name: "{{ .Release.Name }}"
 spec:
   selector:
     matchLabels:
@@ -24,7 +13,7 @@ spec:
     metadata:
       labels:
         app: {{ .Values.compute.name }}
-      name: {{ .Values.compute.name }}
+      name: {{ .Release.Name }}
     spec:
       containers:
         - name: compute
@@ -44,5 +33,9 @@ spec:
               value: '7998'
             - name: COMPUTE_SERVICE_NAME
               value: {{ .Values.compute.name }}
+            - name: SERVICES_AUTH_URL
+              value: {{ .Values.compute.auth.url}}
+            - name: SERVICES_AUTH_TENANT
+              value: {{ .Values.compute.auth.tenant}}
       imagePullSecrets:
         - name: {{ .Values.compute.image.secret}}
