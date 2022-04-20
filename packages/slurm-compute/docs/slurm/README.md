@@ -1,5 +1,9 @@
 # Slurm driver for compute platform
 
+# API Description
+
+Detailed description of [API](api/README.md)
+
 # User documentation is WIPP
 
 # Pre reqs
@@ -31,12 +35,37 @@ b) npm run start
 
 c) npm run test:unit
 
-# Configurations / Environment Variables
+# Environment Variables
 
-a) SLURM_TEMP_DIR is the current working directory of toil. Directory must exist.
+| Env Variable         | Description                       |
+| -------------------- | --------------------------------- |
+| SLURM_TEMP_DIR       | Current working directory of toil |
+| HPC_SCHEDULER        | HPC Scheduler used                |
+| SERVICES_AUTH_URL    | URL for auth api                  |
+| SERVICES_AUTH_TENANT | Tenant for our compute platform   |
 
-b) SERVICES_AUTH_URL is the labshare auth api that allows authentication.
+# Example of deployment on Slurm HPC cluster
 
-c) SERVICES_AUTH_TENANT is the tenant of the auth service
+The following are instructions for setting up slurm-compute on a HPC cluster. We create a service account that runs all the slurm workflows.
 
-d) HPC_SCHEDULER is the HPC system used. Default is slurm for now.
+1. Open 7998 port for Ingress from World on the HPC Login Node
+
+2. Install gcc, npm, node-js, python and singularity on HPC Login Node, Compute and GPU Images (or build with space in shared environment)
+
+3. Create the service account (Login and Controller)
+
+4. Add service account to the labshare-compute POSIX group
+
+5. Add service account to the Slurm DataBase Account labshare-compute
+
+6. mkdir /software/manual/polus_apps
+7. Chown to service account user
+8. cd /software/manual/polus_apps/
+9. Following [directions](#setting-up-slurm-compute), build toil
+10. git clone git@github.com:labShare/slurm-compute.git
+11. source ~/toil/bin/activate
+12. cd /software/manual/polus_apps/slurm-compute/
+13. npm adduser
+14. npm ci
+15. Set [environment](#environment-variables)
+16. npm run start

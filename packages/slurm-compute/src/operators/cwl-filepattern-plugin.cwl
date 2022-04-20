@@ -4,7 +4,7 @@
    "class": "CommandLineTool",
    "requirements": {
       "DockerRequirement": {
-         "dockerPull": "kevinpatrickhannon/cwl-operator:0.0.3"
+         "dockerPull": "polusai/cwl-file-pattern-operator:0.0.1"
       }
    },
    "baseCommand": [
