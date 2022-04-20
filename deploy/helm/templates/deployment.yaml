@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,20 +21,20 @@ spec:
             - containerPort: 8000
           env:
             - name: MONGO_CONNECTION_NAME
-              value: {{ .Values.compute.mongo.name }}
-            - name: ARGO_SERVICE_NAME
-              value: {{ .Values.compute.argo.name }}
-            - name: ARGO_SERVICE_PORT
-              value: '7999'
-            - name: SLURM_SERVICE_HOST
-              value: {{ .Values.compute.slurm.host }}
-            - name: SLURM_SERVICE_PORT
-              value: '7998'
+              value: "{{ .Release.Name }}-mongodb"
+            - name: ARGO_DRIVER_URL
+              value: "{{ .Values.compute.drivers.argo.url }}"
+            - name: ARGO_DRIVER_PORT
+              value: "{{ .Values.compute.drivers.argo.port }}"
+            - name: SLURM_DRIVER_URL
+              value: "{{ .Values.compute.drivers.slurm.url }}"
+            - name: SLURM_DRIVER_PORT
+              value: "{{ .Values.compute.drivers.slurm.port }}"
             - name: COMPUTE_SERVICE_NAME
-              value: {{ .Values.compute.name }}
+              value: "{{ .Values.compute.name }}"
             - name: SERVICES_AUTH_URL
-              value: {{ .Values.compute.auth.url}}
+              value: "{{ .Values.compute.auth.url }}"
             - name: SERVICES_AUTH_TENANT
-              value: {{ .Values.compute.auth.tenant}}
+              value: "{{ .Values.compute.auth.tenant }}"
       imagePullSecrets:
         - name: {{ .Values.compute.image.secret}}

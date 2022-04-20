@@ -43,12 +43,12 @@ module.exports = {
     },
     drivers: {
       argoDriver: {
-        host: process.env.ARGO_SERVICE_NAME || '127.0.0.1',
-        port: process.env.ARGO_SERVICE_PORT || '7999',  
+        host: process.env.ARGO_DRIVER_URL || '127.0.0.1',
+        port: process.env.ARGO_DRIVER_PORT || '7999',  
       },
       slurmDriver: {
-        host: process.env.SLURM_SERVICE_HOST || '127.0.0.1',
-        port: process.env.SLURM_SERVICE_PORT || '7998',
+        host: process.env.SLURM_DRIVER_URL || '127.0.0.1',
+        port: process.env.SLURM_DRIVER_PORT || '7998',
       },
     },
     computeName: process.env.COMPUTE_SERVICE_NAME || '127.0.0.1',

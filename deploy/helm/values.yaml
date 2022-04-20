@@ -1,24 +1,23 @@
 compute:
   name: compute
-  image:
+  image: 
     name: polusai/compute-api:0.0.1
     secret: notebooks-hub-polusai-secret
   ingress:
-    enabled: true
+    enabled: false
     host: COMPUTE_INGRESS_REPLACE
-  argo:
-    name: compute-argo
-    port: 7999
-  slurm:
-    host: HPC_LOGON_NODE_REPLACE
-    port: 7998
-  mongo:
-    name: compute-mongodb
+  drivers:
+    argo:
+      url: compute-argo
+      port: 7999
+    slurm:
+      url: HPC_LOGON_NODE_REPLACE
+      port: 7998
   auth:
     url: SERVICES_AUTH_URL
     tenant: SERVICES_AUTH_TENANT
 
-mongo:
+mongodb:
   persistence:
     enabled: false
     size: 256Mi

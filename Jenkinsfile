@@ -1,0 +1,49 @@
+pipeline {
+    agent {
+        node { label 'aws && build && linux && ubuntu' }
+    }
+    options { timestamps () }
+    parameters {
+        string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region to deploy')
+        string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'kube-eks-ci-compute', description: 'Kubernetes Cluster to deploy')
+        string(name: 'KUBERNETES_NAMESPACE', defaultValue: 'default', description: 'Cluster Namespace to deploy')
+        string(name: 'HELM_DEPLOYMENT_NAME', defaultValue: 'ci-compute', description: 'Helm Deployment Name')
+    }
+    environment {
+        PROJECT_NAME = "labshare/compute-api"
+    }
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
+    stages {
+        stage('Checkout source code') {
+            steps {
+                cleanWs()
+                checkout scm
+            }
+        }
+        stage('Deploy to CI with Helm') {
+            steps {
+                dir('deploy/helm') {
+                    // Helm values are stored in yaml file in Jenkins
+                    configFileProvider([configFile(fileId: 'ci-helm-values', targetLocation: 'ci-values.yaml')]) {               
+                        withAWS(credentials:'aws-jenkins-eks') {
+                            sh "aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}"
+                            sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
+                            sh "helm dependency update"
+                            sh "helm dependency build"
+                            sh "helm upgrade --install ${HELM_DEPLOYMENT_NAME} . --values ci-values.yaml --namespace ${KUBERNETES_NAMESPACE}" 
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                cleanWs()
+            }
+        }
+    }
+}

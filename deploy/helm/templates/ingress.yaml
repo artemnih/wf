@@ -15,7 +15,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.compute.name }}
+                name: {{ .Release.Name }}
                 port:
                   number: 8000
 {{- end }}
