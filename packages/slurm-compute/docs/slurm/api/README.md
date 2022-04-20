@@ -1,5 +1,6 @@
 API Explorer Link:
-http://${SLURM_SERVICE_HOST}:${SLURM_SERVICE_PORT}/explorer/
+
+http://$SLURM_SERVICE_HOST:$SLURM_SERVICE_PORT/explorer/
 
 SLURM_SERVICE_HOST and SLURM_SERVICE_PORT is the host address for the head node and the port.
 
