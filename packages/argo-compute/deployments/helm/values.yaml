@@ -1,9 +1,0 @@
-argo:
-  name: argo
-  image: 
-    name: polusai/argo-driver:0.0.1
-    secret: notebooks-hub-polusai-secret
-  host: REPLACE_WITH_REAL_ARGO_CI_URL
-  auth:
-    url: REPLACE_WITH_REAL_AUTH_URL
-    tenant: polus-qa

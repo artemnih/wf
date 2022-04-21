@@ -1,33 +1,32 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{.Values.argo.name}}
-  name: "{{ .Release.Name }}"
+    app: {{.Release.Name}}
+  name: '{{ .Release.Name }}'
 spec:
   selector:
     matchLabels:
-      app: {{.Values.argo.name}}
+      app: {{.Release.Name}}
   template:
     metadata:
       labels:
-        app: {{.Values.argo.name}}
-      name: "{{ .Release.Name }}"
+        app: {{.Release.Name}}
+      name: '{{ .Release.Name }}'
     spec:
       containers:
         - name: argo
           image: {{.Values.argo.image.name}}
           env:
             - name: ARGO_DRIVER_SERVICE_PORT
-              value: '7999'
+              value: '{{.Values.argo.port}}'
             - name: ARGO
               value: {{.Values.argo.host}}
             - name: SERVICES_AUTH_URL
-              value: {{ .Values.argo.auth.url}}
+              value: {{.Values.argo.auth.url}}
             - name: SERVICES_AUTH_TENANT
-              value: {{ .Values.argo.auth.tenant}}
+              value: {{.Values.argo.auth.tenant}}
           ports:
-            - containerPort: 7999
+            - containerPort: {{.Values.argo.port}}
       imagePullSecrets:
-        - name: {{ .Values.argo.image.secret}}
+        - name: {{.Values.argo.image.secret}}

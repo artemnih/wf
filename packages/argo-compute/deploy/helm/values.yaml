@@ -1,0 +1,9 @@
+argo:
+  image:
+    name: polusai/argo-driver:0.0.1
+    secret: null
+  host: null
+  port: 7999
+  auth:
+    url: null
+    tenant: null
