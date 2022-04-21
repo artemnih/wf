@@ -1,6 +1,7 @@
 name: Build Notebook Docker images
 
 on:
+  pull_request:
   workflow_dispatch:
 
 jobs:
