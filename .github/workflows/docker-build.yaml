@@ -22,5 +22,5 @@ jobs:
           context: .
           push: true
           tags: polusai/compute-api:test
-          build-args:
-            - NPM_TOKEN: ${{secrets.POLUS_NPM_TOKEN}}
+          build-args: |
+            NPM_TOKEN: ${{secrets.POLUS_NPM_TOKEN}}
