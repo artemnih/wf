@@ -10,6 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
+
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
@@ -21,6 +25,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: polusai/compute-api:test
+          tags: polusai/compute-api:${{ steps.package-version.outputs.current-version}}
           build-args: |
             NPM_TOKEN=${{secrets.POLUS_NPM_TOKEN}}
