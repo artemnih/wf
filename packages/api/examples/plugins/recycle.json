@@ -1,0 +1,47 @@
+{
+   "title": "recycle",
+   "name": "recycle",
+   "version": "1.5.1",
+   "description": "Advanced recycling plugin.",
+   "baseCommand": [
+      "python3",
+      "/opt/executables/main.py"
+   ],
+   "author": "Nick Schaub (nick.schaub@nih.gov)",
+   "institution": "National Center for Advancing Translational Sciences, National Institutes of Health",
+   "repository": "https://github.com/labshare/polus-plugins",
+   "website": "https://ncats.nih.gov/preclinical/core/informatics",
+   "citation": "",
+   "containerId": "labshare/polus-recycle-vector-plugin:compute-1.5.1",
+   "pluginHardwareRequirements": {
+      "gpuVendor": "none"
+   },
+   "inputs": [
+      {
+         "name": "stitchDir",
+         "type": "path",
+         "label": "Stitch Direcory",
+         "required": true
+      },
+      {
+         "name": "collectionDir",
+         "type": "path",
+         "label": "Input image collection to be processed by this plugin",
+         "required": true
+      },
+      {
+         "name": "filepattern",
+         "type": "string",
+         "required": true,
+         "label": "Filepattern to select files for vector recycling"
+      }
+   ],
+   "outputs": [
+      {
+         "name": "outDir",
+         "type": "path",
+         "label": "Output collection"
+      }
+   ],
+   "ui": []
+}

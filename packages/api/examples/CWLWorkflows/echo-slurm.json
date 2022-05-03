@@ -1,0 +1,32 @@
+{
+	"name": "echo-slurm",
+	"driver": "slurm",
+	"inputs": {
+		"hello1": "string"
+	},
+	"outputs": {
+		"echoStdOut": {
+			"type": "File",
+			"outputSource": "echo/echoStdOut"
+		},
+		"echoStdErr": {
+			"type": "File",
+			"outputSource": "echo/echoStdErr"
+		}
+	},
+	"cwlJobInputs": {
+		"hello1": "hello kevin"
+	},
+	"steps": {
+		"echo": {
+			"run": "plugin:echo:0.0.1",
+			"in": {
+				"message": "hello1"
+			},
+			"out": [
+				"echoStdOut",
+				"echoStdErr"
+			]
+		}
+	}
+}

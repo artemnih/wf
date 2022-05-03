@@ -1,0 +1,88 @@
+{
+	"name": "montage-recycle-pipeline-argo",
+	"driver": "argo",
+	"inputs": {
+		"montageFilePattern": "string",
+		"montageInpDir": "Directory",
+		"montageLayout": "string[]",
+		"montageOutputName": "Directory",
+		"recycleGroupBy": "string",
+		"recycleCollectionRegex": "string",
+		"recycleOutputName": "Directory"
+	},
+	"outputs": {
+		"recycleoutDir": {
+			"type": "Directory",
+			"outputSource": "recycle/recycleOut"
+		},
+		"recycleStdErr": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdErr"
+		},
+		"recycleStdOut": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdOut"
+		},
+		"montageoutDir": {
+			"type": "Directory",
+			"outputSource": "montage/montageOut"
+		},
+		"montageStdErr": {
+			"type": "File",
+			"outputSource": "montage/montageStdErr"
+		},
+		"montageStdOut": {
+			"type": "File",
+			"outputSource": "montage/montageStdOut"
+		}
+	},
+	"cwlJobInputs": {
+		"montageFilePattern": "{yyy}{xxx}-{r}-001.ome.tif",
+		"montageInpDir": {
+			"class": "Directory",
+			"path": "/data/inputs/collections/611f403652091f3ee8e9c25a/images"
+		},
+		"montageLayout": "r,xy",
+		"montageImageSpacing": 10,
+		"montageGridSpacing": 20,
+		"montageOutputName": {
+			"class": "Directory",
+			"path": "/data/outputs/montage"
+		},
+		"recycleCollectionRegex": "{yyy}{xxx}-{r}-00{c}.ome.tif",
+		"recycleCollectionDir": {
+			"class": "Directory",
+			"path": "/data/inputs/collections/611f403652091f3ee8e9c25a/images"
+		},
+		"recycleGroupBy": "xyr",
+		"recycleOutputName": {
+			"class": "Directory",
+			"path": "/data/outputs/recycle"
+		}
+	},
+	"steps": {
+		"montage-recycle": {
+			"run": "pipeline:montage-recycle:0.0.1",
+			"in": {
+				"filePattern": "montageFilePattern",
+				"inpDir": "montageInpDir",
+				"layout": "montageLayout",
+				"montageoutDir": "montageOutputName",
+				"groupBy": "recycleGroupBy",
+				"collectionRegex": "recycleCollectionRegex",
+				"stitchRegex": "recycleCollectionRegex",
+				"stitchDir": "montage/montageoutDir",
+				"collectionDir": "montageInpDir",
+				"recycleoutDir": "recycleOutputName"
+			},
+			"out": [
+				"montageoutDir",
+				"montageStdOut",
+				"montageStdErr",
+				"recycleoutDir",
+				"recycleStdOut",
+				"recycleStdErr"
+			]
+		}
+	}
+}

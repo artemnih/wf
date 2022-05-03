@@ -1,0 +1,1 @@
+{"cwlVersion":"v1.0","id":"helloWorld","class":"CommandLineTool","hints":{"DockerRequirement":{"dockerPull":"busybox"}},"baseCommand":"echo","inputs":{"hello":{"type":"string","inputBinding":{"prefix":"--hello"}}},"outputs":[]}

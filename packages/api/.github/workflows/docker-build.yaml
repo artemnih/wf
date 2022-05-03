@@ -1,0 +1,30 @@
+name: Build Notebook Docker images
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: polusbot
+          password: ${{ secrets.POLUS_DOCKER_TOKEN }}
+
+      - name: Build Notebook Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: polusai/compute-api:${{ steps.package-version.outputs.current-version}}
+          build-args: |
+            NPM_TOKEN=${{secrets.NPM_INSTALL_TOKEN}}

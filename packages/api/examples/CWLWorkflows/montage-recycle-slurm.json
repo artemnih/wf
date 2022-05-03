@@ -1,0 +1,96 @@
+{
+	"name": "montage-recycle-slurm",
+	"driver": "slurm",
+	"inputs": {
+		"montageFilePattern": "string",
+		"montageInpDir": "Directory",
+		"montageLayout": "string[]",
+		"montageImageSpacing": "int",
+		"montageGridSpacing": "int",
+		"montageOutputName": "Directory",
+		"recycleOutputName": "Directory"
+	},
+	"outputs": {
+		"recycleoutDir": {
+			"type": "Directory",
+			"outputSource": "recycle/recycleoutDir"
+		},
+		"recycleStdErr": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdErr"
+		},
+		"recycleStdOut": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdOut"
+		},
+		"montageoutDir": {
+			"type": "Directory",
+			"outputSource": "montage/montageoutDir"
+		},
+		"montageStdErr": {
+			"type": "File",
+			"outputSource": "montage/montageStdErr"
+		},
+		"montageStdOut": {
+			"type": "File",
+			"outputSource": "montage/montageStdOut"
+		}
+	},
+	"cwlJobInputs": {
+		"montageFilePattern": "p00_x{xx}_y{yy}_r{rr}_c01.ome.zarr",
+		"montageInpDir": {
+			"class": "Directory",
+			"path": "/home/kevin.hannon/data/images_dummy"
+		},
+		"montageLayout": [
+			"r",
+			"xy"
+		],
+		"montageImageSpacing": 10,
+		"montageGridSpacing": 20,
+		"montageOutputName": {
+			"class": "Directory",
+			"path": "montage"
+		},
+		"recycleCollectionDir": {
+			"class": "Directory",
+			"path": "/home/kevin.hannon/data/images_dummy"
+		},
+		"recycleOutputName": {
+			"class": "Directory",
+			"path": "recycle"
+		}
+	},
+	"steps": {
+		"montage": {
+			"run": "plugin:montage:0.3.1",
+			"in": {
+				"filePattern": "montageFilePattern",
+				"inpDir": "montageInpDir",
+				"imageSpacing": "montageImageSpacing",
+				"gridSpacing": "montageGridSpacing",
+				"layout": "montageLayout",
+				"outDir": "montageOutputName"
+			},
+			"out": [
+				"montageoutDir",
+				"montageStdOut",
+				"montageStdErr"
+			]
+		},
+		"recycle": {
+			"run": "plugin:recycle:1.5.1",
+			"in": {
+				"filepattern": "recycleFilePattern",
+				"stitchDir": "montage/montageoutDir",
+				"collectionDir": "montageInpDir",
+				"outDir": "recycleOutputName"
+			},
+			"out": [
+				"recycleoutDir",
+				"recycleStdOut",
+				"recycleStdErr"
+			]
+		}
+	}
+}

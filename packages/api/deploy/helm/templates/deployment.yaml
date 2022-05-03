@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.compute.name }}
+  name: "{{ .Release.Name }}"
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.compute.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.compute.name }}
+      name: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: compute
+          image: {{ .Values.compute.image.name }}
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MONGO_CONNECTION_NAME
+              value: "{{ .Release.Name }}-mongodb"
+            - name: ARGO_DRIVER_URL
+              value: "{{ .Values.compute.drivers.argo.url }}"
+            - name: ARGO_DRIVER_PORT
+              value: "{{ .Values.compute.drivers.argo.port }}"
+            - name: SLURM_DRIVER_URL
+              value: "{{ .Values.compute.drivers.slurm.url }}"
+            - name: SLURM_DRIVER_PORT
+              value: "{{ .Values.compute.drivers.slurm.port }}"
+            - name: COMPUTE_SERVICE_NAME
+              value: "{{ .Values.compute.name }}"
+            - name: SERVICES_AUTH_URL
+              value: "{{ .Values.compute.auth.url }}"
+            - name: SERVICES_AUTH_TENANT
+              value: "{{ .Values.compute.auth.tenant }}"
+      imagePullSecrets:
+        - name: {{ .Values.compute.image.secret}}

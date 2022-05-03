@@ -1,0 +1,83 @@
+{
+	"name": "montage",
+	"version": "0.3.1",
+	"cwlScript": {
+		"cwlVersion": "v1.0",
+		"id": "montage",
+		"class": "CommandLineTool",
+		"requirements": {
+			"DockerRequirement": {
+				"dockerPull": "labshare/polus-montage-plugin:compute-0.3.1"
+			},
+			"InlineJavascriptRequirement": {},
+			"InitialWorkDirRequirement": {
+				"listing": [
+					{
+						"entry": "$(inputs.outDir)",
+						"writable": true
+					}
+				]
+			}
+		},
+		"baseCommand": [
+			"python3",
+			"/opt/executables/main.py"
+		],
+		"stdout": "montage.out",
+		"stderr": "montage.err",
+		"inputs": {
+			"filePattern": {
+				"type": "string",
+				"inputBinding": {
+					"prefix": "--filePattern"
+				}
+			},
+			"inpDir": {
+				"type": "Directory",
+				"inputBinding": {
+					"prefix": "--inpDir"
+				}
+			},
+			"layout": {
+				"type": "string[]?",
+				"inputBinding": {
+					"prefix": "--layout=",
+					"itemSeparator": ",",
+					"separate": false
+				}
+			},
+			"imageSpacing": {
+				"type": "int",
+				"inputBinding": {
+					"prefix": "--imageSpacing"
+				}
+			},
+			"gridSpacing": {
+				"type": "int",
+				"inputBinding": {
+					"prefix": "--gridSpacing"
+				}
+			},
+			"outDir": {
+				"type": "Directory",
+				"inputBinding": {
+					"prefix": "--outDir"
+				}
+			}
+		},
+		"outputs": {
+			"montageOut": {
+				"type": "Directory",
+				"outputBinding": {
+					"glob": "$(inputs.outDir.basename)"
+				}
+			},
+			"montageStdOut": {
+				"type": "stdout"
+			},
+			"montageStdErr": {
+				"type": "stderr"
+			}
+		}
+	}
+}

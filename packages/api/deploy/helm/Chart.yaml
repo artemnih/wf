@@ -1,0 +1,11 @@
+apiVersion: v2
+name: compute
+description: Polus Compute
+type: application
+version: 0.1.1
+dependencies:
+  - name: mongodb
+    version: ~11.1.7
+    repository: https://charts.bitnami.com/bitnami
+    condition: mongodb.enabled
+appVersion: "0.0.2"

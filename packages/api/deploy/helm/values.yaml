@@ -1,0 +1,29 @@
+compute:
+  name: compute
+  image:
+    name: polusai/compute-api:0.0.2
+    secret: null
+  ingress:
+    enabled: false
+    host: null
+  drivers:
+    argo:
+      url: null
+      port: 7999
+    slurm:
+      url: null
+      port: 7998
+  auth:
+    url: null
+    tenant: null
+
+mongodb:
+  persistence:
+    enabled: false
+    size: 256Mi
+    storageClass: aws-efs
+  auth:
+    ## @param auth.enabled Enable authentication
+    ## ref: https://docs.mongodb.com/manual/tutorial/enable-authentication/
+    ##
+    enabled: false

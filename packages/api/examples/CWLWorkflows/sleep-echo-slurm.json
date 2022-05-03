@@ -1,0 +1,52 @@
+{
+	"name": "sleep-echo-slurm",
+	"driver": "slurm",
+	"inputs": {
+		"sleepParam": "string",
+		"hello1": "string"
+	},
+	"outputs": {
+		"echoStdOut": {
+			"type": "File",
+			"outputSource": "echo/echoStdOut"
+		},
+		"echoStdErr": {
+			"type": "File",
+			"outputSource": "echo/echoStdErr"
+		},
+		"sleepStdOut": {
+			"type": "File",
+			"outputSource": "sleep/sleepStdOut"
+		},
+		"sleepStdErr": {
+			"type": "File",
+			"outputSource": "sleep/sleepStdErr"
+		}
+	},
+	"cwlJobInputs": {
+		"sleepParam": "1000",
+		"hello1": "hello kevin"
+	},
+	"steps": {
+		"sleep": {
+			"run": "plugin:sleep:0.0.1",
+			"in": {
+				"sleepParam": "sleepParam"
+			},
+			"out": [
+				"sleepStdOut",
+				"sleepStdErr"
+			]
+		},
+		"echo": {
+			"run": "plugin:echo:0.0.1",
+			"in": {
+				"message": "hello1"
+			},
+			"out": [
+				"echoStdOut",
+				"echoStdErr"
+			]
+		}
+	}
+}

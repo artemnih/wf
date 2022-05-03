@@ -1,0 +1,95 @@
+{
+	"name": "montage-recycle-pipeline-slurm",
+	"driver": "slurm",
+	"inputs": {
+		"montageFilePattern": "string",
+		"montageInpDir": "Directory",
+		"montageLayout": "string[]",
+		"montageOutputName": "Directory",
+		"recycleGroupBy": "string",
+		"recycleCollectionRegex": "string",
+		"recycleOutputName": "Directory",
+		"montageImageSpacing": "int",
+		"montageGridSpacing": "int"
+	},
+	"outputs": {
+		"recycleoutDir": {
+			"type": "Directory",
+			"outputSource": "recycle/recycleoutDir"
+		},
+		"recycleStdErr": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdErr"
+		},
+		"recycleStdOut": {
+			"type": "File",
+			"outputSource": "recycle/recycleStdOut"
+		},
+		"montageoutDir": {
+			"type": "Directory",
+			"outputSource": "montage/montageoutDir"
+		},
+		"montageStdErr": {
+			"type": "File",
+			"outputSource": "montage/montageStdErr"
+		},
+		"montageStdOut": {
+			"type": "File",
+			"outputSource": "montage/montageStdOut"
+		}
+	},
+	"cwlJobInputs": {
+		"montageFilePattern": "p00_x{xx}_y{yy}_r{rr}_c01.ome.zarr",
+		"montageInpDir": {
+			"class": "Directory",
+			"path": "/home/ec2-user/cwl/montage-recycle/data"
+		},
+		"montageLayout": [
+			"r",
+			"xy"
+		],
+		"montageImageSpacing": 10,
+		"montageGridSpacing": 20,
+		"montageOutputName": {
+			"class": "Directory",
+			"path": "montage"
+		},
+		"recycleCollectionRegex": "p{tt}_x{xx}_y{yy}_r{rr}_c{cc}.ome.zarr",
+		"recycleCollectionDir": {
+			"class": "Directory",
+			"path": "/home/ec2-user/cwl/montage-recycle/data"
+		},
+		"recycleGroupBy": "r",
+		"recycleOutputName": {
+			"class": "Directory",
+			"path": "recycle"
+		}
+	},
+	"steps": {
+		"montage-recycle": {
+			"run": "pipeline:montage-recycle:0.0.1",
+			"in": {
+				"filePattern": "montageFilePattern",
+				"inpDir": "montageInpDir",
+				"layout": "montageLayout",
+				"montageoutDir": "montageOutputName",
+				"groupBy": "recycleGroupBy",
+				"collectionRegex": "recycleCollectionRegex",
+				"stitchRegex": "recycleCollectionRegex",
+				"stitchDir": "montage/montageoutDir",
+				"collectionDir": "montageInpDir",
+				"recycleoutDir": "recycleOutputName",
+				"imageSpacing": "montageImageSpacing",
+				"gridSpacing": "montageGridSpacing"
+			},
+			"out": [
+				"montageoutDir",
+				"montageStdOut",
+				"montageStdErr",
+				"recycleoutDir",
+				"recycleStdOut",
+				"recycleStdErr"
+			]
+		}
+	}
+}

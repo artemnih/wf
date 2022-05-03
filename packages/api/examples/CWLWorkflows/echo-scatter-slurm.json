@@ -1,0 +1,41 @@
+{
+	"name": "echo-scatter-slurm",
+	"driver": "slurm",
+	"inputs": {
+		"helloArray": "string[]"
+	},
+	"outputs": {
+		"echoStdOut": {
+			"type": "File[]",
+			"outputSource": [
+				"echo/echoStdOut"
+			]
+		},
+		"echoStdErr": {
+			"type": "File[]",
+			"outputSource": [
+				"echo/echoStdErr"
+			]
+		}
+	},
+	"cwlJobInputs": {
+		"helloArray": [
+			"hello",
+			"nihao",
+			"hola"
+		]
+	},
+	"steps": {
+		"echo": {
+			"run": "plugin:echo:0.0.1",
+			"scatter": "message",
+			"in": {
+				"message": "helloArray"
+			},
+			"out": [
+				"echoStdOut",
+				"echoStdErr"
+			]
+		}
+	}
+}
