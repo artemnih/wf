@@ -10,7 +10,7 @@ pipeline {
         string(name: 'HELM_DEPLOYMENT_NAME', defaultValue: 'ci-compute', description: 'Helm Deployment Name')
     }
     environment {
-        PROJECT_NAME = "labshare/compute-api"
+        PROJECT_NAME = "polusai/compute"
     }
     triggers {
         pollSCM('H/5 * * * *')
@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Deploy to CI with Helm') {
             steps {
-                dir('deploy/helm') {
+                dir('deploy/helm/api') {
                     // Helm values are stored in yaml file in Jenkins
                     configFileProvider([configFile(fileId: 'ci-helm-values', targetLocation: 'ci-values.yaml')]) {               
                         withAWS(credentials:'aws-jenkins-eks') {
