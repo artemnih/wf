@@ -10,7 +10,7 @@ pipeline {
         string(name: 'HELM_DEPLOYMENT_NAME', defaultValue: 'ci-argo-compute', description: 'Helm Deployment Name')
     }
     environment {
-        PROJECT_NAME = "labshare/argo-compute"
+        PROJECT_NAME = "polusai/compute"
     }
     triggers {
         pollSCM('H/5 * * * *')
