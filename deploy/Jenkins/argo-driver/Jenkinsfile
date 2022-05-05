@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Deploy to CI with Helm') {
             steps {
-                dir('deploy/helm') {
+                dir('deploy/helm/argo-driver') {
                     // Helm values are stored in yaml file in Jenkins
                     configFileProvider([configFile(fileId: 'ci-argo-helm-values', targetLocation: 'ci-values.yaml')]) {               
                         withAWS(credentials:'aws-jenkins-eks') {
