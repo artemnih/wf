@@ -14,7 +14,7 @@ pipeline {
     }
     environment {
         PROJECT_NAME = "polusai/compute"
-        XDG_CONFIG_HOME = "/tmp"
+        XDG_CONFIG_HOME = "/config"
     }
     triggers {
         pollSCM('H/5 * * * *')
