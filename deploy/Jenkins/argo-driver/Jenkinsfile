@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker { 
             image 'sunnielyu/helm-jenkins:0.4.0'
+            args '-u 0:0'
             label 'linux && build && aws'
         }
     }
@@ -21,11 +22,13 @@ pipeline {
     stages {
         stage('Deploy to CI with Helm') {
             steps {
-                // Helm values are stored in yaml file in Jenkins
-                configFileProvider([configFile(fileId: 'ci-argo-helm-values', targetLocation: 'ci-values.yaml')]) {               
-                    withAWS(credentials:'aws-jenkins-eks') {
-                        sh "aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}"
-                        sh "helm upgrade --install ${HELM_DEPLOYMENT_NAME} deploy/helm/argo-driver --values ci-values.yaml --namespace ${KUBERNETES_NAMESPACE}"
+                dir('deploy/helm/argo-driver') {
+                    // Helm values are stored in yaml file in Jenkins
+                    configFileProvider([configFile(fileId: 'ci-argo-helm-values', targetLocation: 'ci-values.yaml')]) {               
+                        withAWS(credentials:'aws-jenkins-eks') {
+                            sh "aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}"
+                            sh "helm upgrade --install ${HELM_DEPLOYMENT_NAME} . --values ci-values.yaml --namespace ${KUBERNETES_NAMESPACE}"
+                        }
                     }
                 }
             }
