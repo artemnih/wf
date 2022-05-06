@@ -27,6 +27,7 @@ pipeline {
                     configFileProvider([configFile(fileId: 'ci-helm-values', targetLocation: 'ci-values.yaml')]) {               
                         withAWS(credentials:'aws-jenkins-eks') {
                             sh "aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}"
+                            sh "mkdir /config/helm"
                             sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
                             sh "helm dependency update"
                             sh "helm dependency build"
