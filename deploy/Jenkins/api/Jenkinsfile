@@ -21,14 +21,16 @@ pipeline {
     stages {
         stage('Deploy to CI with Helm') {
             steps {
-                // Helm values are stored in yaml file in Jenkins
-                configFileProvider([configFile(fileId: 'ci-helm-values', targetLocation: 'ci-values.yaml')]) {               
-                    withAWS(credentials:'aws-jenkins-eks') {
-                        sh "aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}"
-                        sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
-                        sh "helm dependency update"
-                        sh "helm dependency build"
-                        sh "helm upgrade --install ${HELM_DEPLOYMENT_NAME} deploy/helm/api --values ci-values.yaml --namespace ${KUBERNETES_NAMESPACE}" 
+                dir('deploy/helm/api') {
+                    // Helm values are stored in yaml file in Jenkins
+                    configFileProvider([configFile(fileId: 'ci-helm-values', targetLocation: 'ci-values.yaml')]) {               
+                        withAWS(credentials:'aws-jenkins-eks') {
+                            sh "aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}"
+                            sh "helm repo add bitnami https://charts.bitnami.com/bitnami"
+                            sh "helm dependency update"
+                            sh "helm dependency build"
+                            sh "helm upgrade --install ${HELM_DEPLOYMENT_NAME} . --values ci-values.yaml --namespace ${KUBERNETES_NAMESPACE}" 
+                        }
                     }
                 }
             }
