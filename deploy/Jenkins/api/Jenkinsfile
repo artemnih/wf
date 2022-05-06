@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker { 
             image 'sunnielyu/helm-jenkins:0.4.0'
-            args '-u root:sudo'
+            args '-u 0:0'
             label 'linux && build && aws'
         }
     }
