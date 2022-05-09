@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker { 
-            image 'polusai/helm-jenkins:0.1.0'
+            image 'polusai/helm-jenkins:0.1.1'
             label 'linux && build && aws'
         }
     }
