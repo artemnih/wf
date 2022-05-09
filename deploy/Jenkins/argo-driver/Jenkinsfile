@@ -19,6 +19,12 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     stages {
+        stage('Checkout source code') {
+            steps {
+                cleanWs()
+                checkout scm
+            }
+        }
         stage('Deploy to CI with Helm') {
             steps {
                 dir('deploy/helm/argo-driver') {
