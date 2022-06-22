@@ -7,7 +7,7 @@ export const driverUrl = (driverType: string) => {
   const config = require('config');
   try {
     const driverInfo = config.compute.drivers[`${driverType.toLowerCase()}Driver`];
-    return `http://${driverInfo.host}:${driverInfo.port}`;
+    return `${driverInfo.scheme}://${driverInfo.host}:${driverInfo.port}`;
   } catch {
     throw Error('Unsupported Driver');
   }

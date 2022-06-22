@@ -7,6 +7,8 @@ import { ApplicationConfig } from '@loopback/core';
 import { RepositoryMixin } from '@loopback/repository';
 import { RestApplication } from '@loopback/rest';
 import { RestExplorerBindings, RestExplorerComponent } from '@loopback/rest-explorer';
+import {SECURITY_SCHEME_SPEC} from './utils/security-spec';
+import readPkg = require('read-pkg');
 import { ServiceMixin } from '@loopback/service-proxy';
 import { LabShareSequence } from './sequence';
 import { ComputeApiBindings } from './keys';
@@ -22,9 +24,23 @@ export class ComputeApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
 
+    const pkg = readPkg.sync();
+
+    this.api({
+      openapi: '3.0.0',
+      info: {
+        title: 'Compute API',
+        version: pkg.version
+      },
+      paths: {},
+      components: {securitySchemes: SECURITY_SCHEME_SPEC},
+      security: [{oauth2: []}],
+    });
+
     // Customize @loopback/rest-explorer configuration here
     this.configure(RestExplorerBindings.COMPONENT).to({
       path: '/explorer',
+      indexTemplatePath: path.resolve(__dirname, '../explorer/index.html.ejs'),
     });
     this.component(RestExplorerComponent);
 

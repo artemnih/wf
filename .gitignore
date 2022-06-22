@@ -116,4 +116,5 @@ packages/**/dist
 .DS_Store
 
 # Helm cache
-deploy/helm/**/charts
+deploy/helm/api/**/charts
+deploy/helm/argo-driver/charts/**/charts

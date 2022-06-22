@@ -58,7 +58,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
             {
               name: 'wipp-data-volume',
               persistentVolumeClaim: {
-                claimName: 'wipp-pv-claim',
+                claimName: 'compute-pv-claim',
               },
             },
           ],
@@ -170,7 +170,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
             {
               name: 'wipp-data-volume',
               persistentVolumeClaim: {
-                claimName: 'wipp-pv-claim',
+                claimName: 'compute-pv-claim',
               },
             },
           ],
@@ -301,7 +301,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
             {
               name: 'wipp-data-volume',
               persistentVolumeClaim: {
-                claimName: 'wipp-pv-claim',
+                claimName: 'compute-pv-claim',
               },
             },
           ],
@@ -447,7 +447,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
             {
               name: 'wipp-data-volume',
               persistentVolumeClaim: {
-                claimName: 'wipp-pv-claim',
+                claimName: 'compute-pv-claim',
               },
             },
           ],
@@ -658,7 +658,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
             {
               name: 'wipp-data-volume',
               persistentVolumeClaim: {
-                claimName: 'wipp-pv-claim',
+                claimName: 'compute-pv-claim',
               },
             },
           ],
@@ -1054,7 +1054,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
             {
               name: 'wipp-data-volume',
               persistentVolumeClaim: {
-                claimName: 'wipp-pv-claim',
+                claimName: 'compute-pv-claim',
               },
             },
           ],
@@ -1370,7 +1370,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
             {
               name: 'wipp-data-volume',
               persistentVolumeClaim: {
-                claimName: 'wipp-pv-claim',
+                claimName: 'compute-pv-claim',
               },
             },
           ],
@@ -1527,7 +1527,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           volumes: [
             {
               name: 'wipp-data-volume',
-              persistentVolumeClaim: {claimName: 'wipp-pv-claim'},
+              persistentVolumeClaim: {claimName: 'compute-pv-claim'},
             },
           ],
           entrypoint: 'workflow',
@@ -1711,7 +1711,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           volumes: [
             {
               name: 'wipp-data-volume',
-              persistentVolumeClaim: {claimName: 'wipp-pv-claim'},
+              persistentVolumeClaim: {claimName: 'compute-pv-claim'},
             },
           ],
           entrypoint: 'workflow',
@@ -2046,7 +2046,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           volumes: [
             {
               name: 'wipp-data-volume',
-              persistentVolumeClaim: {claimName: 'wipp-pv-claim'},
+              persistentVolumeClaim: {claimName: 'compute-pv-claim'},
             },
           ],
           entrypoint: 'workflow',

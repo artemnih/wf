@@ -4,7 +4,8 @@ module.exports = {
     port: +(process.env.ARGO_DRIVER_SERVICE_PORT || 7999),
     host: process.env.ARGO_DRIVER_SERVICE_HOST || '0.0.0.0',
     openApiSpec: {
-      setServersFromRequest: true,
+      setServersFromRequest: false,
+      servers: [{url: '/'}],
     },
     listenOnStart: false,
   },
@@ -43,7 +44,6 @@ module.exports = {
     email:{
       to: process.env.TEMPLATE_EMAIL_TO
     },
-    compute: process.env.COMPUTE_API_HOST || 'http://127.0.0.1:8000/compute',
     db:{
       name: "ApiDS",
       connector: "memory",
@@ -51,14 +51,16 @@ module.exports = {
       file: ""
     },
     argo: {
-      argoUrl: process.env.ARGO
+      argoUrl: process.env.ARGO,
+      tokenPath: process.env.ARGO_TOKEN_PATH || ''
     },
     volumeDefinitions: {
-      name: 'wipp-data-volume',
-      mountPath: '/data/inputs',
-      outputPath: '/data/outputs',
-      subPath: 'temp/jobs',
-      absoluteOutputPath: '/data/inputs/temp/jobs'
+      pvcName: process.env.VOLUME_PVC_NAME || 'compute-pv-claim',
+      name: 'compute-data-volume',
+      mountPath: process.env.VOLUME_MOUNT_PATH,
+      outputPath: process.env.VOLUME_OUTPUT_PATH,
+      subPath: process.env.VOLUME_SUB_PATH,
+      absoluteOutputPath: process.env.VOLUME_ABSOLUTE_OUTPUT_PATH,
     }
   }
 };

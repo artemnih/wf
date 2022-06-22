@@ -1,9 +1,10 @@
 module.exports = {
   rest: {
-    port: +(process.env.COMPUTE_API_PORT || 8000),
-    host: process.env.COMPUTE_API_HOST || '0.0.0.0',
+    port: +(process.env.PORT || 8000),
+    host: process.env.HOST || '0.0.0.0',
     openApiSpec: {
-      setServersFromRequest: true,
+      setServersFromRequest: false,
+      servers: [{url: '/'}],
     },
     listenOnStart: false,
   },
@@ -43,10 +44,12 @@ module.exports = {
     },
     drivers: {
       argoDriver: {
+        scheme: process.env.ARGO_DRIVER_SCHEME || 'http',
         host: process.env.ARGO_DRIVER_URL || '127.0.0.1',
         port: process.env.ARGO_DRIVER_PORT || '7999',  
       },
       slurmDriver: {
+        scheme: process.env.SLURM_DRIVER_SCHEME || 'http',
         host: process.env.SLURM_DRIVER_URL || '127.0.0.1',
         port: process.env.SLURM_DRIVER_PORT || '7998',
       },

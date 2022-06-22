@@ -1,5 +1,4 @@
-import {default as axios} from 'axios';
-import {argoUrl} from '.';
+import {argoApiInstance} from '.';
 
 export interface ArgoWorkflowStatus {
   status: string;
@@ -10,7 +9,7 @@ export interface ArgoWorkflowStatus {
 export async function statusOfArgoWorkflow(
   argoWorkflowName: string,
 ): Promise<ArgoWorkflowStatus> {
-  const response = await axios.get(`${argoUrl()}/${argoWorkflowName}`);
+  const response = await argoApiInstance().get(`/${argoWorkflowName}`);
   return {
     status: response.data.status.phase,
     dateCreated: response.data.status.startedAt,

@@ -5,7 +5,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: {{.Values.argo.port}}
-      targetPort: {{.Values.argo.port}}
+    - port: {{.Values.driver.port}}
+      targetPort: {{.Values.driver.port}}
   selector:
     app: {{.Release.Name}}

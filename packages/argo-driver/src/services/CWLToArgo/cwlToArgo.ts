@@ -13,6 +13,9 @@ import {determineDependencies} from './determineDependencies';
 import {MappedOutput, mapOutputToInputs} from './mapOutputToInputs';
 import {addOperatorPlugin} from './addOperatorPlugins';
 function defaultArgoWorkflowTemplate(): ArgoWorklowTemplate {
+  require('dotenv').config();
+  const argoConfig = require('config');
+
   return {
     namespace: 'default',
     serverDryRun: false,
@@ -29,9 +32,9 @@ function defaultArgoWorkflowTemplate(): ArgoWorklowTemplate {
       spec: {
         volumes: [
           {
-            name: 'wipp-data-volume',
+            name: argoConfig.argoCompute.volumeDefinitions.name,
             persistentVolumeClaim: {
-              claimName: 'wipp-pv-claim',
+              claimName: argoConfig.argoCompute.volumeDefinitions.pvcName,
             },
           },
         ],

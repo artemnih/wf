@@ -1,6 +1,6 @@
 {
   "name": "argo-compute",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "contributors": "https://github.com/LabShare/argo-compute/graphs/contributors",
   "description": "Argo-Compute Driver",

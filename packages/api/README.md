@@ -1,6 +1,6 @@
 # Compute
 
-This project is the compute api.
+This package is the Compute API server.
 
 - Definitions are defined [here](docs/README.md)
 
@@ -36,11 +36,11 @@ These are the relevant environment variables.
 | SLURM_DRIVER_URL      | Host name of the head node where slurm-driver is deployed |
 | SLURM_DRIVER_PORT     | Port of slurm-driver                                      |
 | COMPUTE_SERVICE_NAME  | Name of compute container                                 |
-| SERVICES_AUTH_URL     | URL for auth api                                          |
-| SERVICES_AUTH_TENANT  | Tenant for our compute platform                           |
+| SERVICES_AUTH_URL     | LabShare Auth API URL                                     |
+| SERVICES_AUTH_TENANT  | LabShare Auth Tenant for Argo driver                      |
 
 For a local development, you only need to define SLURM_DRIVER_URL, SERVICES_AUTH_URL and SERVICES_AUTH_TENANT. The [defaults](config/default.js) assume localhost.
 
 ## Deployment
 
-The deployment of compute is using helm charts under deployments/helm.
+Kubernetes deployment of Compute API is done using [Helm chart](../../deploy/helm/api).

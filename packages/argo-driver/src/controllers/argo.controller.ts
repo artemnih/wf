@@ -20,6 +20,7 @@ import {
 import {getTargetFromJobs} from '../services';
 import {Target} from '../services/getTargetFromJobs';
 import {authenticate} from '@labshare/services-auth';
+import {OPERATION_SECURITY_SPEC} from '../utils/security-spec';
 
 const STATUS_RESPONSE: ResponseObject = {
   description: 'Workflow Status',
@@ -74,6 +75,7 @@ export class ArgoController {
     public argoRepository: ArgoRepository,
   ) {}
   @post('/compute/argo', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
         description: 'Argo model instance',
@@ -101,6 +103,7 @@ export class ArgoController {
     );
   }
   @get('/compute/argo/{id}/status', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': STATUS_RESPONSE,
     },
@@ -111,6 +114,7 @@ export class ArgoController {
     return statusOfArgoWorkflow(id);
   }
   @get('/compute/argo/{id}/logs', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': LOGS_RESPONSE,
     },
@@ -121,6 +125,7 @@ export class ArgoController {
   }
 
   @get('/compute/argo/{id}/outputs', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': LOGS_RESPONSE,
     },
@@ -133,6 +138,7 @@ export class ArgoController {
     return getTargetFromJobs(jobs, Target.outputs);
   }
   @get('/compute/argo/{id}/jobs', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': LOGS_RESPONSE,
     },
@@ -143,6 +149,7 @@ export class ArgoController {
     return getArgoJobsAndUpdateComputeJobs(id);
   }
   @put('/compute/argo/{id}/stop', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': 'Workflow stopped',
     },

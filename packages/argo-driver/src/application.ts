@@ -16,6 +16,8 @@ import {
   RestExplorerBindings,
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
+import {SECURITY_SCHEME_SPEC} from './utils/security-spec';
+import readPkg = require('read-pkg');
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 
@@ -32,9 +34,22 @@ export class ArgoComputeApplication extends BootMixin(
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
 
+    const pkg = readPkg.sync();
+
+    this.api({
+      openapi: '3.0.0',
+      info: {
+        title: 'Argo Compute API',
+        version: pkg.version
+      },
+      paths: {},
+      components: {securitySchemes: SECURITY_SCHEME_SPEC},
+    });
+
     // Customize @loopback/rest-explorer configuration here
     this.configure(RestExplorerBindings.COMPONENT).to({
       path: '/explorer',
+      useSelfHostedSpec: true,
     });
     this.component(RestExplorerComponent);
 

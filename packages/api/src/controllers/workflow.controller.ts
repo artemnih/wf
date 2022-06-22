@@ -1,7 +1,7 @@
 import { authenticate } from '@labshare/services-auth';
 import { inject } from '@loopback/context';
 import { DateType, Filter, FilterExcludingWhere, repository } from '@loopback/repository';
-import { get, getModelSchemaRef, put, patch, param, post, requestBody, Request, RestBindings, ResponseObject, HttpErrors } from '@loopback/rest';
+import { get, getModelSchemaRef, put, patch, param, post, requestBody, Request, RestBindings, ResponseObject } from '@loopback/rest';
 import { Workflow } from '../models';
 import { PipelineRepository, PluginRepository, WorkflowRepository } from '../repositories';
 import { createPipeline, workflowToPipeline } from '../services/workflowToPipeline';

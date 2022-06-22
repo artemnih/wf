@@ -16,17 +16,32 @@ spec:
     spec:
       containers:
         - name: argo
-          image: {{.Values.argo.image.name}}
+          image: {{.Values.driver.image.name}}
+          imagePullPolicy: Always
           env:
             - name: ARGO_DRIVER_SERVICE_PORT
-              value: '{{.Values.argo.port}}'
+              value: '{{.Values.driver.port}}'
             - name: ARGO
-              value: {{.Values.argo.host}}
+              value: http://{{.Release.Name}}-server:80/api/v1/workflows/default
+            - name: ARGO_TOKEN_PATH
+              value: '/var/run/secrets/kubernetes.io/serviceaccount/token'
+            - name: VOLUME_PVC_NAME
+              value: '{{.Values.driver.volume.pvcName}}'
+            - name: VOLUME_MOUNT_PATH
+              value: '{{.Values.driver.volume.mountPath}}'
+            - name: VOLUME_OUTPUT_PATH
+              value: '{{.Values.driver.volume.outputPath}}'
+            - name: VOLUME_SUB_PATH
+              value: '{{.Values.driver.volume.subPath}}'
+            - name: VOLUME_ABSOLUTE_OUTPUT_PATH
+              value: '{{.Values.driver.volume.absoluteOutputPath}}'
             - name: SERVICES_AUTH_URL
-              value: {{.Values.argo.auth.url}}
+              value: {{.Values.driver.auth.url}}
             - name: SERVICES_AUTH_TENANT
-              value: {{.Values.argo.auth.tenant}}
+              value: {{.Values.driver.auth.tenant}}
           ports:
-            - containerPort: {{.Values.argo.port}}
+            - containerPort: {{.Values.driver.port}}
       imagePullSecrets:
-        - name: {{.Values.argo.image.secret}}
+        - name: {{.Values.driver.image.pullSecret}}
+      serviceAccount: {{.Release.Name}}
+      serviceAccountName: {{.Release.Name}}

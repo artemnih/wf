@@ -1,16 +1,18 @@
 compute:
   name: compute
   image:
-    name: polusai/compute-api:0.0.2
+    name: polusai/compute-api:0.0.3
     secret: null
   ingress:
     enabled: false
     host: null
   drivers:
     argo:
+      scheme: http
       url: null
       port: 7999
     slurm:
+      scheme: http
       url: null
       port: 7998
   auth:

@@ -1,5 +1,4 @@
-import {default as axios} from 'axios';
-import {argoUrl} from '.';
+import {argoApiInstance} from '.';
 import {MinimalJob} from '../../types';
 import {getJobsFromArgoApi} from './getJobsFromArgoApi';
 
@@ -34,7 +33,7 @@ export async function getArgoJobsAndUpdateComputeJobs(argoName: string) {
 export async function getWorkflowFromArgo(
   argoName: string,
 ): Promise<ArgoJobStatus> {
-  const response = await axios.get(`${argoUrl()}/${argoName}`);
+  const response = await argoApiInstance().get(`/${argoName}`);
   return {data: response.data};
 }
 export async function getArgoJobStatus(
