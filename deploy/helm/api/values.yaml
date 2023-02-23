@@ -1,7 +1,7 @@
 compute:
   name: compute
   image:
-    name: polusai/compute-api:0.0.3
+    name: polusai/compute-api:0.0.4
     secret: null
   ingress:
     enabled: false
