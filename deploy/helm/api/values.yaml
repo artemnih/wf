@@ -18,6 +18,8 @@ compute:
   auth:
     url: null
     tenant: null
+  cors:
+    origin: "*"
 
 mongodb:
   persistence:

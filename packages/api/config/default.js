@@ -7,6 +7,9 @@ module.exports = {
       servers: [{url: '/'}],
     },
     listenOnStart: false,
+    cors: {
+      origin: process.env.CORS_ORIGIN || '*',
+    },
   },
   services: {
     auth: {
