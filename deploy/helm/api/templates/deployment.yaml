@@ -36,6 +36,8 @@ spec:
               value: "{{ .Values.compute.drivers.slurm.port }}"
             - name: COMPUTE_SERVICE_NAME
               value: "{{ .Values.compute.name }}"
+            - name: CORS_ORIGIN
+              value: "{{ .Values.compute.cors.origin }}"
             - name: SERVICES_AUTH_URL
               value: "{{ .Values.compute.auth.url }}"
             - name: SERVICES_AUTH_TENANT
