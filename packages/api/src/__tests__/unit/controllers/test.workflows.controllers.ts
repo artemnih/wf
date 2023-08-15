@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { createStubInstance, expect, StubbedInstanceWithSinonAccessor } from '@loopback/testlab';
-import { PipelineRepository, PluginRepository, WorkflowRepository } from '../../../repositories';
+import { PipelineRepository, WorkflowRepository } from '../../../repositories';
 import { WorkflowController } from '../../../controllers';
 import { Workflow } from '../../../models';
 import { Request } from '@loopback/rest';
@@ -8,12 +8,11 @@ import { Request } from '@loopback/rest';
 describe('Workflow Controller', () => {
   const req = {headers: {authorization: ''}};
   let workflowRepository: StubbedInstanceWithSinonAccessor<WorkflowRepository>;
-  let pluginRepository: StubbedInstanceWithSinonAccessor<PluginRepository>;
   let pipelineRepository: StubbedInstanceWithSinonAccessor<PipelineRepository>;
 
   beforeEach(givenStubbedRepository);
   it('submit a workflow', async () => {
-    const controller = new WorkflowController(workflowRepository, req as Request, pluginRepository, pipelineRepository);
+    const controller = new WorkflowController(workflowRepository, req as Request, pipelineRepository);
 
     const workflow = {
       driver: 'Argo',
@@ -37,7 +36,7 @@ describe('Workflow Controller', () => {
     expect(details).to.be.eql(trueWorkflow);
   });
   it('Error on workflow with id specified', async () => {
-    const controller = new WorkflowController(workflowRepository, req as Request, pluginRepository, pipelineRepository);
+    const controller = new WorkflowController(workflowRepository, req as Request, pipelineRepository);
 
     const workflow = {
       id: 'test',
@@ -64,7 +63,7 @@ describe('Workflow Controller', () => {
     }
   });
   it('Resubmit a workflow', async () => {
-    const controller = new WorkflowController(workflowRepository, req as Request, pluginRepository, pipelineRepository);
+    const controller = new WorkflowController(workflowRepository, req as Request, pipelineRepository);
 
     const trueWorkflow = new Workflow({ id: 'blah' });
     workflowRepository.stubs.resubmitWorkflow.resolves(trueWorkflow);
@@ -75,19 +74,19 @@ describe('Workflow Controller', () => {
     expect(workflow).to.be.eql(new Workflow({ id: 'blah' }));
   });
   it('Get workflow by id', async () => {
-    const controller = new WorkflowController(workflowRepository, req as Request, pluginRepository, pipelineRepository);
+    const controller = new WorkflowController(workflowRepository, req as Request, pipelineRepository);
     workflowRepository.stubs.findById.resolves(new Workflow({ id: 'hello', title: 'hello' }));
     const plugins = await controller.findById('hello');
     expect(plugins).to.be.eql(new Workflow({ title: 'hello', id: 'hello' }));
   });
   it('Get workflows', async () => {
-    const controller = new WorkflowController(workflowRepository, req as Request, pluginRepository, pipelineRepository);
+    const controller = new WorkflowController(workflowRepository, req as Request, pipelineRepository);
     workflowRepository.stubs.find.resolves([new Workflow(), new Workflow()]);
     const plugins = await controller.find();
     expect(plugins).to.be.eql([new Workflow(), new Workflow()]);
   });
   it('Update Workflow by id ', async () => {
-    const controller = new WorkflowController(workflowRepository, req as Request, pluginRepository, pipelineRepository);
+    const controller = new WorkflowController(workflowRepository, req as Request, pipelineRepository);
     workflowRepository.stubs.updateById.resolves();
     try {
       await controller.updateById('test', new Workflow());
@@ -97,7 +96,7 @@ describe('Workflow Controller', () => {
     }
   });
   it('Workflow Status by id', async () => {
-    const controller = new WorkflowController(workflowRepository, req as Request, pluginRepository, pipelineRepository);
+    const controller = new WorkflowController(workflowRepository, req as Request, pipelineRepository);
     const workflow = {
       status: 'finished',
       dateCreated: '01/01/2020',
@@ -110,7 +109,7 @@ describe('Workflow Controller', () => {
     expect(status).to.be.eql({ status: 'finished', dateCreated: '01/01/2020', dateFinished: '02/02/2020' });
   });
   it('Stop Workflow', async () => {
-    const controller = new WorkflowController(workflowRepository, req as Request, pluginRepository, pipelineRepository);
+    const controller = new WorkflowController(workflowRepository, req as Request, pipelineRepository);
     const workflow = {
       status: 'running',
     };
@@ -127,7 +126,6 @@ describe('Workflow Controller', () => {
 
   function givenStubbedRepository() {
     workflowRepository = createStubInstance(WorkflowRepository);
-    pluginRepository = createStubInstance(PluginRepository);
     pipelineRepository = createStubInstance(PipelineRepository);
   }
 });

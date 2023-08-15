@@ -3,7 +3,7 @@ import { inject } from '@loopback/context';
 import { DateType, Filter, FilterExcludingWhere, repository } from '@loopback/repository';
 import { get, getModelSchemaRef, put, patch, param, post, requestBody, Request, RestBindings, ResponseObject } from '@loopback/rest';
 import { Workflow } from '../models';
-import { PipelineRepository, PluginRepository, WorkflowRepository } from '../repositories';
+import { PipelineRepository, WorkflowRepository } from '../repositories';
 import { createPipeline, workflowToPipeline } from '../services/workflowToPipeline';
 
 const STATUS_RESPONSE: ResponseObject = {
@@ -62,8 +62,6 @@ export class WorkflowController {
     @repository(WorkflowRepository)
     public workflowRepository: WorkflowRepository,
     @inject(RestBindings.Http.REQUEST) private req: Request,
-    @repository(PluginRepository)
-    public pluginRepository: PluginRepository,
     @repository(PipelineRepository)
     public pipelineRepository: PipelineRepository,
   ) {}
@@ -94,7 +92,6 @@ export class WorkflowController {
     const workflowCreated = await this.workflowRepository.create(workflow);
     await this.workflowRepository.submitWorkflowToDriver(
       workflowCreated,
-      this.pluginRepository,
       this.pipelineRepository,
       this.req.headers.authorization as string,
     );

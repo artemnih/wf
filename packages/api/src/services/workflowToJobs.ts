@@ -1,10 +1,9 @@
 import { Job, Plugin, Workflow } from '../models';
 import { workflowToCwl } from '../services/CWLConvertors';
 import { existsSync, readFileSync } from 'fs';
-import { PluginRepository } from '../repositories';
 import { HttpErrors } from '@loopback/rest';
 
-export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: object, pluginRepository: PluginRepository): Promise<Job[]> {
+export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: object): Promise<Job[]> {
   const workflow = workflowToCwl(workflowModel);
 
   const jobArray: Job[] = [];
@@ -29,13 +28,13 @@ export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: obje
     workflow.steps[element].out.forEach((value) => {
       outputsToConvert[value] = '';
     });
-    const commandLineTool = await getScript(workflow.steps[element].run, pluginRepository);
+    const commandLineTool = new Plugin({ cwlScript: { ...workflow.steps[element].run as Object} });
     const job = new Job({
       driver: workflowModel.driver,
       workflowId: workflowModel.id ? workflowModel.id : workflowModel.name,
       status: 'PENDING',
       stepName: element,
-      scriptPath: workflow.steps[element].run,
+      scriptPath: 'default-path', // TODO: This should be removed if we are using the cwlScript Object instead of a path
       commandLineTool: commandLineTool.cwlScript,
       inputs: inputsToConvert,
       outputs: outputsToConvert,
@@ -45,14 +44,17 @@ export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: obje
   }
   return jobArray;
 }
-async function getScript(path: string, pluginRepository: PluginRepository): Promise<Plugin> {
+async function getScript(path: string): Promise<Plugin> {
   // For unit testing, read files from disk rather than rely on repository.
+  // add testing and use an object instead of passing a path
   if (existsSync(path)) {
     const CLT = JSON.parse(readFileSync(path, 'utf8'));
     return new Plugin({ cwlScript: { ...CLT } });
   }
   const pathSplit = path.split(':');
-  const plugin = await pluginRepository.findOne({ where: { name: pathSplit[1], version: pathSplit[2] } });
+  // const plugin = await pluginRepository.findOne({ where: { name: pathSplit[1], version: pathSplit[2] } });
+  // use an empty plugin
+  const plugin = {};
   if (!plugin) {
     throw new HttpErrors.NotFound(`The plugin with name of ${pathSplit[1]} and version of ${pathSplit[2]} was not found`);
   }
