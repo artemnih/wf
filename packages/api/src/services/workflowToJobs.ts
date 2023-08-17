@@ -32,7 +32,6 @@ export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: obje
       workflowId: workflowModel.id ? workflowModel.id : workflowModel.name,
       status: 'PENDING',
       stepName: element,
-      scriptPath: 'default-path', // TODO: This should be removed if we are using the cwlScript Object instead of a path
       commandLineTool: commandLineTool.cwlScript,
       inputs: inputsToConvert,
       outputs: outputsToConvert,
