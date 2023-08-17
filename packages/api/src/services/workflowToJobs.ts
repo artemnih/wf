@@ -1,7 +1,5 @@
 import { Job, Plugin, Workflow } from '../models';
 import { workflowToCwl } from '../services/CWLConvertors';
-import { existsSync, readFileSync } from 'fs';
-import { HttpErrors } from '@loopback/rest';
 
 export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: object): Promise<Job[]> {
   const workflow = workflowToCwl(workflowModel);
@@ -43,20 +41,4 @@ export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: obje
     jobArray.push(job);
   }
   return jobArray;
-}
-async function getScript(path: string): Promise<Plugin> {
-  // For unit testing, read files from disk rather than rely on repository.
-  // add testing and use an object instead of passing a path
-  if (existsSync(path)) {
-    const CLT = JSON.parse(readFileSync(path, 'utf8'));
-    return new Plugin({ cwlScript: { ...CLT } });
-  }
-  const pathSplit = path.split(':');
-  // const plugin = await pluginRepository.findOne({ where: { name: pathSplit[1], version: pathSplit[2] } });
-  // use an empty plugin
-  const plugin = {};
-  if (!plugin) {
-    throw new HttpErrors.NotFound(`The plugin with name of ${pathSplit[1]} and version of ${pathSplit[2]} was not found`);
-  }
-  return plugin as Plugin;
 }
