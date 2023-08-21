@@ -55,7 +55,7 @@ interface Status {
   status: string;
   dateFinished: string;
 }
-// @authenticate()
+@authenticate()
 export class WorkflowController {
   constructor(
     @repository(WorkflowRepository)
