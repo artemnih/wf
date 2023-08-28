@@ -3,8 +3,7 @@ import { inject } from '@loopback/context';
 import { DateType, Filter, FilterExcludingWhere, repository } from '@loopback/repository';
 import { get, getModelSchemaRef, put, patch, param, post, requestBody, Request, RestBindings, ResponseObject } from '@loopback/rest';
 import { Workflow } from '../models';
-import { PipelineRepository, PluginRepository, WorkflowRepository } from '../repositories';
-import { createPipeline, workflowToPipeline } from '../services/workflowToPipeline';
+import { WorkflowRepository } from '../repositories';
 
 const STATUS_RESPONSE: ResponseObject = {
   description: 'Workflow Status',
@@ -62,10 +61,6 @@ export class WorkflowController {
     @repository(WorkflowRepository)
     public workflowRepository: WorkflowRepository,
     @inject(RestBindings.Http.REQUEST) private req: Request,
-    @repository(PluginRepository)
-    public pluginRepository: PluginRepository,
-    @repository(PipelineRepository)
-    public pipelineRepository: PipelineRepository,
   ) {}
 
   @post('/compute/workflows', {
@@ -94,8 +89,6 @@ export class WorkflowController {
     const workflowCreated = await this.workflowRepository.create(workflow);
     await this.workflowRepository.submitWorkflowToDriver(
       workflowCreated,
-      this.pluginRepository,
-      this.pipelineRepository,
       this.req.headers.authorization as string,
     );
     return workflowCreated;
@@ -275,35 +268,6 @@ export class WorkflowController {
     return this.workflowRepository.updateById(id, foundWorkflow);
   }
 
-  @put('/compute/workflows/{id}/saveAsPipeline', {
-    responses: {
-      '204': {
-        description: 'NewWorkflow From Pipeline',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              title: 'WorkflowStatus',
-              properties: {
-                workflowId: { type: 'string' },
-              },
-            },
-          },
-        },
-      },
-    },
-  })
-  async saveAsPipeline(
-    @param.path.string('id') id: string,
-    @param.path.string('name') name: string,
-    @param.path.string('version') version: string,
-  ): Promise<string> {
-    const foundWorkflow = await this.workflowRepository.findById(id);
-    const pipeline = workflowToPipeline(foundWorkflow, name, version);
-    const pipelineToWorkflow = await createPipeline(pipeline, this.pipelineRepository);
-    console.log(`Workflow ${id} converted to pipeline with pipeline id ${pipelineToWorkflow.id}`);
-    return pipelineToWorkflow.id as string;
-  }
   // Map to `GET /ping`
   @get('/compute/health/{driver}', {
     responses: {

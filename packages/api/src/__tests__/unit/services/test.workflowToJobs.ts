@@ -4,7 +4,6 @@ import { cwlJobInputs } from '../../../services/CWLConvertors';
 import { workflowToJobs } from '../../../services';
 import { createStubInstance, expect, StubbedInstanceWithSinonAccessor } from '@loopback/testlab';
 import { readFileSync } from 'fs';
-import { PluginRepository } from '../../../repositories';
 
 const montage = 'src/__tests__/data/CLT/612fc61ba21dcd5b4f2abbe1.cwl';
 const recycle = 'src/__tests__/data/CLT/612fc674a21dcd5b4f2abbe2.cwl';
@@ -13,9 +12,6 @@ const readFile = (file: string) => {
   return JSON.parse(readFileSync(file, 'utf8'));
 };
 describe('Workflow to Job Array', () => {
-  let pluginRepository: StubbedInstanceWithSinonAccessor<PluginRepository>;
-  beforeEach(givenStubbedRepository);
-
   it('montage-recycle cwl workflow', async () => {
     const workflow = {
       name: 'hello',
@@ -213,10 +209,7 @@ describe('Workflow to Job Array', () => {
       }),
     ];
     const workflowModel = new Workflow(workflow);
-    const test = await workflowToJobs(workflowModel, cwlJobInputs(workflowModel), pluginRepository);
+    const test = await workflowToJobs(workflowModel, cwlJobInputs(workflowModel));
     expect(test).to.be.eql(expectedValue);
   });
-  function givenStubbedRepository() {
-    pluginRepository = createStubInstance(PluginRepository);
-  }
 });

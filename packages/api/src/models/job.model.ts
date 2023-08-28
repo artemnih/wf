@@ -30,12 +30,6 @@ export class Job extends Entity {
   stepName: string;
 
   @property({
-    type: 'string',
-    required: true,
-  })
-  scriptPath: string;
-
-  @property({
     type: 'object',
     required: true,
   })
