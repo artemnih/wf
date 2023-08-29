@@ -3,11 +3,9 @@
 These APIs all take JSONified CWL.
 
 CWL website provides a series of good walkthroughs and examples (https://www.commonwl.org/)
-The Compute API contains the following 4 models
+The Compute API contains the following 2 models
 
 - Workflows
-- Plugins
-- Pipelines
 - Jobs
 
 ## Jobs
@@ -18,38 +16,15 @@ A job model is the individual step of a workflow. It contains the inputs, output
 
 A computational graph that closely mimics CWL workflows. The main difference is cwlJobInputs is the JSON representation of the defined inputs for a workflow. See [CWLWorkflows](../../examples/CWLWorkflows) for example workflows.
 
-## Plugins
-
-The CommandLineTool of a plugin. Plugins are defined as containerized algorithms with defined inputs/outputs and UI. There are two ways of uploading plugins.
-
-1. Upload a JSONified CommandLineTool and place the entire payload under cwlScript. See [sleep](../../examples/CLTScripts/sleep.json)
-2. If you want to use our plugin JSON schema, you can upload the plugin schema and we will generate a CLT from the plugin definition. See [ome2zarr](../../examples/plugins/ome2zarr.json)
-3. For reproducibile workflows, you should specify the id of your plugin once it gets created in the mongodb. This is so you can keep referring to the same plugin when building workflows.
-
-## Pipelines
-
-A pipeline is a saved workflow that can be reused as a computational step on its own. We sometimes call this a workflow template.
-
 # Quick Start
 
-If a user wants to submit a workflow to compute, they must make sure that the plugins are present in the plugins database.
-
-As was stated in the plugins definition, you can upload plugins via the raw CLT script or you can upload a plugin schema.
-
-/POST/plugins allows you to upload either one.
-
-Mongo will create an object id for that plugin and you should use that key for referencing that plugin in your workflow.
+If a user wants to submit a workflow to compute, they must ensure that the relevant JSONified payload of the CommandLineTool is placed under the `run` section for each step.
 
 All data must exist in the system you are running your workflow in.  If you want to use the argo driver, you should reference existing collections.  If you want to use the slurm driver, you should use existing directories for input data.
 
 # Tutorial using Curl
 
 Set environment variables COMPUTE_URL and COMPUTE_AUTH_TOKEN.
-
-The first step of using compute is to upload plugins to the /compute/plugins endpoint
-```
-curl -H 'Content-Type: application/json' -H 'accept: application/json' -H "Authorization: Bearer ${COMPUTE_AUTH_TOKEN}" -X 'POST' $COMPUTE_URL/compute/plugins -d @examples/plugins/echo.json
-```
 
 Submitting a workflow
 ```
