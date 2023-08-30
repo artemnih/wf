@@ -1,0 +1,17 @@
+{
+  "name": "@polus/compute",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+  },
+  "author": "",
+  "license": "MIT",
+  "workspaces": [
+    "packages/api",
+    "packages/argo-argo",
+    "packages/slurm-driver"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
