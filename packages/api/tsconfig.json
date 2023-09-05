@@ -1,10 +1,16 @@
 {
-  "$schema": "http://json.schemastore.org/tsconfig",
-  "extends": "@loopback/build/config/tsconfig.common.json",
   "compilerOptions": {
-    "experimentalDecorators": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src/**/*"],
 }
