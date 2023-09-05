@@ -1,4 +1,5 @@
 import { Workflow } from '../../models';
+
 export interface StepTemplate {
   run: string;
   in: object;

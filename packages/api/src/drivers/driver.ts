@@ -1,4 +1,5 @@
 import { Job } from '../models';
+
 export interface Driver {
   compute(workflowCwl: object, cwlParameters: object, jobs: Job[], token: string): Promise<object>;
   health(driverType: string, token: string): Promise<object>;
