@@ -1,303 +1,175 @@
-import { authenticate } from '@labshare/services-auth';
-import { inject } from '@loopback/context';
-import { DateType, Filter, FilterExcludingWhere, repository } from '@loopback/repository';
-import { get, getModelSchemaRef, put, patch, param, post, requestBody, Request, RestBindings, ResponseObject } from '@loopback/rest';
 import { Workflow } from '../models';
 import { WorkflowRepository } from '../repositories';
-
-const STATUS_RESPONSE: ResponseObject = {
-  description: 'Workflow Status',
-  content: {
-    'application/json': {
-      schema: {
-        type: 'object',
-        title: 'WorkflowStatus',
-        properties: {
-          status: { type: 'string' },
-          dateCreated: { type: 'string' },
-          dateFinished: { type: 'string' },
-          headers: {
-            type: 'object',
-            properties: {
-              'Content-Type': { type: 'string' },
-            },
-            additionalProperties: true,
-          },
-        },
-      },
-    },
-  },
-};
-
-const LOGS_RESPONSE: ResponseObject = {
-  description: 'Workflow Outputs',
-  content: {
-    'application/json': {
-      schema: {
-        type: 'array',
-        title: 'WorkflowOutput',
-        properties: {
-          status: { type: 'string' },
-          headers: {
-            type: 'object',
-            properties: {
-              'Content-Type': { type: 'string' },
-            },
-            additionalProperties: true,
-          },
-        },
-      },
-    },
-  },
-};
+import { WorkflowCrud } from '../models';
+import { NextFunction, Request, Response } from 'express';
 
 interface Status {
   status: string;
   dateFinished: string;
 }
-@authenticate()
+
 export class WorkflowController {
-  constructor(
-    @repository(WorkflowRepository)
-    public workflowRepository: WorkflowRepository,
-    @inject(RestBindings.Http.REQUEST) private req: Request,
-  ) {}
+  private workflowRepository: WorkflowRepository;
 
-  @post('/compute/workflows', {
-    responses: {
-      '200': {
-        description: 'Workflow model instance',
-        content: { 'application/json': { schema: getModelSchemaRef(Workflow) } },
-      },
-    },
-  })
-  async create(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Workflow, {
-            title: 'NewWorkflow',
-            exclude: ['id', 'status', 'dateCreated'],
-          }),
-        },
-      },
-    })
-    workflow: Workflow,
-  ): Promise<Workflow> {
-    console.log(this.req);
-    workflow.dateCreated = new DateType().defaultValue().toISOString();
-    const workflowCreated = await this.workflowRepository.create(workflow);
-    await this.workflowRepository.submitWorkflowToDriver(
-      workflowCreated,
-      this.req.headers.authorization as string,
-    );
-    return workflowCreated;
-  }
-  @post('/compute/workflows/{id}/resubmit', {
-    responses: {
-      '200': {
-        description: 'Workflow model instance',
-        content: { 'application/json': { schema: getModelSchemaRef(Workflow) } },
-      },
-    },
-  })
-  async resubmitWorkflow(
-    @param.path.string('id')
-    id: string,
-  ): Promise<Workflow> {
-    const foundWorkflow = await this.workflowRepository.findById(id);
-    foundWorkflow.id = undefined;
-    const newWorkflow = await this.workflowRepository.create(foundWorkflow);
-    await this.workflowRepository.resubmitWorkflow(newWorkflow, this.req.headers.authorization as string);
-    return newWorkflow;
+  constructor() {
+    this.workflowRepository = new WorkflowRepository();
   }
 
-  @get('/compute/workflows', {
-    responses: {
-      '200': {
-        description: 'Workflow model instances',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'array',
-              items: getModelSchemaRef(Workflow, { includeRelations: true }),
-            },
-          },
-        },
-      },
-    },
-  })
-  async find(@param.filter(Workflow) filter?: Filter<Workflow>): Promise<Workflow[]> {
-    return this.workflowRepository.find(filter);
-  }
-
-  @get('/compute/workflows/{id}', {
-    responses: {
-      '200': {
-        description: 'Workflow model instance',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(Workflow, { includeRelations: true }),
-          },
-        },
-      },
-    },
-  })
-  async findById(
-    @param.path.string('id') id: string,
-    @param.filter(Workflow, { exclude: 'where' }) filter?: FilterExcludingWhere<Workflow>,
-  ): Promise<Workflow> {
-    return this.workflowRepository.findById(id, filter);
-  }
-  @patch('/compute/workflows/{id}', {
-    responses: {
-      '204': {
-        description: 'Workflows PATCH success',
-      },
-    },
-  })
-  async updateById(
-    @param.path.string('id') id: string,
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Workflow, { partial: true }),
-        },
-      },
-    })
-    workflow: Workflow,
-  ): Promise<void> {
-    await this.workflowRepository.updateById(id, workflow);
-  }
-
-  @get('/compute/workflows/{id}/status', {
-    responses: {
-      '200': STATUS_RESPONSE,
-    },
-  })
-  async getWorkflowStatus(@param.path.string('id') id: string): Promise<object> {
-    const foundWorkflow = await this.workflowRepository.findById(id);
-    const newStatus = (await this.workflowRepository.getWorkflowStatus(id, foundWorkflow, this.req.headers.authorization as string)) as Status;
-    foundWorkflow.status = newStatus['status'] !== foundWorkflow.status ? newStatus['status'] : foundWorkflow.status;
-    if (newStatus['dateFinished']) {
-      foundWorkflow.dateFinished = newStatus['dateFinished'];
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const workflow = req.body as Workflow;
+      const token = req.headers.authorization as string;
+      workflow.dateCreated = new Date().toISOString();
+      const workflowCreated = await WorkflowCrud.create(workflow);
+      await this.workflowRepository.submitWorkflowToDriver(workflowCreated, token);
+      res.status(201).json(workflowCreated);
+    } catch (error) {
+      next(error);
     }
-    await this.workflowRepository.updateById(id, foundWorkflow);
-    return newStatus;
-  }
-  @get('/compute/workflows/{id}/outputs', {
-    responses: {
-      '200': LOGS_RESPONSE,
-    },
-  })
-  async getWorkflowOutput(@param.path.string('id') id: string): Promise<object> {
-    const foundWorkflow = await this.workflowRepository.findById(id);
-    return this.workflowRepository.getWorkflowOutput(id, foundWorkflow, this.req.headers.authorization as string);
-  }
-  @get('/compute/workflows/{id}/logs', {
-    responses: {
-      '200': LOGS_RESPONSE,
-    },
-  })
-  async getWorkflowLogs(@param.path.string('id') id: string): Promise<object> {
-    const foundWorkflow = await this.workflowRepository.findById(id);
-    return this.workflowRepository.getWorkflowLogs(id, foundWorkflow, this.req.headers.authorization as string);
-  }
-  @get('/compute/workflows/{id}/jobs', {
-    responses: {
-      '200': LOGS_RESPONSE,
-    },
-  })
-  async getWorkflowJobs(@param.path.string('id') id: string): Promise<object> {
-    const foundWorkflow = await this.workflowRepository.findById(id);
-    return this.workflowRepository.getWorkflowJobs(id, foundWorkflow, this.req.headers.authorization as string);
-  }
-  @put('/compute/workflows/{id}/stop', {
-    responses: {
-      '200': {
-        description: 'Workflow model instance',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(Workflow, { includeRelations: true }),
-          },
-        },
-      },
-    },
-  })
-  async stopWorkflow(@param.path.string('id') id: string): Promise<void> {
-    const foundWorkflow = await this.workflowRepository.findById(id);
-    await this.workflowRepository.stopWorkflow(id, foundWorkflow, this.req.headers.authorization as string);
-    foundWorkflow.status = 'CANCELLED';
-    return this.workflowRepository.updateById(id, foundWorkflow);
-  }
-  @put('/compute/workflows/{id}/restart', {
-    responses: {
-      '200': {
-        description: 'Restart workflow',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(Workflow, { includeRelations: true }),
-          },
-        },
-      },
-    },
-  })
-  async restartWorkflow(@param.path.string('id') id: string): Promise<void> {
-    const foundWorkflow = await this.workflowRepository.findById(id);
-    await this.workflowRepository.restartWorkflow(id, foundWorkflow, this.req.headers.authorization as string);
-    foundWorkflow.status = 'RESTARTED';
-    return this.workflowRepository.updateById(id, foundWorkflow);
   }
 
-  @put('/compute/workflows/{id}/pause', {
-    responses: {
-      '200': {
-        description: 'Pause the workflow',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(Workflow, { includeRelations: true }),
-          },
-        },
-      },
-    },
-  })
-  async pauseWorkflow(@param.path.string('id') id: string): Promise<void> {
-    const foundWorkflow = await this.workflowRepository.findById(id);
-    await this.workflowRepository.pauseWorkflow(id, foundWorkflow, this.req.headers.authorization as string);
-    foundWorkflow.status = 'PAUSED';
-    return this.workflowRepository.updateById(id, foundWorkflow);
+  async resubmitWorkflow(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.body as string;
+      const token = req.headers.authorization as string;
+      const foundWorkflow = await WorkflowCrud.findById(id);
+      foundWorkflow.id = undefined;
+      const newWorkflow = await WorkflowCrud.create(foundWorkflow);
+      await this.workflowRepository.resubmitWorkflow(newWorkflow, token);
+      res.status(201).json(newWorkflow);
+    } catch (error) {
+      next(error);
+    }
   }
 
-  // Map to `GET /ping`
-  @get('/compute/health/{driver}', {
-    responses: {
-      '200': {
-        description: 'Driver Health Check',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              title: 'ComputeDriverHealthResponse',
-              properties: {
-                greeting: { type: 'string' },
-                date: { type: 'string' },
-                url: { type: 'string' },
-                headers: {
-                  type: 'object',
-                  properties: {
-                    'Content-Type': { type: 'string' },
-                  },
-                  additionalProperties: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  })
-  healthDriver(@param.path.string('driver') driver: string): Promise<object> {
-    return this.workflowRepository.healthDriverCheck(driver, this.req.headers.authorization as string);
-    // Reply with a greeting, the current time, the url, and request headers
+  async find(req: Request, res: Response, next: NextFunction) {
+    try {
+      const filter = req.query as any;
+      const workflows = await WorkflowCrud.find(filter);
+      res.status(200).json(workflows);
+    } catch (error) {
+      next(error);
+    }
   }
+
+  async findById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const workflow = await WorkflowCrud.findById(id);
+      res.status(200).json(workflow);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const workflow = req.body as Workflow;
+      const newWorkflow = await WorkflowCrud.findOneAndUpdate({ _id: workflow.id }, workflow, { new: true });
+      res.status(200).json(newWorkflow);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getWorkflowStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const foundWorkflow = await WorkflowCrud.findById(id);
+      const newStatus = (await this.workflowRepository.getWorkflowStatus(id, foundWorkflow, req.headers.authorization as string)) as Status;
+      foundWorkflow.status = newStatus['status'] !== foundWorkflow.status ? newStatus['status'] : foundWorkflow.status;
+      if (newStatus['dateFinished']) {
+        foundWorkflow.dateFinished = newStatus['dateFinished'];
+      }
+      await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
+      res.status(200).json(newStatus);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getWorkflowLogs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const foundWorkflow = await WorkflowCrud.findById(id);
+      const logs = await this.workflowRepository.getWorkflowLogs(id, foundWorkflow, req.headers.authorization as string);
+      res.status(200).json(logs);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getWorkflowOutput(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const foundWorkflow = await WorkflowCrud.findById(id);
+      const outputs = await this.workflowRepository.getWorkflowOutput(id, foundWorkflow, req.headers.authorization as string);
+      res.status(200).json(outputs);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getWorkflowJobs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const foundWorkflow = await WorkflowCrud.findById(id);
+      const jobs = await this.workflowRepository.getWorkflowJobs(id, foundWorkflow, req.headers.authorization as string);
+      res.status(200).json(jobs);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async stopWorkflow(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const foundWorkflow = await WorkflowCrud.findById(id);
+      await this.workflowRepository.stopWorkflow(id, foundWorkflow, req.headers.authorization as string);
+      foundWorkflow.status = 'CANCELLED';
+      const updated = await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
+      res.status(200).json(updated);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async restartWorkflow(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const foundWorkflow = await WorkflowCrud.findById(id);
+      await this.workflowRepository.restartWorkflow(id, foundWorkflow, req.headers.authorization as string);
+      foundWorkflow.status = 'RESTARTED';
+      const updated = await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
+      res.status(200).json(updated);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async pauseWorkflow(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const foundWorkflow = await WorkflowCrud.findById(id);
+      await this.workflowRepository.pauseWorkflow(id, foundWorkflow, req.headers.authorization as string);
+      foundWorkflow.status = 'PAUSED';
+      const updated = await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
+      res.status(200).json(updated);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async healthDriver(req: Request, res: Response, next: NextFunction) {
+    try {
+      const driver = req.params.driver;
+      const health = await this.workflowRepository.healthDriverCheck(driver, req.headers.authorization as string);
+      res.status(200).json(health);
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
+
+export default new WorkflowController();
