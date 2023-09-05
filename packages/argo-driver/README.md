@@ -51,6 +51,45 @@ To get more help on the shell-ui and lsc CLI go check out the
 [Loopback CLI README](https://github.com/angular/services/blob/master/README.md).
 [LSC CLI README](https://loopback.io/index.html).
 
+### Set up Argo for local development
+
+To set up Argo Workflows on your local development environment (using Docker-desktop), follow these steps:
+
+1. Download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+2. Start Docker deskop
+3. Install [kubectl](https://kubernetes.io/docs/tasks/tools/)
+4. Install [Argo Workflows](https://argoproj.github.io/argo-workflows/quick-start/):
+
+    `kubectl create namespace argo`
+
+    `kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v<<ARGO_WORKFLOWS_VERSION>>/install.yaml`
+
+    Replace `<<ARGO_WORKFLOWS_VERSION>>` with the desired version of Argo Workflows.
+
+5. Verify Installation:
+    
+    `kubectl get pods -n argo`
+
+6. Access the Argo UI:
+
+    You can access the Argo UI by running:
+    `kubectl -n argo port-forward svc/argo-server 2746:2746`
+
+    Then, open your web browser and navigate to http://localhost:2746.
+
+7. Generate an access token for Argo:
+
+    `kubectl -n argo exec svc/argo-server  -- argo auth token`
+
+    The token generated can be used to login in Argo UI. Additionally, create a local `token.pem` file and paste the token as the content of the file (remove `Bearer`). In the `.env` file, set ARGO to `https://localhost:2746/api/v1/workflows/argo` and reference ARGO_TOKEN as the path to `token.pem`.
+
+8. Configure Persistent Volumes (PVs) and Persistent Volume Claims (PVCs):
+
+    Ensure that the persistent volume and persistent volume claim are properly created. For details on how to create PVs and PVCs, refer to this [Kubernetes documentation page](https://kubernetes.io/docs/concepts/storage/persistent-volumes/).
+
+
+Please note that these steps are for a basic local setup using Docker desktop. In production or more complex environments, additional configuration and security considerations may apply. 
+
 ## Deployment
 
 Kubernetes deployment of Compute Argo driver is done using [Helm chart](../../deploy/helm/argo-driver).
