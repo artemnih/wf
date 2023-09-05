@@ -61,8 +61,7 @@ module.exports = {
     db: {
       port: process.env.MONGO_CONNECTION_PORT || 27017,
       url: process.env.MONGO_CONNECTION_NAME || 'localhost',
-      name: 'mongodb',
-      connector: 'mongodb',
+      name: 'WorkflowDb',
       username: '',
       password: ''
     },
