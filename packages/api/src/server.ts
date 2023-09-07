@@ -1,4 +1,3 @@
-import pEvent from 'p-event';
 import * as http from 'http';
 import express from "express";
 import mongoose from "mongoose";
@@ -7,20 +6,18 @@ import cors from "cors";
 import jwksRsa from "jwks-rsa";
 import { expressjwt } from 'express-jwt';
 
-
 export class ExpressServer {
   private app: express.Application;
   private server: http.Server;
 
   constructor(private options: any) {
-
-    const dbUrl = this.options.compute.db.url;
     const dbName = this.options.compute.db.name;
-    const dbPort = this.options.compute.db.port;
-    const dbUser = this.options.compute.db.username
-    const dbPassword = this.options.compute.db.password;
-    const connectionString = `mongodb://${dbUser}:${dbPassword}@${dbUrl}:${dbPort}}`;
-    const authUrl = this.options.servies.auth.authUrl;
+    const connectionString = this.options.compute.db.connectionString;
+    const authUrl = this.options.services.auth.authUrl;
+    
+    console.log('connection string:', connectionString)
+    console.log('auth url:', authUrl)
+
 
     mongoose.connect(connectionString, {
       dbName: dbName,
@@ -48,14 +45,12 @@ export class ExpressServer {
     this.app.use(express.static('public'));
   }
 
-  public async start() {
+  public start() {
     this.server = this.app.listen(this.options.rest.port, this.options.rest.host);
-    await pEvent(this.server, 'listening');
   }
 
-  public async stop() {
+  public stop() {
     if (!this.server) return;
     this.server.close();
-    await pEvent(this.server, 'close');
   }
 }

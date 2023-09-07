@@ -2,9 +2,6 @@ import { ExpressServer } from './server';
 
 require('dotenv').config();
 const config = require('config');
-
-export async function main() {
-  const server = new ExpressServer(config);
-  await server.start();
-  console.log(`Server is running at http://127.0.0.1:${config.rest.port}${config.compute.basePath}`);
-}
+const server = new ExpressServer(config);
+server.start();
+console.log(`Server is running at http://127.0.0.1:${config.rest.port}${config.compute.basePath}`);
