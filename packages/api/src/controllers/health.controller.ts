@@ -4,12 +4,16 @@ export class HealthController {
 
   async ping(req: Request, res: Response, next: NextFunction) {
     // Reply with a greeting, the current time, the url, and request headers
-    return {
-      greeting: 'Compute API is healthy',
-      date: new Date(),
-      url: req.url,
-      headers: Object.assign({}, req.headers),
-    };
+    try {
+      res.status(200).json({
+        greeting: 'Compute API is healthy',
+        date: new Date(),
+        url: req.url,
+        headers: Object.assign({}, req.headers),
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 }
 

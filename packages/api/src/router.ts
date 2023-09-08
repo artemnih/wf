@@ -2,7 +2,7 @@ import express from "express";
 import WorkflowController from "./controllers/workflow.controller";
 import HealthController from "./controllers/health.controller";
 
-export default express
+export const WorkflowRoutes = express
   .Router()
   .post("/workflows", WorkflowController.create)
   .post("/workflows/:id/resubmit", WorkflowController.resubmitWorkflow)
@@ -16,6 +16,9 @@ export default express
   .put("/workflows/:id/stop", WorkflowController.stopWorkflow)
   .put("/workflows/:id/restart", WorkflowController.restartWorkflow)
   .put("/workflows/:id/pause", WorkflowController.pauseWorkflow)
-  .get("/health/:driver", WorkflowController.healthDriver)
 
-  .get("/health", HealthController.ping);
+
+export const HealthRoutes = express
+  .Router()
+  .get("/check/:driver", WorkflowController.healthDriver)
+  .get("/check", HealthController.ping);
