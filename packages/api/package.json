@@ -3,7 +3,7 @@
   "version": "0.0.4",
   "private": true,
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "engines": {
     "node": ">=10"
   },
@@ -24,7 +24,7 @@
     "docker:build": "docker build -t compute .",
     "docker:run": "docker run -p 3000:3000 -d compute",
     "prestart": "npm run build",
-    "start": "node .",
+    "start": "ts-node ./index.ts",
     "start:dev": "ts-node-dev --watch .env, src ./index.ts",
     "prepublishOnly": "npm run test"
   },
