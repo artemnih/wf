@@ -73,7 +73,85 @@
 	},
 	"steps": {
 		"montage": {
-			"run": "plugin:montage:0.3.1",
+			"run": {
+				"cwlVersion": "v1.0",
+				"id": "montage",
+				"class": "CommandLineTool",
+				"requirements": {
+					"DockerRequirement": {
+						"dockerPull": "labshare/polus-montage-plugin:compute-0.3.1"
+					},
+					"InlineJavascriptRequirement": {},
+					"InitialWorkDirRequirement": {
+						"listing": [
+							{
+								"entry": "$(inputs.outDir)",
+								"writable": true
+							}
+						]
+					}
+				},
+				"baseCommand": [
+					"python3",
+					"/opt/executables/main.py"
+				],
+				"stdout": "montage.out",
+				"stderr": "montage.err",
+				"inputs": {
+					"filePattern": {
+						"type": "string",
+						"inputBinding": {
+							"prefix": "--filePattern"
+						}
+					},
+					"inpDir": {
+						"type": "Directory",
+						"inputBinding": {
+							"prefix": "--inpDir"
+						}
+					},
+					"layout": {
+						"type": "string[]?",
+						"inputBinding": {
+							"prefix": "--layout=",
+							"itemSeparator": ",",
+							"separate": false
+						}
+					},
+					"imageSpacing": {
+						"type": "int",
+						"inputBinding": {
+							"prefix": "--imageSpacing"
+						}
+					},
+					"gridSpacing": {
+						"type": "int",
+						"inputBinding": {
+							"prefix": "--gridSpacing"
+						}
+					},
+					"outDir": {
+						"type": "Directory",
+						"inputBinding": {
+							"prefix": "--outDir"
+						}
+					}
+				},
+				"outputs": {
+					"montageOut": {
+						"type": "Directory",
+						"outputBinding": {
+							"glob": "$(inputs.outDir.basename)"
+						}
+					},
+					"montageStdOut": {
+						"type": "stdout"
+					},
+					"montageStdErr": {
+						"type": "stderr"
+					}
+				}
+			},
 			"in": {
 				"filePattern": "montageFilePattern",
 				"inpDir": "montageInpDir",
@@ -87,7 +165,82 @@
 			]
 		},
 		"recycle": {
-			"run": "plugin:recycle:1.5.1",
+			"run": {
+				"cwlVersion": "v1.0",
+				"id": "recycle",
+				"class": "CommandLineTool",
+				"requirements": {
+					"DockerRequirement": {
+						"dockerPull": "labshare/polus-recycle-vector-plugin:compute-1.5.1"
+					},
+					"InitialWorkDirRequirement": {
+						"listing": [
+							{
+								"entry": "$(inputs.outDir)",
+								"writable": true
+							}
+						]
+					}
+				},
+				"baseCommand": [
+					"python3",
+					"/opt/executables/main.py"
+				],
+				"stdout": "recycle.out",
+				"stderr": "recycle.err",
+				"inputs": {
+					"stitchDir": {
+						"type": "Directory",
+						"inputBinding": {
+							"prefix": "--stitchDir"
+						}
+					},
+					"collectionDir": {
+						"type": "Directory",
+						"inputBinding": {
+							"prefix": "--collectionDir"
+						}
+					},
+					"stitchRegex": {
+						"type": "string",
+						"inputBinding": {
+							"prefix": "--stitchRegex"
+						}
+					},
+					"collectionRegex": {
+						"type": "string",
+						"inputBinding": {
+							"prefix": "--collectionRegex"
+						}
+					},
+					"groupBy": {
+						"type": "string?",
+						"inputBinding": {
+							"prefix": "--groupBy"
+						}
+					},
+					"outDir": {
+						"type": "Directory",
+						"inputBinding": {
+							"prefix": "--outDir"
+						}
+					}
+				},
+				"outputs": {
+					"recycleOut": {
+						"type": "Directory",
+						"outputBinding": {
+							"glob": "$(inputs.outDir.basename)"
+						}
+					},
+					"recycleStdOut": {
+						"type": "stdout"
+					},
+					"recycleStdErr": {
+						"type": "stderr"
+					}
+				}
+			},
 			"in": {
 				"filepattern": "recycleCollectionRegex",
 				"stitchDir": "montage/montageoutDir",

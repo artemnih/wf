@@ -149,7 +149,6 @@ describe('Workflow to Job Array', () => {
         workflowId: workflow.name,
         status: 'PENDING',
         stepName: 'montage',
-        scriptPath: montage,
         commandLineTool: montageCLT,
         inputs: {
           filePattern: 'p01_x{xx}_y{yy}_r{rr}_c01.ome.tif',
@@ -171,7 +170,6 @@ describe('Workflow to Job Array', () => {
         dateCreated: '2021-08-13T17:33:02.327Z',
         status: 'PENDING',
         stepName: 'recycle',
-        scriptPath: recycle,
         commandLineTool: recycleClt,
         inputs: {
           groupBy: 'r',
@@ -193,7 +191,6 @@ describe('Workflow to Job Array', () => {
         dateCreated: '2021-08-13T17:33:02.327Z',
         status: 'PENDING',
         stepName: 'assemble',
-        scriptPath: assemble,
         commandLineTool: assembleClt,
         inputs: {
           stitchPath: 'recycle/recycleOut',
