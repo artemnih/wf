@@ -56,7 +56,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           entrypoint: 'workflow',
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {
                 claimName: 'compute-pv-claim',
               },
@@ -98,11 +98,11 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 volumeMounts: [
                   {
                     mountPath: '/data/inputs',
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: `/data/outputs/HelloWorld-1`,
                     subPath: `temp/jobs/HelloWorld-1`,
                     readOnly: false,
@@ -168,7 +168,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           entrypoint: 'workflow',
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {
                 claimName: 'compute-pv-claim',
               },
@@ -211,11 +211,11 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 volumeMounts: [
                   {
                     mountPath: '/data/inputs',
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: `/data/outputs/sleep`,
                     subPath: `temp/jobs/sleep`,
                     readOnly: false,
@@ -299,7 +299,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           entrypoint: 'workflow',
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {
                 claimName: 'compute-pv-claim',
               },
@@ -354,11 +354,11 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 volumeMounts: [
                   {
                     mountPath: '/data/inputs',
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: `/data/outputs/HelloWorld-1`,
                     subPath: `temp/jobs/HelloWorld-1`,
                     readOnly: false,
@@ -445,7 +445,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           entrypoint: 'workflow',
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {
                 claimName: 'compute-pv-claim',
               },
@@ -500,11 +500,11 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 volumeMounts: [
                   {
                     mountPath: '/data/inputs',
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: `/data/outputs/HelloWorld-1`,
                     subPath: `temp/jobs/HelloWorld-1`,
                     readOnly: false,
@@ -656,7 +656,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           entrypoint: 'workflow',
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {
                 claimName: 'compute-pv-claim',
               },
@@ -780,11 +780,11 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 volumeMounts: [
                   {
                     mountPath: '/data/inputs',
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: `/data/outputs/montage`,
                     subPath: `temp/jobs/montage`,
                     readOnly: false,
@@ -836,11 +836,11 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 volumeMounts: [
                   {
                     mountPath: '/data/inputs',
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: `/data/outputs/recycle`,
                     subPath: `temp/jobs/recycle`,
                     readOnly: false,
@@ -1052,7 +1052,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           entrypoint: 'workflow',
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {
                 claimName: 'compute-pv-claim',
               },
@@ -1241,11 +1241,11 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 volumeMounts: [
                   {
                     mountPath: '/data/inputs',
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: `/data/outputs/montage`,
                     subPath: `temp/jobs/montage`,
                     readOnly: false,
@@ -1297,11 +1297,11 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 volumeMounts: [
                   {
                     mountPath: '/data/inputs',
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: `/data/outputs/recycle`,
                     subPath: `temp/jobs/recycle`,
                     readOnly: false,
@@ -1368,7 +1368,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
           entrypoint: 'workflow',
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {
                 claimName: 'compute-pv-claim',
               },
@@ -1411,11 +1411,11 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 volumeMounts: [
                   {
                     mountPath: '/data/inputs',
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: `/data/outputs/HelloWorld-1`,
                     subPath: `temp/jobs/HelloWorld-1`,
                     readOnly: false,
@@ -1526,7 +1526,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
         spec: {
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {claimName: 'compute-pv-claim'},
             },
           ],
@@ -1576,12 +1576,12 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 ],
                 volumeMounts: [
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                     mountPath: '/data/inputs',
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: '/data/outputs/ome2zarr',
                     subPath: 'temp/jobs/ome2zarr',
                     readOnly: false,
@@ -1710,7 +1710,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
         spec: {
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {claimName: 'compute-pv-claim'},
             },
           ],
@@ -1797,12 +1797,12 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 ],
                 volumeMounts: [
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                     mountPath: '/data/inputs',
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: '/data/outputs/filepattern',
                     subPath: 'temp/jobs/filepattern',
                     readOnly: false,
@@ -1832,12 +1832,12 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 ],
                 volumeMounts: [
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                     mountPath: '/data/inputs',
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: '/data/outputs/ome2zarr',
                     subPath: 'temp/jobs/ome2zarr',
                     readOnly: false,
@@ -1856,12 +1856,12 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 args: ['--input', '{{inputs.parameters.input}}'],
                 volumeMounts: [
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                     mountPath: '/data/inputs',
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: '/data/outputs/argoFileOperator',
                     subPath: 'temp/jobs/argoFileOperator',
                     readOnly: false,
@@ -2045,7 +2045,7 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
         spec: {
           volumes: [
             {
-              name: 'wipp-data-volume',
+              name: 'compute-data-volume',
               persistentVolumeClaim: {claimName: 'compute-pv-claim'},
             },
           ],
@@ -2183,12 +2183,12 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 ],
                 volumeMounts: [
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                     mountPath: '/data/inputs',
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: '/data/outputs/filepattern',
                     subPath: 'temp/jobs/filepattern',
                     readOnly: false,
@@ -2218,12 +2218,12 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 ],
                 volumeMounts: [
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                     mountPath: '/data/inputs',
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: '/data/outputs/ome2zarr',
                     subPath: 'temp/jobs/ome2zarr',
                     readOnly: false,
@@ -2242,12 +2242,12 @@ describe('Convert CwlWorkflow to Argo Workflow', () => {
                 args: ['--input', '{{inputs.parameters.input}}'],
                 volumeMounts: [
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     readOnly: true,
                     mountPath: '/data/inputs',
                   },
                   {
-                    name: 'wipp-data-volume',
+                    name: 'compute-data-volume',
                     mountPath: '/data/outputs/argoFileOperator',
                     subPath: 'temp/jobs/argoFileOperator',
                     readOnly: false,
