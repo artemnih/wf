@@ -1,8 +1,8 @@
 import { Workflow } from '../models';
 import { Driver } from '../drivers';
-import { workflowToCwl, cwlJobInputs } from '../services/CWLConvertors';
+import { workflowToCwl, cwlJobInputs } from '../utils/CWLConvertors';
 import { DriverFactory } from '../drivers';
-import { workflowToJobs } from '../services';
+import { workflowToJobs } from '../utils';
 
 export class WorkflowRepository {
 
