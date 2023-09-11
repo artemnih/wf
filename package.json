@@ -3,15 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "api": "npm run dev --workspace=packages/api"
   },
   "author": "",
   "license": "MIT",
   "workspaces": [
-    "packages/api",
-    "packages/argo-argo",
-    "packages/slurm-driver"
+    "packages/api"
   ],
   "devDependencies": {
-    "concurrently": "^8.2.1"
   }
 }

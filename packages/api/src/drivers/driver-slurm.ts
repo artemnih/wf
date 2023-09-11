@@ -3,13 +3,12 @@ import { Job } from '../models';
 import { driverCommon, computeCommon, healthCommon } from './common';
 
 export class SlurmDriver implements Driver {
-  compute(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[], token: string) {
+  async compute(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[], token: string) {
     return computeCommon(cwlWorkflow, cwlJobInputs, jobs, 'slurm', token);
   }
-  health(driverType: string, token: string) {
+  async health(driverType: string, token: string) {
     return healthCommon(driverType, token);
   }
-
   async getWorkflowStatus(workflowId: string, token: string): Promise<object> {
     return driverCommon(workflowId, 'slurm', 'status', token);
   }

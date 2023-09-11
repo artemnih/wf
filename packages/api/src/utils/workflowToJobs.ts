@@ -1,5 +1,5 @@
-import { Job, Plugin, Workflow } from '../models';
-import { workflowToCwl } from '../services/CWLConvertors';
+import { Job, Workflow } from '../models';
+import { workflowToCwl } from './CWLConvertors';
 
 export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: object): Promise<Job[]> {
   const workflow = workflowToCwl(workflowModel);
@@ -26,8 +26,8 @@ export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: obje
     workflow.steps[element].out.forEach((value) => {
       outputsToConvert[value] = '';
     });
-    const commandLineTool = new Plugin({ cwlScript: { ...workflow.steps[element].run as Object} });
-    const job = new Job({
+    const commandLineTool = { cwlScript: { ...workflow.steps[element].run as Object } };
+    const job = {
       driver: workflowModel.driver,
       workflowId: workflowModel.id ? workflowModel.id : workflowModel.name,
       status: 'PENDING',
@@ -36,7 +36,7 @@ export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: obje
       inputs: inputsToConvert,
       outputs: outputsToConvert,
       dateCreated: workflowModel.dateCreated,
-    });
+    } as Job;
     jobArray.push(job);
   }
   return jobArray;

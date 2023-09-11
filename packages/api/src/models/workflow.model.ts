@@ -1,86 +1,51 @@
-import { Entity, model, property } from '@loopback/repository';
+import { Document, Model, Schema, model } from "mongoose";
 
-@model({ settings: { strict: false } })
-export class Workflow extends Entity {
-  @property({
-    type: 'string',
-    id: true,
-    generated: true,
-    mongodb: {
-      dataType: 'ObjectID', // or perhaps 'objectid'?
-    },
-  })
+export interface Workflow extends Document {
   id?: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
   name: string;
-
-  @property({
-    type: 'string',
-  })
   driver?: string;
-
-  @property({
-    type: 'object',
-    required: true,
-  })
   inputs: object;
-
-  @property({
-    type: 'object',
-    required: true,
-  })
   outputs: object;
-
-  @property({
-    type: 'object',
-    required: true,
-  })
   steps: object;
-
-  @property({
-    type: 'object',
-    required: true,
-  })
   cwlJobInputs: object;
-
-  @property({
-    type: 'string',
-    default: 'Submitted',
-  })
   status: string;
-
-  @property({
-    type: 'date',
-  })
+  plugins: Array<object>;
   dateCreated: string;
-  
-  @property({
-    type: 'date',
-  })
   dateFinished: string;
-
-  @property({
-    type: 'string',
-  })
   owner?: string;
+}
 
-  // Define well-known properties here
+interface WorkflowModel extends Model<Workflow> { }
 
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [prop: string]: any;
-
-  constructor(data?: Partial<Workflow>) {
-    super(data);
+const schema = new Schema(
+  {
+    name: { type: String, required: true },
+    driver: { type: String, required: true },
+    inputs: { type: Object, required: true },
+    outputs: { type: Object, required: true },
+    steps: { type: Object, required: true },
+    cwlJobInputs: { type: Object, required: true },
+    status: { type: String, required: true, default: "Submitted" },
+    plugins: { type: Array, required: true },
+    dateCreated: { type: Date },
+    dateFinished: { type: Date },
+    owner: { type: String },
+  },
+  {
+    strict: false,
+    minimize: false,
+    timestamps: true,
+    collection: "Workflow", //  todo: from config
   }
-}
+);
 
-export interface WorkflowRelations {
-  // describe navigational properties here
-}
+schema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) {
+    ret.id = ret._id;
+    delete ret._id;
+  },
+});
 
-export type WorkflowWithRelations = Workflow & WorkflowRelations;
+export const WorkflowCrud = model<Workflow, WorkflowModel>("Workflow", schema);

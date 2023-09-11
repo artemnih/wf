@@ -12,6 +12,7 @@ export const driverUrl = (driverType: string) => {
     throw Error('Unsupported Driver');
   }
 };
+
 export async function healthCommon(driverType: string, token: string) {
   console.log(`Health check on ${driverType}`);
   const healthUrl = `${driverUrl(driverType)}/compute/${driverType}/health`;
@@ -20,6 +21,7 @@ export async function healthCommon(driverType: string, token: string) {
   console.log(result.data);
   return result.data;
 }
+
 export async function computeCommon(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[], driver: string, token: string): Promise<object> {
   const url = driverUrl(driver);
   console.log('Url resolved to ', url);
