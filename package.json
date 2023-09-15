@@ -8,8 +8,8 @@
   "author": "",
   "license": "MIT",
   "workspaces": [
-    "packages/api"
+    "packages/api",
+    "packages/argo-driver"
   ],
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

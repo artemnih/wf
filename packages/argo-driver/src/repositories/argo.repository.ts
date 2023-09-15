@@ -2,8 +2,7 @@ import {cwlToArgo} from '../services/CWLToArgo';
 import {CwlWorkflow, MinimalJob} from '../types';
 import {submitWorkflowToArgo} from '../services/argoApi';
 
-export class ArgoRepository {
-  constructor() {}
+class ArgoRepository {
 
   public compute(
     cwlWorkflow: CwlWorkflow,
@@ -14,3 +13,5 @@ export class ArgoRepository {
     submitWorkflowToArgo(argoWorkflow);
   }
 }
+
+export default new ArgoRepository();

@@ -5,7 +5,7 @@ export interface MappedOutput {
 }
 export function mapOutputToInputs(cwlScripts: CwlScriptInAndOut[]) {
   const arrayOuts = cwlScripts[0].out;
-  if (arrayOuts === []) {
+  if (Array.isArray(arrayOuts) && arrayOuts.length === 0) {
     return [{}];
   }
   const arrayOutputs: MappedOutput[] = [];

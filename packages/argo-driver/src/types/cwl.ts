@@ -7,6 +7,7 @@ export interface CwlScript {
   inputs: Record<string, CwlScriptInput>;
   outputs: Record<string, CwlScriptOutput>;
 }
+
 export interface CwlWorkflowStep {
   run: string;
   in: Record<string, string>;
@@ -14,6 +15,7 @@ export interface CwlWorkflowStep {
   scatter?: string;
   when?: string;
 }
+
 export interface CwlScriptInAndOut {
   cwlScript: CwlScript;
   in: Record<string, string>;
@@ -30,16 +32,19 @@ export interface CwlWorkflow {
   outputs: Record<string, CwlOutput>;
   steps: Record<string, CwlWorkflowStep>;
 }
+
 export interface CwlOutput {
   type: string;
   outputSource: string | string[];
 }
+
 export interface CwlScriptOutput {
   type: string;
   outputBinding: {
     glob: string;
   };
 }
+
 export interface CwlScriptInput {
   type: string;
   inputBinding: {

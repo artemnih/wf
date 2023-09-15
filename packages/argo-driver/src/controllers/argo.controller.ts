@@ -1,160 +1,83 @@
-import {repository} from '@loopback/repository';
-import {
-  post,
-  param,
-  getModelSchemaRef,
-  requestBody,
-  get,
-  put,
-  ResponseObject,
-} from '@loopback/rest';
-import {Argo} from '../models';
-import {ArgoRepository} from '../repositories';
-import {CwlWorkflow, MinimalJob} from '../types';
+import { Argo } from '../models';
+import ArgoRepository from '../repositories/argo.repository';
+import { CwlWorkflow, MinimalJob } from '../types';
 import {
   statusOfArgoWorkflow,
-  ArgoWorkflowStatus,
   getArgoJobsAndUpdateComputeJobs,
   stopArgoWorkflow,
 } from '../services/argoApi';
-import {getTargetFromJobs} from '../services';
-import {Target} from '../services/getTargetFromJobs';
-import {authenticate} from '@labshare/services-auth';
-import {OPERATION_SECURITY_SPEC} from '../utils/security-spec';
+import { getTargetFromJobs } from '../services';
+import { Target } from '../services/getTargetFromJobs';
+import { NextFunction, Request, Response } from 'express';
 
-const STATUS_RESPONSE: ResponseObject = {
-  description: 'Workflow Status',
-  content: {
-    'application/json': {
-      schema: {
-        type: 'object',
-        title: 'WorkflowStatus',
-        properties: {
-          status: {type: 'string'},
-          dateCreated: {type: 'string'},
-          dateFinished: {type: 'string'},
-          headers: {
-            type: 'object',
-            properties: {
-              'Content-Type': {type: 'string'},
-            },
-            additionalProperties: true,
-          },
-        },
-      },
-    },
-  },
-};
+class ArgoController {
 
-const LOGS_RESPONSE: ResponseObject = {
-  description: 'Workflow Logs',
-  content: {
-    'application/json': {
-      schema: {
-        type: 'array',
-        title: 'WorkflowLogs',
-        properties: {
-          status: {type: 'string'},
-          headers: {
-            type: 'object',
-            properties: {
-              'Content-Type': {type: 'string'},
-            },
-            additionalProperties: true,
-          },
-        },
-      },
-    },
-  },
-};
-
-@authenticate()
-export class ArgoController {
-  constructor(
-    @repository(ArgoRepository)
-    public argoRepository: ArgoRepository,
-  ) {}
-  @post('/compute/argo', {
-    security: OPERATION_SECURITY_SPEC,
-    responses: {
-      '200': {
-        description: 'Argo model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Argo)}},
-      },
-    },
-  })
-  async create(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Argo, {
-            title: 'NewArgoCompute',
-            exclude: ['id'],
-          }),
-        },
-      },
-    })
-    argo: Argo,
-  ): Promise<void> {
-    return this.argoRepository.compute(
-      argo.cwlWorkflow as CwlWorkflow,
-      argo.cwlJobInputs,
-      argo.jobs as MinimalJob[],
-    );
-  }
-  @get('/compute/argo/{id}/status', {
-    security: OPERATION_SECURITY_SPEC,
-    responses: {
-      '200': STATUS_RESPONSE,
-    },
-  })
-  getWorkflowStatus(
-    @param.path.string('id') id: string,
-  ): Promise<ArgoWorkflowStatus> {
-    return statusOfArgoWorkflow(id);
-  }
-  @get('/compute/argo/{id}/logs', {
-    security: OPERATION_SECURITY_SPEC,
-    responses: {
-      '200': LOGS_RESPONSE,
-    },
-  })
-  async getWorkflowLogs(@param.path.string('id') id: string): Promise<object> {
-    const jobs = await getArgoJobsAndUpdateComputeJobs(id);
-    return getTargetFromJobs(jobs, Target.logs);
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const argo = req.body as Argo;
+      const result = ArgoRepository.compute(
+        argo.cwlWorkflow as CwlWorkflow,
+        argo.cwlJobInputs,
+        argo.jobs as MinimalJob[],
+      );
+      res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
   }
 
-  @get('/compute/argo/{id}/outputs', {
-    security: OPERATION_SECURITY_SPEC,
-    responses: {
-      '200': LOGS_RESPONSE,
-    },
-  })
-  async getWorkflowOutputs(
-    @param.path.string('id') id: string,
-  ): Promise<object> {
-    const jobs = await getArgoJobsAndUpdateComputeJobs(id);
+  async getWorkflowStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const result = statusOfArgoWorkflow(id);
+      res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-    return getTargetFromJobs(jobs, Target.outputs);
+  async getWorkflowLogs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const jobs = await getArgoJobsAndUpdateComputeJobs(id);
+      const result = getTargetFromJobs(jobs, Target.logs);
+      res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
   }
-  @get('/compute/argo/{id}/jobs', {
-    security: OPERATION_SECURITY_SPEC,
-    responses: {
-      '200': LOGS_RESPONSE,
-    },
-  })
-  async getWorkflowJobs(
-    @param.path.string('id') id: string,
-  ): Promise<MinimalJob[]> {
-    return getArgoJobsAndUpdateComputeJobs(id);
+
+  async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const jobs = await getArgoJobsAndUpdateComputeJobs(id);
+      const result = getTargetFromJobs(jobs, Target.outputs);
+      res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
   }
-  @put('/compute/argo/{id}/stop', {
-    security: OPERATION_SECURITY_SPEC,
-    responses: {
-      '200': 'Workflow stopped',
-    },
-  })
-  stopWorkflow(@param.path.string('id') id: string): Promise<void> {
-    return stopArgoWorkflow(id);
+
+  async getWorkflowJobs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const result = getArgoJobsAndUpdateComputeJobs(id);
+      res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
   }
+
+  stopWorkflow(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const result = stopArgoWorkflow(id);
+      res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
+
+export default new ArgoController();

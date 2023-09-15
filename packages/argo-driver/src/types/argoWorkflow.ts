@@ -25,6 +25,7 @@ export interface ArgoWorklowTemplate {
     };
   };
 }
+
 export interface ArgoContainerTemplate {
   name: string;
   inputs: {
@@ -37,16 +38,19 @@ export interface ArgoContainerTemplate {
     volumeMounts: ArgoVolumeMounts[];
   };
 }
+
 export interface ArgoVolumeMounts {
   name?: string;
   readOnly?: boolean;
   mountPath?: string;
   subPath?: string;
 }
+
 export interface ArgoDagArray {
   name: string;
   dag: {tasks: ArgoDagTaskTemplate[]};
 }
+
 export interface ArgoDagTaskTemplate {
   name: string;
   template: string;

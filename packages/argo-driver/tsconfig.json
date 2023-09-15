@@ -1,10 +1,17 @@
 {
-  "$schema": "http://json.schemastore.org/tsconfig",
-  "extends": "@loopback/build/config/tsconfig.common.json",
   "compilerOptions": {
-    "experimentalDecorators": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es2020",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   },
-  "include": ["config/default.js", "src", ".eslintrc.js"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts", "src/__tests__/**/*"]
 }
