@@ -1,4 +1,4 @@
-import {readFileSync} from 'fs';
+import { readFileSync } from 'fs';
 import {
   cwlCompute,
   Job,
@@ -14,9 +14,9 @@ import {
   HPCStatus,
   toilKillHandler,
 } from '../hpc';
-import {WorkflowStatus} from '../types';
+import { WorkflowStatus } from '../types';
+
 export class SlurmRepository {
-  constructor() {}
 
   public async compute(
     cwlWorkflow: object,
@@ -25,6 +25,7 @@ export class SlurmRepository {
   ) {
     cwlCompute(cwlWorkflow, cwlJobParams, jobs as Job[]);
   }
+
   public async stopWorkflow(
     id: string,
     hpcCli: HpcCli,
@@ -32,6 +33,7 @@ export class SlurmRepository {
   ) {
     stopWorkflow(id, hpcCli, toilHandler);
   }
+
   public async getWorkflowJobs(
     id: string,
     hpcCli: HpcCli,
@@ -43,10 +45,12 @@ export class SlurmRepository {
       return {};
     }
   }
+
   public async getWorkflowStatus(statusPath: string): Promise<WorkflowStatus> {
     const statusWorkflow = JSON.parse(readFileSync(statusPath, 'utf8'));
     return statusWorkflow;
   }
+
   public async getWorkflowLogs(
     id: string,
   ): Promise<Record<string, string | string[] | number | boolean>> {
@@ -60,6 +64,7 @@ export class SlurmRepository {
     }
     return logs;
   }
+
   public async getWorkflowOutputs(id: string) {
     const outputs = getOutputOfJobs(readCwlOutput(id));
     if (Object.keys(outputs).length === 0) {
@@ -69,4 +74,8 @@ export class SlurmRepository {
     }
     return outputs;
   }
+  
 }
+
+
+export default new SlurmRepository();

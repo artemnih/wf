@@ -2,7 +2,6 @@ import {writeFileSync, createWriteStream, readFileSync, existsSync} from 'fs';
 import {updateStepsWithScripts} from './update.scripts';
 import {CwlWorkflowTemplate} from '../types';
 import {spawnGenericCwlRunner} from './spawn.cwl';
-import {DateType} from '@loopback/repository';
 import {JobOutput, locationFromOutput, OutputDict} from '.';
 import {WorkflowStatus} from '../types/workflowStatus';
 import {addOperators} from './add.operators';
@@ -68,7 +67,7 @@ export function runLocalCwl(
     workflowId,
   );
   const outJson = `${currentDir}/${workflowId}.out.json`;
-  const dateCreated = new DateType().defaultValue().toISOString();
+  const dateCreated = new Date().toISOString();
   let status: WorkflowStatus = {
     status: 'PENDING',
     dateCreated,
@@ -99,7 +98,7 @@ export function runLocalCwl(
     status = {
       status: statusMessage,
       dateCreated,
-      dateFinished: new DateType().defaultValue().toISOString(),
+      dateFinished: new Date().toISOString(),
     };
     updateStatus(workflowId, status, currentDir);
   });

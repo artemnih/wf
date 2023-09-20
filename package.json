@@ -9,7 +9,8 @@
   "license": "MIT",
   "workspaces": [
     "packages/api",
-    "packages/argo-driver"
+    "packages/argo-driver",
+    "packages/slurm-driver"
   ],
   "devDependencies": {}
 }
