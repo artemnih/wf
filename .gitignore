@@ -118,3 +118,8 @@ packages/**/dist
 # Helm cache
 deploy/helm/api/**/charts
 deploy/helm/argo-driver/charts/**/charts
+
+# json files in any folder named temp or loggins
+**/temp/**/*.json
+**/loggings/**/*.json
+
