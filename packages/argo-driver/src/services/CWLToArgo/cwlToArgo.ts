@@ -12,19 +12,20 @@ import {
 import {determineDependencies} from './determineDependencies';
 import {MappedOutput, mapOutputToInputs} from './mapOutputToInputs';
 import {addOperatorPlugin} from './addOperatorPlugins';
+
 function defaultArgoWorkflowTemplate(): ArgoWorklowTemplate {
   require('dotenv').config();
   const argoConfig = require('config');
 
   return {
-    namespace: 'default',
+    namespace: 'argo',
     serverDryRun: false,
     workflow: {
       apiVersion: 'argoproj.io/v1alpha1',
       kind: 'Workflow',
       metadata: {
         name: 'hello-world-parameters-',
-        namespace: 'default',
+        namespace: 'argo',
         labels: {
           'workflows.argoproj.io/archive-strategy': 'false',
         },
@@ -89,6 +90,8 @@ export function cwlToArgo(
   const jobParams = parseJobParameters(cwlJobParams);
 
   argoWorkflow.metadata.name = `${operatorReturn.jobs[0].workflowId}`;
+  const _operatorReturn = JSON.stringify(operatorReturn,null, 2)
+  console.log("step to determine dependencies of : ", _operatorReturn)
   argoWorkflow.spec.entrypoint = 'workflow';
 
   const generatedTemplates = operatorReturn.cwlScriptInAndOut.map(
@@ -116,7 +119,7 @@ export function cwlToArgo(
     containerSet.add(`${value.name}`);
   });
   return {
-    namespace: 'default',
+    namespace: 'argo',
     serverDryRun: false,
     workflow: {...argoWorkflow},
   };
@@ -138,7 +141,7 @@ export function buildContainerTemplate(
   const inputParameter: object[] = [];
   let scatterParam: string[] | string = '';
   const jobPerTask: object[] = [];
-  const dependencies = determineDependencies(cwlScriptInAndOut.in);
+  const dependencies = determineDependencies(cwlScriptInAndOut);
   for (const property in cwlScriptInAndOut.in) {
     inputParameter.push({name: property});
     containerArgs.push(...containerArguments(property, cwlScriptInAndOut));

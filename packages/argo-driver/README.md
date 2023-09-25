@@ -66,6 +66,7 @@ To set up Argo Workflows on your local development environment (using Docker-des
 
     Replace `<<ARGO_WORKFLOWS_VERSION>>` with the desired version of Argo Workflows.
 
+
 5. Verify Installation:
     
     `kubectl get pods -n argo`
@@ -75,7 +76,7 @@ To set up Argo Workflows on your local development environment (using Docker-des
     You can access the Argo UI by running:
     `kubectl -n argo port-forward svc/argo-server 2746:2746`
 
-    Then, open your web browser and navigate to http://localhost:2746.
+    Then, open your web browser and navigate to https://localhost:2746/workflows/argo.
 
 7. Generate an access token for Argo:
 
