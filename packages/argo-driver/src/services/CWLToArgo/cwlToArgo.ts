@@ -91,7 +91,7 @@ export function cwlToArgo(
 
   argoWorkflow.metadata.name = `${operatorReturn.jobs[0].workflowId}`;
   const _operatorReturn = JSON.stringify(operatorReturn,null, 2)
-  console.log("step to determine dependencies of : ", _operatorReturn)
+  // console.log("step to determine dependencies of : ", _operatorReturn)
   argoWorkflow.spec.entrypoint = 'workflow';
 
   const generatedTemplates = operatorReturn.cwlScriptInAndOut.map(
@@ -137,37 +137,63 @@ export function buildContainerTemplate(
   require('dotenv').config();
   const argoConfig = require('config');
 
+  console.log("------- working on : ", cwlScriptInAndOut.cwlScript.id)
+
   const containerArgs: string[] = [];
   const inputParameter: object[] = [];
   let scatterParam: string[] | string = '';
   const jobPerTask: object[] = [];
   const dependencies = determineDependencies(cwlScriptInAndOut);
   for (const property in cwlScriptInAndOut.in) {
+
+    console.log("------- defining property : ", property)
+
     inputParameter.push({name: property});
-    containerArgs.push(...containerArguments(property, cwlScriptInAndOut));
+    const _container_args = containerArguments(property, cwlScriptInAndOut);
+    // console.log("------- defining container_args : ", ..._container_args);
+    containerArgs.push(..._container_args);
     const jobParam = jobParameters.find(
       (element) => cwlScriptInAndOut.in[property] === element.name,
     );
+
+    console.log("------- defining jobparam : ", jobParam)
+
     // If input is defined in the JobParameters field
     // You can use that object to populate array.
+    let value
     if (jobParam) {
-      let value = jobParam?.value;
+      value = jobParam?.value;
       if (cwlScriptInAndOut.scatter === property) {
         value = '{{item}}';
         scatterParam = jobParam?.value as string[];
       } else {
         warnAboutStringArrayParameters(value);
       }
+    // else if(cwlScriptInAndOut.in[property]){
+    //   const outputValue = cwlScriptInAndOut.in[property].split('/');
+    //   if (outputValue[1].length === 2) {
+    //     value = `${argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath}`
+    //   }
+    //   else {
+    //     value = cwlScriptInAndOut.in[property]
+    //     value = `${argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath}/${value}`
+    //   }
+    // }
 
-      jobPerTask.push({name: `${property}`, value: value});
+      const entry = {name: `${property}`, value: value}
+
+      console.log("------- defining entry : ", entry)
+
+      jobPerTask.push(entry);
     }
 
     // CWL special case.  If a input depends on a previous output.
     // The input parameter has the special syntax: previoustep/outputname
     const outputValue = cwlScriptInAndOut.in[property].split('/');
     if (outputValue.length === 2) {
+      const cwlDependentParameter = outputValue[0] + "___" + outputValue[1]
       const searchedOutput = detailedOutput.find(
-        (element) => outputValue[1] === element.outputName,
+        (element) => cwlDependentParameter === element.inputName,
       );
       // If a scatter is dynamic then it is generated
       // We can assume that it wasn't defined as an input and outValue has two entries
@@ -182,11 +208,16 @@ export function buildContainerTemplate(
           (element) => searchedOutput.inputName === element.name,
         );
         if (outputSearch && typeof outputSearch.value === 'string') {
+          // const outputName = outputSearch.value
           const [outputName] = outputSearch.value.split('/').slice(-1);
-          jobPerTask.push({
+          const entry = {
             name: `${property}`,
             value: `${argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath}/${outputName}`,
-          });
+          }
+
+          console.log("------- defining entry : ", entry)
+
+          jobPerTask.push(entry);
         }
       }
     }

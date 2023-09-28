@@ -16,7 +16,7 @@ export function determineDependencies(
   const cwlStepName = cwlStepInAndOut.cwlScript.id
 
   // const _cwlStepIn = JSON.stringify(cwlStepIn, null, 2);
-  console.log(`find dependencies for input : ${cwlStepName}`)
+  // console.log(`find dependencies for input : ${cwlStepName}`)
 
   for (const key in cwlStepIn) {
     const token = cwlStepIn[key].split('/');
@@ -27,8 +27,8 @@ export function determineDependencies(
     }
   }
 
-  const _dependencies = JSON.stringify(dependencies, null, 2);
-  console.log(`got : ${_dependencies}`)
+  // const _dependencies = JSON.stringify(dependencies, null, 2);
+  // console.log(`got : ${_dependencies}`)
 
   return dependencies;
 }
