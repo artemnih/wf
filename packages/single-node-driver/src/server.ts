@@ -4,6 +4,9 @@ import cors from "cors";
 import jwksRsa from "jwks-rsa";
 import { expressjwt } from 'express-jwt';
 import { WorkflowRoutes, HealthRoutes } from './router';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSchema from './swagger.json';
 
 export class ExpressServer {
   private app: express.Application;
@@ -37,6 +40,13 @@ export class ExpressServer {
     
     // Serve static files in the public folder
     this.app.use(express.static('public'));
+
+    const specs = swaggerJsdoc(swaggerSchema);
+    this.app.use(
+      "/explorer/",
+      swaggerUi.serve,
+      swaggerUi.setup(specs, { explorer: true })
+    );
   }
 
   public async start() {

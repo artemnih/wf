@@ -7,11 +7,11 @@
     },
     "servers": [
       {
-        "url": "http://localhost:8000"
+        "url": "http://localhost:7999"
       }
     ],
     "paths": {
-      "/compute/workflows": {
+      "/compute/argo": {
         "post": {
           "tags": [
             "Workflow"
@@ -44,143 +44,9 @@
               "description": "Internal server error"
             }
           }
-        },
-        "get": {
-          "tags": [
-            "Workflow"
-          ],
-          "description": "Get all workflows",
-          "operationId": "getWorkflows",
-          "responses": {
-            "200": {
-              "description": "Workflows were obtained",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Workflow"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error"
-            }
-          }
         }
       },
-      "/compute/workflows/{id}": {
-        "get": {
-          "tags": [
-            "Workflow"
-          ],
-          "description": "Get a workflow by id",
-          "operationId": "getWorkflowById",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of workflow to return",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Workflow was obtained",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Workflow"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error"
-            }
-          }
-        },
-        "patch": {
-          "tags": [
-            "Workflow"
-          ],
-          "description": "Update a workflow by id",
-          "operationId": "updateWorkflowById",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of workflow to return",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "name": "workflow",
-              "in": "body",
-              "description": "Workflow object",
-              "required": true,
-              "schema": {
-                "$ref": "#/components/schemas/Workflow"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Workflow was updated",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Workflow"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error"
-            }
-          }
-        }
-      },
-      "/compute/workflows/{id}/resubmit": {
-        "post": {
-          "tags": [
-            "Workflow"
-          ],
-          "description": "Resubmit a workflow by id",
-          "operationId": "resubmitWorkflowById",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of workflow to return",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Workflow was resubmitted",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Workflow"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error"
-            }
-          }
-        }
-      },
-      "/compute/workflows/{id}/status": {
+      "/compute/argo/{id}/status": {
         "get": {
           "tags": [
             "Workflow"
@@ -215,7 +81,7 @@
           }
         }
       },
-      "/compute/workflows/{id}/logs": {
+      "/compute/argo/{id}/logs": {
         "get": {
           "tags": [
             "Workflow"
@@ -250,7 +116,7 @@
           }
         }
       },
-      "/compute/workflows/{id}/output": {
+      "/compute/argo/{id}/output": {
         "get": {
           "tags": [
             "Workflow"
@@ -285,7 +151,7 @@
           }
         }
       },
-      "/compute/workflows/{id}/jobs": {
+      "/compute/argo/{id}/jobs": {
         "get": {
           "tags": [
             "Workflow"
@@ -320,7 +186,7 @@
           }
         }
       },
-      "/compute/workflows/{id}/stop": {
+      "/compute/argo/{id}/stop": {
         "put": {
           "tags": [
             "Workflow"
@@ -354,81 +220,6 @@
             }
           }
         }
-      },
-      "/compute/workflows/{id}/restart": {
-        "put": {
-          "tags": [
-            "Workflow"
-          ],
-          "description": "Restart a workflow by id",
-          "operationId": "restartWorkflowById",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of workflow to return",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Workflow was restarted",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Workflow"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error"
-            }
-          }
-        }
-      },
-      "/compute/workflows/{id}/pause": {
-        "put": {
-          "tags": [
-            "Workflow"
-          ],
-          "description": "Pause a workflow by id",
-          "operationId": "pauseWorkflowById",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of workflow to pause",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Workflow was paused",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Workflow"
-                  }
-                },
-                "text/plain": {
-                  "schema": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error"
-            }
-          }
-        }
       }
     },
     "components": {
@@ -444,22 +235,16 @@
         "Workflow": {
           "type": "object",
           "properties": {
-            "name": {
+            "id": {
               "type": "string"
             },
-            "driver": {
-              "type": "string"
-            },
-            "inputs": {
-              "type": "object"
-            },
-            "outputs": {
-              "type": "object"
-            },
-            "steps": {
+            "cwlWorkflow": {
               "type": "object"
             },
             "cwlJobInputs": {
+              "type": "object"
+            },
+            "jobs": {
               "type": "object"
             }
           }
