@@ -12,6 +12,12 @@ import { NextFunction, Request, Response } from 'express';
 
 class ArgoController {
 
+  /**
+   * Transform the CWLWorkflow and CWLjobInputs into the final Argo workflow.
+   * @param req 
+   * @param res 
+   * @param next 
+   */
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       const argo = req.body as Argo;

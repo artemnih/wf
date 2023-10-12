@@ -13,6 +13,12 @@ import {determineDependencies} from './determineDependencies';
 import {MappedOutput, mapOutputToInputs} from './mapOutputToInputs';
 import {addOperatorPlugin} from './addOperatorPlugins';
 
+/**
+ * Argo Workflow Template expanded with some defaults value
+ * Define volume mounts
+ * TODO CHECK labels: {'workflows.argoproj.io/archive-strategy': 'false'}
+ * could be to keep or remove intermediary datasets.
+ */
 function defaultArgoWorkflowTemplate(): ArgoWorklowTemplate {
   require('dotenv').config();
   const argoConfig = require('config');
@@ -78,6 +84,14 @@ function warnAboutStringArrayParameters(
     );
   }
 }
+
+/**
+ * 
+ * @param cwlWorkflow : the full original cwl workflow at the exception of cwlJobInputs
+ * @param cwlJobParams : those are the input values for each steps coming from cwlJobInputs
+ * @param jobConst : compute view of a command line tool alongs its input/output values
+ * @returns an argo workflow
+ */
 export function cwlToArgo(
   cwlWorkflow: CwlWorkflow,
   cwlJobParams: object,
@@ -85,8 +99,12 @@ export function cwlToArgo(
 ): ArgoWorklowTemplate {
   const argoWorkflow = {...defaultArgoWorkflowTemplate().workflow};
   const scripts = scriptsFromWorkflow(cwlWorkflow, jobConst);
+  //TODO there is a notion of scatter value so check what this is.
+  // It is probably part of the CWL spec
   const operatorReturn = addOperatorPlugin(cwlWorkflow, scripts, jobConst);
+  //Also some scatter related operation
   const mappedOutputs = mapOutputToInputs(operatorReturn.cwlScriptInAndOut);
+  // Parse the cwlJobInputs to extract Directory paths as strings
   const jobParams = parseJobParameters(cwlJobParams);
 
   argoWorkflow.metadata.name = `${operatorReturn.jobs[0].workflowId}`;
@@ -102,14 +120,15 @@ export function cwlToArgo(
   const dagArray: ArgoDagArray = {
     name: 'workflow',
     dag: {tasks: []},
-  };
+  }; 
   const containerArray: ArgoContainerTemplate[] = [];
 
   generatedTemplates.forEach((value) => {
     dagArray.dag.tasks.push(value.argoDagTemplate);
     containerArray.push(value.argoContainerTemplate);
   });
-  // You can have multiple containers in a workflow.  Let's only store the unique ones in the template.
+  // You can have multiple containers in a workflow.
+  // Let's only store the unique ones in the template.
   argoWorkflow.spec.templates[0] = dagArray;
   const containerSet = new Set();
   containerArray.forEach((value, index) => {
@@ -125,61 +144,67 @@ export function cwlToArgo(
   };
 }
 
+/**
+ * Build a single argo step by identifying inputs and outputs
+ * @param cwlScriptInAndOut 
+ * @param index 
+ * @param jobParameters 
+ * @param detailedOutput 
+ * @returns a dictionary containing a argDagTemplate and a argoContainerTemplate
+ */
 export function buildContainerTemplate(
   cwlScriptInAndOut: CwlScriptInAndOut,
   index: number,
   jobParameters: JobParameters[],
   detailedOutput: MappedOutput[],
-): {
+): 
+{
   argoDagTemplate: ArgoDagTaskTemplate;
   argoContainerTemplate: ArgoContainerTemplate;
-} {
+} 
+{
   require('dotenv').config();
   const argoConfig = require('config');
 
-  console.log("------- working on : ", cwlScriptInAndOut.cwlScript.id)
+  const stepName = cwlScriptInAndOut.cwlScript.id
+
+  console.log("------- working on : ", stepName)
 
   const containerArgs: string[] = [];
   const inputParameter: object[] = [];
   let scatterParam: string[] | string = '';
   const jobPerTask: object[] = [];
+
+  // figuring out all dependencies between steps
   const dependencies = determineDependencies(cwlScriptInAndOut);
+
   for (const property in cwlScriptInAndOut.in) {
 
     console.log("------- defining property : ", property)
 
     inputParameter.push({name: property});
+
+    // find the bindings for the container
     const _container_args = containerArguments(property, cwlScriptInAndOut);
     // console.log("------- defining container_args : ", ..._container_args);
     containerArgs.push(..._container_args);
+
+    //for each input step, check if it is defined in the cwlJobInputs
     const jobParam = jobParameters.find(
       (element) => cwlScriptInAndOut.in[property] === element.name,
     );
 
     console.log("------- defining jobparam : ", jobParam)
 
-    // If input is defined in the JobParameters field
-    // You can use that object to populate array.
-    let value
+    // If input is defined in the JobParameters (CWLInputsJobs) field
     if (jobParam) {
-      value = jobParam?.value;
+      let value = jobParam?.value;
       if (cwlScriptInAndOut.scatter === property) {
         value = '{{item}}';
         scatterParam = jobParam?.value as string[];
       } else {
         warnAboutStringArrayParameters(value);
       }
-    // else if(cwlScriptInAndOut.in[property]){
-    //   const outputValue = cwlScriptInAndOut.in[property].split('/');
-    //   if (outputValue[1].length === 2) {
-    //     value = `${argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath}`
-    //   }
-    //   else {
-    //     value = cwlScriptInAndOut.in[property]
-    //     value = `${argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath}/${value}`
-    //   }
-    // }
-
       const entry = {name: `${property}`, value: value}
 
       console.log("------- defining entry : ", entry)
@@ -189,12 +214,25 @@ export function buildContainerTemplate(
 
     // CWL special case.  If a input depends on a previous output.
     // The input parameter has the special syntax: previoustep/outputname
-    const outputValue = cwlScriptInAndOut.in[property].split('/');
-    if (outputValue.length === 2) {
+    else {
+      const outputValue = cwlScriptInAndOut.in[property].split('/');
+      if (outputValue.length !== 2) {
+        throw Error(
+          `Invalid ${property} for step ${stepName}. Should be a dependent input in the form dependentStepName/dependentInputName`,
+        );
+      }
+
+      // TODO HACK CHANGE - this fix will only works with wic as we rely on its 
+      // representation for name (triple underscores)
+      // A better approach would be to pass former steps and look for the value of the 
+      // param there. We assume some ordering where dependent step are defined after 
+      // the step they depend on.
       const cwlDependentParameter = outputValue[0] + "___" + outputValue[1]
+
       const searchedOutput = detailedOutput.find(
         (element) => cwlDependentParameter === element.inputName,
       );
+
       // If a scatter is dynamic then it is generated
       // We can assume that it wasn't defined as an input and outValue has two entries
       // Then let's set our scatterParam to be dynamically generated via argo.
@@ -209,6 +247,23 @@ export function buildContainerTemplate(
         );
         if (outputSearch && typeof outputSearch.value === 'string') {
           // const outputName = outputSearch.value
+
+          const workflowParam = jobParameters.find(
+            (element) => cwlDependentParameter === element.name
+          )
+
+          const [parentStep, param] = outputSearch.value.split('/')
+
+          if(workflowParam){
+            let path : string = workflowParam.value as string;
+            path = path.split("/").slice(3).join("/")
+            path = "/data/inputs/temp/jobs/" + path
+            const entry = {name: `${property}`, value: path}
+            console.log("------- defining entry : ", entry)
+            jobPerTask.push(entry);
+            continue
+          }
+
           const [outputName] = outputSearch.value.split('/').slice(-1);
           const entry = {
             name: `${property}`,
@@ -222,6 +277,7 @@ export function buildContainerTemplate(
       }
     }
   }
+
   const argoContainerTemplate: ArgoContainerTemplate = {
     name: `${cwlScriptInAndOut.cwlScript.id}`,
     inputs: {
@@ -250,6 +306,7 @@ export function buildContainerTemplate(
       ],
     },
   };
+
   const argoDagTemplate: ArgoDagTaskTemplate = {
     name: `${cwlScriptInAndOut.cwlScript.id}`,
     template: `${cwlScriptInAndOut.cwlScript.id}`,
@@ -257,6 +314,7 @@ export function buildContainerTemplate(
       parameters: jobPerTask,
     },
   };
+
   if (cwlScriptInAndOut.scatter) {
     if (Array.isArray(scatterParam)) {
       argoDagTemplate.withItems = scatterParam as string[];
@@ -264,7 +322,11 @@ export function buildContainerTemplate(
       argoDagTemplate.withParam = scatterParam as string;
     }
   }
-  if (dependencies.length > 0) argoDagTemplate.dependencies = dependencies;
+
+  if (dependencies.length > 0) {
+    argoDagTemplate.dependencies = dependencies;
+  }
+  
   return {argoDagTemplate, argoContainerTemplate};
 }
 function containerArguments(

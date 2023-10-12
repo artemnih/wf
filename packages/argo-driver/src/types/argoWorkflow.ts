@@ -1,3 +1,11 @@
+/**
+ * Model a argo workflow
+ */
+
+
+/**
+ * Argo Workflow Template (TODO ADD LINK TO ARGO SPEC)
+ */
 export interface ArgoWorklowTemplate {
   namespace: string;
   serverDryRun: boolean;
@@ -26,6 +34,10 @@ export interface ArgoWorklowTemplate {
   };
 }
 
+
+/**
+ * Argo Container Template (TODO ADD LINK TO ARGO SPEC)
+ */
 export interface ArgoContainerTemplate {
   name: string;
   inputs: {
@@ -39,6 +51,7 @@ export interface ArgoContainerTemplate {
   };
 }
 
+
 export interface ArgoVolumeMounts {
   name?: string;
   readOnly?: boolean;
@@ -46,6 +59,11 @@ export interface ArgoVolumeMounts {
   subPath?: string;
 }
 
+/**
+ * Argo Workflows can be represented a list of steps
+ * Or as a dag of steps with dependencies.
+ * 
+ */
 export interface ArgoDagArray {
   name: string;
   dag: {tasks: ArgoDagTaskTemplate[]};

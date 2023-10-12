@@ -3,7 +3,12 @@ import {CwlWorkflow, MinimalJob} from '../types';
 import {submitWorkflowToArgo} from '../services/argoApi';
 
 class ArgoRepository {
-
+  /**
+   * Translate a CWL Workflow received from Compute into an Crgo workflow
+   * @param cwlWorkflow the original CWL lWorkflow received from the Compute API
+   * @param cwlJobParams 
+   * @param jobs 
+   */
   public compute(
     cwlWorkflow: CwlWorkflow,
     cwlJobParams: object,

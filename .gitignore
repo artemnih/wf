@@ -118,3 +118,5 @@ packages/**/dist
 # Helm cache
 deploy/helm/api/**/charts
 deploy/helm/argo-driver/charts/**/charts
+
+.vscode
