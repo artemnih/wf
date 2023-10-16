@@ -1,5 +1,5 @@
 import {Step} from '../../types';
-export interface MappedOutput {
+export interface BoundOutput {
   outputName?: string;
   inputName?: string;
 }
@@ -13,7 +13,7 @@ export interface MappedOutput {
  * @param steps 
  * @returns 
  */
-export function mapStepOutputToStepInputValue(steps: Step[]) {
+export function boundStepOutputToStepInputValue(steps: Step[]) {
 
   // TODO some kind of edge case here
   // but not quite sure what edge case it is really addressing
@@ -23,7 +23,7 @@ export function mapStepOutputToStepInputValue(steps: Step[]) {
     return [{}];
   }
 
-  const arrayOutputs: MappedOutput[] = [];
+  const arrayOutputs: BoundOutput[] = [];
   steps.forEach((step) => {
     // for each step OUTPUT, find the clt's outputBinding.
     // it should be of the form $(inputs.OUTPUT_NAME.basepath)

@@ -22,6 +22,7 @@ export interface CwlWorkflowStep {
 
 export interface Step {
   clt: CLT;
+  name: string;
   in: Record<string, string>;
   out: string[];
   scatter?: string;

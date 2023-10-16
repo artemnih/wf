@@ -42,11 +42,15 @@ export function addOperatorPlugin(
       outputs: {},
       stepName: operatorKey,
     });
+
+    //TODO check name makes sense
     expandedSteps.push({
       clt: filePatternScript,
       in: {input: val},
       out: ['filePatterns'],
+      name: operatorKey
     });
+    
     const operator: CwlWorkflowStep = {
       run: 'src/operators/argo-file-pattern-operator.json',
       in: {

@@ -1,16 +1,16 @@
-import {stepsFromWorkflow as stepsFromWorkflow} from './mergeStepInfo';
-import {cwlJobInput, parseCwlJobInputs as parseCwlJobInputs} from './parseCwlJobInputs';
+import {stepsFromWorkflow} from './mergeStepInfo';
+import {cwlJobInput, parseCwlJobInputs} from './parseCwlJobInputs';
 import {
   ArgoWorklowTemplate,
   ArgoDagTaskTemplate,
   Step,
   CwlWorkflow,
   ArgoContainerTemplate,
-  ArgoDagArray,
+  ArgoDagTasks,
   ComputeJob,
 } from '../../types';
 import {determineDependencies} from './determineDependencies';
-import {MappedOutput, mapStepOutputToStepInputValue as boundStepOutputToStepInputValue} from './mapOutputToInputs';
+import {BoundOutput, boundStepOutputToStepInputValue} from './boundOutputToInputs';
 import {addOperatorPlugin} from './addOperatorPlugins';
 
 /**
@@ -100,7 +100,7 @@ export function cwlToArgo(
 
   // create a new argo workflow from a base template
   const argoWorkflow = {...defaultArgoWorkflowTemplate().workflow};
-  const steps = stepsFromWorkflow(cwlWorkflow, computeJobs);
+  const steps : Step[] = stepsFromWorkflow(cwlWorkflow, computeJobs);
   //TODO there is a notion of scatter value so check what this is.
   //seems to be a custom attribute to generate several templates
   // when a list is used for a single valued attribute.
@@ -118,11 +118,11 @@ export function cwlToArgo(
   // build each individual argo step
   const generatedTemplates = operatorReturn.steps.map(
     (step, step_order) => {
-      return buildContainerTemplate(step, step_order, workflowInputs, boundOutputs);
+      return buildStepTemplates(step, step_order, workflowInputs, boundOutputs);
     },
   );
 
-  const dagArray: ArgoDagArray = {
+  const dagArray: ArgoDagTasks = {
     name: 'workflow',
     dag: {tasks: []},
   }; 
@@ -157,74 +157,63 @@ export function cwlToArgo(
  * @param boundOutputs 
  * @returns a dictionary containing a argDagTemplate and a argoContainerTemplate
  */
-export function buildContainerTemplate(
+export function buildStepTemplates(
   step: Step,
   step_order: number,
   cwlJobInputs: cwlJobInput[],
-  boundOutputs: MappedOutput[],
+  boundOutputs: BoundOutput[],
 ): 
 {
   argoDagTemplate: ArgoDagTaskTemplate;
   argoContainerTemplate: ArgoContainerTemplate;
 } 
 {
+
+  console.log("------- working on : ", step.name)
+  
+  buildArgoContainerTemplate(step)
+
   require('dotenv').config();
   const argoConfig = require('config');
 
-  //TODO CHECK this used to be generate by the compute API but not anymore
-  const stepName = step.clt.id
-
-  console.log("------- working on : ", stepName)
-
-  const containerArgs: string[] = [];
-  const inputParameter: object[] = [];
   let scatterParam: string[] | string = '';
-  const jobPerTask: object[] = [];
+  const taskArgumentsParameters: object[] = [];
+  const templateName = step.name
 
-  // is this step depending on the result of other steps?
+  // step names this step depends on
   const dependencies = determineDependencies(step);
 
-  for (const property in step.in) {
-
-    console.log("------- defining property : ", property)
-
-    inputParameter.push({name: property});
-
-    // find the bindings for the container
-    const _container_args = containerArguments(property, step);
-    // console.log("------- defining container_args : ", ..._container_args);
-    containerArgs.push(..._container_args);
-
-    //for each input step, check if it is defined in the cwlJobInputs
-    const jobParam = cwlJobInputs.find(
-      (element) => step.in[property] === element.name,
+  for (const stepInput in step.in) {
+    
+    const workflowInput = cwlJobInputs.find(
+      (element) => step.in[stepInput] === element.name,
     );
 
-    console.log("------- defining jobparam : ", jobParam)
+    //for each input step, check if it is defined in the cwlJobInputs
+    if (workflowInput) {
+      let value = workflowInput?.value;
 
-    // If input is defined in the JobParameters (CWLInputsJobs) field
-    if (jobParam) {
-      let value = jobParam?.value;
-      if (step.scatter === property) {
+      //TODO CHECK THIS LATER
+      if (step.scatter === stepInput) {
         value = '{{item}}';
-        scatterParam = jobParam?.value as string[];
+        scatterParam = workflowInput?.value as string[];
       } else {
         warnAboutStringArrayParameters(value);
       }
-      const entry = {name: `${property}`, value: value}
 
-      console.log("------- defining entry : ", entry)
+      const parameter = {name: `${stepInput}`, value: value}
 
-      jobPerTask.push(entry);
+      taskArgumentsParameters.push(parameter);
     }
 
     // CWL special case.  If a input depends on a previous output.
     // The input parameter has the special syntax: previoustep/outputname
     else {
-      const outputValue = step.in[property].split('/');
+      const outputValue = step.in[stepInput].split('/');
       if (outputValue.length !== 2) {
         throw Error(
-          `Invalid ${property} for step ${stepName}. Should be a dependent input in the form dependentStepName/dependentInputName`,
+          `Invalid ${stepInput} for step ${templateName}. 
+          Should be a dependent input in the form dependentStepName/dependentInputName`,
         );
       }
 
@@ -242,9 +231,9 @@ export function buildContainerTemplate(
       // If a scatter is dynamic then it is generated
       // We can assume that it wasn't defined as an input and outValue has two entries
       // Then let's set our scatterParam to be dynamically generated via argo.
-      if (!jobParam && step.scatter === property) {
+      if (!workflowInput && step.scatter === stepInput) {
         scatterParam = `{{tasks.${outputValue[0]}.outputs.result}}`;
-        jobPerTask.push({name: `${property}`, value: '{{item}}'});
+        taskArgumentsParameters.push({name: `${stepInput}`, value: '{{item}}'});
       }
 
       if (searchedOutput) {
@@ -264,60 +253,79 @@ export function buildContainerTemplate(
             let path : string = workflowParam.value as string;
             path = path.split("/").slice(3).join("/")
             path = "/data/inputs/temp/jobs/" + path
-            const entry = {name: `${property}`, value: path}
+            const entry = {name: `${stepInput}`, value: path}
             console.log("------- defining entry : ", entry)
-            jobPerTask.push(entry);
+            taskArgumentsParameters.push(entry);
             continue
           }
 
           const [outputName] = outputSearch.value.split('/').slice(-1);
           const entry = {
-            name: `${property}`,
+            name: `${stepInput}`,
             value: `${argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath}/${outputName}`,
           }
 
           console.log("------- defining entry : ", entry)
 
-          jobPerTask.push(entry);
+          taskArgumentsParameters.push(entry);
         }
       }
     }
   }
 
-  const argoContainerTemplate: ArgoContainerTemplate = {
-    name: `${step.clt.id}`,
-    inputs: {
-      parameters: inputParameter,
-    },
-    container: {
-      image:
-        step.clt.requirements.DockerRequirement.dockerPull,
-      command:
-        step.clt.baseCommand[0] === ''
-          ? []
-          : step.clt.baseCommand,
-      args: containerArgs,
-      volumeMounts: [
-        {
-          name: argoConfig.argoCompute.volumeDefinitions.name,
-          readOnly: true,
-          mountPath: argoConfig.argoCompute.volumeDefinitions.mountPath,
-        },
-        {
-          name: argoConfig.argoCompute.volumeDefinitions.name,
-          mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}/${step.clt.id}`,
-          subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}/${step.clt.id}`,
-          readOnly: false,
-        },
-      ],
-    },
-  };
+  function buildArgoContainerTemplate(step: Step) {
+
+    console.log(`------- generating container template for step ${step.name}`)
+
+    require('dotenv').config();
+    const argoConfig = require('config');
+    const containerArgs: string[] = [];
+    const parameterNames: object[] = [];
+    const templateName = step.name
+
+    for (const stepInput in step.in) {
+      parameterNames.push({name: stepInput});
+      const containerArg = buildContainerArg(stepInput, step);
+      containerArgs.push(...containerArg);
+    }
+
+    const argoContainerTemplate: ArgoContainerTemplate = {
+      name: templateName,
+      inputs: {
+        parameters: parameterNames,
+      },
+      container: {
+        image:
+          step.clt.requirements.DockerRequirement.dockerPull,
+        command:
+          step.clt.baseCommand[0] === ''
+            ? []
+            : step.clt.baseCommand,
+        args: containerArgs,
+        volumeMounts: [
+          {
+            name: argoConfig.argoCompute.volumeDefinitions.name,
+            readOnly: true,
+            mountPath: argoConfig.argoCompute.volumeDefinitions.mountPath,
+          },
+          {
+            name: argoConfig.argoCompute.volumeDefinitions.name,
+            mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}/${step.clt.id}`,
+            subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}/${step.clt.id}`,
+            readOnly: false,
+          },
+        ],
+      },
+    };
+
+    return argoContainerTemplate
+  }
 
   const argoDagTemplate: ArgoDagTaskTemplate = {
     name: `${step.clt.id}`,
     template: `${step.clt.id}`,
     arguments: {
-      parameters: jobPerTask,
+      parameters: taskArgumentsParameters,
     },
   };
 
@@ -335,23 +343,33 @@ export function buildContainerTemplate(
   
   return {argoDagTemplate, argoContainerTemplate};
 }
-function containerArguments(
-  property: string,
-  cwlScriptInAndOut: Step,
+
+function buildContainerArg(
+  inputParam: string,
+  step: Step,
 ): string[] {
-  if (!cwlScriptInAndOut.clt.inputs[property]) {
+
+  // check if the step input is also defined in the clt definition
+  if (!step.clt.inputs[inputParam]) {
     throw Error(
-      `The value ${property} was not found in ${cwlScriptInAndOut.clt.inputs}`,
+      `The value ${inputParam} was not found in ${step.clt.inputs}`,
     );
   }
-  const prefix =
-    cwlScriptInAndOut.clt.inputs[property].inputBinding.prefix;
-  if (prefix) {
+
+  //extract container argument name from the clt definition
+  let argname = step.clt.inputs[inputParam].inputBinding.prefix;
+
+  if (argname) {
     // For array inputs, CWL requires a = after the prefix.  For argo, this causes issues.
     // We will remove from the argo workflow builder.
-    const removeEqualsPrefix = prefix.replace('=', '');
-    return [`${removeEqualsPrefix}`, `{{inputs.parameters.${property}}}`];
-  } else {
-    return [`{{inputs.parameters.${property}}}`];
+    // TODO CHECK the spec, address and remove original comment above
+    argname = argname.replace('=', '');
+
+    // ex : ['--name','{{inputs.parameters.name}}']
+    return [`${argname}`, `{{inputs.parameters.${inputParam}}}`];
+  } 
+  else {
+    //TODO AGAIN CHECK SPEC TO SEE IF THIS ACCEPTABLE
+    return [`{{inputs.parameters.${inputParam}}}`];
   }
 }

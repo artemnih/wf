@@ -29,9 +29,12 @@ export function stepsFromWorkflow(
    */
   let index = 0;
   for (const stepName in cwlWorkflow.steps) {
+    
     const clt = jobs[index].commandLineTool as CLT;
+
     const step: Step = {
       clt: clt,
+      name: stepName,
       in: cwlWorkflow.steps[stepName].in,
       out: cwlWorkflow.steps[stepName].out,
     };
@@ -43,6 +46,9 @@ export function stepsFromWorkflow(
     if (cwlWorkflow.steps[stepName].when) {
       step.when = cwlWorkflow.steps[stepName].when;
     }
+
+    step.name = stepName
+
     steps.push(step);
     index = index + 1;
   }
