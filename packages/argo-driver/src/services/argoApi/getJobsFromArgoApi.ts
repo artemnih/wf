@@ -1,11 +1,11 @@
-import {MinimalJob} from '../../types';
+import {ComputeJob} from '../../types';
 import {ArgoNodes, ArgoParameters} from './getArgoJobStatus';
 import {buildContainerUrl} from './buildContainerUrl';
 import {getOutputsFromArgoInputs} from './getOutputsFromArgoInputs';
 export function getJobsFromArgoApi(
   workflowId: string,
   argoNodes: Array<ArgoNodes>,
-): MinimalJob[] {
+): ComputeJob[] {
   let index = 0;
   // Argo does not have to return the nodes in any logical order.
   // We sort the nodes for both jobs and argo nodes.  This way we enforce order.
@@ -15,9 +15,9 @@ export function getJobsFromArgoApi(
     const y = b.displayName.toLowerCase();
     return x < y ? -1 : x > y ? 1 : 0;
   });
-  const jobs: MinimalJob[] = [];
+  const jobs: ComputeJob[] = [];
   for (const argoNode of sortedArgoNodes) {
-    const job: MinimalJob = {
+    const job: ComputeJob = {
       driver: 'ARGO',
       dateCreated: argoNode.startedAt,
       workflowId,

@@ -1,5 +1,5 @@
 import {argoApiInstance} from '.';
-import {MinimalJob} from '../../types';
+import {ComputeJob} from '../../types';
 import {getJobsFromArgoApi} from './getJobsFromArgoApi';
 
 export interface ArgoJobStatus {
@@ -38,7 +38,7 @@ export async function getWorkflowFromArgo(
 }
 export async function getArgoJobStatus(
   argoWorkflowName: string,
-): Promise<MinimalJob[]> {
+): Promise<ComputeJob[]> {
   const argoStatus = await getWorkflowFromArgo(argoWorkflowName);
   const jobs = getJobsFromArgoApi(argoWorkflowName, getPodNodes(argoStatus));
   return jobs;

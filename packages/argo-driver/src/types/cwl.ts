@@ -1,13 +1,17 @@
-export interface CwlScript {
+export interface CLT {
   cwlVersion: string;
   id: string;
   class: string;
   requirements: {DockerRequirement: {dockerPull: string}};
   baseCommand: string[];
-  inputs: Record<string, CwlScriptInput>;
-  outputs: Record<string, CwlScriptOutput>;
+  inputs: Record<string, CLTInput>;
+  outputs: Record<string, CLTOutput>;
 }
 
+
+/*
+TODO Should be removed and only Step should be use.
+*/
 export interface CwlWorkflowStep {
   run: string;
   in: Record<string, string>;
@@ -16,8 +20,8 @@ export interface CwlWorkflowStep {
   when?: string;
 }
 
-export interface CwlScriptInAndOut {
-  cwlScript: CwlScript;
+export interface Step {
+  clt: CLT;
   in: Record<string, string>;
   out: string[];
   scatter?: string;
@@ -28,24 +32,25 @@ export interface CwlWorkflow {
   cwlVersion: string;
   class: string;
   id: string;
+  // TODO logically should CwlInput?
   inputs: object;
-  outputs: Record<string, CwlOutput>;
+  outputs: Record<string, CwlStepOutput>;
   steps: Record<string, CwlWorkflowStep>;
 }
 
-export interface CwlOutput {
+export interface CwlStepOutput {
   type: string;
   outputSource: string | string[];
 }
 
-export interface CwlScriptOutput {
+export interface CLTOutput {
   type: string;
   outputBinding: {
     glob: string;
   };
 }
 
-export interface CwlScriptInput {
+export interface CLTInput {
   type: string;
   inputBinding: {
     position?: number;

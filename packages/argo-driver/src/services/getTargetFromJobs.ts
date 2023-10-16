@@ -1,11 +1,11 @@
-import {MinimalJob} from '../types';
+import {ComputeJob} from '../types';
 
 export enum Target {
   outputs,
   logs,
 }
 export function getTargetFromJobs(
-  jobs: MinimalJob[],
+  jobs: ComputeJob[],
   outputOrLog: Target,
 ): Record<string, string> {
   const outputObject: Record<string, string> = {};

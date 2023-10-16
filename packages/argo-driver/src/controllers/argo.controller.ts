@@ -1,6 +1,6 @@
-import { Argo } from '../models';
+import { WorkflowExecutionRequest } from '../models';
 import ArgoRepository from '../repositories/argo.repository';
-import { CwlWorkflow, MinimalJob } from '../types';
+import { CwlWorkflow, ComputeJob } from '../types';
 import {
   statusOfArgoWorkflow,
   getArgoJobsAndUpdateComputeJobs,
@@ -13,20 +13,21 @@ import { NextFunction, Request, Response } from 'express';
 class ArgoController {
 
   /**
-   * Transform the CWLWorkflow and CWLjobInputs into the final Argo workflow.
+   * Create an argo workflow and submit it for execution.
    * @param req 
    * @param res 
    * @param next 
    */
-  async create(req: Request, res: Response, next: NextFunction) {
+  async createArgoWorkflow(req: Request, res: Response, next: NextFunction) {
     try {
-      const argo = req.body as Argo;
-      const result = ArgoRepository.compute(
-        argo.cwlWorkflow as CwlWorkflow,
-        argo.cwlJobInputs,
-        argo.jobs as MinimalJob[],
+      // parsing request body as is
+      const request = req.body as WorkflowExecutionRequest;
+      const argoResponse = ArgoRepository.createWorkflow(
+        request.cwlWorkflow as CwlWorkflow,
+        request.cwlJobInputs,
+        request.jobs as ComputeJob[], // jobs are the step definitions stored by compute
       );
-      res.status(201).json(result);
+      res.status(201).json(argoResponse);
     } catch (error) {
       next(error);
     }

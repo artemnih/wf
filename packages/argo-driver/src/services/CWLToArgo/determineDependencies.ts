@@ -1,7 +1,7 @@
-import { CwlScriptInAndOut } from '../../types';
+import { Step } from '../../types';
 
 export function determineDependencies(
-  cwlStepInAndOut: CwlScriptInAndOut,
+  cwlStepInAndOut: Step,
 ): string[] {
   // Argo DAG has the following syntax to determine dependencies:
   // dependencies = ['step that this one depends on']
@@ -15,7 +15,7 @@ export function determineDependencies(
   const cwlStepIn = cwlStepInAndOut.in
   //TODO CHECK HERE it seems the problem with step name being identified to cwlScript.id,
   //which represents the container id, this is not necessarily the same
-  const cwlStepName = cwlStepInAndOut.cwlScript.id
+  const cwlStepName = cwlStepInAndOut.clt.id
 
   // const _cwlStepIn = JSON.stringify(cwlStepIn, null, 2);
   // console.log(`find dependencies for input : ${cwlStepName}`)

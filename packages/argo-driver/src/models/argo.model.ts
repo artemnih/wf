@@ -1,4 +1,4 @@
-export interface Argo {
+export interface WorkflowExecutionRequest {
   id?: number;
   cwlWorkflow: object;
   cwlJobInputs: object;
