@@ -1,5 +1,6 @@
 import {Step} from '../../types';
 export interface BoundOutput {
+  stepName?: string
   outputName?: string;
   inputName?: string;
 }
@@ -18,6 +19,7 @@ export function boundStepOutputToStepInputValue(steps: Step[]) {
   // TODO some kind of edge case here
   // but not quite sure what edge case it is really addressing
   // and if generic enough
+  // plus it is messing up typing
   const arrayOuts = steps[0].out;
   if (Array.isArray(arrayOuts) && arrayOuts.length === 0) {
     return [{}];
@@ -41,6 +43,7 @@ export function boundStepOutputToStepInputValue(steps: Step[]) {
       // TODO yes but what about other param than directory?
       const outputDirName = outputVal.outputBinding.glob.split('.');
       arrayOutputs.push({
+        stepName: step.name,
         outputName: step.out[output],
         inputName: step.in[outputDirName[1]],
       });

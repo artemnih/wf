@@ -12,6 +12,7 @@ import {
 import {determineDependencies} from './determineDependencies';
 import {BoundOutput, boundStepOutputToStepInputValue} from './boundOutputToInputs';
 import {addOperatorPlugin} from './addOperatorPlugins';
+import path from 'path'
 
 /**
  * Argo Workflow Template expanded with some defaults value
@@ -117,8 +118,8 @@ export function cwlToArgo(
 
   // build each individual argo step
   const generatedTemplates = operatorReturn.steps.map(
-    (step, step_order) => {
-      return buildStepTemplates(step, step_order, workflowInputs, boundOutputs);
+    (step) => {
+      return buildStepTemplates(step, workflowInputs, boundOutputs);
     },
   );
 
@@ -159,20 +160,26 @@ export function cwlToArgo(
  */
 export function buildStepTemplates(
   step: Step,
-  step_order: number,
   cwlJobInputs: cwlJobInput[],
-  boundOutputs: BoundOutput[],
+  boundOutputs: BoundOutput[]
 ): 
 {
   argoDagTemplate: ArgoDagTaskTemplate;
   argoContainerTemplate: ArgoContainerTemplate;
 } 
 {
-
   console.log("------- working on : ", step.name)
   
-  buildArgoContainerTemplate(step)
+  const argoContainerTemplate = buildArgoContainerTemplate(step)
+  const argoDagTemplate = buildArgoDagTaskTemplate(step, cwlJobInputs, boundOutputs)
 
+  return { argoDagTemplate, argoContainerTemplate };
+}
+
+function buildArgoDagTaskTemplate(
+  step: Step, 
+  cwlJobInputs: cwlJobInput[],
+  boundOutputs: BoundOutput[]) {
   require('dotenv').config();
   const argoConfig = require('config');
 
@@ -184,141 +191,57 @@ export function buildStepTemplates(
   const dependencies = determineDependencies(step);
 
   for (const stepInput in step.in) {
+
+    let inputValue : string | string[] = null
     
+     //for each input step, check if it is defined in the cwlJobInputs
     const workflowInput = cwlJobInputs.find(
       (element) => step.in[stepInput] === element.name,
     );
-
-    //for each input step, check if it is defined in the cwlJobInputs
     if (workflowInput) {
-      let value = workflowInput?.value;
-
+      inputValue = workflowInput.value;
       //TODO CHECK THIS LATER
       if (step.scatter === stepInput) {
-        value = '{{item}}';
+        inputValue = '{{item}}';
         scatterParam = workflowInput?.value as string[];
       } else {
-        warnAboutStringArrayParameters(value);
+        warnAboutStringArrayParameters(inputValue);
       }
-
-      const parameter = {name: `${stepInput}`, value: value}
-
-      taskArgumentsParameters.push(parameter);
     }
-
-    // CWL special case.  If a input depends on a previous output.
-    // The input parameter has the special syntax: previoustep/outputname
     else {
-      const outputValue = step.in[stepInput].split('/');
-      if (outputValue.length !== 2) {
+      // CWL special case.  If a input depends on a previous output.
+      // The input parameter has the special syntax: previoustep/outputname
+      const dependentInput = step.in[stepInput].split('/');
+      if (dependentInput.length !== 2) {
         throw Error(
           `Invalid ${stepInput} for step ${templateName}. 
           Should be a dependent input in the form dependentStepName/dependentInputName`,
         );
       }
+      let [boundStep, boundOutput] = dependentInput
 
-      // TODO HACK CHANGE - this fix will only works with wic as we rely on its 
-      // representation for name (triple underscores)
-      // A better approach would be to pass former steps and look for the value of the 
-      // param there. We assume some ordering where dependent step are defined after 
-      // the step they depend on.
-      const cwlDependentParameter = outputValue[0] + "___" + outputValue[1]
-
-      const searchedOutput = boundOutputs.find(
-        (element) => cwlDependentParameter === element.inputName,
+      const boundInput = boundOutputs.find(
+        (element) => boundStep == element.stepName && boundOutput === element.outputName
       );
 
-      // If a scatter is dynamic then it is generated
-      // We can assume that it wasn't defined as an input and outValue has two entries
-      // Then let's set our scatterParam to be dynamically generated via argo.
-      if (!workflowInput && step.scatter === stepInput) {
-        scatterParam = `{{tasks.${outputValue[0]}.outputs.result}}`;
-        taskArgumentsParameters.push({name: `${stepInput}`, value: '{{item}}'});
-      }
-
-      if (searchedOutput) {
-        const outputSearch = cwlJobInputs.find(
-          (element) => searchedOutput.inputName === element.name,
+      if(boundInput) { 
+        const workflowInput = cwlJobInputs.find(
+          (element) => boundInput.inputName === element.name,
         );
-        if (outputSearch && typeof outputSearch.value === 'string') {
-          // const outputName = outputSearch.value
-
-          const workflowParam = cwlJobInputs.find(
-            (element) => cwlDependentParameter === element.name
-          )
-
-          const [parentStep, param] = outputSearch.value.split('/')
-
-          if(workflowParam){
-            let path : string = workflowParam.value as string;
-            path = path.split("/").slice(3).join("/")
-            path = "/data/inputs/temp/jobs/" + path
-            const entry = {name: `${stepInput}`, value: path}
-            console.log("------- defining entry : ", entry)
-            taskArgumentsParameters.push(entry);
-            continue
-          }
-
-          const [outputName] = outputSearch.value.split('/').slice(-1);
-          const entry = {
-            name: `${stepInput}`,
-            value: `${argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath}/${outputName}`,
-          }
-
-          console.log("------- defining entry : ", entry)
-
-          taskArgumentsParameters.push(entry);
+        if(workflowInput){
+          inputValue = workflowInput?.value;
         }
       }
     }
-  }
 
-  function buildArgoContainerTemplate(step: Step) {
-
-    console.log(`------- generating container template for step ${step.name}`)
-
-    require('dotenv').config();
-    const argoConfig = require('config');
-    const containerArgs: string[] = [];
-    const parameterNames: object[] = [];
-    const templateName = step.name
-
-    for (const stepInput in step.in) {
-      parameterNames.push({name: stepInput});
-      const containerArg = buildContainerArg(stepInput, step);
-      containerArgs.push(...containerArg);
+    if(inputValue) {
+      if(step.clt.inputs[stepInput]?.type == 'Directory'){
+        const argoMountPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath
+        inputValue = path.join(argoMountPath , inputValue as string)
+      }
+      const parameter = {name: `${stepInput}`, value: inputValue}
+      taskArgumentsParameters.push(parameter);
     }
-
-    const argoContainerTemplate: ArgoContainerTemplate = {
-      name: templateName,
-      inputs: {
-        parameters: parameterNames,
-      },
-      container: {
-        image:
-          step.clt.requirements.DockerRequirement.dockerPull,
-        command:
-          step.clt.baseCommand[0] === ''
-            ? []
-            : step.clt.baseCommand,
-        args: containerArgs,
-        volumeMounts: [
-          {
-            name: argoConfig.argoCompute.volumeDefinitions.name,
-            readOnly: true,
-            mountPath: argoConfig.argoCompute.volumeDefinitions.mountPath,
-          },
-          {
-            name: argoConfig.argoCompute.volumeDefinitions.name,
-            mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}/${step.clt.id}`,
-            subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}/${step.clt.id}`,
-            readOnly: false,
-          },
-        ],
-      },
-    };
-
-    return argoContainerTemplate
   }
 
   const argoDagTemplate: ArgoDagTaskTemplate = {
@@ -341,7 +264,56 @@ export function buildStepTemplates(
     argoDagTemplate.dependencies = dependencies;
   }
   
-  return {argoDagTemplate, argoContainerTemplate};
+  return argoDagTemplate;
+}
+
+
+function buildArgoContainerTemplate(step: Step) {
+
+  console.log(`------- generating container template for step ${step.name}`)
+
+  require('dotenv').config();
+  const argoConfig = require('config');
+  const containerArgs: string[] = [];
+  const parameterNames: object[] = [];
+  const templateName = step.name
+
+  for (const stepInput in step.in) {
+    parameterNames.push({name: stepInput});
+    const containerArg = buildContainerArg(stepInput, step);
+    containerArgs.push(...containerArg);
+  }
+
+  const argoContainerTemplate: ArgoContainerTemplate = {
+    name: templateName,
+    inputs: {
+      parameters: parameterNames,
+    },
+    container: {
+      image:
+        step.clt.requirements.DockerRequirement.dockerPull,
+      command:
+        step.clt.baseCommand[0] === ''
+          ? []
+          : step.clt.baseCommand,
+      args: containerArgs,
+      volumeMounts: [
+        {
+          name: argoConfig.argoCompute.volumeDefinitions.name,
+          readOnly: true,
+          mountPath: argoConfig.argoCompute.volumeDefinitions.mountPath,
+        },
+        {
+          name: argoConfig.argoCompute.volumeDefinitions.name,
+          mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}/${step.clt.id}`,
+          subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}/${step.clt.id}`,
+          readOnly: false,
+        },
+      ],
+    },
+  };
+
+  return argoContainerTemplate
 }
 
 function buildContainerArg(
