@@ -127,22 +127,21 @@ export function cwlToArgo(
     name: 'workflow',
     dag: {tasks: []},
   }; 
-  const containerArray: ArgoContainerTemplate[] = [];
-
-  generatedTemplates.forEach((value) => {
-    dagArray.dag.tasks.push(value.argoDagTemplate);
-    containerArray.push(value.argoContainerTemplate);
-  });
-  // You can have multiple containers in a workflow.
+  
+  // multiple tasks can be using the same container definition.
   // Let's only store the unique ones in the template.
-  argoWorkflow.spec.templates[0] = dagArray;
-  const containerSet = new Set();
-  containerArray.forEach((value, index) => {
-    if (!containerSet.has(`${value.name}`)) {
-      argoWorkflow.spec.templates[index + 1] = value;
+  const containerNames = new Set();
+
+  generatedTemplates.forEach((templates, index) => {
+    dagArray.dag.tasks.push(templates.argoDagTemplate);
+    if (!containerNames.has(`${templates.argoContainerTemplate.name}`)) {
+      argoWorkflow.spec.templates[index + 1] = templates.argoContainerTemplate;
+      containerNames.add(`${templates.argoContainerTemplate.name}`);
     }
-    containerSet.add(`${value.name}`);
   });
+  argoWorkflow.spec.templates[0] = dagArray;
+  
+
   return {
     namespace: 'argo',
     serverDryRun: false,
@@ -200,6 +199,7 @@ function buildArgoDagTaskTemplate(
     );
     if (workflowInput) {
       inputValue = workflowInput.value;
+
       //TODO CHECK THIS LATER
       if (step.scatter === stepInput) {
         inputValue = '{{item}}';
@@ -207,6 +207,13 @@ function buildArgoDagTaskTemplate(
       } else {
         warnAboutStringArrayParameters(inputValue);
       }
+
+      if(step.clt.inputs[stepInput]?.type == 'Directory') {
+        const argoMountPath = argoConfig.argoCompute.volumeDefinitions.outputPath
+        inputValue = path.join(argoMountPath , step.name, inputValue as string)
+      }
+      const parameter = {name: `${stepInput}`, value: inputValue}
+      taskArgumentsParameters.push(parameter);
     }
     else {
       // CWL special case.  If a input depends on a previous output.
@@ -230,17 +237,15 @@ function buildArgoDagTaskTemplate(
         );
         if(workflowInput){
           inputValue = workflowInput?.value;
+
+          if(step.clt.inputs[stepInput]?.type == 'Directory') {
+            const argoMountPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath
+            inputValue = path.join(argoMountPath , boundStep, inputValue as string)
+          }
+          const parameter = {name: `${stepInput}`, value: inputValue}
+          taskArgumentsParameters.push(parameter);
         }
       }
-    }
-
-    if(inputValue) {
-      if(step.clt.inputs[stepInput]?.type == 'Directory'){
-        const argoMountPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath
-        inputValue = path.join(argoMountPath , inputValue as string)
-      }
-      const parameter = {name: `${stepInput}`, value: inputValue}
-      taskArgumentsParameters.push(parameter);
     }
   }
 
@@ -305,8 +310,8 @@ function buildArgoContainerTemplate(step: Step) {
         },
         {
           name: argoConfig.argoCompute.volumeDefinitions.name,
-          mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}/${step.clt.id}`,
-          subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}/${step.clt.id}`,
+          mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}/${step.name}`,
+          subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}/${step.name}`,
           readOnly: false,
         },
       ],
