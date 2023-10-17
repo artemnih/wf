@@ -4,24 +4,17 @@ import {
   Step,
   CwlWorkflow,
   CwlWorkflowStep,
-  ComputeJob,
+  ComputeJob
 } from '../../types';
 
-/**
- * TODO RENAME what does it mean?
- */
-export interface OperatorReturn {
-  cwlWorkflow: CwlWorkflow;
-  steps: Step[];
-  jobs: ComputeJob[];
-}
-export function addOperatorPlugin(
+export function addScatterOperator(
   cwlWorkflow: CwlWorkflow,
   steps: Step[],
   jobs: ComputeJob[],
-): OperatorReturn {
+): [CwlWorkflow, Step[], ComputeJob[]]
+{
   const dynamicScatterObject = detectDynamicScatter(cwlWorkflow);
-  if (!dynamicScatterObject) return {cwlWorkflow, steps: steps, jobs};
+  if (!dynamicScatterObject) return [cwlWorkflow, steps, jobs];
 
   const filePatternScript = JSON.parse(
     readFileSync('src/operators/argo-file-pattern-operator.json', 'utf8'),
@@ -43,7 +36,6 @@ export function addOperatorPlugin(
       stepName: operatorKey,
     });
 
-    //TODO check name makes sense
     expandedSteps.push({
       clt: filePatternScript,
       in: {input: val},
@@ -64,7 +56,7 @@ export function addOperatorPlugin(
   }
   cwlWorkflow.steps = {...cwlWorkflow.steps, ...originalSteps};
 
-  return {cwlWorkflow, steps: expandedSteps, jobs: expandedJobs};
+  return [cwlWorkflow, expandedSteps, expandedJobs];
 }
 
 

@@ -1,3 +1,23 @@
+export interface WorkflowExecutionRequest {
+  id?: number;
+  cwlWorkflow: CwlWorkflow;
+  cwlJobInputs: object;
+  jobs: ComputeJob[];
+}
+
+export interface ComputeJob {
+  id?: string;
+  driver?: string;
+  workflowId: string;
+  commandLineTool?: CLT;
+  inputs: object;
+  outputs: object;
+  stepName: string;
+  status?: string;
+  dateCreated?: string;
+  dateFinished?: string;
+}
+
 export interface CLT {
   cwlVersion: string;
   id: string;
@@ -7,19 +27,6 @@ export interface CLT {
   inputs: Record<string, CLTInput>;
   outputs: Record<string, CLTOutput>;
 }
-
-
-/*
-TODO Should be removed and only Step should be use.
-*/
-export interface CwlWorkflowStep {
-  run: string;
-  in: Record<string, string>;
-  out: string[];
-  scatter?: string;
-  when?: string;
-}
-
 export interface Step {
   clt: CLT;
   name: string;
@@ -33,15 +40,27 @@ export interface CwlWorkflow {
   cwlVersion: string;
   class: string;
   id: string;
-  // TODO logically should CwlInput?
-  inputs: object;
+  inputs: Record<string,CwlStepInput>;
   outputs: Record<string, CwlStepOutput>;
   steps: Record<string, CwlWorkflowStep>;
+}
+
+
+export interface CwlWorkflowStep {
+  run: string;
+  in: Record<string, string>;
+  out: string[];
+  scatter?: string;
+  when?: string;
 }
 
 export interface CwlStepOutput {
   type: string;
   outputSource: string | string[];
+}
+
+export interface CwlStepInput {
+  type: string;
 }
 
 export interface CLTOutput {

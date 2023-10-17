@@ -1,10 +1,3 @@
-/**
- * Model an argo workflow
- */
-
-/**
- * Argo Workflow Template (TODO ADD LINK TO ARGO SPEC)
- */
 export interface ArgoWorklowTemplate {
   namespace: string;
   serverDryRun: boolean;
@@ -57,9 +50,6 @@ export interface ArgoDagTaskTemplate {
   when?: string;
 }
 
-/**
- * Argo Container Template (TODO ADD LINK TO ARGO SPEC)
- */
 export interface ArgoContainerTemplate {
   name: string;
   inputs: {
@@ -72,7 +62,6 @@ export interface ArgoContainerTemplate {
     volumeMounts: ArgoVolumeMounts[];
   };
 }
-
 
 export interface ArgoVolumeMounts {
   name?: string;
