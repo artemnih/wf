@@ -1,9 +1,4 @@
-import {Step} from '../../../types';
-export interface BoundOutput {
-  stepName?: string // name of the step's output
-  outputName?: string; // the name of the bound output parameter
-  inputName?: string; // the name of the input parameter it is bound to
-}
+import {BoundOutput, Step} from '../../../types';
 
 /**
  * Check if each step output is bounded to a step input.

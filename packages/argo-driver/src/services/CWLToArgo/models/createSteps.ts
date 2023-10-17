@@ -4,6 +4,7 @@ import {
   Step,
   ComputeJob,
 } from '../../../types';
+import {sanitizeStepName} from './sanitizeStepName';
 
 /**
  * Create Steps from the CwlWorkflows steps and the ComputeJobs.

@@ -77,3 +77,9 @@ export interface CLTInput {
     prefix?: string;
   };
 }
+
+export interface BoundOutput {
+  stepName?: string // name of the step's output
+  outputName?: string; // the name of the bound output parameter
+  inputName?: string; // the name of the input parameter it is bound to
+}

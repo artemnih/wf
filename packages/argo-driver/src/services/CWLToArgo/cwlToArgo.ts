@@ -8,13 +8,15 @@ import {
   ArgoContainerTemplate,
   ArgoDagTasks,
   ComputeJob,
+  BoundOutput
 } from '../../types';
 
 import {defaultArgoWorkflowTemplate} from './templates/defaultArgoWorkflowTemplate'
-
 import {determineDependencies} from './models/determineDependencies';
-import {BoundOutput, boundOutputsToInputs} from './models/boundOutputsToInputs';
+import {boundOutputsToInputs} from './models/boundOutputsToInputs';
 import {addScatterOperator} from './addScatterOperator';
+import { sanitizeStepName } from './models/sanitizeStepName';
+
 import path from 'path'
 
 /**
@@ -33,12 +35,14 @@ export function cwlToArgo(
   // create a new argo workflow from a base template
   const argoWorkflow = {...defaultArgoWorkflowTemplate().workflow};
 
+  generateValidArgoNames(cwlWorkflow, cwlJobInputs, computeJobs)
+
   argoWorkflow.metadata.name = cwlWorkflow.id;
 
   let steps : Step[] = stepsFromWorkflow(cwlWorkflow, computeJobs);
-  //TODO CHECK SCATTER 
-  //there is a notion of scatter value so check what this is.
-  //seems to be a custom attribute to generate several templates
+  // TODO CHECK SCATTER 
+  // There is a notion of scatter value so check what this is.
+  // Seems to be a custom attribute to generate several templates
   // when a list is used for a single valued attribute.
   [cwlWorkflow, steps, computeJobs] = addScatterOperator(cwlWorkflow, steps, computeJobs);
   
@@ -83,6 +87,27 @@ export function cwlToArgo(
   };
 }
 
+function generateValidArgoNames(
+  cwlWorkflow: CwlWorkflow,
+  cwlJobInputs: object,
+  computeJobs: ComputeJob[]
+  ) {
+
+  for(const stepName in cwlWorkflow.steps){
+    let argoStepName = sanitizeStepName(stepName)
+    cwlWorkflow.steps[argoStepName] = cwlWorkflow.steps[stepName]
+    delete cwlWorkflow.steps[stepName]
+  }
+
+  for(let job of computeJobs) {
+    job.stepName = sanitizeStepName(job.stepName)
+    if(job.commandLineTool.id) {
+      job.commandLineTool.id = sanitizeStepName(job.commandLineTool.id)
+    }
+  }
+
+}
+
 /**
  * Build a single argo step by identifying inputs and outputs
  * @param step the workflow step to build argo definitions for.
@@ -124,8 +149,8 @@ function buildArgoDagTaskTemplate(
   let { taskArgumentsParameters, scatterParam }  = createTaskParameters(step, cwlJobInputs, boundOutputs)
 
   const argoDagTemplate: ArgoDagTaskTemplate = {
-    name: `${step.clt.id}`,
-    template: `${step.clt.id}`,
+    name: `${step.name}`,
+    template: `${step.name}`,
     arguments: {
       parameters: taskArgumentsParameters,
     },
@@ -202,6 +227,7 @@ function createTaskParameters(
         );
       }
       let [boundStep, boundOutput] = dependentInput
+      boundStep = sanitizeStepName(boundStep) //step names have been already rewritten
 
       const boundInput = boundOutputs.find(
         (element) => boundStep == element.stepName && boundOutput === element.outputName
@@ -209,7 +235,7 @@ function createTaskParameters(
 
       if(boundInput) { 
         const workflowInput = cwlJobInputs.find(
-          (element) => boundInput.inputName === element.name,
+          (cwlJobInput) => boundInput.inputName === cwlJobInput.name,
         );
         if(workflowInput){
           inputValue = workflowInput?.value;

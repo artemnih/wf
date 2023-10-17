@@ -1,4 +1,5 @@
 import { Step } from '../../../types';
+import { sanitizeStepName } from './sanitizeStepName'
 
 export function determineDependencies(
   step: Step,
@@ -19,12 +20,13 @@ export function determineDependencies(
   // console.log(`find dependencies for input : ${cwlStepName}`)
 
   for (const input in cwlStepIn) {
-    const inputValue = cwlStepIn[input].split('/');
-    if (inputValue.length > 1) {
-      if(inputValue[0] != cwlStepName) {
-        dependencies.push(inputValue[0]);
+    let [inputName, inputValue] = cwlStepIn[input].split('/');
+      if(inputName && inputValue) {
+        inputValue = sanitizeStepName(inputName)
+        if(inputName != cwlStepName) {
+          dependencies.push(inputValue);
+        }
       }
-    }
   }
 
   // const _dependencies = JSON.stringify(dependencies, null, 2);
