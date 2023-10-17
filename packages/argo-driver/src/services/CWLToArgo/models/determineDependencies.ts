@@ -22,9 +22,8 @@ export function determineDependencies(
   for (const input in cwlStepIn) {
     let [inputName, inputValue] = cwlStepIn[input].split('/');
       if(inputName && inputValue) {
-        inputValue = sanitizeStepName(inputName)
         if(inputName != cwlStepName) {
-          dependencies.push(inputValue);
+          dependencies.push(inputName);
         }
       }
   }

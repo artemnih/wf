@@ -35,7 +35,7 @@ export function cwlToArgo(
   // create a new argo workflow from a base template
   const argoWorkflow = {...defaultArgoWorkflowTemplate().workflow};
 
-  generateValidArgoNames(cwlWorkflow, cwlJobInputs, computeJobs)
+  // generateValidArgoNames(cwlWorkflow, cwlJobInputs, computeJobs)
 
   argoWorkflow.metadata.name = cwlWorkflow.id;
 
@@ -87,27 +87,6 @@ export function cwlToArgo(
   };
 }
 
-function generateValidArgoNames(
-  cwlWorkflow: CwlWorkflow,
-  cwlJobInputs: object,
-  computeJobs: ComputeJob[]
-  ) {
-
-  for(const stepName in cwlWorkflow.steps){
-    let argoStepName = sanitizeStepName(stepName)
-    cwlWorkflow.steps[argoStepName] = cwlWorkflow.steps[stepName]
-    delete cwlWorkflow.steps[stepName]
-  }
-
-  for(let job of computeJobs) {
-    job.stepName = sanitizeStepName(job.stepName)
-    if(job.commandLineTool.id) {
-      job.commandLineTool.id = sanitizeStepName(job.commandLineTool.id)
-    }
-  }
-
-}
-
 /**
  * Build a single argo step by identifying inputs and outputs
  * @param step the workflow step to build argo definitions for.
@@ -149,8 +128,8 @@ function buildArgoDagTaskTemplate(
   let { taskArgumentsParameters, scatterParam }  = createTaskParameters(step, cwlJobInputs, boundOutputs)
 
   const argoDagTemplate: ArgoDagTaskTemplate = {
-    name: `${step.name}`,
-    template: `${step.name}`,
+    name: sanitizeStepName(`${step.name}`),
+    template: sanitizeStepName(`${step.name}`),
     arguments: {
       parameters: taskArgumentsParameters,
     },
@@ -165,8 +144,12 @@ function buildArgoDagTaskTemplate(
     }
   }
 
+  const sanitizeDependencies = []
   if (dependencies.length > 0) {
-    argoDagTemplate.dependencies = dependencies;
+    for(let dependency of dependencies) {
+      sanitizeDependencies.push(sanitizeStepName(dependency))
+    }
+    argoDagTemplate.dependencies = sanitizeDependencies;
   }
   
   return argoDagTemplate;
@@ -227,7 +210,6 @@ function createTaskParameters(
         );
       }
       let [boundStep, boundOutput] = dependentInput
-      boundStep = sanitizeStepName(boundStep) //step names have been already rewritten
 
       const boundInput = boundOutputs.find(
         (element) => boundStep == element.stepName && boundOutput === element.outputName
@@ -287,7 +269,7 @@ function buildArgoContainerTemplate(step: Step) {
   }
 
   const argoContainerTemplate: ArgoContainerTemplate = {
-    name: templateName,
+    name: sanitizeStepName(templateName),
     inputs: {
       parameters: parameterNames,
     },
