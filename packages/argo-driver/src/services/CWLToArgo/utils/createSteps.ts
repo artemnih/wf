@@ -7,6 +7,7 @@ import {
 
 /**
  * Create Steps from the CwlWorkflows steps and the ComputeJobs.
+ * We will use Step as our object model for the rest of the implementation.
  * @param cwlWorkflow 
  * @param computeJobs 
  * @returns the list of steps, which are the argo driver views of compute jobs.

@@ -1,4 +1,4 @@
-import {determineDependencies} from '../../services/CWLToArgo';
+import {determineDependencies} from '../../services/CWLToArgo/utils/determineDependencies';
 import {expect} from '@loopback/testlab';
 
 describe('Determine Dependencies from Script Array', () => {

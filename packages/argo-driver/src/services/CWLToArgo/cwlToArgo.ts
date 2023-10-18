@@ -1,5 +1,5 @@
-import {stepsFromWorkflow} from './models/createSteps';
-import {CwlJobInput, parseCwlJobInputs} from './models/parseCwlJobInputs';
+import {stepsFromWorkflow} from './utils/createSteps';
+import {CwlJobInput, parseCwlJobInputs} from './utils/parseCwlJobInputs';
 import {
   ArgoWorklowTemplate,
   ArgoDagTaskTemplate,
@@ -12,10 +12,10 @@ import {
 } from '../../types';
 
 import {defaultArgoWorkflowTemplate} from './templates/defaultArgoWorkflowTemplate'
-import {determineDependencies} from './models/determineDependencies';
-import {boundOutputsToInputs} from './models/boundOutputsToInputs';
+import {determineDependencies} from './utils/determineDependencies';
+import {boundOutputsToInputs} from './utils/boundOutputsToInputs';
 import {addScatterOperator} from './addScatterOperator';
-import { sanitizeStepName } from './models/sanitizeStepName';
+import { sanitizeStepName } from './utils/sanitizeStepName';
 
 import path from 'path'
 
@@ -35,13 +35,11 @@ export function cwlToArgo(
   // create a new argo workflow from a base template
   const argoWorkflow = {...defaultArgoWorkflowTemplate().workflow};
 
-  // generateValidArgoNames(cwlWorkflow, cwlJobInputs, computeJobs)
-
   argoWorkflow.metadata.name = cwlWorkflow.id;
 
   let steps : Step[] = stepsFromWorkflow(cwlWorkflow, computeJobs);
+
   // TODO CHECK SCATTER 
-  // There is a notion of scatter value so check what this is.
   // Seems to be a custom attribute to generate several templates
   // when a list is used for a single valued attribute.
   [cwlWorkflow, steps, computeJobs] = addScatterOperator(cwlWorkflow, steps, computeJobs);
@@ -62,6 +60,7 @@ export function cwlToArgo(
     name: 'workflow',
     dag: {tasks: []},
   }; 
+
   // multiple tasks can be using the same container definition.
   // Let's only keep one container template per workflow
   const containerNames = new Set();
@@ -92,7 +91,7 @@ export function cwlToArgo(
  * @param step the workflow step to build argo definitions for.
  * @param cwlJobInputs the list of inputs defined at the workflow level
  * @param boundOutputs the list of outputs dependent on inputs
- * @returns a tuple of a argDagTemplate and a its associated argoContainerTemplate
+ * @returns a tuple of a argDagTemplate and its associated argoContainerTemplate
  */
 export function buildStepTemplates(
   step: Step,
@@ -301,10 +300,10 @@ function buildArgoContainerTemplate(step: Step) {
 }
 
 /**
- * 
- * @param inputParam 
- * @param step 
- * @returns 
+ * Build a container argument for this step.
+ * @param inputParam the input parameter to create a container argument for
+ * @param step the step we building a container argument for
+ * @returns an optional container arg name and its value
  */
 function buildContainerArg(
   inputParam: string,

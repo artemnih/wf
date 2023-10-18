@@ -1,6 +1,6 @@
 {
   "name": "@Polus/argo-compute",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "description": "Argo-Compute Driver",
   "main": "index.ts",
