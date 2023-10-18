@@ -1,0 +1,478 @@
+{
+  "definition": {
+    "openapi": "3.1.0",
+    "info": {
+      "title": "Compute Workflow API",
+      "version": "0.1.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8000"
+      }
+    ],
+    "paths": {
+      "/compute/workflows": {
+        "post": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Create a new workflow",
+          "operationId": "createWorkflow",
+          "parameters": [
+            {
+              "name": "workflow",
+              "in": "body",
+              "description": "Workflow object",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/Workflow"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get all workflows",
+          "operationId": "getWorkflows",
+          "responses": {
+            "200": {
+              "description": "Workflows were obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/workflows/{id}": {
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get a workflow by id",
+          "operationId": "getWorkflowById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow was obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Update a workflow by id",
+          "operationId": "updateWorkflowById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "workflow",
+              "in": "body",
+              "description": "Workflow object",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/Workflow"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow was updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/workflows/{id}/resubmit": {
+        "post": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Resubmit a workflow by id",
+          "operationId": "resubmitWorkflowById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow was resubmitted",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/workflows/{id}/status": {
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get a workflow status by id",
+          "operationId": "getWorkflowStatusById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow status was obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/workflows/{id}/logs": {
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get a workflow logs by id",
+          "operationId": "getWorkflowLogsById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow logs were obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/workflows/{id}/output": {
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get a workflow output by id",
+          "operationId": "getWorkflowOutputById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow output was obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/workflows/{id}/jobs": {
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get a workflow jobs by id",
+          "operationId": "getWorkflowJobsById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow jobs were obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/workflows/{id}/stop": {
+        "put": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Stop a workflow by id",
+          "operationId": "stopWorkflowById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow was stopped",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/workflows/{id}/restart": {
+        "put": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Restart a workflow by id",
+          "operationId": "restartWorkflowById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow was restarted",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/workflows/{id}/pause": {
+        "put": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Pause a workflow by id",
+          "operationId": "pauseWorkflowById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to pause",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Workflow was paused",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                },
+                "text/plain": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "in": "header"
+        }
+      },
+      "schemas": {
+        "Workflow": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "driver": {
+              "type": "string"
+            },
+            "inputs": {
+              "type": "object"
+            },
+            "outputs": {
+              "type": "object"
+            },
+            "steps": {
+              "type": "object"
+            },
+            "cwlJobInputs": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ]
+  },
+  "apis": [
+    "./routes/*.js"
+  ]
+}

@@ -1,6 +1,7 @@
 import { ArgoDriver } from './driver-argo';
 import { Driver } from './driver';
 import { SlurmDriver } from './driver-slurm';
+import { SingleNodeDriver } from './driver-single-node';
 
 export class DriverFactory {
 
@@ -13,6 +14,10 @@ export class DriverFactory {
 
     if (lowerDriver === 'slurm') {
       return new SlurmDriver();
+    }
+
+    if (lowerDriver === 'singlenode') {
+      return new SingleNodeDriver();
     }
 
     throw Error(`Driver ${lowerDriver} not found`);

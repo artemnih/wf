@@ -1,10 +1,9 @@
+import express from 'express';
 import * as http from 'http';
-import express from "express";
-import mongoose from "mongoose";
-import { WorkflowRoutes, HealthRoutes } from "./router";
 import cors from "cors";
 import jwksRsa from "jwks-rsa";
 import { expressjwt } from 'express-jwt';
+import { WorkflowRoutes, HealthRoutes } from './router';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
@@ -14,14 +13,8 @@ export class ExpressServer {
   private server: http.Server;
 
   constructor(private options: any) {
-    const dbName = this.options.compute.db.name;
-    const connectionString = this.options.compute.db.connectionString;
     const authUrl = this.options.services.auth.authUrl;
-
-    mongoose.connect(connectionString, {
-      dbName: dbName,
-    });
-
+ 
     this.app = express();
     this.app.use(cors());
     this.app.use(express.json());
@@ -38,9 +31,13 @@ export class ExpressServer {
         issuer: authUrl,
       })
     );
+
+    // Expose the front-end assets via Express, not as LB4 route
+    // this.app.use(this.options.singleNodeCompute.basePath, this.api.requestHandler);
+
     this.app.use("/compute", WorkflowRoutes);
     this.app.use("/health", HealthRoutes);
-
+    
     // Serve static files in the public folder
     this.app.use(express.static('public'));
 
@@ -52,11 +49,11 @@ export class ExpressServer {
     );
   }
 
-  public start() {
+  public async start() {
     this.server = this.app.listen(this.options.rest.port, this.options.rest.host);
   }
 
-  public stop() {
+  public async stop() {
     if (!this.server) return;
     this.server.close();
   }

@@ -5,10 +5,10 @@ import HealthController from "./controllers/health.controller";
 export const WorkflowRoutes = express
   .Router()
   .post("/workflows", WorkflowController.create)
-  .post("/workflows/:id/resubmit", WorkflowController.resubmitWorkflow)
   .get("/workflows", WorkflowController.find)
   .get("/workflows/:id", WorkflowController.findById)
   .patch("/workflows/:id", WorkflowController.updateById)
+  .post("/workflows/:id/resubmit", WorkflowController.resubmitWorkflow)
   .get("/workflows/:id/status", WorkflowController.getWorkflowStatus)
   .get("/workflows/:id/logs", WorkflowController.getWorkflowLogs)
   .get("/workflows/:id/output", WorkflowController.getWorkflowOutput)

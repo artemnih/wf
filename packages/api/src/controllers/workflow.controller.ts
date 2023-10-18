@@ -2,6 +2,7 @@ import { Workflow } from '../models';
 import WorkflowRepository from '../repositories/workflow.repository';
 import { WorkflowCrud } from '../models';
 import { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
 
 interface Status {
   status: string;
@@ -49,7 +50,7 @@ export class WorkflowController {
 
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = req.params.id;
+      const id = new mongoose.Types.ObjectId(req.params.id);
       const workflow = await WorkflowCrud.findById(id);
       res.status(200).json(workflow);
     } catch (error) {

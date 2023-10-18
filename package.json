@@ -1,5 +1,5 @@
 {
-  "name": "@polus/compute",
+  "name": "@polusai/compute",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -10,7 +10,8 @@
   "workspaces": [
     "packages/api",
     "packages/argo-driver",
-    "packages/slurm-driver"
+    "packages/slurm-driver",
+    "packages/single-node-driver"
   ],
   "devDependencies": {}
 }

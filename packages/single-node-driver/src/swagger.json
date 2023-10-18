@@ -1,0 +1,284 @@
+{
+  "definition": {
+    "openapi": "3.1.0",
+    "info": {
+      "title": "Compute Workflow API",
+      "version": "0.1.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:7997"
+      }
+    ],
+    "paths": {
+      "/compute/singlenode": {
+        "post": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Create a new workflow",
+          "operationId": "createWorkflow",
+          "parameters": [
+            {
+              "name": "workflow",
+              "in": "body",
+              "description": "Workflow object",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/Workflow"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/singlenode/{id}/status": {
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get a workflow status by id",
+          "operationId": "getWorkflowStatusById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow status was obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/singlenode/{id}/logs": {
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get a workflow logs by id",
+          "operationId": "getWorkflowLogsById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow logs were obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/singlenode/{id}/output": {
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get a workflow output by id",
+          "operationId": "getWorkflowOutputById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow output was obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/singlenode/{id}/jobs": {
+        "get": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Get a workflow jobs by id",
+          "operationId": "getWorkflowJobsById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow jobs were obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/singlenode/{id}/stop": {
+        "put": {
+          "tags": [
+            "Workflow"
+          ],
+          "description": "Stop a workflow by id",
+          "operationId": "stopWorkflowById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of workflow to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workflow was stopped",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Workflow"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "in": "header"
+        }
+      },
+      "schemas": {
+        "Workflow": {
+          "type": "object",
+          "properties": {
+            "cwlVersion": {
+              "type": "string",
+              "description": "CWL version",
+              "example": "v1.2"
+            },
+            "class": {
+              "type": "string",
+              "description": "CWL class",
+              "example": "CommandLineTool"
+            },
+            "baseCommand": {
+              "type": "string",
+              "description": "CWL base command",
+              "example": "echo"
+            },
+            "inputs": {
+              "type": "object",
+              "description": "CWL inputs",
+              "example": {
+                "message": {
+                  "type": "string",
+                  "default": "Hello World",
+                  "inputBinding": {
+                    "position": 1
+                  }
+                }
+              }
+            },
+            "outputs": {
+              "type": "object",
+              "description": "CWL outputs",
+              "example": []
+            }
+          }
+        }
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ]
+  },
+  "apis": [
+    "./routes/*.js"
+  ]
+}
