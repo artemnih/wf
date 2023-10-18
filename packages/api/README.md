@@ -1,10 +1,5 @@
 # Compute
 
-## TODOS
-package.json : complains about package name not valid!
-
-
-
 This package is the Compute API server.
 
 - Definitions are defined [here](docs/README.md)

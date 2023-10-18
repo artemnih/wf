@@ -23,18 +23,18 @@ export class ExpressServer {
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
-    // this.app.use('/compute',
-    //   expressjwt({
-    //     secret: jwksRsa.expressJwtSecret({
-    //       cache: true,
-    //       rateLimit: true,
-    //       jwksRequestsPerMinute: 5,
-    //       jwksUri: `${authUrl}/.well-known/jwks.json`,
-    //     }) as any,
-    //     algorithms: ['RS256'],
-    //     issuer: authUrl,
-    //   })
-    // );
+    this.app.use('/compute',
+      expressjwt({
+        secret: jwksRsa.expressJwtSecret({
+          cache: true,
+          rateLimit: true,
+          jwksRequestsPerMinute: 5,
+          jwksUri: `${authUrl}/.well-known/jwks.json`,
+        }) as any,
+        algorithms: ['RS256'],
+        issuer: authUrl,
+      })
+    );
     this.app.use("/compute", WorkflowRoutes);
     this.app.use("/health", HealthRoutes);
 
