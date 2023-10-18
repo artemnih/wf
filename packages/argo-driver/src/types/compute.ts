@@ -27,39 +27,30 @@ export interface CLT {
   inputs: Record<string, CLTInput>;
   outputs: Record<string, CLTOutput>;
 }
-export interface Step {
-  clt: CLT;
-  name: string;
-  in: Record<string, string>;
-  out: string[];
-  scatter?: string;
-  when?: string;
-}
 
 export interface CwlWorkflow {
   cwlVersion: string;
   class: string;
   id: string;
-  inputs: Record<string,CwlStepInput>;
-  outputs: Record<string, CwlStepOutput>;
+  inputs: Record<string,CwlWorkflowInput>;
+  outputs: Record<string, CwlWorkflowOutput>;
   steps: Record<string, CwlWorkflowStep>;
 }
 
-
 export interface CwlWorkflowStep {
   run: string;
-  in: Record<string, string>;
+  in: Record<string, string | Record<string, string>>;
   out: string[];
   scatter?: string;
   when?: string;
 }
 
-export interface CwlStepOutput {
+export interface CwlWorkflowOutput {
   type: string;
   outputSource: string | string[];
 }
 
-export interface CwlStepInput {
+export interface CwlWorkflowInput {
   type: string;
 }
 
@@ -76,10 +67,4 @@ export interface CLTInput {
     position?: number;
     prefix?: string;
   };
-}
-
-export interface BoundOutput {
-  stepName?: string // name of the step's output
-  outputName?: string; // the name of the bound output parameter
-  inputName?: string; // the name of the input parameter it is bound to
 }
