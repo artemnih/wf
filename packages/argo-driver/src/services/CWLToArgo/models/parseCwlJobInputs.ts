@@ -14,10 +14,12 @@ export function parseCwlJobInputs(cwlJobInputs: object): CwlJobInput[] {
   const workflowInputs: CwlJobInput[] = [];
   Object.entries(cwlJobInputs).forEach((cwlJobInput) => {
     let [ inputName, inputValue ] = cwlJobInput
+    //TODO CHECK CWL SPEC Directory can either have a path or location attributes.
+    //Check if the semantic is equivalent
     if (inputValue.class === 'Directory') {
       let val = inputValue?.path;
       if(!val) {
-        val = val?.location;
+        val = inputValue?.location;
       }
       inputValue = val
     }

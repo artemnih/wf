@@ -1,5 +1,4 @@
 import { Step } from '../../../types';
-import { sanitizeStepName } from './sanitizeStepName'
 
 export function determineDependencies(
   step: Step,
