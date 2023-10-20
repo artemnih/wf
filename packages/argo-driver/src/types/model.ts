@@ -14,3 +14,8 @@ export interface Step {
     outputName?: string; // the name of the bound output parameter
     inputName?: string; // the name of the input parameter it is bound to
   }
+
+  export interface WorkflowInput {
+    name: string;
+    value: string;
+  }

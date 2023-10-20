@@ -6,12 +6,14 @@ import {
   ArgoContainerTemplate,
   ArgoDagTasks,
   ComputeJob,
-  BoundOutput
+  BoundOutput,
+  WorkflowInput,
+  CwlJobInputs
 } from '../../types';
 
 import {defaultArgoWorkflowTemplate} from './templates/defaultArgoWorkflowTemplate';
 import {stepsFromWorkflow} from './utils/createSteps';
-import {CwlJobInput, parseCwlJobInputs} from './utils/parseCwlJobInputs';
+import { parseCwlJobInputs} from './utils/parseCwlJobInputs';
 import {boundOutputsToInputs} from './utils/boundOutputsToInputs';
 import {addScatterOperator} from './addScatterOperator';
 import { buildArgoContainerTemplate } from './utils/buildArgoContainerTemplate';
@@ -26,7 +28,7 @@ import { buildArgoDagTaskTemplate } from './utils/buildArgoDagTaskTemplate';
  */
 export function cwlToArgo(
   cwlWorkflow: CwlWorkflow,
-  cwlJobInputs: object,
+  cwlJobInputs: CwlJobInputs,
   computeJobs: ComputeJob[],
 ): ArgoWorklowTemplate {
 
@@ -93,7 +95,7 @@ export function cwlToArgo(
  */
 export function buildStepTemplates(
   step: Step,
-  cwlJobInputs: CwlJobInput[],
+  cwlJobInputs: WorkflowInput[],
   boundOutputs: BoundOutput[]
 ): 
 {

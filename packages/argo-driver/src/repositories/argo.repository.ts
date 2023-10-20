@@ -1,5 +1,5 @@
 import {cwlToArgo} from '../services/CWLToArgo';
-import {CwlWorkflow, ComputeJob} from '../types';
+import {CwlWorkflow, ComputeJob, CwlJobInputs} from '../types';
 import {submitWorkflowToArgo} from '../services/argoApi';
 
 class ArgoRepository {
@@ -11,7 +11,7 @@ class ArgoRepository {
    */
   public createWorkflow(
     cwlWorkflow: CwlWorkflow,
-    cwlJobInputs: object,
+    cwlJobInputs: CwlJobInputs,
     computeJobs: ComputeJob[],
   ) {
 

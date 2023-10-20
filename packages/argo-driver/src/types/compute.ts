@@ -1,9 +1,12 @@
 export interface WorkflowExecutionRequest {
   id?: number;
   cwlWorkflow: CwlWorkflow;
-  cwlJobInputs: object;
+  cwlJobInputs: CwlJobInputs;
   jobs: ComputeJob[];
 }
+
+export type CwlJobInputs = Record<string, string | Record<string, string>>
+
 
 export interface ComputeJob {
   id?: string;

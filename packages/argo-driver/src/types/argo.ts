@@ -42,12 +42,17 @@ export interface ArgoDagTaskTemplate {
   name: string;
   template: string;
   arguments?: {
-    parameters?: object[];
+    parameters?: ArgoTaskParameter[];
   };
   withItems?: string[];
   withParam?: string;
   dependencies?: string[];
   when?: string;
+}
+
+export interface ArgoTaskParameter {
+  name: string,
+  value: string
 }
 
 export interface ArgoContainerTemplate {

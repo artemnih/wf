@@ -1,8 +1,9 @@
-import {CwlJobInput, parseCwlJobInputs} from './parseCwlJobInputs';
 import {
   ArgoDagTaskTemplate,
   Step,
-  BoundOutput
+  BoundOutput,
+  WorkflowInput,
+  ArgoTaskParameter
 } from '../../../types';
 
 import {determineDependencies} from './determineDependencies';
@@ -19,7 +20,7 @@ import path from 'path'
  */
 export function buildArgoDagTaskTemplate(
     step: Step, 
-    cwlJobInputs: CwlJobInput[],
+    cwlJobInputs: WorkflowInput[],
     boundOutputs: BoundOutput[]) {
   
     // step names this step depends on
@@ -57,7 +58,7 @@ export function buildArgoDagTaskTemplate(
   
   function createTaskParameters(
     step: Step, 
-    cwlJobInputs: CwlJobInput[],
+    cwlJobInputs: WorkflowInput[],
     boundOutputs: BoundOutput[]
     ) {
   
@@ -66,12 +67,12 @@ export function buildArgoDagTaskTemplate(
     const argoConfig = require('config');
         
     let scatterParam: string[] | string = '';
-    const taskArgumentsParameters: object[] = [];
+    const taskArgumentsParameters: ArgoTaskParameter[] = [];
     const templateName = step.name
   
     for (const stepInput in step.in) {
   
-      let inputValue : string | string[] = ""
+      let inputValue : string = ""
       
        //for each input step, check if it is defined in the cwlJobInputs
       const workflowInput = cwlJobInputs.find(
