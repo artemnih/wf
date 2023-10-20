@@ -3,7 +3,8 @@ import {
   Step,
   BoundOutput,
   WorkflowInput,
-  ArgoTaskParameter
+  ArgoTaskParameter,
+  ArgoTaskParameterType
 } from '../../../types';
 
 import {determineDependencies} from './determineDependencies';
@@ -27,6 +28,8 @@ export function buildArgoDagTaskTemplate(
     const dependencies = determineDependencies(step);
   
     let { taskArgumentsParameters, scatterParam }  = createTaskParameters(step, cwlJobInputs, boundOutputs)
+
+    mountDirectories(taskArgumentsParameters)
   
     const argoDagTemplate: ArgoDagTaskTemplate = {
       name: sanitizeStepName(`${step.name}`),
@@ -55,16 +58,31 @@ export function buildArgoDagTaskTemplate(
     
     return argoDagTemplate;
   }
+
+  function mountDirectories(taskArgumentsParameters : ArgoTaskParameter[]) {
+    // get configuration
+    require('dotenv').config();
+    const argoConfig = require('config');
+
+    for(let param of taskArgumentsParameters) {
+      if(param.type === ArgoTaskParameterType.OutputPath) {
+        // outputs should be mounted in writable location 
+        let argoMountPath = argoConfig.argoCompute.volumeDefinitions.outputPath
+        param.value = path.join(argoMountPath, param.value)
+      }
+      else if(param.type === ArgoTaskParameterType.InputPath) {
+        // inputs must be mounted from a read only location
+        let argoMountPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath
+        param.value = path.join(argoMountPath, param.value)
+      }
+    }
+  }
   
   function createTaskParameters(
     step: Step, 
     cwlJobInputs: WorkflowInput[],
     boundOutputs: BoundOutput[]
     ) {
-  
-    // get configuration
-    require('dotenv').config();
-    const argoConfig = require('config');
         
     let scatterParam: string[] | string = '';
     const taskArgumentsParameters: ArgoTaskParameter[] = [];
@@ -73,11 +91,13 @@ export function buildArgoDagTaskTemplate(
     for (const stepInput in step.in) {
   
       let inputValue : string = ""
+      let inputType = ArgoTaskParameterType.Value
       
        //for each input step, check if it is defined in the cwlJobInputs
       const workflowInput = cwlJobInputs.find(
         (element) => step.in[stepInput] === element.name,
       );
+      
       if (workflowInput) {
         inputValue = workflowInput.value;
   
@@ -93,22 +113,17 @@ export function buildArgoDagTaskTemplate(
         // within the container it will be executed on, either to read data or
         // to store results and potentially make them available to later steps.
         if(step.clt.inputs[stepInput]?.type == 'Directory') {
-          let argoMountPath = ""
-          // outputs should be in writable location. 
           // TODO for now we keep the previous decision of prepending paths with the
           // current step name. This may have be revisited later on.
           if(step.out.includes(stepInput)) {
-            argoMountPath = argoConfig.argoCompute.volumeDefinitions.outputPath
-            inputValue = path.join(argoMountPath , step.name, inputValue as string)
+            inputValue = path.join(step.name, inputValue)
+            inputType = ArgoTaskParameterType.OutputPath
           }
           else {
-            // inputs must be mounted from a read only location.
-            argoMountPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath
-            inputValue = path.join(argoMountPath , inputValue as string)
+            inputValue = inputValue
+            inputType = ArgoTaskParameterType.InputPath
           }
         }
-        const parameter = {name: `${stepInput}`, value: inputValue}
-        taskArgumentsParameters.push(parameter);
       }
       else {
         // CWL special case.  If a input depends on a previous output.
@@ -136,14 +151,15 @@ export function buildArgoDagTaskTemplate(
             // If we have directory, it means we are depending on data created by a previous step.
             // We need to mount the directory into a read only location coming from the given step.
             if(step.clt.inputs[stepInput]?.type == 'Directory') {
-              const argoMountPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath
-              inputValue = path.join(argoMountPath , boundStep, inputValue as string)
+              inputValue = path.join(boundStep, inputValue as string)
+              inputType = ArgoTaskParameterType.InputPath
             }
-            const parameter = {name: `${stepInput}`, value: inputValue}
-            taskArgumentsParameters.push(parameter);
           }
         }
       }
+
+      const parameter = {name: `${stepInput}`, value: inputValue, type: inputType}
+      taskArgumentsParameters.push(parameter);
     }
   
     return {taskArgumentsParameters, scatterParam}

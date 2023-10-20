@@ -52,7 +52,14 @@ export interface ArgoDagTaskTemplate {
 
 export interface ArgoTaskParameter {
   name: string,
-  value: string
+  value: string,
+  type: ArgoTaskParameterType
+}
+
+export enum ArgoTaskParameterType {
+  InputPath,
+  OutputPath,
+  Value
 }
 
 export interface ArgoContainerTemplate {
