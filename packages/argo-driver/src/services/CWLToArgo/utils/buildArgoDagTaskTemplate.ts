@@ -93,12 +93,15 @@ export function buildArgoDagTaskTemplate(
         // to store results and potentially make them available to later steps.
         if(step.clt.inputs[stepInput]?.type == 'Directory') {
           let argoMountPath = ""
-          // outputs should be in writable location.
-          if(stepInput in step.out) {
+          // outputs should be in writable location. 
+          // TODO for now we keep the previous decision of prepending paths with the
+          // current step name. This may have be revisited later on.
+          if(step.out.includes(stepInput)) {
             argoMountPath = argoConfig.argoCompute.volumeDefinitions.outputPath
             inputValue = path.join(argoMountPath , step.name, inputValue as string)
           }
           else {
+            // inputs must be mounted from a read only location.
             argoMountPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath
             inputValue = path.join(argoMountPath , inputValue as string)
           }
