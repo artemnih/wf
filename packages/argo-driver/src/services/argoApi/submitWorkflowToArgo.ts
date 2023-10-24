@@ -7,5 +7,7 @@ export function submitWorkflowToArgo(argoTemp: ArgoWorklowTemplate): void {
     .then((response) => {
       console.log('Argo workflow was submitted', response.data);
     })
-    .catch((error) => console.error(error));
+    .catch(
+      (error) => console.error(error)
+    );
 }

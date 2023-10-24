@@ -53,7 +53,7 @@ export interface ArgoDagTaskTemplate {
 export interface ArgoTaskParameter {
   name: string,
   value: string,
-  type: ArgoTaskParameterType
+  type?: ArgoTaskParameterType
 }
 
 export enum ArgoTaskParameterType {
@@ -62,6 +62,7 @@ export enum ArgoTaskParameterType {
   Value
 }
 
+// CHECK the argo spec for correct parameters typings.
 export interface ArgoContainerTemplate {
   name: string;
   inputs: {

@@ -133,5 +133,6 @@ packages/argo-driver/compute-data-volume.yaml
 packages/argo-driver/compute-pvc.yaml
 packages/argo-driver/token-path.pem
 
-
+# compiled python files 
+__pycache__
 
