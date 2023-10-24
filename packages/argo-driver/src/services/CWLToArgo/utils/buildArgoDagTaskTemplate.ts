@@ -76,9 +76,6 @@ export function buildArgoDagTaskTemplate(
         param.value = path.join(argoMountPath, param.value)
       }
     }
-
-    
-
   }
   
   function createTaskParameters(

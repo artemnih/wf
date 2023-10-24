@@ -1,3 +1,7 @@
+"""
+Path Creator implementation.
+"""
+
 import os
 import logging
 import pathlib

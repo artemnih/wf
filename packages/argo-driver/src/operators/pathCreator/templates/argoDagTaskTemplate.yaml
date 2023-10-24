@@ -1,7 +1,0 @@
-- name: path-creator
-  template: path-creator
-  arguments:
-    parameters:
-      - name: paths
-        value: "/data/outputs/test_path_creator1,/data/outputs/test_path_creator2"
-          

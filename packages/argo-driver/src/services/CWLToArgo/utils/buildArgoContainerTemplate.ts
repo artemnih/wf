@@ -15,7 +15,7 @@ export function buildArgoContainerTemplate(step: Step) {
     const argoConfig = require('config');
   
     const containerArgs: string[] = [];
-    const parameterNames: object[] = [];
+    const parameterNames: {name: string}[] = [];
     const templateName = step.name
   
     for (const stepInput in step.in) {

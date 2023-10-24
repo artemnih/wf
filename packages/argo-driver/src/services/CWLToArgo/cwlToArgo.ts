@@ -1,27 +1,24 @@
 import {
   ArgoWorklowTemplate,
   ArgoDagTaskTemplate,
+  ArgoContainerTemplate,
   Step,
   CwlWorkflow,
-  ArgoContainerTemplate,
   ArgoDagTasks,
   ComputeJob,
   BoundOutput,
   WorkflowInput,
   CwlJobInputs,
-  ArgoTaskParameterType
 } from '../../types';
 
-import { pathCreatorTaskTemplate } from '../../operators/pathCreator/templates/pathCreatorTaskTemplate';
-import { pathCreatorContainerTemplate } from '../../operators/pathCreator/templates/pathCreatorContainerTemplate';
-
-import {defaultArgoWorkflowTemplate} from './templates/defaultArgoWorkflowTemplate';
-import {stepsFromWorkflow} from './utils/createSteps';
-import { parseCwlJobInputs} from './utils/parseCwlJobInputs';
-import {boundOutputsToInputs} from './utils/boundOutputsToInputs';
-import {addScatterOperator} from './addScatterOperator';
+import { defaultArgoWorkflowTemplate } from './templates/defaultArgoWorkflowTemplate';
+import { stepsFromWorkflow } from './utils/createSteps';
+import { parseCwlJobInputs } from './utils/parseCwlJobInputs';
+import { boundOutputsToInputs } from './utils/boundOutputsToInputs';
+import { addScatterOperator } from './addScatterOperator';
 import { buildArgoContainerTemplate } from './utils/buildArgoContainerTemplate';
 import { buildArgoDagTaskTemplate } from './utils/buildArgoDagTaskTemplate';
+import { buildPathCreatorStepTemplates } from './utils/buildPathCreatorStepTemplates';
 
 /**
  * Request the execution of a CWL workflow with Argo.
@@ -59,29 +56,8 @@ export function cwlToArgo(
     },
   );
 
-  let _pathsToCreate : String[] = []
-  for (let template of generatedTemplates) {
-    let params = template.argoDagTemplate.arguments?.parameters
-    if (params != undefined){
-      for(let param of params) {
-            if(param.type === ArgoTaskParameterType.OutputPath) {
-              _pathsToCreate.push(param.value)
-        }
-      }
-    }
-  }
-
-  let pathsToCreate = _pathsToCreate.join(',');
-
-  let pathCreatorTask = pathCreatorTaskTemplate(pathsToCreate)
-  let pathCreatorContainer = pathCreatorContainerTemplate()
-
-  for (let {argoDagTemplate, } of generatedTemplates) {
-    if(!argoDagTemplate.dependencies) {
-      argoDagTemplate.dependencies = []
-    }
-    argoDagTemplate.dependencies.push(pathCreatorTask.name)
-  }
+  // build path creator for all outputs
+  let { pathCreatorTask, pathCreatorContainer } = buildPathCreatorStepTemplates(generatedTemplates)
 
   //build the dag of tasks
   const dagArray: ArgoDagTasks = {
@@ -107,7 +83,7 @@ export function cwlToArgo(
   containers.forEach((containerTemplate, index) => {
     argoWorkflow.spec.templates[index + 1] = containerTemplate
   })
-  
+
   return {
     namespace: 'argo',
     serverDryRun: false,
@@ -137,4 +113,3 @@ export function buildStepTemplates(
 
   return { argoDagTemplate, argoContainerTemplate };
 }
-
