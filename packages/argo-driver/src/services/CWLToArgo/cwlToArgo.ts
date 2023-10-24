@@ -1,24 +1,23 @@
 import {
-  ArgoWorklowTemplate,
-  ArgoDagTaskTemplate,
+  ArgoWorklow,
+  ArgoTaskTemplate,
   ArgoContainerTemplate,
   Step,
   CwlWorkflow,
-  ArgoDagTasks,
   ComputeJob,
   BoundOutput,
   WorkflowInput,
   CwlJobInputs,
 } from '../../types';
 
-import { defaultArgoWorkflowTemplate } from './templates/defaultArgoWorkflowTemplate';
+import { buildArgoWorkflowTemplate } from './utils/buildArgoWorkflowTemplate';
 import { stepsFromWorkflow } from './utils/createSteps';
 import { parseCwlJobInputs } from './utils/parseCwlJobInputs';
 import { boundOutputsToInputs } from './utils/boundOutputsToInputs';
 import { addScatterOperator } from './addScatterOperator';
 import { buildArgoContainerTemplate } from './utils/buildArgoContainerTemplate';
-import { buildArgoDagTaskTemplate } from './utils/buildArgoDagTaskTemplate';
-import { buildPathCreatorStepTemplates } from './utils/buildPathCreatorStepTemplates';
+import { buildArgoDagTaskTemplate } from './utils/buildArgoTaskTemplate';
+import { addPathCreatorStep } from './utils/addPathCreatorStepTemplates';
 
 /**
  * Request the execution of a CWL workflow with Argo.
@@ -31,12 +30,7 @@ export function cwlToArgo(
   cwlWorkflow: CwlWorkflow,
   cwlJobInputs: CwlJobInputs,
   computeJobs: ComputeJob[],
-): ArgoWorklowTemplate {
-
-  // create a new argo workflow from a base template
-  const argoWorkflow = {...defaultArgoWorkflowTemplate().workflow};
-
-  argoWorkflow.metadata.name = cwlWorkflow.id;
+): ArgoWorklow {
 
   let steps : Step[] = stepsFromWorkflow(cwlWorkflow, computeJobs);
 
@@ -56,39 +50,29 @@ export function cwlToArgo(
     },
   );
 
-  // build path creator for all outputs
-  let { pathCreatorTask, pathCreatorContainer } = buildPathCreatorStepTemplates(generatedTemplates)
-
-  //build the dag of tasks
-  const dagArray: ArgoDagTasks = {
-    name: 'workflow',
-    dag: {tasks: [pathCreatorTask]},
-  }; 
+addPathCreatorStep(generatedTemplates)
 
   // multiple tasks can be using the same container definition.
   // Let's only keep one container template per workflow
-  const containerNames = new Set([pathCreatorContainer.name]);
+  const tasks : ArgoTaskTemplate[] = []
   const containers = new Array<ArgoContainerTemplate>();
-  containers.push(pathCreatorContainer)
+  const containerNames = new Set();
   generatedTemplates.forEach((templates) => {
-    dagArray.dag.tasks.push(templates.argoDagTemplate);
+    tasks.push(templates.argoTaskTemplate)
     if (!containerNames.has(`${templates.argoContainerTemplate.name}`)) {
       containers.push(templates.argoContainerTemplate)
       containerNames.add(`${templates.argoContainerTemplate.name}`);
     }
   });
 
-  //update argo workflow template     
-  argoWorkflow.spec.templates[0] = dagArray;
-  containers.forEach((containerTemplate, index) => {
-    argoWorkflow.spec.templates[index + 1] = containerTemplate
-  })
+  //build the final workflow
+  const argoWorkflow = buildArgoWorkflowTemplate(
+    cwlWorkflow,
+    containers,
+    tasks,
+  )
 
-  return {
-    namespace: 'argo',
-    serverDryRun: false,
-    workflow: {...argoWorkflow},
-  };
+  return argoWorkflow
 }
 
 /**
@@ -104,12 +88,12 @@ export function buildStepTemplates(
   boundOutputs: BoundOutput[]
 ): 
 {
-  argoDagTemplate: ArgoDagTaskTemplate;
+  argoTaskTemplate: ArgoTaskTemplate;
   argoContainerTemplate: ArgoContainerTemplate;
 } 
 {
   const argoContainerTemplate = buildArgoContainerTemplate(step)
-  const argoDagTemplate = buildArgoDagTaskTemplate(step, cwlJobInputs, boundOutputs)
+  const argoTaskTemplate = buildArgoDagTaskTemplate(step, cwlJobInputs, boundOutputs)
 
-  return { argoDagTemplate, argoContainerTemplate };
+  return { argoTaskTemplate: argoTaskTemplate, argoContainerTemplate };
 }

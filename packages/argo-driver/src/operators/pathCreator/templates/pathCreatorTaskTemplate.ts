@@ -1,8 +1,8 @@
-import { ArgoDagTaskTemplate } from "../../../types";
+import { ArgoTaskTemplate } from "../../../types";
 
-export function pathCreatorTaskTemplate(pathsToCreate : string) : ArgoDagTaskTemplate {
+export function pathCreatorTaskTemplate(stepName : string, pathsToCreate : string) : ArgoTaskTemplate {
     return {
-        name: 'path-creator',
+        name: stepName,
         template: 'path-creator',
         arguments: {
             parameters: [

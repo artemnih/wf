@@ -1,4 +1,4 @@
-import { ArgoContainerTemplate, ArgoDagTaskTemplate } from "../../../types";
+import { ArgoContainerTemplate, ArgoTaskTemplate } from "../../../types";
 
 export function pathCreatorContainerTemplate() : ArgoContainerTemplate {
 

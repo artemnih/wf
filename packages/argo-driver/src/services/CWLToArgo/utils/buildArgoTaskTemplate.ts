@@ -1,5 +1,5 @@
 import {
-  ArgoDagTaskTemplate,
+  ArgoTaskTemplate,
   Step,
   BoundOutput,
   WorkflowInput,
@@ -31,7 +31,7 @@ export function buildArgoDagTaskTemplate(
 
     mountDirectories(taskArgumentsParameters)
   
-    const argoDagTemplate: ArgoDagTaskTemplate = {
+    const argoDagTemplate: ArgoTaskTemplate = {
       name: sanitizeStepName(`${step.name}`),
       template: sanitizeStepName(`${step.name}`),
       arguments: {

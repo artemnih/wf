@@ -1,4 +1,4 @@
-export interface ArgoWorklowTemplate {
+export interface ArgoWorklow {
   namespace: string;
   serverDryRun: boolean;
   workflow: {
@@ -21,24 +21,23 @@ export interface ArgoWorklowTemplate {
         },
       ];
       entrypoint: string;
-      templates: Array<ArgoDagTasks | ArgoContainerTemplate>;
+      templates: Array<ArgoDag | ArgoContainerTemplate>;
     };
   };
 }
 
-export interface ArgoDagTasks {
+export interface ArgoDag {
   name: string;
-  dag: {tasks: ArgoDagTaskTemplate[]};
+  dag: {
+    tasks: ArgoTaskTemplate[]
+  };
 }
 
 /**
  * Each step of the workflow is represented by a 
  * task template.
- * Each task template identifies a template it derives from
- * (Argo Container Template) representing 
- * all computation of the same type.
  */
-export interface ArgoDagTaskTemplate {
+export interface ArgoTaskTemplate {
   name: string;
   template: string;
   arguments?: {
@@ -62,6 +61,9 @@ export enum ArgoTaskParameterType {
   Value
 }
 
+/**
+ * Each task template is associated with a container definition
+ */
 // CHECK the argo spec for correct parameters typings.
 export interface ArgoContainerTemplate {
   name: string;
