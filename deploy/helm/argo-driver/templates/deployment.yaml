@@ -37,8 +37,6 @@ spec:
               value: '{{.Values.driver.volume.absoluteOutputPath}}'
             - name: SERVICES_AUTH_URL
               value: {{.Values.driver.auth.url}}
-            - name: SERVICES_AUTH_TENANT
-              value: {{.Values.driver.auth.tenant}}
           ports:
             - containerPort: {{.Values.driver.port}}
       imagePullSecrets:

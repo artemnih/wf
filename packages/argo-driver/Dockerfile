@@ -1,15 +1,18 @@
-FROM keymetrics/pm2:10-alpine
-RUN apk update && apk upgrade && \
-apk add --no-cache bash git openssh tzdata
-WORKDIR /labshare/argo-compute
-ARG NPM_TOKEN
+FROM node:18-alpine as builder
+
+WORKDIR /app
+
 COPY . .
-# COPY package.json .
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
 RUN npm install
-RUN npm -g config set user root
-RUN npm install typescript -g
 RUN npm run build
-RUN rm -f .npmrc
-ENTRYPOINT [ "pm2-runtime", "start", "pm2.json" ]
+
+FROM node:18-alpine
+
+WORKDIR /usr/src/app
+COPY config/default.js /usr/src/app/config/default.js
+COPY src/operators/argo-file-pattern-operator.json /usr/src/app/src/operators/argo-file-pattern-operator.json
+COPY --from=builder /app/dist .
+COPY --from=builder /app/node_modules ./node_modules
 EXPOSE 7999
+
+CMD [ "node", "." ]

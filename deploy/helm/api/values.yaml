@@ -17,11 +17,12 @@ compute:
       port: 7998
   auth:
     url: null
-    tenant: null
   cors:
     origin: "*"
 
 mongodb:
+  connectionString: null
+  port: 27017
   persistence:
     enabled: false
     size: 256Mi

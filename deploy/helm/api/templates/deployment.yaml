@@ -20,8 +20,8 @@ spec:
           ports:
             - containerPort: 8000
           env:
-            - name: MONGO_CONNECTION_NAME
-              value: "{{ .Release.Name }}-mongodb"
+            - name: MONGO_CONNECTION_STRING
+              value: "mongodb://{{ .Values.mongodb.connectionString }}-mongodb:{{ .Values.mongodb.port }}"
             - name: ARGO_DRIVER_SCHEME
               value: "{{ .Values.compute.drivers.argo.scheme }}"
             - name: ARGO_DRIVER_URL
@@ -40,7 +40,5 @@ spec:
               value: "{{ .Values.compute.cors.origin }}"
             - name: SERVICES_AUTH_URL
               value: "{{ .Values.compute.auth.url }}"
-            - name: SERVICES_AUTH_TENANT
-              value: "{{ .Values.compute.auth.tenant }}"
       imagePullSecrets:
         - name: {{.Values.compute.image.secret}}

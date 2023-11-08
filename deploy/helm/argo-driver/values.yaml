@@ -8,7 +8,6 @@ driver:
   port: 7999
   auth:
     url: null
-    tenant: null
   volume:
     pvcName: "compute-pv-claim"
     mountPath: "/data/inputs"
