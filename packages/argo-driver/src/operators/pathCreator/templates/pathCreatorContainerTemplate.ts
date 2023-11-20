@@ -13,7 +13,7 @@ export function pathCreatorContainerTemplate() : ArgoContainerTemplate {
         },
         container: {
           image:
-          "polusai/argo-step-path-creator:0.0.1",
+          "agerardin/argo-step-path-creator:0.0.1",
           command:
             [ "python3",
                 "-m",

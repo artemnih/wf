@@ -37,6 +37,7 @@ export function addScatterOperator(
     });
 
     expandedSteps.push({
+      workflowId: cwlWorkflow.id,
       clt: filePatternScript,
       in: {input: val},
       out: ['filePatterns'],

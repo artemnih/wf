@@ -22,12 +22,13 @@ import path from 'path'
 export function buildArgoDagTaskTemplate(
     step: Step, 
     cwlJobInputs: WorkflowInput[],
-    boundOutputs: BoundOutput[]) {
+    boundOutputs: BoundOutput[],
+    pathPrefix: string) {
   
     // step names this step depends on
     const dependencies = determineDependencies(step);
   
-    let { taskArgumentsParameters, scatterParam }  = createTaskParameters(step, cwlJobInputs, boundOutputs)
+    let { taskArgumentsParameters, scatterParam }  = createTaskParameters(step, cwlJobInputs, boundOutputs, pathPrefix)
 
     mountDirectories(taskArgumentsParameters)
   
@@ -81,7 +82,8 @@ export function buildArgoDagTaskTemplate(
   function createTaskParameters(
     step: Step, 
     cwlJobInputs: WorkflowInput[],
-    boundOutputs: BoundOutput[]
+    boundOutputs: BoundOutput[],
+    pathPrefix : string
     ) {
         
     let scatterParam: string[] | string = '';
@@ -116,11 +118,10 @@ export function buildArgoDagTaskTemplate(
           // TODO for now we keep the previous decision of prepending paths with the
           // current step name. This may have be revisited later on.
           if(step.out.includes(stepInput)) {
-            inputValue = path.join(step.name, inputValue)
+            inputValue = path.join(pathPrefix, inputValue)
             inputType = ArgoTaskParameterType.OutputPath
           }
           else {
-            inputValue = inputValue
             inputType = ArgoTaskParameterType.InputPath
           }
         }

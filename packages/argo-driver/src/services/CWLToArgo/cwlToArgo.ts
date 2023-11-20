@@ -19,6 +19,8 @@ import { buildArgoContainerTemplate } from './utils/buildArgoContainerTemplate';
 import { buildArgoDagTaskTemplate } from './utils/buildArgoTaskTemplate';
 import { addPathCreatorStep } from './utils/addPathCreatorStepTemplates';
 
+import path from 'path'
+
 /**
  * Request the execution of a CWL workflow with Argo.
  * @param cwlWorkflow the original cwlWorkflow
@@ -92,8 +94,13 @@ export function buildStepTemplates(
   argoContainerTemplate: ArgoContainerTemplate;
 } 
 {
-  const argoContainerTemplate = buildArgoContainerTemplate(step)
-  const argoTaskTemplate = buildArgoDagTaskTemplate(step, cwlJobInputs, boundOutputs)
+  const pathPrefix = pathPrefixNamingStrategy(step.workflowId, step.name)
+  const argoContainerTemplate = buildArgoContainerTemplate(step, pathPrefix)
+  const argoTaskTemplate = buildArgoDagTaskTemplate(step, cwlJobInputs, boundOutputs, pathPrefix)
 
   return { argoTaskTemplate: argoTaskTemplate, argoContainerTemplate };
 }
+
+function pathPrefixNamingStrategy(...components: string[]) : string {
+    return path.join(...components)
+} 

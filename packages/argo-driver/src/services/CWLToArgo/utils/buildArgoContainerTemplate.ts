@@ -9,7 +9,7 @@ import {
  * @param step the workflow step
  * @returns the container template for this step.
  */
-export function buildArgoContainerTemplate(step: Step) {
+export function buildArgoContainerTemplate(step: Step, pathPrefix : string) {
     // retrieve configuration
     require('dotenv').config();
     const argoConfig = require('config');
@@ -45,8 +45,8 @@ export function buildArgoContainerTemplate(step: Step) {
           },
           {
             name: argoConfig.argoCompute.volumeDefinitions.name,
-            mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}/${step.name}`,
-            subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}/${step.name}`,
+            mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}/${pathPrefix}`,
+            subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}/${pathPrefix}`,
             readOnly: false,
           },
         ],

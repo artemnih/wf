@@ -1,6 +1,7 @@
 import {CLT} from "./compute"
 
 export interface Step {
+    workflowId: string; //id of the workflow this step is part of
     clt: CLT;
     name: string;
     in: Record<string, string>;

@@ -50,6 +50,7 @@ export function stepsFromWorkflow(
     const clt = job.commandLineTool as CLT;
 
     const step: Step = {
+      workflowId: cwlWorkflow.id,
       name: stepName,
       clt: clt,
       in: workflowInputs,
