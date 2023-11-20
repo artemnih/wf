@@ -17,14 +17,14 @@ function defaultArgoWorkflowTemplate(): ArgoWorklowTemplate {
   const argoConfig = require('config');
 
   return {
-    namespace: 'default',
+    namespace: argoConfig.argoCompute.argo.namespace,
     serverDryRun: false,
     workflow: {
       apiVersion: 'argoproj.io/v1alpha1',
       kind: 'Workflow',
       metadata: {
         name: 'hello-world-parameters-',
-        namespace: 'default',
+        namespace: argoConfig.argoCompute.argo.namespace,
         labels: {
           'workflows.argoproj.io/archive-strategy': 'false',
         },
@@ -82,6 +82,9 @@ export function cwlToArgo(
   cwlJobParams: object,
   jobConst: MinimalJob[],
 ): ArgoWorklowTemplate {
+  require('dotenv').config();
+  const argoConfig = require('config');
+
   const argoWorkflow = {...defaultArgoWorkflowTemplate().workflow};
   const scripts = scriptsFromWorkflow(cwlWorkflow, jobConst);
   const operatorReturn = addOperatorPlugin(cwlWorkflow, scripts, jobConst);
@@ -116,7 +119,7 @@ export function cwlToArgo(
     containerSet.add(`${value.name}`);
   });
   return {
-    namespace: 'default',
+    namespace: argoConfig.argoCompute.argo.namespace,
     serverDryRun: false,
     workflow: {...argoWorkflow},
   };

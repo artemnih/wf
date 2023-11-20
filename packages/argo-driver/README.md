@@ -87,8 +87,19 @@ To set up Argo Workflows on your local development environment (using Docker-des
 
     Ensure that the persistent volume and persistent volume claim are properly created. For details on how to create PVs and PVCs, refer to this [Kubernetes documentation page](https://kubernetes.io/docs/concepts/storage/persistent-volumes/).
 
+    For a quick setup, you can use default YAML files for basic PV and PVC configurations located in the [docs](./docs) folder. To bind the volumes, simply run the following command lines:
+
+    `kubectl apply -f ./docs/compute-data-volume.yaml`
+
+    `kubectl apply -f ./docs/compute-pv-claim.yaml`
 
 Please note that these steps are for a basic local setup using Docker desktop. In production or more complex environments, additional configuration and security considerations may apply. 
+
+### Known issues
+
+When running in local development, submitting a workflow may result in a self-signed certificate error. A quick fix is to instruct `node` to run the API while allowing untrusted certificates:
+
+`NODE_TLS_REJECT_UNAUTHORIZED='0' npm run start`
 
 ## Deployment
 

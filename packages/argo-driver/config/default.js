@@ -52,7 +52,8 @@ module.exports = {
     },
     argo: {
       argoUrl: process.env.ARGO,
-      tokenPath: process.env.ARGO_TOKEN_PATH || ''
+      tokenPath: process.env.ARGO_TOKEN_PATH || '',
+      namespace: process.env.ARGO_NAMESPACE || 'default',
     },
     volumeDefinitions: {
       pvcName: process.env.VOLUME_PVC_NAME || 'compute-pv-claim',
