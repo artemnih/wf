@@ -16,19 +16,18 @@
           "tags": [
             "Workflow"
           ],
-          "description": "Create a new workflow",
-          "operationId": "createWorkflow",
-          "parameters": [
-            {
-              "name": "workflow",
-              "in": "body",
-              "description": "Workflow object",
-              "required": true,
-              "schema": {
-                "$ref": "#/components/schemas/Workflow"
+          "summary": "Create a new workflow",
+          "requestBody": {
+            "description": "Worklow object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workflow"
+                }
               }
             }
-          ],
+          },
           "responses": {
             "200": {
               "description": "Workflow created successfully",
@@ -429,6 +428,159 @@
             }
           }
         }
+      },
+      "/driver/": {
+        "post": {
+          "tags": [
+            "Driver"
+          ],
+          "summary": "Create a new driver",
+          "requestBody": {
+            "description": "Driver object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Driver"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Driver created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Driver"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Driver"
+          ],
+          "summary": "Get all drivers",
+          "responses": {
+            "200": {
+              "description": "Drivers were obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Driver"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/driver/{id}": {
+        "get": {
+          "tags": [
+            "Driver"
+          ],
+          "summary": "Get a driver by id",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of driver to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Driver was obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Driver"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "Driver"
+          ],
+          "summary": "Update a driver by id",
+          "requestBody": {
+            "description": "Driver object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Driver"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Driver was updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Driver"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Driver"
+          ],
+          "summary": "Delete a driver by id",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of driver to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Driver was deleted",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Driver"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
       }
     },
     "components": {
@@ -461,6 +613,32 @@
             },
             "cwlJobInputs": {
               "type": "object"
+            }
+          }
+        },
+        "Driver": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "ID of the driver",
+              "example": "argo",
+              "readOnly": true
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the driver",
+              "example": "Argo"
+            },
+            "url": {
+              "type": "string",
+              "description": "URL of the driver",
+              "example": "http://localhost:7997"
+            },
+            "version": {
+              "type": "string",
+              "description": "Version of the driver",
+              "example": "1.2.3"
             }
           }
         }

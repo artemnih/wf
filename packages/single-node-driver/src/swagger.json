@@ -2,7 +2,7 @@
   "definition": {
     "openapi": "3.1.0",
     "info": {
-      "title": "Compute Workflow API",
+      "title": "Single Node Compute Driver API",
       "version": "0.1.0"
     },
     "servers": [
@@ -11,24 +11,24 @@
       }
     ],
     "paths": {
-      "/compute/singlenode": {
+      "/compute": {
         "post": {
           "tags": [
             "Workflow"
           ],
           "description": "Create a new workflow",
           "operationId": "createWorkflow",
-          "parameters": [
-            {
-              "name": "workflow",
-              "in": "body",
-              "description": "Workflow object",
-              "required": true,
-              "schema": {
-                "$ref": "#/components/schemas/Workflow"
+          "requestBody": {
+            "description": "Worklow object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workflow"
+                }
               }
             }
-          ],
+          },
           "responses": {
             "200": {
               "description": "Workflow created successfully",
