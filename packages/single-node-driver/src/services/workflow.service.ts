@@ -1,16 +1,27 @@
 const fs = require("fs");
 const spawn = require("child_process").spawn;
 
+interface ComputePayload {
+  cwlWorkflow: any;
+  cwlJobInputs: any;
+  jobs: any;
+}
+
 class WorkflowService {
 
-  async submit(cwl: any) {
+  async submit(cwl: ComputePayload) {
     const temp = Math.random().toString(36).substring(2, 15);
 
-    fs.writeFileSync(`./temp/${temp}.json`, JSON.stringify(cwl, null, 2), "utf-8");
+    console.log("Saving workflow to file");
+    fs.writeFileSync(`./temp/${temp}.json`, JSON.stringify(cwl.cwlWorkflow, null, 2), "utf-8");
 
-    console.log("Starting process");
+    console.log("Saving job inputs to file");
+    fs.writeFileSync(`./temp/${temp}-inputs.json`, JSON.stringify(cwl.cwlJobInputs, null, 2), "utf-8");
 
-    const myProcess = spawn("cwltool", [`./temp/${temp}.json`], {
+
+    console.log("Starting cwltool");
+
+    const myProcess = spawn("cwltool", [`./temp/${temp}.json`, `./temp/${temp}-inputs.json`], {
       detached: true,
     });
 
