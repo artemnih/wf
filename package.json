@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "api": "npm run dev --workspace=packages/api"
+    "api": "npm run start:dev --workspace=packages/api",
+    "argo-driver": "npm run start:dev --workspace=packages/argo-driver",
+    "slurm-driver": "npm run start:dev --workspace=packages/slurm-driver",
+    "single-node-driver": "npm run start:dev --workspace=packages/single-node-driver",
+    "start": "concurrently --kill-others \"npm run api\" \"npm run argo-driver\" \"npm run slurm-driver\" \"npm run single-node-driver\""
   },
   "author": "",
   "license": "MIT",
@@ -13,5 +17,7 @@
     "packages/slurm-driver",
     "packages/single-node-driver"
   ],
-  "devDependencies": {}
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
