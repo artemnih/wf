@@ -45,8 +45,8 @@ export function buildArgoContainerTemplate(step: Step, pathPrefix : string) {
           },
           {
             name: argoConfig.argoCompute.volumeDefinitions.name,
-            mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}/${pathPrefix}`,
-            subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}/${pathPrefix}`,
+            mountPath: argoConfig.argoCompute.volumeDefinitions.outputPath,
+            subPath: argoConfig.argoCompute.volumeDefinitions.subPath,
             readOnly: false,
           },
         ],

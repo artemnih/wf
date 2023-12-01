@@ -94,7 +94,7 @@ export function buildStepTemplates(
   argoContainerTemplate: ArgoContainerTemplate;
 } 
 {
-  const pathPrefix = pathPrefixNamingStrategy(step.workflowId, step.name)
+  const pathPrefix = pathPrefixNamingStrategy(step.workflowId)
   const argoContainerTemplate = buildArgoContainerTemplate(step, pathPrefix)
   const argoTaskTemplate = buildArgoDagTaskTemplate(step, cwlJobInputs, boundOutputs, pathPrefix)
 
