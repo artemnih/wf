@@ -56,6 +56,11 @@ module.exports = {
         host: process.env.SLURM_DRIVER_URL || '127.0.0.1',
         port: process.env.SLURM_DRIVER_PORT || '7998',
       },
+      singlenodeDriver: {
+        scheme: process.env.SINGLENODE_DRIVER_SCHEME || 'http',
+        host: process.env.SINGLENODE_DRIVER_URL || '127.0.0.1',
+        port: process.env.SINGLENODE_DRIVER_PORT || '7997'
+      }
     },
     computeName: process.env.COMPUTE_SERVICE_NAME || '127.0.0.1',
     db: {
