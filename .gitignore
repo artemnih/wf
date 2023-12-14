@@ -119,7 +119,20 @@ packages/**/dist
 deploy/helm/api/**/charts
 deploy/helm/argo-driver/charts/**/charts
 
+
+
 # json files in any folder named temp or loggins
 **/temp/**/*.json
 **/loggings/**/*.json
+
+# vscode config files
+.vscode
+
+# config for argo-driver
+packages/argo-driver/compute-data-volume.yaml
+packages/argo-driver/compute-pvc.yaml
+packages/argo-driver/token-path.pem
+
+# compiled python files 
+__pycache__
 

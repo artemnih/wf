@@ -1,3 +1,3 @@
-export * from './argoWorkflow';
-export * from './cwl';
-export * from './jobs';
+export * from './argo';
+export * from './compute';
+export * from './model';
