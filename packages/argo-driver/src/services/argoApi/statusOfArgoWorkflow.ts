@@ -40,6 +40,7 @@ export interface ArgoWorkflowStatus {
 export async function statusOfArgoWorkflow(
   argoWorkflowName: string,
 ): Promise<ArgoWorkflowStatus> {
+  console.log('Getting status of Argo workflow', argoWorkflowName);
   const response = await argoApiInstance().get(`/${argoWorkflowName}`);
   const nodes = response.data.status.nodes as Dict<any>;
 

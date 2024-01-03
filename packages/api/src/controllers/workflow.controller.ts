@@ -50,7 +50,7 @@ export class WorkflowController {
 
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = new mongoose.Types.ObjectId(req.params.id);
+      const id = req.params.id;
       const workflow = await WorkflowCrud.findById(id);
       res.status(200).json(workflow);
     } catch (error) {
