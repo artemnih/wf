@@ -18,6 +18,7 @@ export class WorkflowController {
       workflow.dateCreated = new Date().toISOString();
       const workflowCreated = await WorkflowCrud.create(workflow);
       await WorkflowRepository.submitWorkflowToDriver(workflowCreated, token);
+      console.log('workflowCreated', workflowCreated.id);
       res.status(201).json(workflowCreated);
     } catch (error) {
       next(error);
@@ -73,10 +74,12 @@ export class WorkflowController {
       const id = req.params.id;
       const foundWorkflow = await WorkflowCrud.findById(id);
       const newStatus = (await WorkflowRepository.getWorkflowStatus(id, foundWorkflow, req.headers.authorization as string)) as Status;
-      foundWorkflow.status = newStatus['status'] !== foundWorkflow.status ? newStatus['status'] : foundWorkflow.status;
-      if (newStatus['dateFinished']) {
-        foundWorkflow.dateFinished = newStatus['dateFinished'];
+      foundWorkflow.status = newStatus.status !== foundWorkflow.status ? newStatus.status : foundWorkflow.status;
+
+      if (newStatus.dateFinished) {
+        foundWorkflow.dateFinished = newStatus.dateFinished;
       }
+
       await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
       res.status(200).json(newStatus);
     } catch (error) {
