@@ -1,6 +1,5 @@
-import { Argo } from '../models';
 import ArgoRepository from '../repositories/argo.repository';
-import { CwlWorkflow, MinimalJob } from '../types';
+import { WorkflowExecutionRequest } from '../types';
 import {
   statusOfArgoWorkflow,
   getArgoJobsAndUpdateComputeJobs,
@@ -12,15 +11,21 @@ import { NextFunction, Request, Response } from 'express';
 
 class ArgoController {
 
-  async create(req: Request, res: Response, next: NextFunction) {
+  /**
+   * Create an argo workflow and submit it for execution.
+   * @param req the request coming from compute api.
+   * @param res the submission result
+   */
+  async createArgoWorkflow(req: Request, res: Response, next: NextFunction) {
     try {
-      const argo = req.body as Argo;
-      const result = ArgoRepository.compute(
-        argo.cwlWorkflow as CwlWorkflow,
-        argo.cwlJobInputs,
-        argo.jobs as MinimalJob[],
+      // parsing request body as is
+      const request = req.body as WorkflowExecutionRequest;
+      const argoResponse = ArgoRepository.createWorkflow(
+        request.cwlWorkflow,
+        request.cwlJobInputs,
+        request.jobs
       );
-      res.status(201).json(result);
+      res.status(201).json(argoResponse);
     } catch (error) {
       next(error);
     }

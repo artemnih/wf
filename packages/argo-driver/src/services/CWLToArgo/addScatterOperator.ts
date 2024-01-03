@@ -1,36 +1,33 @@
 import {readFileSync} from 'fs';
 import {
-  CwlScript,
-  CwlScriptInAndOut,
+  CLT,
+  Step,
   CwlWorkflow,
   CwlWorkflowStep,
-  MinimalJob,
+  ComputeJob
 } from '../../types';
-export interface OperatorReturn {
-  cwlWorkflow: CwlWorkflow;
-  cwlScriptInAndOut: CwlScriptInAndOut[];
-  jobs: MinimalJob[];
-}
-export function addOperatorPlugin(
+
+export function addScatterOperator(
   cwlWorkflow: CwlWorkflow,
-  cwlScriptInAndOut: CwlScriptInAndOut[],
-  jobs: MinimalJob[],
-): OperatorReturn {
+  steps: Step[],
+  jobs: ComputeJob[],
+): [CwlWorkflow, Step[], ComputeJob[]]
+{
   const dynamicScatterObject = detectDynamicScatter(cwlWorkflow);
-  if (!dynamicScatterObject) return {cwlWorkflow, cwlScriptInAndOut, jobs};
+  if (!dynamicScatterObject) return [cwlWorkflow, steps, jobs];
 
   const filePatternScript = JSON.parse(
     readFileSync('src/operators/argo-file-pattern-operator.json', 'utf8'),
-  ) as CwlScript;
+  ) as CLT;
   const cwlOperator: Record<string, CwlWorkflowStep> = {};
   let index = 1;
   const originalSteps = cwlWorkflow.steps;
-  const newJobs = jobs;
-  const newScripts = cwlScriptInAndOut;
+  const expandedJobs = jobs;
+  const expandedSteps = steps;
   for (const [key, val] of Object.entries(dynamicScatterObject)) {
     const operatorKey =
       index === 1 ? 'argoFileOperator' : `argoFileOperator-${index}`;
-    newJobs.push({
+    expandedJobs.push({
       id: operatorKey,
       workflowId: cwlWorkflow.id,
       commandLineTool: filePatternScript,
@@ -38,11 +35,15 @@ export function addOperatorPlugin(
       outputs: {},
       stepName: operatorKey,
     });
-    newScripts.push({
-      cwlScript: filePatternScript,
+
+    expandedSteps.push({
+      workflowId: cwlWorkflow.id,
+      clt: filePatternScript,
       in: {input: val},
       out: ['filePatterns'],
+      name: operatorKey
     });
+    
     const operator: CwlWorkflowStep = {
       run: 'src/operators/argo-file-pattern-operator.json',
       in: {
@@ -56,8 +57,10 @@ export function addOperatorPlugin(
   }
   cwlWorkflow.steps = {...cwlWorkflow.steps, ...originalSteps};
 
-  return {cwlWorkflow, cwlScriptInAndOut: newScripts, jobs: newJobs};
+  return [cwlWorkflow, expandedSteps, expandedJobs];
 }
+
+
 function detectDynamicScatter(
   cwlWorkflow: CwlWorkflow,
 ): Record<string, string> {

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "path-creator"
+version = "0.0.1"
+description = "Create paths for workflow execution"
+authors = [
+           "Antoine Gerardin <antoine.gerardin@nih.gov>",
+           ]
+
+readme = "README.md"
+packages = [{include = "argo", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+typer = "^0.9.0"
+
+[tool.poetry.group.dev.dependencies]
+bump2version = "^1.0.1"
+pre-commit = "^3.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
