@@ -34,7 +34,7 @@ class ArgoController {
   async getWorkflowStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
-      const result = statusOfArgoWorkflow(id);
+      const result = await statusOfArgoWorkflow(id);
       res.status(201).json(result);
     } catch (error) {
       next(error);
