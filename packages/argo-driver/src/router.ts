@@ -4,7 +4,7 @@ import HealthController from "./controllers/health.controller";
 
 export const ArgoRoutes = express.Router()
   .post("/argo", ArgoController.createArgoWorkflow)
-  .get("/argo/:id/status", ArgoController.getWorkflowOutputs)
+  .get("/argo/:id/status", ArgoController.getWorkflowStatus)
   .get("/argo/:id/logs", ArgoController.getWorkflowLogs)
   .get("/argo/:id/outputs", ArgoController.getWorkflowOutputs)
   .get("/argo/:id/jobs", ArgoController.getWorkflowJobs)
