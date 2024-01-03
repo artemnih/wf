@@ -1,8 +1,9 @@
 name: Build Compute API Docker images
 
 on:
-  pull_request:
-  workflow_dispatch:
+ push:
+   branches:
+     - main
 
 jobs:
   docker-build:
