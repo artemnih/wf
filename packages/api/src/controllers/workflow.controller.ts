@@ -18,7 +18,6 @@ export class WorkflowController {
       workflow.dateCreated = new Date().toISOString();
       const workflowCreated = await WorkflowCrud.create(workflow);
       await WorkflowRepository.submitWorkflowToDriver(workflowCreated, token);
-      console.log('workflowCreated', workflowCreated.id);
       res.status(201).json(workflowCreated);
     } catch (error) {
       next(error);
