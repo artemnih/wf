@@ -2,8 +2,7 @@ import { argoApiInstance } from '.';
 
 type Dict<T> = { [key: string]: T };
 
-// translate status value from Argo to Compute
-
+// translate status value from Argo to Comput
 function translateStatus(phase: string) {
   switch (phase) {
     case 'Pending':
@@ -56,8 +55,6 @@ export async function statusOfArgoWorkflow(
           progress: node.progress || '',
         }
       });
-
-
 
   return {
     status: translateStatus(response.data.status.phase),
