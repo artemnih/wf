@@ -50,7 +50,7 @@ export class WorkflowController {
 
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = new mongoose.Types.ObjectId(req.params.id);
+      const id = req.params.id;
       const workflow = await WorkflowCrud.findById(id);
       res.status(200).json(workflow);
     } catch (error) {
@@ -73,10 +73,12 @@ export class WorkflowController {
       const id = req.params.id;
       const foundWorkflow = await WorkflowCrud.findById(id);
       const newStatus = (await WorkflowRepository.getWorkflowStatus(id, foundWorkflow, req.headers.authorization as string)) as Status;
-      foundWorkflow.status = newStatus['status'] !== foundWorkflow.status ? newStatus['status'] : foundWorkflow.status;
-      if (newStatus['dateFinished']) {
-        foundWorkflow.dateFinished = newStatus['dateFinished'];
+      foundWorkflow.status = newStatus.status !== foundWorkflow.status ? newStatus.status : foundWorkflow.status;
+
+      if (newStatus.dateFinished) {
+        foundWorkflow.dateFinished = newStatus.dateFinished;
       }
+
       await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
       res.status(200).json(newStatus);
     } catch (error) {
