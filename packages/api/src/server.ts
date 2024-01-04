@@ -50,6 +50,10 @@ export class ExpressServer {
       swaggerUi.serve,
       swaggerUi.setup(specs, { explorer: true })
     );
+
+    this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+      res.status(500).send(err);
+    });
   }
 
   public start() {

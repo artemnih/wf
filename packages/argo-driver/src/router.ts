@@ -10,6 +10,5 @@ export const ArgoRoutes = express.Router()
   .get("/argo/:id/jobs", ArgoController.getWorkflowJobs)
   .put("/argo/:id/stop", ArgoController.stopWorkflow)
 
-
 export const HealthRoutes = express.Router()
   .get("/check", HealthController.ping);
