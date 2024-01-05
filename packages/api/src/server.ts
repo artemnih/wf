@@ -52,7 +52,12 @@ export class ExpressServer {
     );
 
     this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-      res.status(500).send(err);
+      if (err) {
+        const status = err.status || 500;
+        const message = err.message || 'Something went wrong';
+        res.status(status).send(message);
+      }
+      next(err);
     });
   }
 
