@@ -115,8 +115,9 @@ export class WorkflowController {
       const foundWorkflow = await WorkflowCrud.findById(id);
       const jobs = await WorkflowRepository.getWorkflowJobs(id, foundWorkflow, req.headers.authorization as string);
       for (const job of Object.values(jobs)) {
-        const foundJob = await JobCrud.findOne({ workflowId: job.workflowId, stepName: job.stepName });
+        const foundJob = await JobCrud.findById(job.id);
         if (!foundJob) {
+          job._id = job.id;
           await JobCrud.create(job);
         }
       }

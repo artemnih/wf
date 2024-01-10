@@ -1,7 +1,7 @@
 import { Document, Model, Schema, model } from "mongoose";
 
 export interface Job extends Document {
-  id?: string;
+  _id?: string;
   workflowId: string;
   driver: string;
   stepName: string;
@@ -19,6 +19,7 @@ interface JobModel extends Model<Job> { }
 
 const schema = new Schema(
   {
+    _id: { type: String },
     workflowId: { type: String, required: true },
     driver: { type: String, required: true },
     stepName: { type: String, required: true },
@@ -31,11 +32,12 @@ const schema = new Schema(
     dateFinished: { type: Date },
     owner: { type: String },
   },
-  {
+  {    
+    _id: false,
     strict: false,
     minimize: false,
     timestamps: true,
-    collection: "Job", //  todo: from config
+    collection: "Job",
   }
 );
 

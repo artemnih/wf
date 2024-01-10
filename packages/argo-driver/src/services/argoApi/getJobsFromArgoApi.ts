@@ -20,6 +20,7 @@ export function getJobsFromArgoApi(
   const jobs: ComputeJob[] = [];
   for (const argoNode of sortedArgoNodes) {
     const job: ComputeJob = {
+      id: argoNode.id,
       driver: 'ARGO',
       dateCreated: argoNode.startedAt,
       workflowId,
