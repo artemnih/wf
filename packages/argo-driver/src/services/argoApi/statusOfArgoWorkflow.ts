@@ -3,7 +3,7 @@ import { argoApiInstance } from '.';
 type Dict<T> = { [key: string]: T };
 
 // translate status value from Argo to Compute
-function translateStatus(phase: string) {
+export function translateStatus(phase: string) {
   switch (phase) {
     case 'Pending':
       return 'PENDING';

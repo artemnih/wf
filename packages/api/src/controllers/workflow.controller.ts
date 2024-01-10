@@ -1,7 +1,8 @@
-import { Workflow } from '../models';
+import { JobCrud, Workflow } from '../models';
 import WorkflowRepository from '../repositories/workflow.repository';
 import { WorkflowCrud } from '../models';
 import { NextFunction, Request, Response } from 'express';
+import crypto from 'crypto';
 import mongoose from 'mongoose';
 
 interface Status {
@@ -113,6 +114,12 @@ export class WorkflowController {
       const id = req.params.id;
       const foundWorkflow = await WorkflowCrud.findById(id);
       const jobs = await WorkflowRepository.getWorkflowJobs(id, foundWorkflow, req.headers.authorization as string);
+      for (const job of Object.values(jobs)) {
+        const foundJob = await JobCrud.findOne({ workflowId: job.workflowId, stepName: job.stepName });
+        if (!foundJob) {
+          await JobCrud.create(job);
+        }
+      }
       res.status(200).json(jobs);
     } catch (error) {
       next(error);

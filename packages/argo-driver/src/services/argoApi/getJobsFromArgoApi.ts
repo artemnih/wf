@@ -2,6 +2,8 @@ import {ComputeJob} from '../../types';
 import {ArgoNodes, ArgoParameters} from './getArgoJobStatus';
 import {buildContainerUrl} from './buildContainerUrl';
 import {getOutputsFromArgoInputs} from './getOutputsFromArgoInputs';
+import {translateStatus} from './statusOfArgoWorkflow';
+
 export function getJobsFromArgoApi(
   workflowId: string,
   argoNodes: Array<ArgoNodes>,
@@ -22,7 +24,7 @@ export function getJobsFromArgoApi(
       dateCreated: argoNode.startedAt,
       workflowId,
       dateFinished: argoNode.finishedAt,
-      status: argoNode.phase,
+      status: translateStatus(argoNode.phase),
       stepName: argoNode.displayName,
       outputs: {
         ...getOutputsFromArgoInputs(
