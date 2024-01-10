@@ -30,6 +30,7 @@
     "!*/__tests__"
   ],
   "dependencies": {
+    "@polusai/compute-common": "*",
     "config": "^3.3.9",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
