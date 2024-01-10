@@ -1,0 +1,16 @@
+{
+  "name":"@polusai/compute-common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start:dev": "tsc -w -p tsconfig.json"
+  },
+  "author": "@polusai",
+  "license": "ISC"
+}

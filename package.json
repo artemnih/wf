@@ -5,19 +5,26 @@
   "scripts": {
     "api": "npm run start:dev --workspace=packages/api",
     "argo-driver": "npm run start:dev --workspace=packages/argo-driver",
+    "common": "npm run start:dev --workspace=packages/common",
     "slurm-driver": "npm run start:dev --workspace=packages/slurm-driver",
     "single-node-driver": "npm run start:dev --workspace=packages/single-node-driver",
-    "start": "concurrently --kill-others \"npm run api\" \"npm run argo-driver\" \"npm run slurm-driver\" \"npm run single-node-driver\""
+    "watch": "concurrently --kill-others \"npm run api\" \"npm run argo-driver\" \"npm run slurm-driver\" \"npm run single-node-driver\"",
+    "build:common": "npm run build --workspace=packages/common",
+    "start": "npm run build:common && npm run watch",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write ."
   },
   "author": "",
   "license": "MIT",
   "workspaces": [
     "packages/api",
     "packages/argo-driver",
+    "packages/common",
     "packages/slurm-driver",
     "packages/single-node-driver"
   ],
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "prettier": "^3.0.3"
   }
 }
