@@ -32,7 +32,7 @@
   ],
   "dependencies": {
     "@polusai/compute-common": "*",
-    "axios": "1.5.0",
+    "axios": "1.6.0",
     "config": "^3.3.9",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
