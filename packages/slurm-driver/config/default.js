@@ -7,6 +7,7 @@ module.exports = {
       setServersFromRequest: true,
     },
     listenOnStart: false,
+    noAuth: process.env.NO_AUTH || false,
   },
   services: {
     auth: {

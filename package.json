@@ -12,7 +12,8 @@
     "build:common": "npm run build --workspace=packages/common",
     "start": "npm run build:common && npm run watch",
     "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "prettier:fix": "prettier --write .",
+    "noauth": "NO_AUTH=true npm run start"
   },
   "author": "",
   "license": "MIT",
