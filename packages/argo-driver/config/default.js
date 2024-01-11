@@ -8,6 +8,7 @@ module.exports = {
       servers: [{url: '/'}],
     },
     listenOnStart: false,
+    noAuth: process.env.NO_AUTH || false,
   },
   services: {
     auth: {

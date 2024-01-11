@@ -9,7 +9,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc -w",
     "clean": "rm rf dist",
     "pretest": "npm run clean && npm run build",
     "test": "npm run pretest && lb-mocha --allow-console-logs \"dist/__tests__\"",
@@ -18,7 +17,6 @@
     "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
     "docker:build": "docker build -t compute .",
     "docker:run": "docker run -p 3000:3000 -d compute",
-    "prestart": "npm run build",
     "start": "ts-node ./index.ts",
     "start:dev": "ts-node-dev --watch .env, src ./index.ts",
     "prepublishOnly": "npm run test"

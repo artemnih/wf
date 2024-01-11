@@ -10,6 +10,7 @@ module.exports = {
     cors: {
       origin: process.env.CORS_ORIGIN || '*',
     },
+    noAuth: process.env.NO_AUTH || false,
   },
   services: {
     auth: {

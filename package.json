@@ -16,7 +16,8 @@
     "build:single-node": "npm run build --w=packages/single-node-driver",
     "start": "npm run build:common && npm run watch",
     "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "prettier:fix": "prettier --write .",
+    "noauth": "NO_AUTH=true npm run start"
   },
   "author": "",
   "license": "MIT",
