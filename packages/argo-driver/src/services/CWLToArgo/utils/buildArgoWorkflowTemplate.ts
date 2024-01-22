@@ -23,14 +23,14 @@ export function buildArgoWorkflowTemplate(
 
 
     return {
-      namespace: 'default',
+      namespace: argoConfig.argoCompute.namespace,
       serverDryRun: false,
       workflow: {
         apiVersion: 'argoproj.io/v1alpha1',
         kind: 'Workflow',
         metadata: {
           name: cwlWorkflow.id,
-          namespace: 'default',
+          namespace: argoConfig.argoCompute.namespace,
           labels: {
             'workflows.argoproj.io/archive-strategy': 'false',
           },

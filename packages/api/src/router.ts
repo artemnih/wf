@@ -1,5 +1,6 @@
 import express from "express";
 import WorkflowController from "./controllers/workflow.controller";
+import JobController from './controllers/job.controller';
 import HealthController from "./controllers/health.controller";
 
 export const WorkflowRoutes = express
@@ -15,7 +16,12 @@ export const WorkflowRoutes = express
   .get("/workflows/:id/jobs", WorkflowController.getWorkflowJobs)
   .put("/workflows/:id/stop", WorkflowController.stopWorkflow)
   .put("/workflows/:id/restart", WorkflowController.restartWorkflow)
-  .put("/workflows/:id/pause", WorkflowController.pauseWorkflow)
+  .put("/workflows/:id/pause", WorkflowController.pauseWorkflow);
+
+export const JobRoutes = express
+  .Router()
+  .get("/jobs", JobController.find)
+  .get("/jobs/:jobId", JobController.findById);
 
 
 export const HealthRoutes = express
