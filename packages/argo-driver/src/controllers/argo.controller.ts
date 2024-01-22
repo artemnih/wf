@@ -66,7 +66,7 @@ class ArgoController {
   async getWorkflowJobs(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
-      const result = getArgoJobsAndUpdateComputeJobs(id);
+      const result = await getArgoJobsAndUpdateComputeJobs(id);
       res.status(201).json(result);
     } catch (error) {
       next(error);
