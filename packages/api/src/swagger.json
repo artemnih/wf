@@ -429,6 +429,65 @@
           }
         }
       },
+      "/compute/jobs": {
+        "get": {
+          "tags": [
+            "Job"
+          ],
+          "description": "Get all jobs",
+          "operationId": "getJobs",
+          "responses": {
+            "200": {
+              "description": "Jobs were obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Job"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/compute/jobs/{id}": {
+        "get": {
+          "tags": [
+            "Job"
+          ],
+          "description": "Get a job by id",
+          "operationId": "getJobById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of job to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Job was obtained",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Job"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
       "/driver/": {
         "post": {
           "tags": [
@@ -639,6 +698,23 @@
               "type": "string",
               "description": "Version of the driver",
               "example": "1.2.3"
+            }
+          }
+        },
+        "Job": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Job ID"
+            },
+            "name": {
+              "type": "string",
+              "description": "Job name"
+            },
+            "status": {
+              "type": "string",
+              "description": "Job status"
             }
           }
         }
