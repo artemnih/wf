@@ -1,7 +1,7 @@
 import * as http from 'http';
 import express from "express";
 import mongoose from "mongoose";
-import { WorkflowRoutes, HealthRoutes } from "./router";
+import { WorkflowRoutes, HealthRoutes, JobRoutes } from "./router";
 import cors from "cors";
 import jwksRsa from "jwks-rsa";
 import { expressjwt } from 'express-jwt';
@@ -39,6 +39,7 @@ export class ExpressServer {
       })
     );
     this.app.use("/compute", WorkflowRoutes);
+    this.app.use("/compute", JobRoutes);
     this.app.use("/health", HealthRoutes);
 
     // Serve static files in the public folder
