@@ -14,33 +14,38 @@ export class ExpressServer {
 
   constructor(private options: any) {
     const authUrl = this.options.services.auth.authUrl;
- 
+
     this.app = express();
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
-    this.app.use('/compute',
-      expressjwt({
-        secret: jwksRsa.expressJwtSecret({
-          cache: true,
-          rateLimit: true,
-          jwksRequestsPerMinute: 5,
-          jwksUri: `${authUrl}/.well-known/jwks.json`,
-        }) as any,
-        algorithms: ['RS256'],
-        issuer: authUrl,
-      })
-    );
+    if (!this.options.rest.noAuth) {
+      console.log('Enabling JWT authentication');
+      this.app.use('/compute',
+        expressjwt({
+          secret: jwksRsa.expressJwtSecret({
+            cache: true,
+            rateLimit: true,
+            jwksRequestsPerMinute: 5,
+            jwksUri: `${authUrl}/.well-known/jwks.json`,
+          }) as any,
+          algorithms: ['RS256'],
+          issuer: authUrl,
+        })
+      );
+    } else {
+      console.log('NO_AUTH=true detected: Disabling JWT authentication');
+    }
 
     // Expose the front-end assets via Express, not as LB4 route
     // this.app.use(this.options.argoCompute.basePath, this.api.requestHandler);
 
     this.app.use("/compute", ArgoRoutes);
     this.app.use("/health", HealthRoutes);
-    
+
     // Serve static files in the public folder
     this.app.use(express.static('public'));
-    
+
     const specs = swaggerJsdoc(swaggerSchema);
     this.app.use(
       "/explorer/",

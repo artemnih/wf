@@ -9,7 +9,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc -w",
     "start": "ts-node ./index.ts",
     "start:dev": "ts-node-dev --watch .env, src ./index.ts",
     "test": "npm run pretest && lb-mocha --allow-console-logs \"dist/__tests__\"",
@@ -17,7 +16,6 @@
     "posttest": "npm run lint",
     "migrate": "node ./dist/migrate",
     "coverage": "nyc npm run test",
-    "prestart": "npm run build",
     "prepublishOnly": "npm run test"
   },
   "license": "MIT",
@@ -30,12 +28,13 @@
     "!*/__tests__"
   ],
   "dependencies": {
+    "@polusai/compute-common": "*",
     "config": "^3.3.9",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "tslib": "^2.6.2",
-    "axios": "1.5.0",
+    "axios": "1.6.0",
     "express-jwt": "^8.4.1",
     "jwks-rsa": "^3.0.1",
     "swagger-jsdoc": "^6.2.8",
