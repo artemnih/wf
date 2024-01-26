@@ -1,64 +1,64 @@
 export interface ArgoWorklow {
-  namespace: string;
-  serverDryRun: boolean;
-  workflow: {
-    apiVersion: string;
-    kind: string;
-    metadata: {
-      name: string;
-      namespace: string;
-      labels: {
-        'workflows.argoproj.io/archive-strategy': string;
-      };
-    };
-    spec: {
-      volumes: [
-        {
-          name: string;
-          persistentVolumeClaim: {
-            claimName: string;
-          };
-        },
-      ];
-      entrypoint: string;
-      templates: Array<ArgoDag | ArgoContainerTemplate>;
-    };
-  };
+	namespace: string;
+	serverDryRun: boolean;
+	workflow: {
+		apiVersion: string;
+		kind: string;
+		metadata: {
+			name: string;
+			namespace: string;
+			labels: {
+				'workflows.argoproj.io/archive-strategy': string;
+			};
+		};
+		spec: {
+			volumes: [
+				{
+					name: string;
+					persistentVolumeClaim: {
+						claimName: string;
+					};
+				},
+			];
+			entrypoint: string;
+			templates: Array<ArgoDag | ArgoContainerTemplate>;
+		};
+	};
 }
 
 export interface ArgoDag {
-  name: string;
-  dag: {
-    tasks: ArgoTaskTemplate[]
-  };
+	name: string;
+	dag: {
+		tasks: ArgoTaskTemplate[];
+	};
 }
 
 /**
- * Each step of the workflow is represented by a 
+ * Each step of the workflow is represented by a
  * task template.
  */
 export interface ArgoTaskTemplate {
-  name: string;
-  template: string;
-  arguments?: {
-    parameters?: ArgoTaskParameter[];
-  };
-  withItems?: string[];
-  withParam?: string;
-  dependencies?: string[];
-  when?: string;
+	name: string;
+	template: string;
+	arguments?: {
+		parameters?: ArgoTaskParameter[];
+	};
+	withItems?: string[];
+	withParam?: string;
+	dependencies?: string[];
+	when?: string;
 }
 
 export interface ArgoTaskParameter {
-  name: string,
-  value: string,
-  type?: ArgoTaskParameterType
+	name: string;
+	value: string;
+	type?: ArgoTaskParameterType;
 }
 
 export enum ArgoTaskParameterType {
-  InputPath,
-  OutputPath,
-  Value
+	InputPath,
+	OutputPath,
+	Value,
 }
 
 /**
@@ -66,25 +66,25 @@ export enum ArgoTaskParameterType {
  */
 // CHECK the argo spec for correct parameters typings.
 export interface ArgoContainerTemplate {
-  name: string;
-  inputs: {
-    parameters: object[];
-  };
-  container: {
-    image: string;
-    command: string[] | never;
-    args: string[];
-    volumeMounts: ArgoVolumeMounts[];
-  };
+	name: string;
+	inputs: {
+		parameters: object[];
+	};
+	container: {
+		image: string;
+		command: string[] | never;
+		args: string[];
+		volumeMounts: ArgoVolumeMounts[];
+	};
 }
 
 export interface ArgoVolumeMounts {
-  name?: string;
-  readOnly?: boolean;
-  mountPath?: string;
-  subPath?: string;
+	name?: string;
+	readOnly?: boolean;
+	mountPath?: string;
+	subPath?: string;
 }
 
 export interface ArgoLogRecord {
-  result: { content: string, podName: string };
+	result: { content: string; podName: string };
 }

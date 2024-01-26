@@ -1,34 +1,34 @@
 compute:
-  name: compute
-  image:
-    name: polusai/compute-api:0.0.4
-    secret: null
-  ingress:
-    enabled: false
-    host: null
-  drivers:
-    argo:
-      scheme: http
-      url: null
-      port: 7999
-    slurm:
-      scheme: http
-      url: null
-      port: 7998
-  auth:
-    url: null
-  cors:
-    origin: "*"
+    name: compute
+    image:
+        name: polusai/compute-api:0.0.4
+        secret: null
+    ingress:
+        enabled: false
+        host: null
+    drivers:
+        argo:
+            scheme: http
+            url: null
+            port: 7999
+        slurm:
+            scheme: http
+            url: null
+            port: 7998
+    auth:
+        url: null
+    cors:
+        origin: '*'
 
 mongodb:
-  connectionString: null
-  port: 27017
-  persistence:
-    enabled: false
-    size: 256Mi
-    storageClass: aws-efs
-  auth:
-    ## @param auth.enabled Enable authentication
-    ## ref: https://docs.mongodb.com/manual/tutorial/enable-authentication/
-    ##
-    enabled: false
+    connectionString: null
+    port: 27017
+    persistence:
+        enabled: false
+        size: 256Mi
+        storageClass: aws-efs
+    auth:
+        ## @param auth.enabled Enable authentication
+        ## ref: https://docs.mongodb.com/manual/tutorial/enable-authentication/
+        ##
+        enabled: false

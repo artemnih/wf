@@ -7,23 +7,15 @@
 	"outputs": {
 		"echoStdOut": {
 			"type": "File[]",
-			"outputSource": [
-				"echo/echoStdOut"
-			]
+			"outputSource": ["echo/echoStdOut"]
 		},
 		"echoStdErr": {
 			"type": "File[]",
-			"outputSource": [
-				"echo/echoStdErr"
-			]
+			"outputSource": ["echo/echoStdErr"]
 		}
 	},
 	"cwlJobInputs": {
-		"helloArray": [
-			"hello",
-			"nihao",
-			"hola"
-		]
+		"helloArray": ["hello", "nihao", "hola"]
 	},
 	"steps": {
 		"echo": {
@@ -36,9 +28,7 @@
 						"dockerPull": "busybox"
 					}
 				},
-				"baseCommand": [
-					"echo"
-				],
+				"baseCommand": ["echo"],
 				"stdout": "echo.out",
 				"stderr": "echo.err",
 				"inputs": {
@@ -62,10 +52,7 @@
 			"in": {
 				"message": "helloArray"
 			},
-			"out": [
-				"echoStdOut",
-				"echoStdErr"
-			]
+			"out": ["echoStdOut", "echoStdErr"]
 		}
 	}
 }

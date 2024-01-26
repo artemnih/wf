@@ -31,7 +31,7 @@ a) npm run build
 
 b) npm run start
 
-- Starts local server on port 7998
+-   Starts local server on port 7998
 
 c) npm run test:unit
 

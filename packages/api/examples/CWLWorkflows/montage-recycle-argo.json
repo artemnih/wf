@@ -91,10 +91,7 @@
 						]
 					}
 				},
-				"baseCommand": [
-					"python3",
-					"/opt/executables/main.py"
-				],
+				"baseCommand": ["python3", "/opt/executables/main.py"],
 				"stdout": "montage.out",
 				"stderr": "montage.err",
 				"inputs": {
@@ -158,11 +155,7 @@
 				"layout": "montageLayout",
 				"outDir": "montageOutputName"
 			},
-			"out": [
-				"montageoutDir",
-				"montageStdOut",
-				"montageStdErr"
-			]
+			"out": ["montageoutDir", "montageStdOut", "montageStdErr"]
 		},
 		"recycle": {
 			"run": {
@@ -182,10 +175,7 @@
 						]
 					}
 				},
-				"baseCommand": [
-					"python3",
-					"/opt/executables/main.py"
-				],
+				"baseCommand": ["python3", "/opt/executables/main.py"],
 				"stdout": "recycle.out",
 				"stderr": "recycle.err",
 				"inputs": {
@@ -247,11 +237,7 @@
 				"collectionDir": "montageInpDir",
 				"outDir": "recycleOutputName"
 			},
-			"out": [
-				"recycleoutDir",
-				"recycleStdOut",
-				"recycleStdErr"
-			]
+			"out": ["recycleoutDir", "recycleStdOut", "recycleStdErr"]
 		}
 	}
 }

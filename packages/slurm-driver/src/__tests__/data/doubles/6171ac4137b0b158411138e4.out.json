@@ -1,20 +1,20 @@
 {
-    "echoErr": {
-        "location": "file:///Users/dummy/echo.err",
-        "basename": "echo.err",
-        "nameroot": "echo",
-        "nameext": ".err",
-        "class": "File",
-        "checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
-        "size": 0
-    },
-    "echoOut": {
-        "location": "file:///Users/dummy/echo.out",
-        "basename": "echo.out",
-        "nameroot": "echo",
-        "nameext": ".out",
-        "class": "File",
-        "checksum": "sha1$0ecb65b12a43095690182b0c2a3152211b4292d3",
-        "size": 12
-    }
+	"echoErr": {
+		"location": "file:///Users/dummy/echo.err",
+		"basename": "echo.err",
+		"nameroot": "echo",
+		"nameext": ".err",
+		"class": "File",
+		"checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
+		"size": 0
+	},
+	"echoOut": {
+		"location": "file:///Users/dummy/echo.out",
+		"basename": "echo.out",
+		"nameroot": "echo",
+		"nameext": ".out",
+		"class": "File",
+		"checksum": "sha1$0ecb65b12a43095690182b0c2a3152211b4292d3",
+		"size": 12
+	}
 }

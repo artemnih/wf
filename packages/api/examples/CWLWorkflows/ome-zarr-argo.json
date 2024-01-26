@@ -39,11 +39,7 @@
 				"inpDir": "inpDir",
 				"outDir": "outDir"
 			},
-			"out": [
-				"ome2zarroutDir",
-				"ome2zarrStdOut",
-				"ome2zarrStdErr"
-			]
+			"out": ["ome2zarroutDir", "ome2zarrStdOut", "ome2zarrStdErr"]
 		}
 	}
 }

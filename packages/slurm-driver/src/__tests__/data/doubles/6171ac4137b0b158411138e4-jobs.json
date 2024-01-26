@@ -1,1 +1,33 @@
-[{"driver":"cwl","workflowId":"6171ac4137b0b158411138e4","status":"successful","stepName":"echo","scriptPath":"6148da6f08b2c40710890b09","commandLineTool":{"id":"6148da6f08b2c40710890b09","cwlVersion":"v1.0","class":"CommandLineTool","cwlScript":{"cwlVersion":"v1.0","id":"echo","class":"CommandLineTool","requirements":{"DockerRequirement":{"dockerPull":"busybox"}},"baseCommand":["echo"],"stdout":"echo.out","stderr":"echo.err","inputs":{"message":{"type":"string","inputBinding":{"position":1}}},"outputs":{"echoOut":{"type":"stdout"},"echoErr":{"type":"stderr"}}}},"inputs":{"message":"hello kevin"},"outputs":{},"dateCreated":"2021-10-21T17:53:20.157Z"}]
+[
+	{
+		"driver": "cwl",
+		"workflowId": "6171ac4137b0b158411138e4",
+		"status": "successful",
+		"stepName": "echo",
+		"scriptPath": "6148da6f08b2c40710890b09",
+		"commandLineTool": {
+			"id": "6148da6f08b2c40710890b09",
+			"cwlVersion": "v1.0",
+			"class": "CommandLineTool",
+			"cwlScript": {
+				"cwlVersion": "v1.0",
+				"id": "echo",
+				"class": "CommandLineTool",
+				"requirements": { "DockerRequirement": { "dockerPull": "busybox" } },
+				"baseCommand": ["echo"],
+				"stdout": "echo.out",
+				"stderr": "echo.err",
+				"inputs": {
+					"message": { "type": "string", "inputBinding": { "position": 1 } }
+				},
+				"outputs": {
+					"echoOut": { "type": "stdout" },
+					"echoErr": { "type": "stderr" }
+				}
+			}
+		},
+		"inputs": { "message": "hello kevin" },
+		"outputs": {},
+		"dateCreated": "2021-10-21T17:53:20.157Z"
+	}
+]

@@ -22,10 +22,10 @@ Run `lsc services build` to build the project.
 
 The example project contains the following services' packages.
 
-- [Services-Cache](https://github.com/LabShare/services-cache)
-- [Services-Auth](https://github.com/LabShare/services-auth)
-- [Services-Logger](https://github.com/LabShare/services-logger)
-- [Services-Notifications](https://github.com/LabShare/services-notifications)
+-   [Services-Cache](https://github.com/LabShare/services-cache)
+-   [Services-Auth](https://github.com/LabShare/services-auth)
+-   [Services-Logger](https://github.com/LabShare/services-logger)
+-   [Services-Notifications](https://github.com/LabShare/services-notifications)
 
 ## Configuration
 
@@ -66,9 +66,8 @@ To set up Argo Workflows on your local development environment (using Docker-des
 
     Replace `<<ARGO_WORKFLOWS_VERSION>>` with the desired version of Argo Workflows.
 
-
 5. Verify Installation:
-    
+
     `kubectl get pods -n argo`
 
 6. Access the Argo UI:
@@ -94,7 +93,7 @@ To set up Argo Workflows on your local development environment (using Docker-des
 
     `kubectl apply -f ./docs/compute-pv-claim.yaml`
 
-Please note that these steps are for a basic local setup using Docker desktop. In production or more complex environments, additional configuration and security considerations may apply. 
+Please note that these steps are for a basic local setup using Docker desktop. In production or more complex environments, additional configuration and security considerations may apply.
 
 ### Known issues
 

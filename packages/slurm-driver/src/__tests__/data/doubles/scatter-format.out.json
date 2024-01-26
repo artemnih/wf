@@ -1,50 +1,50 @@
 {
-    "ome2zarrStdErr": [
-        {
-            "location": "file:///tmp/cwl/2153f584eef80162f2a6114118d3fb22d61903fa",
-            "basename": "2153f584eef80162f2a6114118d3fb22d61903fa",
-            "nameroot": "2153f584eef80162f2a6114118d3fb22d61903fa",
-            "nameext": "",
-            "class": "File",
-            "checksum": "sha1$0abbf396348e173e7edd272d1a35e8bdf79876fa",
-            "size": 395
-        },
-        {
-            "location": "file:///tmp/cwl/2153f584eef80162f2a6114118d3fb22d61903fa_2",
-            "basename": "2153f584eef80162f2a6114118d3fb22d61903fa",
-            "nameroot": "2153f584eef80162f2a6114118d3fb22d61903fa",
-            "nameext": "",
-            "class": "File",
-            "checksum": "sha1$de5c1d32c42271f4146f13fbdc8f62f0a09faedd",
-            "size": 395
-        }
-    ],
-    "ome2zarrStdOut": [
-        {
-            "location": "file:///tmp/cwl/861070c57c74f203ad27a6a8f4234bae611749b1",
-            "basename": "861070c57c74f203ad27a6a8f4234bae611749b1",
-            "nameroot": "861070c57c74f203ad27a6a8f4234bae611749b1",
-            "nameext": "",
-            "class": "File",
-            "checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
-            "size": 0
-        },
-        {
-            "location": "file:///tmp/cwl/861070c57c74f203ad27a6a8f4234bae611749b1_2",
-            "basename": "861070c57c74f203ad27a6a8f4234bae611749b1",
-            "nameroot": "861070c57c74f203ad27a6a8f4234bae611749b1",
-            "nameext": "",
-            "class": "File",
-            "checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
-            "size": 0
-        }
-    ],
-    "ome2zarroutDir": [
-        {
-            "location": "file:///tmp/dummy"
-        },
-        {
-            "location": "file:///tmp/dummy"
-        }
-    ]
+	"ome2zarrStdErr": [
+		{
+			"location": "file:///tmp/cwl/2153f584eef80162f2a6114118d3fb22d61903fa",
+			"basename": "2153f584eef80162f2a6114118d3fb22d61903fa",
+			"nameroot": "2153f584eef80162f2a6114118d3fb22d61903fa",
+			"nameext": "",
+			"class": "File",
+			"checksum": "sha1$0abbf396348e173e7edd272d1a35e8bdf79876fa",
+			"size": 395
+		},
+		{
+			"location": "file:///tmp/cwl/2153f584eef80162f2a6114118d3fb22d61903fa_2",
+			"basename": "2153f584eef80162f2a6114118d3fb22d61903fa",
+			"nameroot": "2153f584eef80162f2a6114118d3fb22d61903fa",
+			"nameext": "",
+			"class": "File",
+			"checksum": "sha1$de5c1d32c42271f4146f13fbdc8f62f0a09faedd",
+			"size": 395
+		}
+	],
+	"ome2zarrStdOut": [
+		{
+			"location": "file:///tmp/cwl/861070c57c74f203ad27a6a8f4234bae611749b1",
+			"basename": "861070c57c74f203ad27a6a8f4234bae611749b1",
+			"nameroot": "861070c57c74f203ad27a6a8f4234bae611749b1",
+			"nameext": "",
+			"class": "File",
+			"checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
+			"size": 0
+		},
+		{
+			"location": "file:///tmp/cwl/861070c57c74f203ad27a6a8f4234bae611749b1_2",
+			"basename": "861070c57c74f203ad27a6a8f4234bae611749b1",
+			"nameroot": "861070c57c74f203ad27a6a8f4234bae611749b1",
+			"nameext": "",
+			"class": "File",
+			"checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
+			"size": 0
+		}
+	],
+	"ome2zarroutDir": [
+		{
+			"location": "file:///tmp/dummy"
+		},
+		{
+			"location": "file:///tmp/dummy"
+		}
+	]
 }

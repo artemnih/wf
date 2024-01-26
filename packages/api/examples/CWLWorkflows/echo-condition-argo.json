@@ -1,66 +1,61 @@
 {
-    "name": "echo-condition-argo",
-    "driver": "argo",
-    "inputs": {
-        "condValue": "boolean",
-        "hello1": "string"
-    },
-    "outputs": {
-        "echoStdOut": {
-            "type": "File",
-            "outputSource": "echo/echoStdOut"
-        },
-        "echoStdErr": {
-            "type": "File",
-            "outputSource": "echo/echoStdErr"
-        }
-    },
-    "cwlJobInputs": {
-        "condValue": false,
-        "hello1": "hello kevin"
-    },
-    "steps": {
-        "echo": {
-            "run": {
-                "cwlVersion": "v1.0",
-                "id": "echo",
-                "class": "CommandLineTool",
-                "requirements": {
-                    "DockerRequirement": {
-                        "dockerPull": "busybox"
-                    }
-                },
-                "baseCommand": [
-                    "echo"
-                ],
-                "stdout": "echo.out",
-                "stderr": "echo.err",
-                "inputs": {
-                    "message": {
-                        "type": "string",
-                        "inputBinding": {
-                            "position": 1
-                        }
-                    }
-                },
-                "outputs": {
-                    "echoStdOut": {
-                        "type": "stdout"
-                    },
-                    "echoStdErr": {
-                        "type": "stderr"
-                    }
-                }
-            },
-            "in": {
-                "message": "hello1",
-                "condValue": "condValue"
-            },
-            "out": [
-                "echoStdOut",
-                "echoStdErr"
-            ],
-            "when": "$(inputs.condValue)"
-        }
-    }
+	"name": "echo-condition-argo",
+	"driver": "argo",
+	"inputs": {
+		"condValue": "boolean",
+		"hello1": "string"
+	},
+	"outputs": {
+		"echoStdOut": {
+			"type": "File",
+			"outputSource": "echo/echoStdOut"
+		},
+		"echoStdErr": {
+			"type": "File",
+			"outputSource": "echo/echoStdErr"
+		}
+	},
+	"cwlJobInputs": {
+		"condValue": false,
+		"hello1": "hello kevin"
+	},
+	"steps": {
+		"echo": {
+			"run": {
+				"cwlVersion": "v1.0",
+				"id": "echo",
+				"class": "CommandLineTool",
+				"requirements": {
+					"DockerRequirement": {
+						"dockerPull": "busybox"
+					}
+				},
+				"baseCommand": ["echo"],
+				"stdout": "echo.out",
+				"stderr": "echo.err",
+				"inputs": {
+					"message": {
+						"type": "string",
+						"inputBinding": {
+							"position": 1
+						}
+					}
+				},
+				"outputs": {
+					"echoStdOut": {
+						"type": "stdout"
+					},
+					"echoStdErr": {
+						"type": "stderr"
+					}
+				}
+			},
+			"in": {
+				"message": "hello1",
+				"condValue": "condValue"
+			},
+			"out": ["echoStdOut", "echoStdErr"],
+			"when": "$(inputs.condValue)"
+		}
+	}
 }
