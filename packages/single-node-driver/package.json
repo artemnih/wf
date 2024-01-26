@@ -21,7 +21,7 @@
     "express-jwt": "^8.4.1",
     "jwks-rsa": "^3.0.1",
     "mongoose": "^7.0.3",
-    "vite": "^4.3.9",
+    "vite": "^4.4.12",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
