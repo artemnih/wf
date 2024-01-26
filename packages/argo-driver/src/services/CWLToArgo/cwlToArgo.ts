@@ -9,7 +9,6 @@ import {
 	WorkflowInput,
 	CwlJobInputs,
 } from '../../types';
-
 import { buildArgoWorkflowTemplate } from './utils/buildArgoWorkflowTemplate';
 import { stepsFromWorkflow } from './utils/createSteps';
 import { parseCwlJobInputs } from './utils/parseCwlJobInputs';
@@ -82,7 +81,7 @@ export function buildStepTemplates(
 	argoContainerTemplate: ArgoContainerTemplate;
 } {
 	const pathPrefix = pathPrefixNamingStrategy(step.workflowId);
-	const argoContainerTemplate = buildArgoContainerTemplate(step, pathPrefix);
+	const argoContainerTemplate = buildArgoContainerTemplate(step);
 	const argoTaskTemplate = buildArgoDagTaskTemplate(step, cwlJobInputs, boundOutputs, pathPrefix);
 
 	return { argoTaskTemplate: argoTaskTemplate, argoContainerTemplate };

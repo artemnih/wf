@@ -6,7 +6,7 @@ import { Step, ArgoContainerTemplate } from '../../../types';
  * @param step the workflow step
  * @returns the container template for this step.
  */
-export function buildArgoContainerTemplate(step: Step, pathPrefix: string) {
+export function buildArgoContainerTemplate(step: Step) {
 	// retrieve configuration
 	require('dotenv').config();
 	const argoConfig = require('config');

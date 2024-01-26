@@ -2,7 +2,6 @@ import { JobCrud, Workflow } from '../models';
 import WorkflowRepository from '../repositories/workflow.repository';
 import { WorkflowCrud } from '../models';
 import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
 
 interface Status {
 	status: string;
