@@ -10,18 +10,17 @@
 		"InlineJavascriptRequirement": {},
 		"ResourceRequirement": {},
 		"InitialWorkDirRequirement": {
-			"listing": [{
-				"entry": "$(inputs.outDir)",
-				"writable": true
-			}]
+			"listing": [
+				{
+					"entry": "$(inputs.outDir)",
+					"writable": true
+				}
+			]
 		}
 	},
 	"stdout": "filepattern.out",
 	"stderr": "filepattern.err",
-	"baseCommand": [
-		"python3",
-		"/opt/executables/main.py"
-	],
+	"baseCommand": ["python3", "/opt/executables/main.py"],
 	"inputs": {
 		"inpDir": {
 			"type": "Directory",

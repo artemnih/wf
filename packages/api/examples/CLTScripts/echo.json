@@ -10,9 +10,7 @@
 				"dockerPull": "busybox"
 			}
 		},
-		"baseCommand": [
-			"echo"
-		],
+		"baseCommand": ["echo"],
 		"stdout": "echo.out",
 		"stderr": "echo.err",
 		"inputs": {

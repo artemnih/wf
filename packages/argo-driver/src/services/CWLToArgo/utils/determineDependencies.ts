@@ -12,22 +12,20 @@ import { Step } from '../../../types';
  * @param step the given step
  * @returns the list of stepNames this step depends on.
  */
-export function determineDependencies(
-  step: Step,
-): string[] {
-  const dependencies : string[] = [];
+export function determineDependencies(step: Step): string[] {
+	const dependencies: string[] = [];
 
-  const cwlStepIn = step.in
-  const cwlStepName = step.name
+	const cwlStepIn = step.in;
+	const cwlStepName = step.name;
 
-  for (const input in cwlStepIn) {
-    let [inputName, inputValue] = cwlStepIn[input].split('/');
-      if(inputName && inputValue) {
-        if(inputName != cwlStepName) {
-          dependencies.push(inputName);
-        }
-      }
-  }
+	for (const input in cwlStepIn) {
+		let [inputName, inputValue] = cwlStepIn[input].split('/');
+		if (inputName && inputValue) {
+			if (inputName != cwlStepName) {
+				dependencies.push(inputName);
+			}
+		}
+	}
 
-  return dependencies;
+	return dependencies;
 }

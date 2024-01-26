@@ -1,65 +1,65 @@
 driver:
-  image:
-    name: polusai/argo-driver:0.1.1
-    pullSecret: null
-  ingress:
-    enabled: false
-    host: null
-  port: 7999
-  auth:
-    url: null
-  volume:
-    pvcName: "compute-pv-claim"
-    mountPath: "/data/inputs"
-    outputPath: "/data/outputs"
-    subPath: "temp/jobs"
-    absoluteOutputPath: "/data/inputs/temp/jobs"
-argo:
-  server:
-    service:
-      type: NodePort
-    extraArgs:
-      - --auth-mode=sso
-      - --auth-mode=client
+    image:
+        name: polusai/argo-driver:0.1.1
+        pullSecret: null
+    ingress:
+        enabled: false
+        host: null
+    port: 7999
     auth:
-      sso:
+        url: null
+    volume:
+        pvcName: 'compute-pv-claim'
+        mountPath: '/data/inputs'
+        outputPath: '/data/outputs'
+        subPath: 'temp/jobs'
+        absoluteOutputPath: '/data/inputs/temp/jobs'
+argo:
+    server:
+        service:
+            type: NodePort
+        extraArgs:
+            - --auth-mode=sso
+            - --auth-mode=client
+        auth:
+            sso:
+                enabled: true
+                issuer: null
+                clientId:
+                    name: argo-server-sso-secret
+                    key: client-id
+                    value: null
+                clientSecret:
+                    name: argo-server-sso-secret
+                    key: client-secret
+                    value: 'null'
+                redirectUrl: null
+                rbac:
+                    enabled: false
+                scopes:
+                    - groups
+    postgresql:
+        primary:
+            persistence:
+                # Storage class might be different from hub.storage.storageClass to accomodate the issue in EFS CSI driver
+                storageClass: null
+                size: 10Gi
+    mysql:
+        enabled: false
+    ingress:
         enabled: true
-        issuer: null
-        clientId:
-          name: argo-server-sso-secret
-          key: client-id
-          value: null
-        clientSecret:
-          name: argo-server-sso-secret
-          key: client-secret
-          value: "null"
-        redirectUrl: null
-        rbac:
-          enabled: false
-        scopes:
-          - groups
-  postgresql:
-    primary:
-      persistence:
-        # Storage class might be different from hub.storage.storageClass to accomodate the issue in EFS CSI driver
-        storageClass: null
-        size: 10Gi
-  mysql:
-    enabled: false
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/proxy-body-size: "0"
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    hostname: null
-  extraDeploy:
-    - |
-      apiVersion: v1
-      kind: Secret
-      type: Opaque
-      metadata:
-        name: {{ .Values.server.auth.sso.clientId.name }}
-      data:
-        client-id: {{ .Values.server.auth.sso.clientId.value | b64enc | quote }}
-        client-secret: {{ .Values.server.auth.sso.clientSecret.value | b64enc | quote }}
+        annotations:
+            kubernetes.io/ingress.class: nginx
+            nginx.ingress.kubernetes.io/proxy-body-size: '0'
+            nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+        hostname: null
+    extraDeploy:
+        - |
+            apiVersion: v1
+            kind: Secret
+            type: Opaque
+            metadata:
+              name: {{ .Values.server.auth.sso.clientId.name }}
+            data:
+              client-id: {{ .Values.server.auth.sso.clientId.value | b64enc | quote }}
+              client-secret: {{ .Values.server.auth.sso.clientSecret.value | b64enc | quote }}

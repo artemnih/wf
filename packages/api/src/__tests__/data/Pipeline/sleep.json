@@ -1,17 +1,17 @@
 {
-    "id": "619e5c4da004a6cd3f33cb74",
-    "name": "sleep",
-    "inputs": {
-      "sleepParam": "string"
-    },
-    "outputs": {},
-    "steps": {
-      "sleep": {
-        "run": "plugin:618020c9b5eb007f68bb6a64",
-        "in": {
-          "sleepParam": "sleepParam"
-        },
-        "out": []
-      }
-    }
-  }
+	"id": "619e5c4da004a6cd3f33cb74",
+	"name": "sleep",
+	"inputs": {
+		"sleepParam": "string"
+	},
+	"outputs": {},
+	"steps": {
+		"sleep": {
+			"run": "plugin:618020c9b5eb007f68bb6a64",
+			"in": {
+				"sleepParam": "sleepParam"
+			},
+			"out": []
+		}
+	}
+}

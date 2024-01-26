@@ -287,9 +287,7 @@
 										}
 									]
 								},
-								"dependencies": [
-									"montage"
-								]
+								"dependencies": ["montage"]
 							},
 							{
 								"name": "montage",
@@ -341,10 +339,7 @@
 					"container": {
 						"name": "",
 						"image": "kevinpatrickhannon/polus-montage:test",
-						"command": [
-							"python3",
-							"/opt/executables/main.py"
-						],
+						"command": ["python3", "/opt/executables/main.py"],
 						"args": [
 							"--filePattern",
 							"{{inputs.parameters.filePattern}}",
@@ -399,10 +394,7 @@
 					"container": {
 						"name": "",
 						"image": "kevinpatrickhannon/polus-recycle-vector:test",
-						"command": [
-							"python3",
-							"/opt/executables/main.py"
-						],
+						"command": ["python3", "/opt/executables/main.py"],
 						"args": [
 							"--groupBy",
 							"{{inputs.parameters.groupBy}}",
@@ -465,12 +457,8 @@
 						"cpu": 25,
 						"memory": 25
 					},
-					"children": [
-						"6181a1d9d8f17a0e454c3e47-1519731056"
-					],
-					"outboundNodes": [
-						"6181a1d9d8f17a0e454c3e47-2464799912"
-					]
+					"children": ["6181a1d9d8f17a0e454c3e47-1519731056"],
+					"outboundNodes": ["6181a1d9d8f17a0e454c3e47-2464799912"]
 				},
 				"6181a1d9d8f17a0e454c3e47-2464799912": {
 					"id": "6181a1d9d8f17a0e454c3e47-2464799912",
@@ -559,9 +547,7 @@
 					"outputs": {
 						"exitCode": "0"
 					},
-					"children": [
-						"6181a1d9d8f17a0e454c3e47-2464799912"
-					],
+					"children": ["6181a1d9d8f17a0e454c3e47-2464799912"],
 					"hostNodeName": "ip-192-168-55-77.ec2.internal"
 				}
 			},

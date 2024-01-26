@@ -6,61 +6,61 @@ This Chart includes Argo Chart as a dependency. Argo Chart is a wrapper around b
 
 1. Configure SSO with LabShare Auth
 
-   We are following [Argo Server SSO docs](https://argoproj.github.io/argo-workflows/argo-server-sso/#to-start-argo-server-with-sso).
+    We are following [Argo Server SSO docs](https://argoproj.github.io/argo-workflows/argo-server-sso/#to-start-argo-server-with-sso).
 
-   a. In LabShare Auth create a new Web App
+    a. In LabShare Auth create a new Web App
 
-   - Callback URLs: https://<argo_ingress_url>/oauth2/callback
-   - Post logout redirect URLs: https://<argo_ingress_url>/oauth2/logout
-   - Response types: code
-   - Grant types: authorization_code, refresh_token
-   - Token Endpoint Auth Method: client_secret_post
-   - Providers: (choose any you wish to enable)
+    - Callback URLs: https://<argo_ingress_url>/oauth2/callback
+    - Post logout redirect URLs: https://<argo_ingress_url>/oauth2/logout
+    - Response types: code
+    - Grant types: authorization_code, refresh_token
+    - Token Endpoint Auth Method: client_secret_post
+    - Providers: (choose any you wish to enable)
 
-   b. Enable the following fields in the values.yaml
+    b. Enable the following fields in the values.yaml
 
-   ```yaml
-   argo:
-     argoworkflows:
-       server:
-         auth:
-           sso:
-             issuer: https://<LabShare Auth URL>/auth/<tenant>
-             clientId:
-               value: <client_id>
-             clientSecret:
-               value: <client_secret>
-             redirectUrl: https://<argo_ingress_url>/oauth2/callback
-   ```
+    ```yaml
+    argo:
+        argoworkflows:
+            server:
+                auth:
+                    sso:
+                        issuer: https://<LabShare Auth URL>/auth/<tenant>
+                        clientId:
+                            value: <client_id>
+                        clientSecret:
+                            value: <client_secret>
+                        redirectUrl: https://<argo_ingress_url>/oauth2/callback
+    ```
 
 2. Create PVC for Argo
 
-   ```yaml
-   apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-    name: compute-pv-claim
-    spec:
-    accessModes:
-        - ReadWriteMany
-    resources:
-        requests:
-        storage: 50Gi
-    storageClassName: test-efs-sc
-   ```
+    ```yaml
+    apiVersion: v1
+     kind: PersistentVolumeClaim
+     metadata:
+     name: compute-pv-claim
+     spec:
+     accessModes:
+         - ReadWriteMany
+     resources:
+         requests:
+         storage: 50Gi
+     storageClassName: test-efs-sc
+    ```
 
 3. Create Docker pull secret
 
-   ```yaml
-   apiVersion: v1
-    kind: Secret
-    type: kubernetes.io/dockerconfigjson
-    metadata:
-    name: polusai-docker-pull-secret
-    namespace: default
-    data:
-    .dockerconfigjson: <redacted>
-   ```
+    ```yaml
+    apiVersion: v1
+     kind: Secret
+     type: kubernetes.io/dockerconfigjson
+     metadata:
+     name: polusai-docker-pull-secret
+     namespace: default
+     data:
+     .dockerconfigjson: <redacted>
+    ```
 
 ## Installation
 

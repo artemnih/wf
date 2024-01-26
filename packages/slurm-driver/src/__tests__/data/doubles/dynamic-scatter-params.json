@@ -7,6 +7,6 @@
 	"file-pattern-output": {
 		"class": "Directory",
 		"path": "zarr"
-	}, 
+	},
 	"chunkSize": 2
 }

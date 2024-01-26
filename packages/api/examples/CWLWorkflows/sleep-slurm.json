@@ -19,9 +19,7 @@
 						"dockerPull": "busybox"
 					}
 				},
-				"baseCommand": [
-					"sleep"
-				],
+				"baseCommand": ["sleep"],
 				"inputs": {
 					"sleepParam": {
 						"type": "string",

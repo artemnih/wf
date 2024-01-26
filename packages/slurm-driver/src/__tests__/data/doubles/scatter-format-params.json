@@ -1,1 +1,8 @@
-{"filePatternArray":["x24_y16_wx2_wy1_c{c}.ome.tif","x24_y16_wx2_wy2_c{c}.ome.tif"],"inpDir":{"class":"Directory","path":"/home/ec2-user/cwl/zarr-to-ome/data"},"outDir":{"class":"Directory","path":"zarr"}}
+{
+	"filePatternArray": ["x24_y16_wx2_wy1_c{c}.ome.tif", "x24_y16_wx2_wy2_c{c}.ome.tif"],
+	"inpDir": {
+		"class": "Directory",
+		"path": "/home/ec2-user/cwl/zarr-to-ome/data"
+	},
+	"outDir": { "class": "Directory", "path": "zarr" }
+}

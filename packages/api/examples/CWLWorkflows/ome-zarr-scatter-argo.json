@@ -9,28 +9,19 @@
 	"outputs": {
 		"ome2zarroutDir": {
 			"type": "Directory[]",
-			"outputSource": [
-				"ome2zarr/ome2zarroutDir"
-			]
+			"outputSource": ["ome2zarr/ome2zarroutDir"]
 		},
 		"ome2zarrStdOut": {
 			"type": "File[]",
-			"outputSource": [
-				"ome2zarr/ome2zarrStdOut"
-			]
+			"outputSource": ["ome2zarr/ome2zarrStdOut"]
 		},
 		"ome2zarrStdErr": {
 			"type": "File[]",
-			"outputSource": [
-				"ome2zarr/ome2zarrStdErr"
-			]
+			"outputSource": ["ome2zarr/ome2zarrStdErr"]
 		}
 	},
 	"cwlJobInputs": {
-		"filePatternArray": [
-			"x24_y16_wx2_wy1_c{c}.ome.tif",
-			"x24_y16_wx2_wy2_c{c}.ome.tif"
-		],
+		"filePatternArray": ["x24_y16_wx2_wy1_c{c}.ome.tif", "x24_y16_wx2_wy2_c{c}.ome.tif"],
 		"inpDir": {
 			"class": "Directory",
 			"path": "/data/inputs/collections/61940ec06fa1f65bf8cace44/images"
@@ -49,11 +40,7 @@
 				"inpDir": "inpDir",
 				"outDir": "outDir"
 			},
-			"out": [
-				"ome2zarroutDir",
-				"ome2zarrStdOut",
-				"ome2zarrStdErr"
-			]
+			"out": ["ome2zarroutDir", "ome2zarrStdOut", "ome2zarrStdErr"]
 		}
 	}
 }

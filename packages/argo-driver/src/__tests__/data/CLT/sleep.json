@@ -1,22 +1,20 @@
 {
-   "cwlVersion": "v1.0",
-   "class": "CommandLineTool",
-   "requirements": {
-      "DockerRequirement": {
-         "dockerPull": "busybox"
-      }
-   },
-   "baseCommand": [
-      "sleep"
-   ],
-   "id": "sleep",
-   "inputs": {
-      "sleepParam": {
-         "type": "int",
-         "inputBinding": {
-            "position": 1
-         }
-      }
-   },
-   "outputs": {}
+	"cwlVersion": "v1.0",
+	"class": "CommandLineTool",
+	"requirements": {
+		"DockerRequirement": {
+			"dockerPull": "busybox"
+		}
+	},
+	"baseCommand": ["sleep"],
+	"id": "sleep",
+	"inputs": {
+		"sleepParam": {
+			"type": "int",
+			"inputBinding": {
+				"position": 1
+			}
+		}
+	},
+	"outputs": {}
 }

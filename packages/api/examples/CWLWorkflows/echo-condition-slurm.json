@@ -30,9 +30,7 @@
 						"dockerPull": "busybox"
 					}
 				},
-				"baseCommand": [
-					"echo"
-				],
+				"baseCommand": ["echo"],
 				"stdout": "echo.out",
 				"stderr": "echo.err",
 				"inputs": {
@@ -56,10 +54,7 @@
 				"message": "hello1",
 				"condValue": "condValue"
 			},
-			"out": [
-				"echoStdOut",
-				"echoStdErr"
-			],
+			"out": ["echoStdOut", "echoStdErr"],
 			"when": "$(inputs.condValue)"
 		}
 	}

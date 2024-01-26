@@ -14,6 +14,7 @@
     "build:argo": "npm run build --w=packages/argo-driver",
     "build:slurm": "npm run build --w=packages/slurm-driver",
     "build:single-node": "npm run build --w=packages/single-node-driver",
+    "build:all": "npm run build:common && npm run build:api && npm run build:argo && npm run build:slurm && npm run build:single-node",
     "start": "npm run build:common && npm run watch",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",

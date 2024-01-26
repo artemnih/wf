@@ -12,21 +12,15 @@
 	"outputs": {
 		"ome2zarroutDir": {
 			"type": "Directory[]",
-			"outputSource": [
-				"ome2zarr/ome2zarroutDir"
-			]
+			"outputSource": ["ome2zarr/ome2zarroutDir"]
 		},
 		"ome2zarrStdOut": {
 			"type": "File[]",
-			"outputSource": [
-				"ome2zarr/ome2zarrStdOut"
-			]
+			"outputSource": ["ome2zarr/ome2zarrStdOut"]
 		},
 		"ome2zarrStdErr": {
 			"type": "File[]",
-			"outputSource": [
-				"ome2zarr/ome2zarrStdErr"
-			]
+			"outputSource": ["ome2zarr/ome2zarrStdErr"]
 		}
 	},
 	"cwlJobInputs": {
@@ -58,9 +52,7 @@
 				"outDir": "file-pattern-output",
 				"chunkSize": "chunkSize"
 			},
-			"out": [
-				"filepatternoutDir"
-			]
+			"out": ["filepatternoutDir"]
 		},
 		"ome2zarr": {
 			"run": "plugin:ome2zarr:0.2.1",
@@ -70,11 +62,7 @@
 				"inpDir": "inpDir",
 				"outDir": "outDir"
 			},
-			"out": [
-				"ome2zarroutDir",
-				"ome2zarrStdOut",
-				"ome2zarrStdErr"
-			]
+			"out": ["ome2zarroutDir", "ome2zarrStdOut", "ome2zarrStdErr"]
 		}
 	}
 }

@@ -1,6 +1,6 @@
 export const getBasePath = () => {
-  require('dotenv').config();
-  const slurmConfig = require('config');
+	require('dotenv').config();
+	const slurmConfig = require('config');
 
-  return slurmConfig.slurmCompute.data;
+	return slurmConfig.slurmCompute.data;
 };

@@ -18,10 +18,7 @@
 				]
 			}
 		},
-		"baseCommand": [
-			"python3",
-			"/opt/executables/main.py"
-		],
+		"baseCommand": ["python3", "/opt/executables/main.py"],
 		"stdout": "recycle.out",
 		"stderr": "recycle.err",
 		"inputs": {

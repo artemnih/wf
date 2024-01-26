@@ -19,10 +19,7 @@
 				]
 			}
 		},
-		"baseCommand": [
-			"python3",
-			"/opt/executables/main.py"
-		],
+		"baseCommand": ["python3", "/opt/executables/main.py"],
 		"stdout": "montage.out",
 		"stderr": "montage.err",
 		"inputs": {
