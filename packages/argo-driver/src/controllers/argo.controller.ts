@@ -47,7 +47,7 @@ class ArgoController implements IDriverController {
 			next(error);
 		}
 	}
- 
+
 	async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
 		try {
 			const id = req.params.id;

@@ -15,7 +15,6 @@ module.exports = {
 	services: {
 		auth: {
 			authUrl: process.env.SERVICES_AUTH_URL,
-			tenant: process.env.SERVICES_AUTH_TENANT,
 		},
 		log: {
 			enableMetadata: true,

@@ -11,9 +11,7 @@ class ArgoRepository {
 	 */
 	public createWorkflow(cwlWorkflow: CwlWorkflow, cwlJobInputs: CwlJobInputs, computeJobs: ComputeJob[]) {
 		const argoWorkflow = cwlToArgo(cwlWorkflow, cwlJobInputs, computeJobs);
-
-		const _argoWorkflow = JSON.stringify(argoWorkflow, null, 2);
-		console.debug(`submitting workflow to argo api : ${_argoWorkflow}`);
+		console.debug(`submitting workflow to argo api`);
 
 		submitWorkflowToArgo(argoWorkflow);
 	}

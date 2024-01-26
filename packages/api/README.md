@@ -37,9 +37,8 @@ These are the relevant environment variables.
 | SLURM_DRIVER_PORT     | Port of slurm-driver                                      |
 | COMPUTE_SERVICE_NAME  | Name of compute container                                 |
 | SERVICES_AUTH_URL     | LabShare Auth API URL                                     |
-| SERVICES_AUTH_TENANT  | LabShare Auth Tenant for Argo driver                      |
 
-For a local development, you only need to define SLURM_DRIVER_URL, SERVICES_AUTH_URL and SERVICES_AUTH_TENANT. The [defaults](config/default.js) assume localhost.
+For a local development, you only need to define SLURM_DRIVER_URL, SERVICES_AUTH_URL. The [defaults](config/default.js) assume localhost.
 
 ## Deployment
 
