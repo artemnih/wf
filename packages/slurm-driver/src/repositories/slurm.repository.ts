@@ -1,81 +1,52 @@
 import { readFileSync } from 'fs';
-import {
-  cwlCompute,
-  Job,
-  getWorkflowLogs,
-  readCwlOutput,
-  getOutputOfJobs,
-} from '../cwl';
-import {
-  HpcCli,
-  stopWorkflow,
-  statusOfJobs,
-  statusOfEachJob,
-  HPCStatus,
-  toilKillHandler,
-} from '../hpc';
+import { cwlCompute, Job, getWorkflowLogs, readCwlOutput, getOutputOfJobs } from '../cwl';
+import { HpcCli, stopWorkflow, statusOfJobs, statusOfEachJob, HPCStatus, toilKillHandler } from '../hpc';
 import { WorkflowStatus } from '../types';
 
 export class SlurmRepository {
+	public async compute(cwlWorkflow: object, cwlJobParams: object, jobs: object[]) {
+		cwlCompute(cwlWorkflow, cwlJobParams, jobs as Job[]);
+	}
 
-  public async compute(
-    cwlWorkflow: object,
-    cwlJobParams: object,
-    jobs: object[],
-  ) {
-    cwlCompute(cwlWorkflow, cwlJobParams, jobs as Job[]);
-  }
+	public async stopWorkflow(id: string, hpcCli: HpcCli, toilHandler = toilKillHandler) {
+		stopWorkflow(id, hpcCli, toilHandler);
+	}
 
-  public async stopWorkflow(
-    id: string,
-    hpcCli: HpcCli,
-    toilHandler = toilKillHandler,
-  ) {
-    stopWorkflow(id, hpcCli, toilHandler);
-  }
+	public async getWorkflowJobs(id: string, hpcCli: HpcCli): Promise<HPCStatus[] | object> {
+		const hpcStatuses = statusOfJobs(id, hpcCli);
+		if (hpcStatuses.length > 0) {
+			return statusOfEachJob(hpcStatuses);
+		} else {
+			return {};
+		}
+	}
 
-  public async getWorkflowJobs(
-    id: string,
-    hpcCli: HpcCli,
-  ): Promise<HPCStatus[] | object> {
-    const hpcStatuses = statusOfJobs(id, hpcCli);
-    if (hpcStatuses.length > 0) {
-      return statusOfEachJob(hpcStatuses);
-    } else {
-      return {};
-    }
-  }
+	public async getWorkflowStatus(statusPath: string): Promise<WorkflowStatus> {
+		const statusWorkflow = JSON.parse(readFileSync(statusPath, 'utf8'));
+		return statusWorkflow;
+	}
 
-  public async getWorkflowStatus(statusPath: string): Promise<WorkflowStatus> {
-    const statusWorkflow = JSON.parse(readFileSync(statusPath, 'utf8'));
-    return statusWorkflow;
-  }
+	public async getWorkflowLogs(id: string): Promise<Record<string, string | string[] | number | boolean>> {
+		require('dotenv').config();
+		const slurmConfig = require('config');
+		const logs = getWorkflowLogs(readCwlOutput(id));
+		if (Object.keys(logs).length === 0) {
+			return {
+				message: `Logs of running workflow can be found in the folder ${slurmConfig.slurmCompute.data}/${id}-logs`,
+			};
+		}
+		return logs;
+	}
 
-  public async getWorkflowLogs(
-    id: string,
-  ): Promise<Record<string, string | string[] | number | boolean>> {
-    require('dotenv').config();
-    const slurmConfig = require('config');
-    const logs = getWorkflowLogs(readCwlOutput(id));
-    if (Object.keys(logs).length === 0) {
-      return {
-        message: `Logs of running workflow can be found in the folder ${slurmConfig.slurmCompute.data}/${id}-logs`,
-      };
-    }
-    return logs;
-  }
-
-  public async getWorkflowOutputs(id: string) {
-    const outputs = getOutputOfJobs(readCwlOutput(id));
-    if (Object.keys(outputs).length === 0) {
-      return {
-        message: 'Outputs are not available while the workflow is running',
-      };
-    }
-    return outputs;
-  }
-  
+	public async getWorkflowOutputs(id: string) {
+		const outputs = getOutputOfJobs(readCwlOutput(id));
+		if (Object.keys(outputs).length === 0) {
+			return {
+				message: 'Outputs are not available while the workflow is running',
+			};
+		}
+		return outputs;
+	}
 }
-
 
 export default new SlurmRepository();

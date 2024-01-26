@@ -1,5 +1,5 @@
 export interface WorkflowStatus {
-  status: string;
-  dateCreated: string;
-  dateFinished: string;
+	status: string;
+	dateCreated: string;
+	dateFinished: string;
 }

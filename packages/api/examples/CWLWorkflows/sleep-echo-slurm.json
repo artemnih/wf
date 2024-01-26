@@ -38,9 +38,7 @@
 						"dockerPull": "busybox"
 					}
 				},
-				"baseCommand": [
-					"sleep"
-				],
+				"baseCommand": ["sleep"],
 				"inputs": {
 					"sleepParam": {
 						"type": "string",
@@ -61,10 +59,7 @@
 			"in": {
 				"sleepParam": "sleepParam"
 			},
-			"out": [
-				"sleepStdOut",
-				"sleepStdErr"
-			]
+			"out": ["sleepStdOut", "sleepStdErr"]
 		},
 		"echo": {
 			"run": {
@@ -76,9 +71,7 @@
 						"dockerPull": "busybox"
 					}
 				},
-				"baseCommand": [
-					"echo"
-				],
+				"baseCommand": ["echo"],
 				"stdout": "echo.out",
 				"stderr": "echo.err",
 				"inputs": {
@@ -101,10 +94,7 @@
 			"in": {
 				"message": "hello1"
 			},
-			"out": [
-				"echoStdOut",
-				"echoStdErr"
-			]
+			"out": ["echoStdOut", "echoStdErr"]
 		}
 	}
 }

@@ -1,1186 +1,1183 @@
 {
-    "filePatterns": [
-        "x24_y16_wx2_wy1_c{c}.ome.tif",
-        "x24_y16_wx2_wy2_c{c}.ome.tif"
-    ],
-    "ome2zarrStdErr": [
-        {
-            "location": "file:///home/kevin.hannon/toil-temp/cwl/error",
-            "basename": "fc53d3deeb10f4d75a919d23fc08199e541e06e0",
-            "nameroot": "fc53d3deeb10f4d75a919d23fc08199e541e06e0",
-            "nameext": "",
-            "class": "File",
-            "checksum": "sha1$c0be48269a0099bce3e47ac07635d164e3edff0d",
-            "size": 405
-        },
-        {
-            "location": "file:///home/kevin.hannon/toil-temp/cwl/error_2",
-            "basename": "fc53d3deeb10f4d75a919d23fc08199e541e06e0",
-            "nameroot": "fc53d3deeb10f4d75a919d23fc08199e541e06e0",
-            "nameext": "",
-            "class": "File",
-            "checksum": "sha1$f552dd99ae2a3a01ba993377501a958c958530c5",
-            "size": 405
-        }
-    ],
-    "ome2zarrStdOut": [
-        {
-            "location": "file:///home/kevin.hannon/toil-temp/cwl/file",
-            "basename": "084dca0176270ab2d52c6483976615f3c7cf8b0b",
-            "nameroot": "084dca0176270ab2d52c6483976615f3c7cf8b0b",
-            "nameext": "",
-            "class": "File",
-            "checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
-            "size": 0
-        },
-        {
-            "location": "file:///home/kevin.hannon/toil-temp/cwl/file_2",
-            "basename": "084dca0176270ab2d52c6483976615f3c7cf8b0b",
-            "nameroot": "084dca0176270ab2d52c6483976615f3c7cf8b0b",
-            "nameext": "",
-            "class": "File",
-            "checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
-            "size": 0
-        }
-    ],
-    "ome2zarroutDir": [
-        {
-            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr",
-            "basename": "zarr",
-            "nameroot": "zarr",
-            "nameext": "",
-            "class": "Directory",
-            "listing": [
-                {
-                    "class": "Directory",
-                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr",
-                    "basename": "x24_y16_wx2_wy1_c1.ome.zarr",
-                    "listing": [
-                        {
-                            "class": "Directory",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0",
-                            "basename": "0",
-                            "listing": [
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.0",
-                                    "basename": "0.0.0.0.0",
-                                    "size": 1274893,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$89be174541f2917a3d199950caf8346ec279e3fa"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.1",
-                                    "basename": "0.0.0.1.1",
-                                    "size": 4670,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$8c68cc3d924512a7aee22f6507c976ee9d57e240"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.0",
-                                    "basename": "0.0.0.1.0",
-                                    "size": 72922,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$6c577c70c65b6403f82effeee0a4f03ad3e1b963"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.1",
-                                    "basename": "0.0.0.0.1",
-                                    "size": 55826,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$541cd43c46a689d0d115853ad2806697ef31fd29"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/.zarray",
-                                    "basename": ".zarray",
-                                    "size": 410,
-                                    "nameroot": ".zarray",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                }
-                            ]
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zattrs",
-                            "basename": ".zattrs",
-                            "size": 11414,
-                            "nameroot": ".zattrs",
-                            "nameext": "",
-                            "checksum": "sha1$751bb36715ed28c7c6b89ad2620e2e34c3e3f230"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zmetadata",
-                            "basename": ".zmetadata",
-                            "size": 12334,
-                            "nameroot": ".zmetadata",
-                            "nameext": "",
-                            "checksum": "sha1$c47d7874b7cad60060a08efe84f32301f8eb946d"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zgroup",
-                            "basename": ".zgroup",
-                            "size": 24,
-                            "nameroot": ".zgroup",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        }
-                    ]
-                },
-                {
-                    "class": "Directory",
-                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr",
-                    "basename": "x24_y16_wx2_wy2_c2.ome.zarr",
-                    "listing": [
-                        {
-                            "class": "Directory",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0",
-                            "basename": "0",
-                            "listing": [
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.0",
-                                    "basename": "0.0.0.0.0",
-                                    "size": 1067451,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$9f46f03c2a8e87005fc6f0b7bd89f896ecea937f"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/.zarray_2",
-                                    "basename": ".zarray_2",
-                                    "size": 410,
-                                    "nameroot": ".zarray_2",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.1_2",
-                                    "basename": "0.0.0.0.1_2",
-                                    "size": 49844,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1_2",
-                                    "checksum": "sha1$6f5ede2ed38c4fbe97c45abf1576f0c4852072e3"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.1",
-                                    "basename": "0.0.0.1.1",
-                                    "size": 4349,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$6d0400e96c17e14f6c0283dafbb8ce151fb877a0"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.0_2",
-                                    "basename": "0.0.0.1.0_2",
-                                    "size": 59431,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0_2",
-                                    "checksum": "sha1$3571a8a402bb3be548aa6330cf4f754c67f504f8"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.0_2",
-                                    "basename": "0.0.0.1.0",
-                                    "size": 59431,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$3571a8a402bb3be548aa6330cf4f754c67f504f8"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.0_2",
-                                    "basename": "0.0.0.0.0_2",
-                                    "size": 1067451,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0_2",
-                                    "checksum": "sha1$9f46f03c2a8e87005fc6f0b7bd89f896ecea937f"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.1_2",
-                                    "basename": "0.0.0.0.1",
-                                    "size": 49844,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$6f5ede2ed38c4fbe97c45abf1576f0c4852072e3"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.1_2",
-                                    "basename": "0.0.0.1.1_2",
-                                    "size": 4349,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1_2",
-                                    "checksum": "sha1$6d0400e96c17e14f6c0283dafbb8ce151fb877a0"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/.zarray_2",
-                                    "basename": ".zarray",
-                                    "size": 410,
-                                    "nameroot": ".zarray",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                }
-                            ]
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zmetadata_2",
-                            "basename": ".zmetadata_2",
-                            "size": 12334,
-                            "nameroot": ".zmetadata_2",
-                            "nameext": "",
-                            "checksum": "sha1$5ea4c58526b632d31dadf14046f340065b0f1e94"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zgroup_2",
-                            "basename": ".zgroup_2",
-                            "size": 24,
-                            "nameroot": ".zgroup_2",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zattrs",
-                            "basename": ".zattrs",
-                            "size": 11414,
-                            "nameroot": ".zattrs",
-                            "nameext": "",
-                            "checksum": "sha1$ee4d80c34bd08686c94b44dc0b0f620c308e2f87"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zmetadata_2",
-                            "basename": ".zmetadata",
-                            "size": 12334,
-                            "nameroot": ".zmetadata",
-                            "nameext": "",
-                            "checksum": "sha1$5ea4c58526b632d31dadf14046f340065b0f1e94"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zgroup_2",
-                            "basename": ".zgroup",
-                            "size": 24,
-                            "nameroot": ".zgroup",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zattrs_2",
-                            "basename": ".zattrs_2",
-                            "size": 11414,
-                            "nameroot": ".zattrs_2",
-                            "nameext": "",
-                            "checksum": "sha1$ee4d80c34bd08686c94b44dc0b0f620c308e2f87"
-                        }
-                    ]
-                },
-                {
-                    "class": "Directory",
-                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr",
-                    "basename": "x24_y16_wx2_wy1_c2.ome.zarr",
-                    "listing": [
-                        {
-                            "class": "Directory",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0",
-                            "basename": "0",
-                            "listing": [
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.0",
-                                    "basename": "0.0.0.0.0",
-                                    "size": 1102087,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$787c5fa817be067a1dbaa12b629297ba7b3ac857"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.1",
-                                    "basename": "0.0.0.1.1",
-                                    "size": 4356,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$b4f78b9adeb94f47bf27850768b5e60b75955165"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.0",
-                                    "basename": "0.0.0.1.0",
-                                    "size": 61601,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$81b55270ed63425567aa342502f65c9b95cd4829"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.1",
-                                    "basename": "0.0.0.0.1",
-                                    "size": 49647,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$4eeef4fe8ce906728e8a663d0269b6dcc429c724"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/.zarray",
-                                    "basename": ".zarray",
-                                    "size": 410,
-                                    "nameroot": ".zarray",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                }
-                            ]
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zattrs",
-                            "basename": ".zattrs",
-                            "size": 11414,
-                            "nameroot": ".zattrs",
-                            "nameext": "",
-                            "checksum": "sha1$38f3881b79827728bfb86eabcd95e8a857f6b754"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zmetadata",
-                            "basename": ".zmetadata",
-                            "size": 12334,
-                            "nameroot": ".zmetadata",
-                            "nameext": "",
-                            "checksum": "sha1$1000ac099118473390486d54915f94f9a0f74b7f"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zgroup",
-                            "basename": ".zgroup",
-                            "size": 24,
-                            "nameroot": ".zgroup",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        }
-                    ]
-                },
-                {
-                    "class": "Directory",
-                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr",
-                    "basename": "x24_y16_wx2_wy2_c1.ome.zarr",
-                    "listing": [
-                        {
-                            "class": "Directory",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0",
-                            "basename": "0",
-                            "listing": [
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.0",
-                                    "basename": "0.0.0.0.0",
-                                    "size": 1233794,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$043747d817a3fb3dfd750fcaeea6e687e2789f2c"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/.zarray_2",
-                                    "basename": ".zarray_2",
-                                    "size": 410,
-                                    "nameroot": ".zarray_2",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.1_2",
-                                    "basename": "0.0.0.0.1_2",
-                                    "size": 56211,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1_2",
-                                    "checksum": "sha1$3609ea47d28f9f36a14fdc99b5c38598746d50f8"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.1",
-                                    "basename": "0.0.0.1.1",
-                                    "size": 4736,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$eb5a9706bdba7af9b3d91eee86b1f7c52a6b7cce"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.0_2",
-                                    "basename": "0.0.0.1.0_2",
-                                    "size": 71121,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0_2",
-                                    "checksum": "sha1$6b929d5941d7792e6774ae5e1529d4777d8d4e87"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.0_2",
-                                    "basename": "0.0.0.1.0",
-                                    "size": 71121,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$6b929d5941d7792e6774ae5e1529d4777d8d4e87"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.0_2",
-                                    "basename": "0.0.0.0.0_2",
-                                    "size": 1233794,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0_2",
-                                    "checksum": "sha1$043747d817a3fb3dfd750fcaeea6e687e2789f2c"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.1_2",
-                                    "basename": "0.0.0.0.1",
-                                    "size": 56211,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$3609ea47d28f9f36a14fdc99b5c38598746d50f8"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.1_2",
-                                    "basename": "0.0.0.1.1_2",
-                                    "size": 4736,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1_2",
-                                    "checksum": "sha1$eb5a9706bdba7af9b3d91eee86b1f7c52a6b7cce"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/.zarray_2",
-                                    "basename": ".zarray",
-                                    "size": 410,
-                                    "nameroot": ".zarray",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                }
-                            ]
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zmetadata_2",
-                            "basename": ".zmetadata_2",
-                            "size": 12334,
-                            "nameroot": ".zmetadata_2",
-                            "nameext": "",
-                            "checksum": "sha1$66eda00985845d7e48e884f4fd3a4e8e2f1b6116"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zgroup_2",
-                            "basename": ".zgroup_2",
-                            "size": 24,
-                            "nameroot": ".zgroup_2",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zattrs",
-                            "basename": ".zattrs",
-                            "size": 11414,
-                            "nameroot": ".zattrs",
-                            "nameext": "",
-                            "checksum": "sha1$28749095af4abf354adb780ae3bf6e039255fa96"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zmetadata_2",
-                            "basename": ".zmetadata",
-                            "size": 12334,
-                            "nameroot": ".zmetadata",
-                            "nameext": "",
-                            "checksum": "sha1$66eda00985845d7e48e884f4fd3a4e8e2f1b6116"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zgroup_2",
-                            "basename": ".zgroup",
-                            "size": 24,
-                            "nameroot": ".zgroup",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zattrs_2",
-                            "basename": ".zattrs_2",
-                            "size": 11414,
-                            "nameroot": ".zattrs_2",
-                            "nameext": "",
-                            "checksum": "sha1$28749095af4abf354adb780ae3bf6e039255fa96"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr",
-            "basename": "zarr",
-            "nameroot": "zarr",
-            "nameext": "",
-            "class": "Directory",
-            "listing": [
-                {
-                    "class": "Directory",
-                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr",
-                    "basename": "x24_y16_wx2_wy1_c1.ome.zarr",
-                    "listing": [
-                        {
-                            "class": "Directory",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0",
-                            "basename": "0",
-                            "listing": [
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.0_2",
-                                    "basename": "0.0.0.0.0",
-                                    "size": 1274893,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$89be174541f2917a3d199950caf8346ec279e3fa"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/.zarray_2",
-                                    "basename": ".zarray_2",
-                                    "size": 410,
-                                    "nameroot": ".zarray_2",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.1_2_2",
-                                    "basename": "0.0.0.1.1_2_2",
-                                    "size": 4670,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1_2_2",
-                                    "checksum": "sha1$8c68cc3d924512a7aee22f6507c976ee9d57e240"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.1_2",
-                                    "basename": "0.0.0.0.1_2",
-                                    "size": 55826,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1_2",
-                                    "checksum": "sha1$541cd43c46a689d0d115853ad2806697ef31fd29"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.1_2",
-                                    "basename": "0.0.0.1.1",
-                                    "size": 4670,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$8c68cc3d924512a7aee22f6507c976ee9d57e240"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.0_2_2",
-                                    "basename": "0.0.0.0.0_2_2",
-                                    "size": 1274893,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0_2_2",
-                                    "checksum": "sha1$89be174541f2917a3d199950caf8346ec279e3fa"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.0_2",
-                                    "basename": "0.0.0.1.0_2",
-                                    "size": 72922,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0_2",
-                                    "checksum": "sha1$6c577c70c65b6403f82effeee0a4f03ad3e1b963"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.0_3",
-                                    "basename": "0.0.0.1.0",
-                                    "size": 72922,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$6c577c70c65b6403f82effeee0a4f03ad3e1b963"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.0_2_3",
-                                    "basename": "0.0.0.0.0_2",
-                                    "size": 1274893,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0_2",
-                                    "checksum": "sha1$89be174541f2917a3d199950caf8346ec279e3fa"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.1_3",
-                                    "basename": "0.0.0.0.1",
-                                    "size": 55826,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$541cd43c46a689d0d115853ad2806697ef31fd29"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/.zarray_3",
-                                    "basename": ".zarray_3",
-                                    "size": 410,
-                                    "nameroot": ".zarray_3",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.1_2_3",
-                                    "basename": "0.0.0.1.1_2",
-                                    "size": 4670,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1_2",
-                                    "checksum": "sha1$8c68cc3d924512a7aee22f6507c976ee9d57e240"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.1_3_2",
-                                    "basename": "0.0.0.0.1_3",
-                                    "size": 55826,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1_3",
-                                    "checksum": "sha1$541cd43c46a689d0d115853ad2806697ef31fd29"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.0_3_2",
-                                    "basename": "0.0.0.1.0_3",
-                                    "size": 72922,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0_3",
-                                    "checksum": "sha1$6c577c70c65b6403f82effeee0a4f03ad3e1b963"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/.zarray_4",
-                                    "basename": ".zarray",
-                                    "size": 410,
-                                    "nameroot": ".zarray",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                }
-                            ]
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zattrs_2_2",
-                            "basename": ".zattrs_2_2",
-                            "size": 11414,
-                            "nameroot": ".zattrs_2_2",
-                            "nameext": "",
-                            "checksum": "sha1$751bb36715ed28c7c6b89ad2620e2e34c3e3f230"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zmetadata_2",
-                            "basename": ".zmetadata_2",
-                            "size": 12334,
-                            "nameroot": ".zmetadata_2",
-                            "nameext": "",
-                            "checksum": "sha1$c47d7874b7cad60060a08efe84f32301f8eb946d"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zgroup_2",
-                            "basename": ".zgroup_2",
-                            "size": 24,
-                            "nameroot": ".zgroup_2",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zattrs_2",
-                            "basename": ".zattrs",
-                            "size": 11414,
-                            "nameroot": ".zattrs",
-                            "nameext": "",
-                            "checksum": "sha1$751bb36715ed28c7c6b89ad2620e2e34c3e3f230"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zmetadata_3",
-                            "basename": ".zmetadata",
-                            "size": 12334,
-                            "nameroot": ".zmetadata",
-                            "nameext": "",
-                            "checksum": "sha1$c47d7874b7cad60060a08efe84f32301f8eb946d"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zgroup_3",
-                            "basename": ".zgroup",
-                            "size": 24,
-                            "nameroot": ".zgroup",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zmetadata_3_2",
-                            "basename": ".zmetadata_3",
-                            "size": 12334,
-                            "nameroot": ".zmetadata_3",
-                            "nameext": "",
-                            "checksum": "sha1$c47d7874b7cad60060a08efe84f32301f8eb946d"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zgroup_3_2",
-                            "basename": ".zgroup_3",
-                            "size": 24,
-                            "nameroot": ".zgroup_3",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zattrs_2_3",
-                            "basename": ".zattrs_2",
-                            "size": 11414,
-                            "nameroot": ".zattrs_2",
-                            "nameext": "",
-                            "checksum": "sha1$751bb36715ed28c7c6b89ad2620e2e34c3e3f230"
-                        }
-                    ]
-                },
-                {
-                    "class": "Directory",
-                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr",
-                    "basename": "x24_y16_wx2_wy2_c2.ome.zarr",
-                    "listing": [
-                        {
-                            "class": "Directory",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0",
-                            "basename": "0",
-                            "listing": [
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.0_3",
-                                    "basename": "0.0.0.0.0",
-                                    "size": 1067451,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$9f46f03c2a8e87005fc6f0b7bd89f896ecea937f"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.1_3",
-                                    "basename": "0.0.0.1.1",
-                                    "size": 4349,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$6d0400e96c17e14f6c0283dafbb8ce151fb877a0"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.0_3",
-                                    "basename": "0.0.0.1.0",
-                                    "size": 59431,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$3571a8a402bb3be548aa6330cf4f754c67f504f8"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.1_3",
-                                    "basename": "0.0.0.0.1",
-                                    "size": 49844,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$6f5ede2ed38c4fbe97c45abf1576f0c4852072e3"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/.zarray_3",
-                                    "basename": ".zarray",
-                                    "size": 410,
-                                    "nameroot": ".zarray",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                }
-                            ]
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zattrs_3",
-                            "basename": ".zattrs",
-                            "size": 11414,
-                            "nameroot": ".zattrs",
-                            "nameext": "",
-                            "checksum": "sha1$ee4d80c34bd08686c94b44dc0b0f620c308e2f87"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zmetadata_3",
-                            "basename": ".zmetadata",
-                            "size": 12334,
-                            "nameroot": ".zmetadata",
-                            "nameext": "",
-                            "checksum": "sha1$5ea4c58526b632d31dadf14046f340065b0f1e94"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zgroup_3",
-                            "basename": ".zgroup",
-                            "size": 24,
-                            "nameroot": ".zgroup",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        }
-                    ]
-                },
-                {
-                    "class": "Directory",
-                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr",
-                    "basename": "x24_y16_wx2_wy1_c2.ome.zarr",
-                    "listing": [
-                        {
-                            "class": "Directory",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0",
-                            "basename": "0",
-                            "listing": [
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.0_2",
-                                    "basename": "0.0.0.0.0",
-                                    "size": 1102087,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$787c5fa817be067a1dbaa12b629297ba7b3ac857"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/.zarray_2",
-                                    "basename": ".zarray_2",
-                                    "size": 410,
-                                    "nameroot": ".zarray_2",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.1_2_2",
-                                    "basename": "0.0.0.1.1_2_2",
-                                    "size": 4356,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1_2_2",
-                                    "checksum": "sha1$b4f78b9adeb94f47bf27850768b5e60b75955165"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.1_2",
-                                    "basename": "0.0.0.0.1_2",
-                                    "size": 49647,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1_2",
-                                    "checksum": "sha1$4eeef4fe8ce906728e8a663d0269b6dcc429c724"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.1_2",
-                                    "basename": "0.0.0.1.1",
-                                    "size": 4356,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$b4f78b9adeb94f47bf27850768b5e60b75955165"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.0_2_2",
-                                    "basename": "0.0.0.0.0_2_2",
-                                    "size": 1102087,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0_2_2",
-                                    "checksum": "sha1$787c5fa817be067a1dbaa12b629297ba7b3ac857"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.0_2",
-                                    "basename": "0.0.0.1.0_2",
-                                    "size": 61601,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0_2",
-                                    "checksum": "sha1$81b55270ed63425567aa342502f65c9b95cd4829"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.0_3",
-                                    "basename": "0.0.0.1.0",
-                                    "size": 61601,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$81b55270ed63425567aa342502f65c9b95cd4829"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.0_2_3",
-                                    "basename": "0.0.0.0.0_2",
-                                    "size": 1102087,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0_2",
-                                    "checksum": "sha1$787c5fa817be067a1dbaa12b629297ba7b3ac857"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.1_3",
-                                    "basename": "0.0.0.0.1",
-                                    "size": 49647,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$4eeef4fe8ce906728e8a663d0269b6dcc429c724"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/.zarray_3",
-                                    "basename": ".zarray_3",
-                                    "size": 410,
-                                    "nameroot": ".zarray_3",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.1_2_3",
-                                    "basename": "0.0.0.1.1_2",
-                                    "size": 4356,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1_2",
-                                    "checksum": "sha1$b4f78b9adeb94f47bf27850768b5e60b75955165"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.1_3_2",
-                                    "basename": "0.0.0.0.1_3",
-                                    "size": 49647,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1_3",
-                                    "checksum": "sha1$4eeef4fe8ce906728e8a663d0269b6dcc429c724"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.0_3_2",
-                                    "basename": "0.0.0.1.0_3",
-                                    "size": 61601,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0_3",
-                                    "checksum": "sha1$81b55270ed63425567aa342502f65c9b95cd4829"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/.zarray_4",
-                                    "basename": ".zarray",
-                                    "size": 410,
-                                    "nameroot": ".zarray",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                }
-                            ]
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zattrs_2_2",
-                            "basename": ".zattrs_2_2",
-                            "size": 11414,
-                            "nameroot": ".zattrs_2_2",
-                            "nameext": "",
-                            "checksum": "sha1$38f3881b79827728bfb86eabcd95e8a857f6b754"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zmetadata_2",
-                            "basename": ".zmetadata_2",
-                            "size": 12334,
-                            "nameroot": ".zmetadata_2",
-                            "nameext": "",
-                            "checksum": "sha1$1000ac099118473390486d54915f94f9a0f74b7f"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zgroup_2",
-                            "basename": ".zgroup_2",
-                            "size": 24,
-                            "nameroot": ".zgroup_2",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zattrs_2",
-                            "basename": ".zattrs",
-                            "size": 11414,
-                            "nameroot": ".zattrs",
-                            "nameext": "",
-                            "checksum": "sha1$38f3881b79827728bfb86eabcd95e8a857f6b754"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zmetadata_3",
-                            "basename": ".zmetadata",
-                            "size": 12334,
-                            "nameroot": ".zmetadata",
-                            "nameext": "",
-                            "checksum": "sha1$1000ac099118473390486d54915f94f9a0f74b7f"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zgroup_3",
-                            "basename": ".zgroup",
-                            "size": 24,
-                            "nameroot": ".zgroup",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zmetadata_3_2",
-                            "basename": ".zmetadata_3",
-                            "size": 12334,
-                            "nameroot": ".zmetadata_3",
-                            "nameext": "",
-                            "checksum": "sha1$1000ac099118473390486d54915f94f9a0f74b7f"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zgroup_3_2",
-                            "basename": ".zgroup_3",
-                            "size": 24,
-                            "nameroot": ".zgroup_3",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zattrs_2_3",
-                            "basename": ".zattrs_2",
-                            "size": 11414,
-                            "nameroot": ".zattrs_2",
-                            "nameext": "",
-                            "checksum": "sha1$38f3881b79827728bfb86eabcd95e8a857f6b754"
-                        }
-                    ]
-                },
-                {
-                    "class": "Directory",
-                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr",
-                    "basename": "x24_y16_wx2_wy2_c1.ome.zarr",
-                    "listing": [
-                        {
-                            "class": "Directory",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0",
-                            "basename": "0",
-                            "listing": [
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.0_3",
-                                    "basename": "0.0.0.0.0",
-                                    "size": 1233794,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$043747d817a3fb3dfd750fcaeea6e687e2789f2c"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.1_3",
-                                    "basename": "0.0.0.1.1",
-                                    "size": 4736,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$eb5a9706bdba7af9b3d91eee86b1f7c52a6b7cce"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.0_3",
-                                    "basename": "0.0.0.1.0",
-                                    "size": 71121,
-                                    "nameroot": "0.0.0.1",
-                                    "nameext": ".0",
-                                    "checksum": "sha1$6b929d5941d7792e6774ae5e1529d4777d8d4e87"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.1_3",
-                                    "basename": "0.0.0.0.1",
-                                    "size": 56211,
-                                    "nameroot": "0.0.0.0",
-                                    "nameext": ".1",
-                                    "checksum": "sha1$3609ea47d28f9f36a14fdc99b5c38598746d50f8"
-                                },
-                                {
-                                    "class": "File",
-                                    "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/.zarray_3",
-                                    "basename": ".zarray",
-                                    "size": 410,
-                                    "nameroot": ".zarray",
-                                    "nameext": "",
-                                    "checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
-                                }
-                            ]
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zattrs_3",
-                            "basename": ".zattrs",
-                            "size": 11414,
-                            "nameroot": ".zattrs",
-                            "nameext": "",
-                            "checksum": "sha1$28749095af4abf354adb780ae3bf6e039255fa96"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zmetadata_3",
-                            "basename": ".zmetadata",
-                            "size": 12334,
-                            "nameroot": ".zmetadata",
-                            "nameext": "",
-                            "checksum": "sha1$66eda00985845d7e48e884f4fd3a4e8e2f1b6116"
-                        },
-                        {
-                            "class": "File",
-                            "location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zgroup_3",
-                            "basename": ".zgroup",
-                            "size": 24,
-                            "nameroot": ".zgroup",
-                            "nameext": "",
-                            "checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+	"filePatterns": ["x24_y16_wx2_wy1_c{c}.ome.tif", "x24_y16_wx2_wy2_c{c}.ome.tif"],
+	"ome2zarrStdErr": [
+		{
+			"location": "file:///home/kevin.hannon/toil-temp/cwl/error",
+			"basename": "fc53d3deeb10f4d75a919d23fc08199e541e06e0",
+			"nameroot": "fc53d3deeb10f4d75a919d23fc08199e541e06e0",
+			"nameext": "",
+			"class": "File",
+			"checksum": "sha1$c0be48269a0099bce3e47ac07635d164e3edff0d",
+			"size": 405
+		},
+		{
+			"location": "file:///home/kevin.hannon/toil-temp/cwl/error_2",
+			"basename": "fc53d3deeb10f4d75a919d23fc08199e541e06e0",
+			"nameroot": "fc53d3deeb10f4d75a919d23fc08199e541e06e0",
+			"nameext": "",
+			"class": "File",
+			"checksum": "sha1$f552dd99ae2a3a01ba993377501a958c958530c5",
+			"size": 405
+		}
+	],
+	"ome2zarrStdOut": [
+		{
+			"location": "file:///home/kevin.hannon/toil-temp/cwl/file",
+			"basename": "084dca0176270ab2d52c6483976615f3c7cf8b0b",
+			"nameroot": "084dca0176270ab2d52c6483976615f3c7cf8b0b",
+			"nameext": "",
+			"class": "File",
+			"checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
+			"size": 0
+		},
+		{
+			"location": "file:///home/kevin.hannon/toil-temp/cwl/file_2",
+			"basename": "084dca0176270ab2d52c6483976615f3c7cf8b0b",
+			"nameroot": "084dca0176270ab2d52c6483976615f3c7cf8b0b",
+			"nameext": "",
+			"class": "File",
+			"checksum": "sha1$da39a3ee5e6b4b0d3255bfef95601890afd80709",
+			"size": 0
+		}
+	],
+	"ome2zarroutDir": [
+		{
+			"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr",
+			"basename": "zarr",
+			"nameroot": "zarr",
+			"nameext": "",
+			"class": "Directory",
+			"listing": [
+				{
+					"class": "Directory",
+					"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr",
+					"basename": "x24_y16_wx2_wy1_c1.ome.zarr",
+					"listing": [
+						{
+							"class": "Directory",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0",
+							"basename": "0",
+							"listing": [
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.0",
+									"basename": "0.0.0.0.0",
+									"size": 1274893,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0",
+									"checksum": "sha1$89be174541f2917a3d199950caf8346ec279e3fa"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.1",
+									"basename": "0.0.0.1.1",
+									"size": 4670,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1",
+									"checksum": "sha1$8c68cc3d924512a7aee22f6507c976ee9d57e240"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.0",
+									"basename": "0.0.0.1.0",
+									"size": 72922,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0",
+									"checksum": "sha1$6c577c70c65b6403f82effeee0a4f03ad3e1b963"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.1",
+									"basename": "0.0.0.0.1",
+									"size": 55826,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1",
+									"checksum": "sha1$541cd43c46a689d0d115853ad2806697ef31fd29"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/.zarray",
+									"basename": ".zarray",
+									"size": 410,
+									"nameroot": ".zarray",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								}
+							]
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zattrs",
+							"basename": ".zattrs",
+							"size": 11414,
+							"nameroot": ".zattrs",
+							"nameext": "",
+							"checksum": "sha1$751bb36715ed28c7c6b89ad2620e2e34c3e3f230"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zmetadata",
+							"basename": ".zmetadata",
+							"size": 12334,
+							"nameroot": ".zmetadata",
+							"nameext": "",
+							"checksum": "sha1$c47d7874b7cad60060a08efe84f32301f8eb946d"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zgroup",
+							"basename": ".zgroup",
+							"size": 24,
+							"nameroot": ".zgroup",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						}
+					]
+				},
+				{
+					"class": "Directory",
+					"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr",
+					"basename": "x24_y16_wx2_wy2_c2.ome.zarr",
+					"listing": [
+						{
+							"class": "Directory",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0",
+							"basename": "0",
+							"listing": [
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.0",
+									"basename": "0.0.0.0.0",
+									"size": 1067451,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0",
+									"checksum": "sha1$9f46f03c2a8e87005fc6f0b7bd89f896ecea937f"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/.zarray_2",
+									"basename": ".zarray_2",
+									"size": 410,
+									"nameroot": ".zarray_2",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.1_2",
+									"basename": "0.0.0.0.1_2",
+									"size": 49844,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1_2",
+									"checksum": "sha1$6f5ede2ed38c4fbe97c45abf1576f0c4852072e3"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.1",
+									"basename": "0.0.0.1.1",
+									"size": 4349,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1",
+									"checksum": "sha1$6d0400e96c17e14f6c0283dafbb8ce151fb877a0"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.0_2",
+									"basename": "0.0.0.1.0_2",
+									"size": 59431,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0_2",
+									"checksum": "sha1$3571a8a402bb3be548aa6330cf4f754c67f504f8"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.0_2",
+									"basename": "0.0.0.1.0",
+									"size": 59431,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0",
+									"checksum": "sha1$3571a8a402bb3be548aa6330cf4f754c67f504f8"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.0_2",
+									"basename": "0.0.0.0.0_2",
+									"size": 1067451,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0_2",
+									"checksum": "sha1$9f46f03c2a8e87005fc6f0b7bd89f896ecea937f"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.1_2",
+									"basename": "0.0.0.0.1",
+									"size": 49844,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1",
+									"checksum": "sha1$6f5ede2ed38c4fbe97c45abf1576f0c4852072e3"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.1_2",
+									"basename": "0.0.0.1.1_2",
+									"size": 4349,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1_2",
+									"checksum": "sha1$6d0400e96c17e14f6c0283dafbb8ce151fb877a0"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/.zarray_2",
+									"basename": ".zarray",
+									"size": 410,
+									"nameroot": ".zarray",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								}
+							]
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zmetadata_2",
+							"basename": ".zmetadata_2",
+							"size": 12334,
+							"nameroot": ".zmetadata_2",
+							"nameext": "",
+							"checksum": "sha1$5ea4c58526b632d31dadf14046f340065b0f1e94"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zgroup_2",
+							"basename": ".zgroup_2",
+							"size": 24,
+							"nameroot": ".zgroup_2",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zattrs",
+							"basename": ".zattrs",
+							"size": 11414,
+							"nameroot": ".zattrs",
+							"nameext": "",
+							"checksum": "sha1$ee4d80c34bd08686c94b44dc0b0f620c308e2f87"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zmetadata_2",
+							"basename": ".zmetadata",
+							"size": 12334,
+							"nameroot": ".zmetadata",
+							"nameext": "",
+							"checksum": "sha1$5ea4c58526b632d31dadf14046f340065b0f1e94"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zgroup_2",
+							"basename": ".zgroup",
+							"size": 24,
+							"nameroot": ".zgroup",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zattrs_2",
+							"basename": ".zattrs_2",
+							"size": 11414,
+							"nameroot": ".zattrs_2",
+							"nameext": "",
+							"checksum": "sha1$ee4d80c34bd08686c94b44dc0b0f620c308e2f87"
+						}
+					]
+				},
+				{
+					"class": "Directory",
+					"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr",
+					"basename": "x24_y16_wx2_wy1_c2.ome.zarr",
+					"listing": [
+						{
+							"class": "Directory",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0",
+							"basename": "0",
+							"listing": [
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.0",
+									"basename": "0.0.0.0.0",
+									"size": 1102087,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0",
+									"checksum": "sha1$787c5fa817be067a1dbaa12b629297ba7b3ac857"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.1",
+									"basename": "0.0.0.1.1",
+									"size": 4356,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1",
+									"checksum": "sha1$b4f78b9adeb94f47bf27850768b5e60b75955165"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.0",
+									"basename": "0.0.0.1.0",
+									"size": 61601,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0",
+									"checksum": "sha1$81b55270ed63425567aa342502f65c9b95cd4829"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.1",
+									"basename": "0.0.0.0.1",
+									"size": 49647,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1",
+									"checksum": "sha1$4eeef4fe8ce906728e8a663d0269b6dcc429c724"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/.zarray",
+									"basename": ".zarray",
+									"size": 410,
+									"nameroot": ".zarray",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								}
+							]
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zattrs",
+							"basename": ".zattrs",
+							"size": 11414,
+							"nameroot": ".zattrs",
+							"nameext": "",
+							"checksum": "sha1$38f3881b79827728bfb86eabcd95e8a857f6b754"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zmetadata",
+							"basename": ".zmetadata",
+							"size": 12334,
+							"nameroot": ".zmetadata",
+							"nameext": "",
+							"checksum": "sha1$1000ac099118473390486d54915f94f9a0f74b7f"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zgroup",
+							"basename": ".zgroup",
+							"size": 24,
+							"nameroot": ".zgroup",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						}
+					]
+				},
+				{
+					"class": "Directory",
+					"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr",
+					"basename": "x24_y16_wx2_wy2_c1.ome.zarr",
+					"listing": [
+						{
+							"class": "Directory",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0",
+							"basename": "0",
+							"listing": [
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.0",
+									"basename": "0.0.0.0.0",
+									"size": 1233794,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0",
+									"checksum": "sha1$043747d817a3fb3dfd750fcaeea6e687e2789f2c"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/.zarray_2",
+									"basename": ".zarray_2",
+									"size": 410,
+									"nameroot": ".zarray_2",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.1_2",
+									"basename": "0.0.0.0.1_2",
+									"size": 56211,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1_2",
+									"checksum": "sha1$3609ea47d28f9f36a14fdc99b5c38598746d50f8"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.1",
+									"basename": "0.0.0.1.1",
+									"size": 4736,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1",
+									"checksum": "sha1$eb5a9706bdba7af9b3d91eee86b1f7c52a6b7cce"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.0_2",
+									"basename": "0.0.0.1.0_2",
+									"size": 71121,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0_2",
+									"checksum": "sha1$6b929d5941d7792e6774ae5e1529d4777d8d4e87"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.0_2",
+									"basename": "0.0.0.1.0",
+									"size": 71121,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0",
+									"checksum": "sha1$6b929d5941d7792e6774ae5e1529d4777d8d4e87"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.0_2",
+									"basename": "0.0.0.0.0_2",
+									"size": 1233794,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0_2",
+									"checksum": "sha1$043747d817a3fb3dfd750fcaeea6e687e2789f2c"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.1_2",
+									"basename": "0.0.0.0.1",
+									"size": 56211,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1",
+									"checksum": "sha1$3609ea47d28f9f36a14fdc99b5c38598746d50f8"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.1_2",
+									"basename": "0.0.0.1.1_2",
+									"size": 4736,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1_2",
+									"checksum": "sha1$eb5a9706bdba7af9b3d91eee86b1f7c52a6b7cce"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/.zarray_2",
+									"basename": ".zarray",
+									"size": 410,
+									"nameroot": ".zarray",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								}
+							]
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zmetadata_2",
+							"basename": ".zmetadata_2",
+							"size": 12334,
+							"nameroot": ".zmetadata_2",
+							"nameext": "",
+							"checksum": "sha1$66eda00985845d7e48e884f4fd3a4e8e2f1b6116"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zgroup_2",
+							"basename": ".zgroup_2",
+							"size": 24,
+							"nameroot": ".zgroup_2",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zattrs",
+							"basename": ".zattrs",
+							"size": 11414,
+							"nameroot": ".zattrs",
+							"nameext": "",
+							"checksum": "sha1$28749095af4abf354adb780ae3bf6e039255fa96"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zmetadata_2",
+							"basename": ".zmetadata",
+							"size": 12334,
+							"nameroot": ".zmetadata",
+							"nameext": "",
+							"checksum": "sha1$66eda00985845d7e48e884f4fd3a4e8e2f1b6116"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zgroup_2",
+							"basename": ".zgroup",
+							"size": 24,
+							"nameroot": ".zgroup",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zattrs_2",
+							"basename": ".zattrs_2",
+							"size": 11414,
+							"nameroot": ".zattrs_2",
+							"nameext": "",
+							"checksum": "sha1$28749095af4abf354adb780ae3bf6e039255fa96"
+						}
+					]
+				}
+			]
+		},
+		{
+			"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr",
+			"basename": "zarr",
+			"nameroot": "zarr",
+			"nameext": "",
+			"class": "Directory",
+			"listing": [
+				{
+					"class": "Directory",
+					"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr",
+					"basename": "x24_y16_wx2_wy1_c1.ome.zarr",
+					"listing": [
+						{
+							"class": "Directory",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0",
+							"basename": "0",
+							"listing": [
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.0_2",
+									"basename": "0.0.0.0.0",
+									"size": 1274893,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0",
+									"checksum": "sha1$89be174541f2917a3d199950caf8346ec279e3fa"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/.zarray_2",
+									"basename": ".zarray_2",
+									"size": 410,
+									"nameroot": ".zarray_2",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.1_2_2",
+									"basename": "0.0.0.1.1_2_2",
+									"size": 4670,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1_2_2",
+									"checksum": "sha1$8c68cc3d924512a7aee22f6507c976ee9d57e240"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.1_2",
+									"basename": "0.0.0.0.1_2",
+									"size": 55826,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1_2",
+									"checksum": "sha1$541cd43c46a689d0d115853ad2806697ef31fd29"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.1_2",
+									"basename": "0.0.0.1.1",
+									"size": 4670,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1",
+									"checksum": "sha1$8c68cc3d924512a7aee22f6507c976ee9d57e240"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.0_2_2",
+									"basename": "0.0.0.0.0_2_2",
+									"size": 1274893,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0_2_2",
+									"checksum": "sha1$89be174541f2917a3d199950caf8346ec279e3fa"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.0_2",
+									"basename": "0.0.0.1.0_2",
+									"size": 72922,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0_2",
+									"checksum": "sha1$6c577c70c65b6403f82effeee0a4f03ad3e1b963"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.0_3",
+									"basename": "0.0.0.1.0",
+									"size": 72922,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0",
+									"checksum": "sha1$6c577c70c65b6403f82effeee0a4f03ad3e1b963"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.0_2_3",
+									"basename": "0.0.0.0.0_2",
+									"size": 1274893,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0_2",
+									"checksum": "sha1$89be174541f2917a3d199950caf8346ec279e3fa"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.1_3",
+									"basename": "0.0.0.0.1",
+									"size": 55826,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1",
+									"checksum": "sha1$541cd43c46a689d0d115853ad2806697ef31fd29"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/.zarray_3",
+									"basename": ".zarray_3",
+									"size": 410,
+									"nameroot": ".zarray_3",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.1_2_3",
+									"basename": "0.0.0.1.1_2",
+									"size": 4670,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1_2",
+									"checksum": "sha1$8c68cc3d924512a7aee22f6507c976ee9d57e240"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.0.1_3_2",
+									"basename": "0.0.0.0.1_3",
+									"size": 55826,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1_3",
+									"checksum": "sha1$541cd43c46a689d0d115853ad2806697ef31fd29"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/0.0.0.1.0_3_2",
+									"basename": "0.0.0.1.0_3",
+									"size": 72922,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0_3",
+									"checksum": "sha1$6c577c70c65b6403f82effeee0a4f03ad3e1b963"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/0/.zarray_4",
+									"basename": ".zarray",
+									"size": 410,
+									"nameroot": ".zarray",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								}
+							]
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zattrs_2_2",
+							"basename": ".zattrs_2_2",
+							"size": 11414,
+							"nameroot": ".zattrs_2_2",
+							"nameext": "",
+							"checksum": "sha1$751bb36715ed28c7c6b89ad2620e2e34c3e3f230"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zmetadata_2",
+							"basename": ".zmetadata_2",
+							"size": 12334,
+							"nameroot": ".zmetadata_2",
+							"nameext": "",
+							"checksum": "sha1$c47d7874b7cad60060a08efe84f32301f8eb946d"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zgroup_2",
+							"basename": ".zgroup_2",
+							"size": 24,
+							"nameroot": ".zgroup_2",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zattrs_2",
+							"basename": ".zattrs",
+							"size": 11414,
+							"nameroot": ".zattrs",
+							"nameext": "",
+							"checksum": "sha1$751bb36715ed28c7c6b89ad2620e2e34c3e3f230"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zmetadata_3",
+							"basename": ".zmetadata",
+							"size": 12334,
+							"nameroot": ".zmetadata",
+							"nameext": "",
+							"checksum": "sha1$c47d7874b7cad60060a08efe84f32301f8eb946d"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zgroup_3",
+							"basename": ".zgroup",
+							"size": 24,
+							"nameroot": ".zgroup",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zmetadata_3_2",
+							"basename": ".zmetadata_3",
+							"size": 12334,
+							"nameroot": ".zmetadata_3",
+							"nameext": "",
+							"checksum": "sha1$c47d7874b7cad60060a08efe84f32301f8eb946d"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zgroup_3_2",
+							"basename": ".zgroup_3",
+							"size": 24,
+							"nameroot": ".zgroup_3",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c1.ome.zarr/.zattrs_2_3",
+							"basename": ".zattrs_2",
+							"size": 11414,
+							"nameroot": ".zattrs_2",
+							"nameext": "",
+							"checksum": "sha1$751bb36715ed28c7c6b89ad2620e2e34c3e3f230"
+						}
+					]
+				},
+				{
+					"class": "Directory",
+					"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr",
+					"basename": "x24_y16_wx2_wy2_c2.ome.zarr",
+					"listing": [
+						{
+							"class": "Directory",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0",
+							"basename": "0",
+							"listing": [
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.0_3",
+									"basename": "0.0.0.0.0",
+									"size": 1067451,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0",
+									"checksum": "sha1$9f46f03c2a8e87005fc6f0b7bd89f896ecea937f"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.1_3",
+									"basename": "0.0.0.1.1",
+									"size": 4349,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1",
+									"checksum": "sha1$6d0400e96c17e14f6c0283dafbb8ce151fb877a0"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.1.0_3",
+									"basename": "0.0.0.1.0",
+									"size": 59431,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0",
+									"checksum": "sha1$3571a8a402bb3be548aa6330cf4f754c67f504f8"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/0.0.0.0.1_3",
+									"basename": "0.0.0.0.1",
+									"size": 49844,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1",
+									"checksum": "sha1$6f5ede2ed38c4fbe97c45abf1576f0c4852072e3"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/0/.zarray_3",
+									"basename": ".zarray",
+									"size": 410,
+									"nameroot": ".zarray",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								}
+							]
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zattrs_3",
+							"basename": ".zattrs",
+							"size": 11414,
+							"nameroot": ".zattrs",
+							"nameext": "",
+							"checksum": "sha1$ee4d80c34bd08686c94b44dc0b0f620c308e2f87"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zmetadata_3",
+							"basename": ".zmetadata",
+							"size": 12334,
+							"nameroot": ".zmetadata",
+							"nameext": "",
+							"checksum": "sha1$5ea4c58526b632d31dadf14046f340065b0f1e94"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c2.ome.zarr/.zgroup_3",
+							"basename": ".zgroup",
+							"size": 24,
+							"nameroot": ".zgroup",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						}
+					]
+				},
+				{
+					"class": "Directory",
+					"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr",
+					"basename": "x24_y16_wx2_wy1_c2.ome.zarr",
+					"listing": [
+						{
+							"class": "Directory",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0",
+							"basename": "0",
+							"listing": [
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.0_2",
+									"basename": "0.0.0.0.0",
+									"size": 1102087,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0",
+									"checksum": "sha1$787c5fa817be067a1dbaa12b629297ba7b3ac857"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/.zarray_2",
+									"basename": ".zarray_2",
+									"size": 410,
+									"nameroot": ".zarray_2",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.1_2_2",
+									"basename": "0.0.0.1.1_2_2",
+									"size": 4356,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1_2_2",
+									"checksum": "sha1$b4f78b9adeb94f47bf27850768b5e60b75955165"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.1_2",
+									"basename": "0.0.0.0.1_2",
+									"size": 49647,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1_2",
+									"checksum": "sha1$4eeef4fe8ce906728e8a663d0269b6dcc429c724"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.1_2",
+									"basename": "0.0.0.1.1",
+									"size": 4356,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1",
+									"checksum": "sha1$b4f78b9adeb94f47bf27850768b5e60b75955165"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.0_2_2",
+									"basename": "0.0.0.0.0_2_2",
+									"size": 1102087,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0_2_2",
+									"checksum": "sha1$787c5fa817be067a1dbaa12b629297ba7b3ac857"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.0_2",
+									"basename": "0.0.0.1.0_2",
+									"size": 61601,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0_2",
+									"checksum": "sha1$81b55270ed63425567aa342502f65c9b95cd4829"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.0_3",
+									"basename": "0.0.0.1.0",
+									"size": 61601,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0",
+									"checksum": "sha1$81b55270ed63425567aa342502f65c9b95cd4829"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.0_2_3",
+									"basename": "0.0.0.0.0_2",
+									"size": 1102087,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0_2",
+									"checksum": "sha1$787c5fa817be067a1dbaa12b629297ba7b3ac857"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.1_3",
+									"basename": "0.0.0.0.1",
+									"size": 49647,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1",
+									"checksum": "sha1$4eeef4fe8ce906728e8a663d0269b6dcc429c724"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/.zarray_3",
+									"basename": ".zarray_3",
+									"size": 410,
+									"nameroot": ".zarray_3",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.1_2_3",
+									"basename": "0.0.0.1.1_2",
+									"size": 4356,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1_2",
+									"checksum": "sha1$b4f78b9adeb94f47bf27850768b5e60b75955165"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.0.1_3_2",
+									"basename": "0.0.0.0.1_3",
+									"size": 49647,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1_3",
+									"checksum": "sha1$4eeef4fe8ce906728e8a663d0269b6dcc429c724"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/0.0.0.1.0_3_2",
+									"basename": "0.0.0.1.0_3",
+									"size": 61601,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0_3",
+									"checksum": "sha1$81b55270ed63425567aa342502f65c9b95cd4829"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/0/.zarray_4",
+									"basename": ".zarray",
+									"size": 410,
+									"nameroot": ".zarray",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								}
+							]
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zattrs_2_2",
+							"basename": ".zattrs_2_2",
+							"size": 11414,
+							"nameroot": ".zattrs_2_2",
+							"nameext": "",
+							"checksum": "sha1$38f3881b79827728bfb86eabcd95e8a857f6b754"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zmetadata_2",
+							"basename": ".zmetadata_2",
+							"size": 12334,
+							"nameroot": ".zmetadata_2",
+							"nameext": "",
+							"checksum": "sha1$1000ac099118473390486d54915f94f9a0f74b7f"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zgroup_2",
+							"basename": ".zgroup_2",
+							"size": 24,
+							"nameroot": ".zgroup_2",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zattrs_2",
+							"basename": ".zattrs",
+							"size": 11414,
+							"nameroot": ".zattrs",
+							"nameext": "",
+							"checksum": "sha1$38f3881b79827728bfb86eabcd95e8a857f6b754"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zmetadata_3",
+							"basename": ".zmetadata",
+							"size": 12334,
+							"nameroot": ".zmetadata",
+							"nameext": "",
+							"checksum": "sha1$1000ac099118473390486d54915f94f9a0f74b7f"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zgroup_3",
+							"basename": ".zgroup",
+							"size": 24,
+							"nameroot": ".zgroup",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zmetadata_3_2",
+							"basename": ".zmetadata_3",
+							"size": 12334,
+							"nameroot": ".zmetadata_3",
+							"nameext": "",
+							"checksum": "sha1$1000ac099118473390486d54915f94f9a0f74b7f"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zgroup_3_2",
+							"basename": ".zgroup_3",
+							"size": 24,
+							"nameroot": ".zgroup_3",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy1_c2.ome.zarr/.zattrs_2_3",
+							"basename": ".zattrs_2",
+							"size": 11414,
+							"nameroot": ".zattrs_2",
+							"nameext": "",
+							"checksum": "sha1$38f3881b79827728bfb86eabcd95e8a857f6b754"
+						}
+					]
+				},
+				{
+					"class": "Directory",
+					"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr",
+					"basename": "x24_y16_wx2_wy2_c1.ome.zarr",
+					"listing": [
+						{
+							"class": "Directory",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0",
+							"basename": "0",
+							"listing": [
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.0_3",
+									"basename": "0.0.0.0.0",
+									"size": 1233794,
+									"nameroot": "0.0.0.0",
+									"nameext": ".0",
+									"checksum": "sha1$043747d817a3fb3dfd750fcaeea6e687e2789f2c"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.1_3",
+									"basename": "0.0.0.1.1",
+									"size": 4736,
+									"nameroot": "0.0.0.1",
+									"nameext": ".1",
+									"checksum": "sha1$eb5a9706bdba7af9b3d91eee86b1f7c52a6b7cce"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.1.0_3",
+									"basename": "0.0.0.1.0",
+									"size": 71121,
+									"nameroot": "0.0.0.1",
+									"nameext": ".0",
+									"checksum": "sha1$6b929d5941d7792e6774ae5e1529d4777d8d4e87"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/0.0.0.0.1_3",
+									"basename": "0.0.0.0.1",
+									"size": 56211,
+									"nameroot": "0.0.0.0",
+									"nameext": ".1",
+									"checksum": "sha1$3609ea47d28f9f36a14fdc99b5c38598746d50f8"
+								},
+								{
+									"class": "File",
+									"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/0/.zarray_3",
+									"basename": ".zarray",
+									"size": 410,
+									"nameroot": ".zarray",
+									"nameext": "",
+									"checksum": "sha1$1624e08ece4f994cfe12d95e10953db8a87db0e6"
+								}
+							]
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zattrs_3",
+							"basename": ".zattrs",
+							"size": 11414,
+							"nameroot": ".zattrs",
+							"nameext": "",
+							"checksum": "sha1$28749095af4abf354adb780ae3bf6e039255fa96"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zmetadata_3",
+							"basename": ".zmetadata",
+							"size": 12334,
+							"nameroot": ".zmetadata",
+							"nameext": "",
+							"checksum": "sha1$66eda00985845d7e48e884f4fd3a4e8e2f1b6116"
+						},
+						{
+							"class": "File",
+							"location": "file:///home/kevin.hannon/toil-temp/cwl/zarr/x24_y16_wx2_wy2_c1.ome.zarr/.zgroup_3",
+							"basename": ".zgroup",
+							"size": 24,
+							"nameroot": ".zgroup",
+							"nameext": "",
+							"checksum": "sha1$63b0fcd7748c79d0de97705fb1b8ed5fcc5ac788"
+						}
+					]
+				}
+			]
+		}
+	]
 }

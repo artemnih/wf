@@ -1,11 +1,7 @@
 import { pathCreatorTaskTemplate } from '../../../operators/pathCreator/templates/pathCreatorTaskTemplate';
 import { pathCreatorContainerTemplate } from '../../../operators/pathCreator/templates/pathCreatorContainerTemplate';
 
-import {
-    ArgoTaskTemplate,
-    ArgoContainerTemplate,
-    ArgoTaskParameterType
-  } from '../../../types';
+import { ArgoTaskTemplate, ArgoContainerTemplate, ArgoTaskParameterType } from '../../../types';
 
 /**
  * Add task and container templates for the path creator to the
@@ -13,36 +9,35 @@ import {
  * @param generatedTemplates the list of steps that may need output paths
  */
 export function addPathCreatorStep(
-    generatedTemplates : {
-        argoTaskTemplate: ArgoTaskTemplate;
-        argoContainerTemplate: ArgoContainerTemplate;
-    }[]) {
+	generatedTemplates: {
+		argoTaskTemplate: ArgoTaskTemplate;
+		argoContainerTemplate: ArgoContainerTemplate;
+	}[],
+) {
+	const stepName = 'path-creator';
 
-    const stepName = 'path-creator'
+	let _pathsToCreate: String[] = [];
+	for (let { argoTaskTemplate: argoDagTemplate } of generatedTemplates) {
+		let params = argoDagTemplate.arguments?.parameters;
+		if (params != undefined) {
+			for (let param of params) {
+				if (param?.type === ArgoTaskParameterType.OutputPath) {
+					_pathsToCreate.push(param.value);
+					if (!argoDagTemplate.dependencies) {
+						argoDagTemplate.dependencies = [];
+					}
+					argoDagTemplate.dependencies.push(stepName);
+				}
+			}
+		}
+	}
 
-    let _pathsToCreate : String[] = []
-    for (let {argoTaskTemplate: argoDagTemplate, } of generatedTemplates) {
-        let params = argoDagTemplate.arguments?.parameters
-        if (params != undefined) {
-            for(let param of params) {
-                if(param?.type === ArgoTaskParameterType.OutputPath) {
-                    _pathsToCreate.push(param.value)
-                    if(!argoDagTemplate.dependencies) {
-                      argoDagTemplate.dependencies = []
-                    }
-                    argoDagTemplate.dependencies.push(stepName)
-                }
-            }
-        }
-    }
-    
-    let pathsToCreate = _pathsToCreate.join(',');
-    let pathCreatorTask = pathCreatorTaskTemplate(stepName, pathsToCreate);
-    let pathCreatorContainer = pathCreatorContainerTemplate();
+	let pathsToCreate = _pathsToCreate.join(',');
+	let pathCreatorTask = pathCreatorTaskTemplate(stepName, pathsToCreate);
+	let pathCreatorContainer = pathCreatorContainerTemplate();
 
-    generatedTemplates.push(
-        {
-            argoTaskTemplate: pathCreatorTask,
-            argoContainerTemplate: pathCreatorContainer
-        })
+	generatedTemplates.push({
+		argoTaskTemplate: pathCreatorTask,
+		argoContainerTemplate: pathCreatorContainer,
+	});
 }

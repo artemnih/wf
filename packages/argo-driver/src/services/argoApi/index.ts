@@ -5,4 +5,4 @@ export * from './getJobsFromArgoApi';
 export * from './getOutputsFromArgoInputs';
 export * from './stopArgoWorkflow';
 export * from './argoUrl';
-export * from './argoApiInstance';
+export * from './axios-client';
