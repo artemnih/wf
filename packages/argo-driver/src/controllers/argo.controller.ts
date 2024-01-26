@@ -5,14 +5,15 @@ import { getTargetFromJobs } from '../services';
 import { Target } from '../services/getTargetFromJobs';
 import { NextFunction, Request, Response } from 'express';
 import { getWorkflowLog } from '../services/argoApi/get-workflow-log';
+import { IDriverController } from '@polusai/compute-common';
 
-class ArgoController {
+class ArgoController implements IDriverController {
 	/**
 	 * Create an argo workflow and submit it for execution.
 	 * @param req the request coming from compute api.
 	 * @param res the submission result
 	 */
-	async createArgoWorkflow(req: Request, res: Response, next: NextFunction) {
+	async createWorkflow(req: Request, res: Response, next: NextFunction) {
 		try {
 			// parsing request body as is
 			const request = req.body as WorkflowExecutionRequest;
@@ -46,7 +47,7 @@ class ArgoController {
 			next(error);
 		}
 	}
-
+ 
 	async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
 		try {
 			const id = req.params.id;
@@ -68,10 +69,10 @@ class ArgoController {
 		}
 	}
 
-	stopWorkflow(req: Request, res: Response, next: NextFunction) {
+	async stopWorkflow(req: Request, res: Response, next: NextFunction) {
 		try {
 			const id = req.params.id;
-			const result = stopArgoWorkflow(id);
+			const result = await stopArgoWorkflow(id);
 			res.status(201).json(result);
 		} catch (error) {
 			next(error);
