@@ -1,8 +1,8 @@
 import {ArgoWorklow} from '../../types';
-import {argoApiInstance} from '.';
+import {axiosClient} from '.';
 
 export function submitWorkflowToArgo(argoTemp: ArgoWorklow): void {
-  argoApiInstance()
+  axiosClient()
     .post('', JSON.stringify(argoTemp))
     .then((response) => {
       console.log('Argo workflow was submitted', response.data);

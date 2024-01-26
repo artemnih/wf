@@ -1,13 +1,10 @@
-import {ComputeJob} from '../../types';
-import {ArgoNodes, ArgoParameters} from './getArgoJobStatus';
-import {buildContainerUrl} from './buildContainerUrl';
-import {getOutputsFromArgoInputs} from './getOutputsFromArgoInputs';
-import {translateStatus} from './statusOfArgoWorkflow';
+import { ComputeJob } from '../../types';
+import { argoUrl } from './argoUrl';
+import { ArgoNodes, ArgoParameters } from './getArgoJobStatus';
+import { getOutputsFromArgoInputs } from './getOutputsFromArgoInputs';
+import { translateStatus } from './statusOfArgoWorkflow';
 
-export function getJobsFromArgoApi(
-  workflowId: string,
-  argoNodes: Array<ArgoNodes>,
-): ComputeJob[] {
+export function getJobsFromArgoApi(workflowId: string, argoNodes: Array<ArgoNodes>) {
   let index = 0;
   // Argo does not have to return the nodes in any logical order.
   // We sort the nodes for both jobs and argo nodes.  This way we enforce order.
@@ -17,6 +14,7 @@ export function getJobsFromArgoApi(
     const y = b.displayName.toLowerCase();
     return x < y ? -1 : x > y ? 1 : 0;
   });
+
   const jobs: ComputeJob[] = [];
   for (const argoNode of sortedArgoNodes) {
     const job: ComputeJob = {
@@ -32,7 +30,7 @@ export function getJobsFromArgoApi(
           argoNode.inputs?.parameters as ArgoParameters[],
           argoNode.displayName,
         ),
-        ...setArgoContainerUrl(argoNode.displayName, workflowId, argoNode.id),
+        ...getPodLogUrls(argoNode.displayName, workflowId, argoNode.id),
       },
       inputs: mapArgoParametersToJobInputs(argoNode.inputs?.parameters),
     };
@@ -41,18 +39,14 @@ export function getJobsFromArgoApi(
   }
   return jobs;
 }
-function setArgoContainerUrl(
-  stepName: string,
-  workflowId: string,
-  argoPodName: string,
-): Record<string, string> {
+
+function getPodLogUrls(stepName: string, workflowId: string, argoPodName: string){
   const newOutputLogs: Record<string, string> = {};
-  newOutputLogs[`${stepName}Logs`] = buildContainerUrl(workflowId, argoPodName);
+  newOutputLogs[`${stepName}Logs`] = `${argoUrl()}/${workflowId}/log?logOptions.container=main&logOptions.follow=true&podName=${argoPodName}`
   return newOutputLogs;
 }
-function mapArgoParametersToJobInputs(
-  argoParameters?: ArgoParameters[],
-): object {
+
+function mapArgoParametersToJobInputs(argoParameters?: ArgoParameters[]) {
   if (!argoParameters) return {};
   const obj: Record<string, string> = {};
   argoParameters.forEach((value) => {

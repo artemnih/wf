@@ -1,13 +1,14 @@
 import ArgoRepository from '../repositories/argo.repository';
-import { WorkflowExecutionRequest } from '../types';
+import { ArgoLogRecord, WorkflowExecutionRequest } from '../types';
 import {
   statusOfArgoWorkflow,
-  getArgoJobsAndUpdateComputeJobs,
+  getArgoJobStatus,
   stopArgoWorkflow,
 } from '../services/argoApi';
 import { getTargetFromJobs } from '../services';
 import { Target } from '../services/getTargetFromJobs';
 import { NextFunction, Request, Response } from 'express';
+import { getWorkflowLog } from '../services/argoApi/get-workflow-log';
 
 class ArgoController {
 
@@ -41,12 +42,16 @@ class ArgoController {
     }
   }
 
+
   async getWorkflowLogs(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
-      const jobs = await getArgoJobsAndUpdateComputeJobs(id);
-      const result = getTargetFromJobs(jobs, Target.logs);
-      res.status(201).json(result);
+      const payload = await getWorkflowLog(id);
+      let rawLogs = payload.data;
+      const lines = (rawLogs.split('\n') as string[]).filter(s => !!s.trim());
+      const jsonLines = lines.map((line) => JSON.parse(line) as ArgoLogRecord);
+      const content = jsonLines.map((line) => line.result.content).join('\n');
+      res.status(201).send(content);
     } catch (error) {
       next(error);
     }
@@ -55,7 +60,7 @@ class ArgoController {
   async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
-      const jobs = await getArgoJobsAndUpdateComputeJobs(id);
+      const jobs = await getArgoJobStatus(id);
       const result = getTargetFromJobs(jobs, Target.outputs);
       res.status(201).json(result);
     } catch (error) {
@@ -66,7 +71,7 @@ class ArgoController {
   async getWorkflowJobs(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
-      const result = await getArgoJobsAndUpdateComputeJobs(id);
+      const result = await getArgoJobStatus(id);
       res.status(201).json(result);
     } catch (error) {
       next(error);

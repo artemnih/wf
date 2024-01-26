@@ -1,20 +1,19 @@
 import * as fs from 'fs';
-import {default as axios} from 'axios';
-import {argoUrl} from './argoUrl';
+import { default as axios } from 'axios';
 
-export const argoApiInstance = () => {
+export const axiosClient = () => {
     require('dotenv').config();
     const argoConfig = require('config');
 
     if (argoConfig.argoCompute.argo.tokenPath !== '') {
         const token = fs.readFileSync(argoConfig.argoCompute.argo.tokenPath).toString().trim();
         return axios.create({
-            baseURL: argoUrl(),
+            baseURL: argoConfig.argoCompute.argo.argoUrl,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
     } else {
-        return axios.create({ baseURL: argoUrl() });
+        return axios.create({ baseURL: argoConfig.argoCompute.argo.argoUrl });
     }
 };

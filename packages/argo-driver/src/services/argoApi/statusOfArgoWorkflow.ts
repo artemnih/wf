@@ -1,4 +1,4 @@
-import { argoApiInstance } from '.';
+import { axiosClient } from '.';
 
 type Dict<T> = { [key: string]: T };
 
@@ -40,7 +40,7 @@ export async function statusOfArgoWorkflow(
   argoWorkflowName: string,
 ): Promise<ArgoWorkflowStatus> {
   console.log('Getting status of Argo workflow', argoWorkflowName);
-  const response = await argoApiInstance().get(`/${argoWorkflowName}`);
+  const response = await axiosClient().get(`/${argoWorkflowName}`);
   const nodes = response.data.status.nodes as Dict<any>;
 
   const pods =

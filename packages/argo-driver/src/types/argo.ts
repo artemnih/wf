@@ -84,3 +84,7 @@ export interface ArgoVolumeMounts {
   mountPath?: string;
   subPath?: string;
 }
+
+export interface ArgoLogRecord {
+  result: { content: string, podName: string };
+}
