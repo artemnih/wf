@@ -35,14 +35,13 @@ The example project contains the following services' packages.
 
 These are the relevant environment variables.
 
-| Env Variable         | Description                          |
-| -------------------- | ------------------------------------ |
-| ARGO                 | URL of the Argo REST API             |
-| ARGO_TOKEN           | Token for accessing Argo REST API    |
-| SERVICES_AUTH_URL    | LabShare Auth API URL                |
-| SERVICES_AUTH_TENANT | LabShare Auth Tenant for Argo driver |
+| Env Variable      | Description                       |
+| ----------------- | --------------------------------- |
+| ARGO              | URL of the Argo REST API          |
+| ARGO_TOKEN        | Token for accessing Argo REST API |
+| SERVICES_AUTH_URL | LabShare Auth API URL             |
 
-For a local development, you only need to define ARGO, ARGO_TOKEN, SERVICES_AUTH_URL and SERVICES_AUTH_TENANT. The [defaults](config/default.js) assume localhost.
+For a local development, you only need to define ARGO, ARGO_TOKEN, SERVICES_AUTH_URL. The [defaults](config/default.js) assume localhost.
 
 ## Further help
 

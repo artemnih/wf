@@ -15,7 +15,6 @@ export class WorkflowRepository {
 
 	async submitWorkflowToDriver(workflow: Workflow, token: string): Promise<object> {
 		const driver = this.changeDriver(workflow);
-		console.info('Workflow submitted: ', workflow);
 		const jobs = await workflowToJobs(workflow, workflow.cwlJobInputs);
 		return driver.compute(workflowToCwl(workflow), cwlJobInputs(workflow), jobs, token);
 	}

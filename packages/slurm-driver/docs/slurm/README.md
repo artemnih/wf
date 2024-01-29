@@ -37,12 +37,11 @@ c) npm run test:unit
 
 # Environment Variables
 
-| Env Variable         | Description                       |
-| -------------------- | --------------------------------- |
-| SLURM_TEMP_DIR       | Current working directory of toil |
-| HPC_SCHEDULER        | HPC Scheduler used                |
-| SERVICES_AUTH_URL    | URL for auth api                  |
-| SERVICES_AUTH_TENANT | Tenant for our compute platform   |
+| Env Variable      | Description                       |
+| ----------------- | --------------------------------- |
+| SLURM_TEMP_DIR    | Current working directory of toil |
+| HPC_SCHEDULER     | HPC Scheduler used                |
+| SERVICES_AUTH_URL | URL for auth api                  |
 
 # Example of deployment on Slurm HPC cluster
 

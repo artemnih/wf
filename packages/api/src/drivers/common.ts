@@ -33,10 +33,8 @@ export async function computeCommon(
 ): Promise<object> {
 	const url = driverUrl(driver);
 	console.log('Url resolved to ', url);
-	console.log(`Posting workflow to ${driver}`);
-	console.log('cwlWorkflow', cwlWorkflow);
-	console.log('cwlJobInputs', cwlJobInputs);
-	console.log('jobs', jobs);
+	console.log(`Posting workflow to [${driver}]`);
+	console.log('Number of jobs:', jobs.length);
 	return axios.post(`${url}/compute/${driver}`, { cwlWorkflow, cwlJobInputs, jobs }, { headers: { authorization: token } });
 }
 
