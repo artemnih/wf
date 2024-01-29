@@ -1,60 +1,52 @@
 import { Workflow } from '../models';
 import { workflowToCwl, cwlJobInputs } from '../utils/CWLConvertors';
-import { DriverFactory } from '../drivers';
 import { workflowToJobs } from '../utils';
+import { Driver } from '../driver';
 
 export class WorkflowRepository {
-	changeDriver(workflow: Workflow) {
-		if (workflow.driver) {
-			console.log(`Changing driver to ${workflow.driver}`);
-			return DriverFactory.createDriver(workflow.driver);
-		}
-		throw new Error('Driver not found');
-	}
-
 	async submitWorkflowToDriver(workflow: Workflow, token: string): Promise<object> {
-		const driver = this.changeDriver(workflow);
+		const driver = new Driver(workflow.driver, token);
 		const jobs = await workflowToJobs(workflow, workflow.cwlJobInputs);
 		return driver.compute(workflowToCwl(workflow), cwlJobInputs(workflow), jobs, token);
 	}
 
 	async getWorkflowStatus(id: string, workflow: Workflow, token: string): Promise<object> {
-		const driver = this.changeDriver(workflow);
+		const driver = new Driver(workflow.driver, token);
 		return driver.getWorkflowStatus(id, token);
 	}
 
 	async getWorkflowOutput(id: string, workflow: Workflow, token: string): Promise<object> {
-		const driver = this.changeDriver(workflow);
+		const driver = new Driver(workflow.driver, token);
 		return driver.getWorkflowOutput(id, token);
 	}
 
 	async getWorkflowLogs(id: string, workflow: Workflow, token: string): Promise<object> {
-		const driver = this.changeDriver(workflow);
+		const driver = new Driver(workflow.driver, token);
 		return driver.getWorkflowLogs(id, token);
 	}
 
 	async getWorkflowJobs(id: string, workflow: Workflow, token: string): Promise<object> {
-		const driver = this.changeDriver(workflow);
+		const driver = new Driver(workflow.driver, token);
 		return driver.getWorkflowJobs(id, token);
 	}
 
 	async stopWorkflow(id: string, workflow: Workflow, token: string): Promise<object> {
-		const driver = this.changeDriver(workflow);
+		const driver = new Driver(workflow.driver, token);
 		return driver.stopWorkflow(id, token);
 	}
 
 	async pauseWorkflow(id: string, workflow: Workflow, token: string): Promise<object> {
-		const driver = this.changeDriver(workflow);
+		const driver = new Driver(workflow.driver, token);
 		return driver.pauseWorkflow(id, token);
 	}
 
 	async restartWorkflow(id: string, workflow: Workflow, token: string): Promise<object> {
-		const driver = this.changeDriver(workflow);
+		const driver = new Driver(workflow.driver, token);
 		return driver.restartWorkflow(id, token);
 	}
 
 	async resumeWorkflow(id: string, workflow: Workflow, token: string): Promise<object> {
-		const driver = this.changeDriver(workflow);
+		const driver = new Driver(workflow.driver, token);
 		return driver.resumeWorkflow(id, token);
 	}
 
@@ -63,8 +55,8 @@ export class WorkflowRepository {
 	}
 
 	async healthDriverCheck(driverType: string, token: string): Promise<object> {
-		const driver = this.changeDriver({ driver: driverType } as Workflow);
-		return driver.health(driverType, token);
+		const driver = new Driver(driverType, token);
+		return driver.health();
 	}
 }
 
