@@ -5,9 +5,9 @@ import { getTargetFromJobs } from '../services';
 import { Target } from '../services/getTargetFromJobs';
 import { NextFunction, Request, Response } from 'express';
 import { getWorkflowLog } from '../services/argoApi/get-workflow-log';
-import { IDriverController } from '@polusai/compute-common';
+import { IControllerController } from '@polusai/compute-common';
 
-class ArgoController implements IDriverController {
+class ArgoController implements IControllerController {
 	/**
 	 * Create an argo workflow and submit it for execution.
 	 * @param req the request coming from compute api.

@@ -4,11 +4,11 @@ import HealthController from './controllers/health.controller';
 
 export const WorkflowRoutes = express
 	.Router()
-	.post('/singlenode', WorkflowController.submit)
-	.get('/singlenode/:id/status', WorkflowController.status)
-	.get('/singlenode/:id/logs', WorkflowController.logs)
-	.get('/singlenode/:id/outputs', WorkflowController.logs)
-	.get('/singlenode/:id/jobs', WorkflowController.status)
+	.post('/singlenode', WorkflowController.createWorkflow)
+	.get('/singlenode/:id/status', WorkflowController.getWorkflowStatus)
+	.get('/singlenode/:id/logs', WorkflowController.getWorkflowLogs)
+	.get('/singlenode/:id/outputs', WorkflowController.getWorkflowOutputs)
+	.get('/singlenode/:id/jobs', WorkflowController.getWorkflowJobs)
 	.put('/singlenode/:id/stop', WorkflowController.stop);
 
 export const HealthRoutes = express.Router().get('/check', HealthController.ping);

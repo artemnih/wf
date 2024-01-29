@@ -1,5 +1,4 @@
 import { Workflow } from '../models';
-import { Driver } from '../drivers';
 import { workflowToCwl, cwlJobInputs } from '../utils/CWLConvertors';
 import { DriverFactory } from '../drivers';
 import { workflowToJobs } from '../utils';
@@ -7,7 +6,7 @@ import { workflowToJobs } from '../utils';
 export class WorkflowRepository {
 	changeDriver(workflow: Workflow) {
 		if (workflow.driver) {
-			console.log(`Changing your driver to ${workflow.driver}`);
+			console.log(`Changing driver to ${workflow.driver}`);
 			return DriverFactory.createDriver(workflow.driver);
 		}
 		throw new Error('Driver not found');
