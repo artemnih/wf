@@ -1,3 +1,5 @@
+import { Dictionary, IWorkflowService, WorkflowStatus } from '@polusai/compute-common';
+
 const fs = require('fs');
 const spawn = require('child_process').spawn;
 
@@ -7,7 +9,7 @@ interface ComputePayload {
 	jobs: any;
 }
 
-class WorkflowService {
+class WorkflowService implements IWorkflowService {
 	async submit(cwl: ComputePayload) {
 		// there is no need for the baseCommand in the cwlWorkflow if we are using dockerPull
 		Object.values(cwl.cwlWorkflow.steps).forEach((step: any) => {
@@ -50,34 +52,45 @@ class WorkflowService {
 		return pid;
 	}
 
-	async status(pids: string) {
+	async getStatus(pids: string) {
 		const pid = parseInt(pids);
 		console.log('Checking status of process', pid);
+
 		try {
 			const result = process.kill(pid, 0);
-			return 'Process running';
+			return { status: WorkflowStatus.RUNNING };
 		} catch (error) {
 			// process no longer exists
 			if (error.code === 'ESRCH') {
-				return 'Process finished';
+				console.log('Process does not exist, it may have finished');
+				return { status: WorkflowStatus.SUCCEEDED };
 			}
 
 			// permission denied
 			if (error.code === 'EPERM') {
-				return 'Permission denied';
+				console.log('Permission denied, process exists but we dont have permission to signal it');
+				return { status: WorkflowStatus.ERROR };
 			}
 
-			return 'Unknown error while checking process';
+			return { status: WorkflowStatus.ERROR };
 		}
 	}
 
-	async logs(id: string) {
+	async getLogs(id: string) {
 		try {
 			const log = fs.readFileSync(`./loggings/stdout-${id}.log`, 'utf-8');
 			return log;
 		} catch (error) {
 			return 'No logs available';
 		}
+	}
+
+	async getOutputs(id: string): Promise<Dictionary<any>> {
+		throw new Error('Method not implemented.');
+	}
+
+	async getJobs(id: string): Promise<Dictionary<any>> {
+		throw new Error('Method not implemented.');
 	}
 
 	async stop(pid: string) {

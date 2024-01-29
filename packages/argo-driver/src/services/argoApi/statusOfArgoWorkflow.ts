@@ -1,3 +1,4 @@
+import { WorkflowStatus } from '@polusai/compute-common';
 import { axiosClient } from '.';
 
 type Dict<T> = { [key: string]: T };
@@ -6,17 +7,17 @@ type Dict<T> = { [key: string]: T };
 export function translateStatus(phase: string) {
 	switch (phase) {
 		case 'Pending':
-			return 'PENDING';
+			return WorkflowStatus.PENDING;
 		case 'Running':
-			return 'RUNNING';
+			return WorkflowStatus.RUNNING;
 		case 'Succeeded':
-			return 'SUCCEEDED';
+			return WorkflowStatus.SUCCEEDED;
 		case 'Failed':
-			return 'FAILED';
+			return WorkflowStatus.FAILED;
 		case 'Error':
-			return 'FAILED';
+			return WorkflowStatus.ERROR;
 		case 'Skipped':
-			return 'SKIPPED';
+			return WorkflowStatus.SKIPPED;
 		default:
 			return phase;
 	}
