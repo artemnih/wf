@@ -1,9 +1,7 @@
-import { Job, Workflow } from '../models';
-import { workflowToCwl } from './CWLConvertors';
+import { Job } from '../models';
+import { CwlWorkflowTemplate } from './CWLConvertors';
 
-export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: object): Promise<Job[]> {
-	const workflow = workflowToCwl(workflowModel);
-
+export function workflowToJobs(workflow: CwlWorkflowTemplate, cwlJobInputs: object) {
 	const jobArray: Job[] = [];
 	const jobKeyValue = Object.entries(cwlJobInputs);
 	for (const element in workflow.steps) {
@@ -30,14 +28,11 @@ export async function workflowToJobs(workflowModel: Workflow, cwlJobInputs: obje
 			cwlScript: { ...(workflow.steps[element].run as Object) },
 		};
 		const job = {
-			driver: workflowModel.driver,
-			workflowId: workflowModel.id ? workflowModel.id : workflowModel.name,
 			status: 'PENDING',
 			stepName: element,
 			commandLineTool: commandLineTool.cwlScript,
 			inputs: inputsToConvert,
 			outputs: outputsToConvert,
-			dateCreated: workflowModel.dateCreated,
 		} as Job;
 		jobArray.push(job);
 	}

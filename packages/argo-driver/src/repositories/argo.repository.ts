@@ -1,6 +1,7 @@
 import { cwlToArgo } from '../services/CWLToArgo';
 import { CwlWorkflow, ComputeJob, CwlJobInputs } from '../types';
-import { submitWorkflowToArgo } from '../services/argoApi';
+import { axiosClient } from '../services/argoApi';
+import { AxiosResponse } from 'axios';
 
 class ArgoRepository {
 	/**
@@ -9,11 +10,14 @@ class ArgoRepository {
 	 * @param cwlJobInputs the orginal cwlJobInputs
 	 * @param computeJobs jobs are the step definitions stored by compute
 	 */
-	public createWorkflow(cwlWorkflow: CwlWorkflow, cwlJobInputs: CwlJobInputs, computeJobs: ComputeJob[]) {
+	public async createWorkflow(cwlWorkflow: CwlWorkflow, cwlJobInputs: CwlJobInputs, computeJobs: ComputeJob[]) {
 		const argoWorkflow = cwlToArgo(cwlWorkflow, cwlJobInputs, computeJobs);
-		console.debug(`submitting workflow to argo api`);
-
-		submitWorkflowToArgo(argoWorkflow);
+		console.debug(`ARGO Driver: submitting workflow to argo api`);
+		const result = (await axiosClient()
+			.post('', JSON.stringify(argoWorkflow))
+			.catch(error => console.error(error))) as AxiosResponse<any>;
+		console.debug(`ARGO Driver: workflow submitted to argo api`, result.data);
+		return argoWorkflow.workflow.metadata.name;
 	}
 }
 

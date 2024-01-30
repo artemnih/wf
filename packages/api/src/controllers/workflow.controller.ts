@@ -3,11 +3,6 @@ import WorkflowRepository from '../repositories/workflow.repository';
 import { WorkflowCrud } from '../models';
 import { NextFunction, Request, Response } from 'express';
 
-interface Status {
-	status: string;
-	dateFinished: string;
-}
-
 export class WorkflowController {
 	async create(req: Request, res: Response, next: NextFunction) {
 		try {
@@ -15,7 +10,15 @@ export class WorkflowController {
 			const token = req.headers.authorization as string;
 			workflow.dateCreated = new Date().toISOString();
 			const workflowCreated = await WorkflowCrud.create(workflow);
-			await WorkflowRepository.submitWorkflowToDriver(workflowCreated, token);
+
+			console.log('Workflow has been created, id:', workflowCreated.id);
+
+			const driverWorkflowId = await WorkflowRepository.submitWorkflowToDriver(workflowCreated, token);
+			console.log('Driver workflow id:', driverWorkflowId);
+
+			workflowCreated.driverWorkflowId = driverWorkflowId as string;
+			await workflowCreated.save();
+
 			res.status(201).json(workflowCreated);
 		} catch (error) {
 			next(error);
@@ -69,19 +72,15 @@ export class WorkflowController {
 	async getWorkflowStatus(req: Request, res: Response, next: NextFunction) {
 		try {
 			const id = req.params.id;
-			const foundWorkflow = await WorkflowCrud.findById(id);
-			const newStatus = (await WorkflowRepository.getWorkflowStatus(
-				id,
-				foundWorkflow,
-				req.headers.authorization as string,
-			)) as Status;
-			foundWorkflow.status = newStatus.status !== foundWorkflow.status ? newStatus.status : foundWorkflow.status;
+			const workflow = await WorkflowCrud.findById(id);
+			const newStatus = await WorkflowRepository.getWorkflowStatus(workflow, req.headers.authorization);
+			workflow.status = newStatus.status !== workflow.status ? newStatus.status : workflow.status;
 
 			if (newStatus.dateFinished) {
-				foundWorkflow.dateFinished = newStatus.dateFinished;
+				workflow.dateFinished = newStatus.dateFinished;
 			}
 
-			await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
+			await workflow.save();
 			res.status(200).json(newStatus);
 		} catch (error) {
 			next(error);
@@ -92,7 +91,7 @@ export class WorkflowController {
 		try {
 			const id = req.params.id;
 			const foundWorkflow = await WorkflowCrud.findById(id);
-			const logs = await WorkflowRepository.getWorkflowLogs(id, foundWorkflow, req.headers.authorization as string);
+			const logs = await WorkflowRepository.getWorkflowLogs(foundWorkflow, req.headers.authorization as string);
 			res.status(200).json(logs);
 		} catch (error) {
 			next(error);
@@ -103,7 +102,7 @@ export class WorkflowController {
 		try {
 			const id = req.params.id;
 			const foundWorkflow = await WorkflowCrud.findById(id);
-			const outputs = await WorkflowRepository.getWorkflowOutput(id, foundWorkflow, req.headers.authorization as string);
+			const outputs = await WorkflowRepository.getWorkflowOutput(foundWorkflow, req.headers.authorization as string);
 			res.status(200).json(outputs);
 		} catch (error) {
 			next(error);
@@ -114,7 +113,7 @@ export class WorkflowController {
 		try {
 			const id = req.params.id;
 			const foundWorkflow = await WorkflowCrud.findById(id);
-			const jobs = await WorkflowRepository.getWorkflowJobs(id, foundWorkflow, req.headers.authorization as string);
+			const jobs = await WorkflowRepository.getWorkflowJobs(foundWorkflow, req.headers.authorization as string);
 			for (const job of Object.values(jobs)) {
 				const foundJob = await JobCrud.findById(job.id);
 				if (!foundJob) {
@@ -132,10 +131,10 @@ export class WorkflowController {
 		try {
 			const id = req.params.id;
 			const foundWorkflow = await WorkflowCrud.findById(id);
-			await WorkflowRepository.stopWorkflow(id, foundWorkflow, req.headers.authorization as string);
+			await WorkflowRepository.stopWorkflow(foundWorkflow, req.headers.authorization as string);
 			foundWorkflow.status = 'CANCELLED';
-			const updated = await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
-			res.status(200).json(updated);
+			await foundWorkflow.save();
+			res.status(200).json(foundWorkflow);
 		} catch (error) {
 			next(error);
 		}
@@ -145,10 +144,10 @@ export class WorkflowController {
 		try {
 			const id = req.params.id;
 			const foundWorkflow = await WorkflowCrud.findById(id);
-			await WorkflowRepository.restartWorkflow(id, foundWorkflow, req.headers.authorization as string);
+			await WorkflowRepository.restartWorkflow(foundWorkflow, req.headers.authorization as string);
 			foundWorkflow.status = 'RESTARTED';
-			const updated = await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
-			res.status(200).json(updated);
+			await foundWorkflow.save();
+			res.status(200).json(foundWorkflow);
 		} catch (error) {
 			next(error);
 		}
@@ -158,10 +157,10 @@ export class WorkflowController {
 		try {
 			const id = req.params.id;
 			const foundWorkflow = await WorkflowCrud.findById(id);
-			await WorkflowRepository.pauseWorkflow(id, foundWorkflow, req.headers.authorization as string);
+			await WorkflowRepository.pauseWorkflow(foundWorkflow, req.headers.authorization as string);
 			foundWorkflow.status = 'PAUSED';
-			const updated = await WorkflowCrud.findOneAndUpdate({ _id: foundWorkflow.id }, foundWorkflow, { new: true });
-			res.status(200).json(updated);
+			await foundWorkflow.save();
+			res.status(200).json(foundWorkflow);
 		} catch (error) {
 			next(error);
 		}

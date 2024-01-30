@@ -9,22 +9,27 @@ import { WorkflowInput, CwlJobInputs } from '../../../types';
  */
 export function parseCwlJobInputs(cwlJobInputs: CwlJobInputs): WorkflowInput[] {
 	const workflowInputs: WorkflowInput[] = [];
+
 	Object.entries(cwlJobInputs).forEach(cwlJobInput => {
 		let [inputName, inputValue] = cwlJobInput;
-		let parsedInputValue;
-		//TODO CHECK CWL SPEC Directory can either have a path or location attributes.
-		//Check if the semantic is equivalent
-		if (typeof inputValue === 'string') {
-			parsedInputValue = inputValue;
-		} else if (inputValue?.class === 'Directory') {
-			parsedInputValue = inputValue?.path;
-			if (!parsedInputValue) {
-				parsedInputValue = inputValue?.location;
-			}
+		let parsedInputValue = undefined;
+		// TODO CHECK CWL SPEC Directory can either have a path or location attributes.
+
+		switch ((inputValue as Record<string, string>)?.class) {
+			case 'Directory':
+				parsedInputValue = (inputValue as Record<string, string>)?.path;
+				if (!parsedInputValue) {
+					parsedInputValue = (inputValue as Record<string, string>)?.location;
+				}
+				break;
+			default:
+				parsedInputValue = inputValue as string;
+				break;
 		}
 
-		if (!parsedInputValue) {
-			throw Error(`unable to parse cwlJobInput : ${cwlJobInput}`);
+		if (parsedInputValue === undefined) {
+			console.log([inputName, inputValue]);
+			throw Error(`unable to parse cwlJobInput: ${cwlJobInput} `);
 		}
 
 		workflowInputs.push({ name: inputName, value: parsedInputValue });
