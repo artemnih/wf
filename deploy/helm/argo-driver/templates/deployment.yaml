@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     labels:
-        app: { { .Release.Name } }
+        app: {{ .Release.Name }}
     name: '{{ .Release.Name }}'
 spec:
     selector:
         matchLabels:
-            app: { { .Release.Name } }
+            app: {{ .Release.Name }}
     template:
         metadata:
             labels:
-                app: { { .Release.Name } }
+                app: {{ .Release.Name }}
             name: '{{ .Release.Name }}'
         spec:
             containers:
                 - name: argo
-                  image: { { .Values.driver.image.name } }
+                  image: {{ .Values.driver.image.name }}
                   imagePullPolicy: Always
                   env:
                       - name: ARGO_DRIVER_SERVICE_PORT
@@ -36,10 +36,10 @@ spec:
                       - name: VOLUME_ABSOLUTE_OUTPUT_PATH
                         value: '{{.Values.driver.volume.absoluteOutputPath}}'
                       - name: SERVICES_AUTH_URL
-                        value: { { .Values.driver.auth.url } }
+                        value: {{ .Values.driver.auth.url }}
                   ports:
-                      - containerPort: { { .Values.driver.port } }
+                      - containerPort: {{ .Values.driver.port }}
             imagePullSecrets:
-                - name: { { .Values.driver.image.pullSecret } }
-            serviceAccount: { { .Release.Name } }
-            serviceAccountName: { { .Release.Name } }
+                - name: {{ .Values.driver.image.pullSecret }}
+            serviceAccount: {{ .Release.Name }}
+            serviceAccountName: {{ .Release.Name }}
