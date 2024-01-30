@@ -23,7 +23,7 @@ export class Driver {
 	async compute(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[], token: string) {
 		console.log('Number of jobs:', jobs.length);
 		console.log(`Posting workflow to: ${this.driverUrl}`);
-		return axios.post(`${this.driverUrl}`, { cwlWorkflow, cwlJobInputs, jobs }, { headers: { authorization: token } });
+		return (await axios.post(`${this.driverUrl}`, { cwlWorkflow, cwlJobInputs, jobs }, { headers: { authorization: token } })).data;
 	}
 
 	async health() {
