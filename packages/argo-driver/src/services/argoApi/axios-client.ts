@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { default as axios } from 'axios';
 
-export const axiosClient = () => {
+export function axiosClient() {
 	require('dotenv').config();
 	const argoConfig = require('config');
 
@@ -16,4 +16,4 @@ export const axiosClient = () => {
 	} else {
 		return axios.create({ baseURL: argoConfig.argoCompute.argo.argoUrl });
 	}
-};
+}

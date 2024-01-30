@@ -1,4 +1,3 @@
-export * from './submitWorkflowToArgo';
 export * from './statusOfArgoWorkflow';
 export * from './getArgoJobStatus';
 export * from './getJobsFromArgoApi';

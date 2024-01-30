@@ -20,4 +20,4 @@ export const WorkflowRoutes = express
 
 export const JobRoutes = express.Router().get('/jobs', JobController.find).get('/jobs/:jobId', JobController.findById);
 
-export const HealthRoutes = express.Router().get('/check/:driver', WorkflowController.healthDriver).get('/check', HealthController.ping);
+export const HealthRoutes = express.Router().get('/check/:driver', WorkflowController.checkHealth).get('/check', HealthController.ping);

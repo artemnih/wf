@@ -17,7 +17,7 @@ class ArgoController implements IControllerController {
 		try {
 			// parsing request body as is
 			const request = req.body as WorkflowExecutionRequest;
-			const argoResponse = ArgoRepository.createWorkflow(request.cwlWorkflow, request.cwlJobInputs, request.jobs);
+			const argoResponse = await ArgoRepository.createWorkflow(request.cwlWorkflow, request.cwlJobInputs, request.jobs);
 			res.status(201).json(argoResponse);
 		} catch (error) {
 			next(error);

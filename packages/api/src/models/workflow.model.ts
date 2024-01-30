@@ -13,6 +13,7 @@ export interface Workflow extends Document {
 	dateCreated: string;
 	dateFinished: string;
 	owner?: string;
+	driverWorkflowId?: string;
 }
 
 interface WorkflowModel extends Model<Workflow> {}
@@ -30,6 +31,7 @@ const schema = new Schema(
 		dateCreated: { type: Date },
 		dateFinished: { type: Date },
 		owner: { type: String },
+		driverWorkflowId: { type: String },
 	},
 	{
 		strict: false,

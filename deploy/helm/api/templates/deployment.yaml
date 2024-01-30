@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     labels:
-        app: { { .Values.compute.name } }
+        app: {{ .Values.compute.name }}
     name: '{{ .Release.Name }}-api'
 spec:
     selector:
         matchLabels:
-            app: { { .Values.compute.name } }
+            app: {{ .Values.compute.name }}
     template:
         metadata:
             labels:
-                app: { { .Values.compute.name } }
-            name: { { .Release.Name } }
+                app: {{ .Values.compute.name }}
+            name: {{ .Release.Name }}
         spec:
             containers:
                 - name: compute
-                  image: { { .Values.compute.image.name } }
+                  image: {{ .Values.compute.image.name }}
                   ports:
                       - containerPort: 8000
                   env:
@@ -41,4 +41,4 @@ spec:
                       - name: SERVICES_AUTH_URL
                         value: '{{ .Values.compute.auth.url }}'
             imagePullSecrets:
-                - name: { { .Values.compute.image.secret } }
+                - name: {{ .Values.compute.image.secret }}

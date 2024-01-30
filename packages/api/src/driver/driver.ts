@@ -20,10 +20,11 @@ export class Driver {
 		console.log('Driver url: ', this.driverUrl);
 	}
 
-	async compute(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[], token: string) {
+	async compute(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[]) {
 		console.log('Number of jobs:', jobs.length);
 		console.log(`Posting workflow to: ${this.driverUrl}`);
-		return axios.post(`${this.driverUrl}`, { cwlWorkflow, cwlJobInputs, jobs }, { headers: { authorization: token } });
+		return (await axios.post(`${this.driverUrl}`, { cwlWorkflow, cwlJobInputs, jobs }, { headers: { authorization: this.token } }))
+			.data;
 	}
 
 	async health() {
@@ -36,44 +37,43 @@ export class Driver {
 		return result.data;
 	}
 
-	async getWorkflowStatus(workflowId: string, token: string): Promise<{ status: WorkflowStatus }> {
-		console.log(`Getting workflow status for ${workflowId}`);
-		console.log('Url resolved to ', `${this.driverUrl}/${workflowId}/status`);
-		return (await axios.get(`${this.driverUrl}/${workflowId}/status`, { headers: { authorization: token } })).data;
+	async getWorkflowStatus(id: string): Promise<{ status: WorkflowStatus; dateFinished: string }> {
+		console.log(`Getting workflow status for ${id}`);
+		return (await axios.get(`${this.driverUrl}/${id}/status`, { headers: { authorization: this.token } })).data;
 	}
 
-	async getWorkflowOutput(workflowId: string, token: string): Promise<object> {
-		console.log(`Getting workflow output for ${workflowId}`);
-		return (await axios.get(`${this.driverUrl}/${workflowId}/output`, { headers: { authorization: token } })).data;
+	async getWorkflowOutput(id: string): Promise<object> {
+		console.log(`Getting workflow output for ${id}`);
+		return (await axios.get(`${this.driverUrl}/${id}/output`, { headers: { authorization: this.token } })).data;
 	}
 
-	async getWorkflowLogs(workflowId: string, token: string): Promise<object> {
-		console.log(`Getting workflow logs for ${workflowId}`);
-		return (await axios.get(`${this.driverUrl}/${workflowId}/logs`, { headers: { authorization: token } })).data;
+	async getWorkflowLogs(id: string): Promise<object> {
+		console.log(`Getting workflow logs for ${id}`);
+		return (await axios.get(`${this.driverUrl}/${id}/logs`, { headers: { authorization: this.token } })).data;
 	}
 
-	async getWorkflowJobs(workflowId: string, token: string): Promise<object> {
-		console.log(`Getting workflow jobs for ${workflowId}`);
-		return (await axios.get(`${this.driverUrl}/${workflowId}/jobs`, { headers: { authorization: token } })).data;
+	async getWorkflowJobs(id: string): Promise<object> {
+		console.log(`Getting workflow jobs for ${id}`);
+		return (await axios.get(`${this.driverUrl}/${id}/jobs`, { headers: { authorization: this.token } })).data;
 	}
 
-	async stopWorkflow(workflowId: string, token: string): Promise<object> {
-		console.log(`Stopping workflow ${workflowId}`);
-		return (await axios.put(`${this.driverUrl}/${workflowId}/stop`, {}, { headers: { authorization: token } })).data;
+	async stopWorkflow(id: string): Promise<object> {
+		console.log(`Stopping workflow ${id}`);
+		return (await axios.put(`${this.driverUrl}/${id}/stop`, {}, { headers: { authorization: this.token } })).data;
 	}
 
-	async pauseWorkflow(workflowId: string, token: string): Promise<object> {
-		console.log(`Pausing workflow ${workflowId}`);
-		return (await axios.put(`${this.driverUrl}/${workflowId}/pause`, {}, { headers: { authorization: token } })).data;
+	async pauseWorkflow(id: string): Promise<object> {
+		console.log(`Pausing workflow ${id}`);
+		return (await axios.put(`${this.driverUrl}/${id}/pause`, {}, { headers: { authorization: this.token } })).data;
 	}
 
-	async restartWorkflow(workflowId: string, token: string): Promise<object> {
-		console.log(`Restarting workflow ${workflowId}`);
-		return (await axios.put(`${this.driverUrl}/${workflowId}/restart`, {}, { headers: { authorization: token } })).data;
+	async restartWorkflow(id: string): Promise<object> {
+		console.log(`Restarting workflow ${id}`);
+		return (await axios.put(`${this.driverUrl}/${id}/restart`, {}, { headers: { authorization: this.token } })).data;
 	}
 
-	async resumeWorkflow(workflowId: string, token: string): Promise<object> {
-		console.log(`Resuming workflow ${workflowId}`);
-		return (await axios.put(`${this.driverUrl}/${workflowId}/resume`, {}, { headers: { authorization: token } })).data;
+	async resumeWorkflow(id: string): Promise<object> {
+		console.log(`Resuming workflow ${id}`);
+		return (await axios.put(`${this.driverUrl}/${id}/resume`, {}, { headers: { authorization: this.token } })).data;
 	}
 }
