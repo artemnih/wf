@@ -1,3 +1,4 @@
+import { WorkflowStatus } from '@polusai/compute-common';
 import { Job } from '../models';
 import { default as axios } from 'axios';
 require('dotenv').config();
@@ -15,15 +16,14 @@ export class Driver {
 			throw new Error('Driver not found');
 		}
 
-		this.driverUrl = `${driverInfo.scheme}://${driverInfo.host}:${driverInfo.port}/compute/${driver}`;
+		this.driverUrl = `${driverInfo.scheme}://${driverInfo.host}:${driverInfo.port}/compute`;
 		console.log('Driver url: ', this.driverUrl);
 	}
 
 	async compute(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[], token: string) {
-		console.log('Url resolved to ', this.driverUrl);
-		console.log(`Posting workflow to [${this.driverUrl}]`);
 		console.log('Number of jobs:', jobs.length);
-		return axios.post(`${this.driverUrl}/compute`, { cwlWorkflow, cwlJobInputs, jobs }, { headers: { authorization: token } });
+		console.log(`Posting workflow to: ${this.driverUrl}`);
+		return axios.post(`${this.driverUrl}`, { cwlWorkflow, cwlJobInputs, jobs }, { headers: { authorization: token } });
 	}
 
 	async health() {
@@ -36,7 +36,7 @@ export class Driver {
 		return result.data;
 	}
 
-	async getWorkflowStatus(workflowId: string, token: string): Promise<object> {
+	async getWorkflowStatus(workflowId: string, token: string): Promise<{ status: WorkflowStatus }> {
 		console.log(`Getting workflow status for ${workflowId}`);
 		console.log('Url resolved to ', `${this.driverUrl}/${workflowId}/status`);
 		return (await axios.get(`${this.driverUrl}/${workflowId}/status`, { headers: { authorization: token } })).data;

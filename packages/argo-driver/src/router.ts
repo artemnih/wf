@@ -1,14 +1,14 @@
 import express from 'express';
-import ArgoController from './controllers/argo.controller';
+import Controller from './controllers/argo.controller';
 import HealthController from './controllers/health.controller';
 
-export const ArgoRoutes = express
+export const ComputeRoutes = express
 	.Router()
-	.post('/argo', ArgoController.createWorkflow)
-	.get('/argo/:id/status', ArgoController.getWorkflowStatus)
-	.get('/argo/:id/logs', ArgoController.getWorkflowLogs)
-	.get('/argo/:id/outputs', ArgoController.getWorkflowOutputs)
-	.get('/argo/:id/jobs', ArgoController.getWorkflowJobs)
-	.put('/argo/:id/stop', ArgoController.stopWorkflow);
+	.post('/', Controller.createWorkflow)
+	.get('/:id/status', Controller.getWorkflowStatus)
+	.get('/:id/logs', Controller.getWorkflowLogs)
+	.get('/:id/outputs', Controller.getWorkflowOutputs)
+	.get('/:id/jobs', Controller.getWorkflowJobs)
+	.put('/:id/stop', Controller.stopWorkflow);
 
 export const HealthRoutes = express.Router().get('/check', HealthController.ping);

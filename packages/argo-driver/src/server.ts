@@ -3,7 +3,7 @@ import * as http from 'http';
 import cors from 'cors';
 import jwksRsa from 'jwks-rsa';
 import { expressjwt } from 'express-jwt';
-import { ArgoRoutes, HealthRoutes } from './router';
+import { ComputeRoutes, HealthRoutes } from './router';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
@@ -41,7 +41,7 @@ export class ExpressServer {
 		// Expose the front-end assets via Express, not as LB4 route
 		// this.app.use(this.options.argoCompute.basePath, this.api.requestHandler);
 
-		this.app.use('/compute', ArgoRoutes);
+		this.app.use('/compute', ComputeRoutes);
 		this.app.use('/health', HealthRoutes);
 
 		// Serve static files in the public folder
