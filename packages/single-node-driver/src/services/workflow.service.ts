@@ -28,7 +28,7 @@ class WorkflowService implements IWorkflowService {
 
 		console.log('Starting cwltool');
 
-		const myProcess = spawn('cwltool', [`./temp/${temp}.json`, `./temp/${temp}-inputs.json`], {
+		const myProcess = spawn('cwltool',  [`--verbose`, `-w summary-${temp}.json` , `./temp/${temp}.json`, `./temp/${temp}-inputs.json`], {
 			detached: true,
 		});
 
