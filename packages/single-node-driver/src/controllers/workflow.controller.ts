@@ -41,6 +41,10 @@ class WorkflowController implements IControllerController {
 		}
 	}
 
+	async getAllJobsLogs(req: Request, res: Response, next: NextFunction) {
+		throw new Error('Method not implemented.');
+	}
+
 	async stop(req: Request, res: Response, next: NextFunction) {
 		try {
 			const id = req.params.id;

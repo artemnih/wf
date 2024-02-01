@@ -1,11 +1,12 @@
-import ArgoRepository from '../repositories/argo.repository';
-import { ArgoLogRecord, WorkflowExecutionRequest } from '../types';
+import { createWorkflow } from '../services/create-workflow';
+import { WorkflowExecutionRequest } from '../types';
 import { statusOfArgoWorkflow, getArgoJobStatus, stopArgoWorkflow } from '../services/argoApi';
 import { getTargetFromJobs } from '../services';
 import { Target } from '../services/getTargetFromJobs';
 import { NextFunction, Request, Response } from 'express';
 import { getWorkflowLog } from '../services/argoApi/get-workflow-log';
 import { IControllerController } from '@polusai/compute-common';
+import { getAllJobsLogs } from '../services/argoApi/get-all-jobs-logs';
 
 class ArgoController implements IControllerController {
 	/**
@@ -17,7 +18,7 @@ class ArgoController implements IControllerController {
 		try {
 			// parsing request body as is
 			const request = req.body as WorkflowExecutionRequest;
-			const argoResponse = await ArgoRepository.createWorkflow(request.cwlWorkflow, request.cwlJobInputs, request.jobs);
+			const argoResponse = await createWorkflow(request.cwlWorkflow, request.cwlJobInputs, request.jobs);
 			res.status(201).json(argoResponse);
 		} catch (error) {
 			next(error);
@@ -37,12 +38,18 @@ class ArgoController implements IControllerController {
 	async getWorkflowLogs(req: Request, res: Response, next: NextFunction) {
 		try {
 			const id = req.params.id;
-			const payload = await getWorkflowLog(id);
-			let rawLogs = payload.data;
-			const lines = (rawLogs.split('\n') as string[]).filter(s => !!s.trim());
-			const jsonLines = lines.map(line => JSON.parse(line) as ArgoLogRecord);
-			const content = jsonLines.map(line => line.result.content).join('\n');
+			const content = await getWorkflowLog(id);
 			res.status(201).send(content);
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	async getAllJobsLogs(req: Request, res: Response, next: NextFunction) {
+		try {
+			const id = req.params.id;
+			const result = await getAllJobsLogs(id);
+			res.status(201).json(result);
 		} catch (error) {
 			next(error);
 		}
