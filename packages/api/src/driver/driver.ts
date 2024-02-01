@@ -57,6 +57,11 @@ export class Driver {
 		return (await axios.get(`${this.driverUrl}/${id}/all-jobs-logs`, { headers: { authorization: this.token } })).data;
 	}
 
+	async getWorkflowJobLogs(id: string, jobId: string): Promise<object> {
+		console.log(`Getting workflow job logs for ${id} and ${jobId}`);
+		return (await axios.get(`${this.driverUrl}/${id}/job/${jobId}/logs`, { headers: { authorization: this.token } })).data;
+	}
+
 	async getWorkflowJobs(id: string): Promise<object> {
 		console.log(`Getting workflow jobs for ${id}`);
 		return (await axios.get(`${this.driverUrl}/${id}/jobs`, { headers: { authorization: this.token } })).data;

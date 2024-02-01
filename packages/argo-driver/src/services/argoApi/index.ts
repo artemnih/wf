@@ -5,3 +5,7 @@ export * from './getOutputsFromArgoInputs';
 export * from './stopArgoWorkflow';
 export * from './argoUrl';
 export * from './axios-client';
+export * from './get-job-logs';
+export * from './get-workflow-log';
+export * from './get-all-jobs-logs';
+export * from './create-workflow';

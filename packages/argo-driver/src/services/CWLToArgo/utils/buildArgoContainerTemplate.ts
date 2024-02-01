@@ -1,4 +1,4 @@
-import { sanitizeStepName } from './sanitizeStepName';
+import { sanitizeStepName } from './sanitize-step-name';
 import { Step, ArgoContainerTemplate } from '../../../types';
 
 /**
