@@ -18,6 +18,7 @@ export interface ArgoNodes {
 	id: string;
 	name: string;
 	displayName: string;
+	templateName: string;
 	type: string;
 	phase: string;
 	startedAt: string;

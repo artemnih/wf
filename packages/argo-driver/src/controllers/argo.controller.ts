@@ -1,12 +1,17 @@
-import { createWorkflow } from '../services/create-workflow';
 import { WorkflowExecutionRequest } from '../types';
-import { statusOfArgoWorkflow, getArgoJobStatus, stopArgoWorkflow } from '../services/argoApi';
 import { getTargetFromJobs } from '../services';
 import { Target } from '../services/getTargetFromJobs';
 import { NextFunction, Request, Response } from 'express';
-import { getWorkflowLog } from '../services/argoApi/get-workflow-log';
 import { IControllerController } from '@polusai/compute-common';
-import { getAllJobsLogs } from '../services/argoApi/get-all-jobs-logs';
+import {
+	createWorkflow,
+	statusOfArgoWorkflow,
+	getWorkflowLog,
+	getAllJobsLogs,
+	getJobLogs,
+	getArgoJobStatus,
+	stopArgoWorkflow,
+} from '../services/argoApi';
 
 class ArgoController implements IControllerController {
 	/**
@@ -50,6 +55,17 @@ class ArgoController implements IControllerController {
 			const id = req.params.id;
 			const result = await getAllJobsLogs(id);
 			res.status(201).json(result);
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	async getJobLogs(req: Request, res: Response, next: NextFunction) {
+		try {
+			const id = req.params.id;
+			const jobName = req.params.jobname;
+			const result = await getJobLogs(id, jobName);
+			res.status(201).send(result);
 		} catch (error) {
 			next(error);
 		}

@@ -138,6 +138,18 @@ export class WorkflowController {
 		}
 	}
 
+	async getWorkflowJobLogs(req: Request, res: Response, next: NextFunction) {
+		try {
+			const id = req.params.id;
+			const jobId = req.params.jobId;
+			const foundWorkflow = await WorkflowCrud.findById(id);
+			const logs = await WorkflowRepository.getWorkflowJobLogs(foundWorkflow, jobId, req.headers.authorization as string);
+			res.status(200).json(logs);
+		} catch (error) {
+			next(error);
+		}
+	}
+
 	async stopWorkflow(req: Request, res: Response, next: NextFunction) {
 		try {
 			const id = req.params.id;

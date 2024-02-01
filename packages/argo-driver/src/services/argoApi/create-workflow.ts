@@ -1,6 +1,6 @@
-import { cwlToArgo } from './CWLToArgo';
-import { CwlWorkflow, ComputeJob, CwlJobInputs } from '../types';
-import { axiosClient } from './argoApi';
+import { cwlToArgo } from '../CWLToArgo';
+import { CwlWorkflow, ComputeJob, CwlJobInputs } from '../../types';
+import { axiosClient } from '.';
 import { AxiosResponse } from 'axios';
 
 export async function createWorkflow(cwlWorkflow: CwlWorkflow, cwlJobInputs: CwlJobInputs, computeJobs: ComputeJob[]) {

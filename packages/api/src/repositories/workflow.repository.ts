@@ -32,6 +32,11 @@ export class WorkflowRepository {
 		return driver.getAllJobsLogs(workflow.driverWorkflowId);
 	}
 
+	async getWorkflowJobLogs(workflow: Workflow, jobId: string, token: string) {
+		const driver = new Driver(workflow.driver, token);
+		return driver.getWorkflowJobLogs(workflow.driverWorkflowId, jobId);
+	}
+
 	async getWorkflowJobs(workflow: Workflow, token: string) {
 		const driver = new Driver(workflow.driver, token);
 		return driver.getWorkflowJobs(workflow.driverWorkflowId);
