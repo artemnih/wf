@@ -7,6 +7,8 @@ export const ComputeRoutes = express
 	.post('/', Controller.createWorkflow)
 	.get('/:id/status', Controller.getWorkflowStatus)
 	.get('/:id/logs', Controller.getWorkflowLogs)
+	.get('/:id/all-jobs-logs', Controller.getAllJobsLogs)
+	.get('/:id/job/:jobname/logs', Controller.getJobLogs)
 	.get('/:id/outputs', Controller.getWorkflowOutputs)
 	.get('/:id/jobs', Controller.getWorkflowJobs)
 	.put('/:id/stop', Controller.stopWorkflow);

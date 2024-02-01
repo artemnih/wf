@@ -12,6 +12,8 @@ export const WorkflowRoutes = express
 	.post('/workflows/:id/resubmit', WorkflowController.resubmitWorkflow)
 	.get('/workflows/:id/status', WorkflowController.getWorkflowStatus)
 	.get('/workflows/:id/logs', WorkflowController.getWorkflowLogs)
+	.get('/workflows/:id/all-jobs-logs', WorkflowController.getAllJobsLogs)
+	.get('/workflows/:id/job/:jobId/logs', WorkflowController.getWorkflowJobLogs)
 	.get('/workflows/:id/output', WorkflowController.getWorkflowOutput)
 	.get('/workflows/:id/jobs', WorkflowController.getWorkflowJobs)
 	.put('/workflows/:id/stop', WorkflowController.stopWorkflow)

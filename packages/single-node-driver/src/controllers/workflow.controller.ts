@@ -2,8 +2,6 @@ import { NextFunction } from 'express';
 import { Request, Response } from 'express';
 import WorkflowService from '../services/workflow.service';
 import { IControllerController } from '@polusai/compute-common';
-import { ParamsDictionary } from 'express-serve-static-core';
-import { ParsedQs } from 'qs';
 
 class WorkflowController implements IControllerController {
 	async createWorkflow(req: Request, res: Response, next: NextFunction) {
@@ -39,6 +37,14 @@ class WorkflowController implements IControllerController {
 		} catch (error) {
 			next(error);
 		}
+	}
+
+	async getAllJobsLogs(req: Request, res: Response, next: NextFunction) {
+		throw new Error('Method not implemented.');
+	}
+
+	async getJobLogs(req: Request, res: Response, next: NextFunction) {
+		throw new Error('Method not implemented.');
 	}
 
 	async stop(req: Request, res: Response, next: NextFunction) {
