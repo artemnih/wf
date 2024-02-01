@@ -6,6 +6,7 @@ export interface IControllerController {
 	createWorkflow(req: Request, res: Response, next: NextFunction): Promise<void>;
 	getWorkflowStatus(req: Request, res: Response, next: NextFunction): Promise<void>;
 	getWorkflowLogs(req: Request, res: Response, next: NextFunction): Promise<void>;
+	getAllJobsLogs(req: Request, res: Response, next: NextFunction): Promise<void>;
 	getWorkflowOutputs(req: Request, res: Response, next: NextFunction): Promise<void>;
 	getWorkflowJobs(req: Request, res: Response, next: NextFunction): Promise<void>;
 	stopWorkflow(req: Request, res: Response, next: NextFunction): Promise<void>;
