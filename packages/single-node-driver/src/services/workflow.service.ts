@@ -1,7 +1,6 @@
 import { Dictionary, IWorkflowService, WorkflowStatus } from '@polusai/compute-common';
-import { buildId, getGuid, getPid} from '../utils';
-
-const fs = require('fs');
+import { buildId, getGuid, getPid } from '../utils';
+import fs from 'fs';
 const spawn = require('child_process').spawn;
 
 interface ComputePayload {
@@ -29,7 +28,7 @@ class WorkflowService implements IWorkflowService {
 
 		console.log('Starting cwltool');
 
-		const myProcess = spawn('cwltool',  [`--verbose`, `./temp/${temp}.json`, `./temp/${temp}-inputs.json`], {
+		const myProcess = spawn('cwltool', [`--verbose`, `./temp/${temp}.json`, `./temp/${temp}-inputs.json`], {
 			detached: true,
 		});
 
@@ -78,6 +77,28 @@ class WorkflowService implements IWorkflowService {
 	}
 
 	async getLogs(id: string) {
+		const guid = getGuid(id);
+		try {
+			const log = await fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			return log;
+		} catch (error) {
+			return 'No logs available';
+		}
+	}
+
+	async getJobLogs(id: string, jobName: string) {
+		const guid = getGuid(id);
+		try {
+			const log = fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			const lines = log.split('\n');
+			const jobLogs = lines.filter(line => line.includes(jobName));
+			return jobLogs.join('\n');
+		} catch (error) {
+			return 'No logs available';
+		}
+	}
+
+	async getAllJobsLogs(id: string) {
 		const guid = getGuid(id);
 		try {
 			const log = fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
