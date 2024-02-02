@@ -11,6 +11,7 @@ import {
 	getJobLogs,
 	getArgoJobStatus,
 	stopArgoWorkflow,
+	getJobStatus,
 } from '../services/argoApi';
 
 class ArgoController implements IControllerController {
@@ -66,6 +67,17 @@ class ArgoController implements IControllerController {
 			const jobName = req.params.jobname;
 			const result = await getJobLogs(id, jobName);
 			res.status(201).send(result);
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	async getJobStatus(req: Request, res: Response, next: NextFunction) {
+		try {
+			const id = req.params.id;
+			const jobName = req.params.jobname;
+			const result = await getJobStatus(id, jobName);
+			res.status(201).json(result);
 		} catch (error) {
 			next(error);
 		}

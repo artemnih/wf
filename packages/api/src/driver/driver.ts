@@ -44,7 +44,7 @@ export class Driver {
 
 	async getWorkflowOutput(id: string): Promise<object> {
 		console.log(`Getting workflow output for ${id}`);
-		return (await axios.get(`${this.driverUrl}/${id}/output`, { headers: { authorization: this.token } })).data;
+		return (await axios.get(`${this.driverUrl}/${id}/outputs`, { headers: { authorization: this.token } })).data;
 	}
 
 	async getWorkflowLogs(id: string): Promise<object> {
@@ -60,6 +60,11 @@ export class Driver {
 	async getWorkflowJobLogs(id: string, jobId: string): Promise<object> {
 		console.log(`Getting workflow job logs for ${id} and ${jobId}`);
 		return (await axios.get(`${this.driverUrl}/${id}/job/${jobId}/logs`, { headers: { authorization: this.token } })).data;
+	}
+
+	async getWorkflowJobStatus(id: string, jobId: string): Promise<object> {
+		console.log(`Getting workflow job status for ${id} and ${jobId}`);
+		return (await axios.get(`${this.driverUrl}/${id}/job/${jobId}/status`, { headers: { authorization: this.token } })).data;
 	}
 
 	async getWorkflowJobs(id: string): Promise<object> {

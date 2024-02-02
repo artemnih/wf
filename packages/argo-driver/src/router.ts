@@ -9,6 +9,7 @@ export const ComputeRoutes = express
 	.get('/:id/logs', Controller.getWorkflowLogs)
 	.get('/:id/all-jobs-logs', Controller.getAllJobsLogs)
 	.get('/:id/job/:jobname/logs', Controller.getJobLogs)
+	.get('/:id/job/:jobname/status', Controller.getJobStatus)
 	.get('/:id/outputs', Controller.getWorkflowOutputs)
 	.get('/:id/jobs', Controller.getWorkflowJobs)
 	.put('/:id/stop', Controller.stopWorkflow);
