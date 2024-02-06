@@ -11,8 +11,10 @@ export class Driver {
 		private driver: string,
 		private token: string,
 	) {
+		console.log('Driver:', driver);
 		const driverInfo = config.compute.drivers[`${driver.toLowerCase()}Driver`];
 		if (!driverInfo) {
+			console.log('Driver not found');
 			throw new Error('Driver not found');
 		}
 
@@ -33,6 +35,7 @@ export class Driver {
 		const healthUrl = this.driverUrl + `/health`;
 		console.log('health url: ', healthUrl);
 
+		console.log('Getting health at url', healthUrl);
 		const result = await axios.get(`${healthUrl}`, { headers: { authorization: this.token } });
 		return result.data;
 	}

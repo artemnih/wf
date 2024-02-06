@@ -58,6 +58,7 @@ export class ExpressServer {
 
 		this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
 			if (err) {
+				console.error(err.message);
 				const status = err.status || 500;
 				const message = err.message || 'Something went wrong';
 				res.status(status).send(message);

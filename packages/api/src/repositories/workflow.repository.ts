@@ -13,8 +13,8 @@ export class WorkflowRepository {
 	}
 
 	async getWorkflowStatus(workflow: Workflow, token: string) {
-		const drvr = new Driver(workflow.driver, token);
-		return drvr.getWorkflowStatus(workflow.driverWorkflowId);
+		const driver = new Driver(workflow.driver, token);
+		return driver.getWorkflowStatus(workflow.driverWorkflowId);
 	}
 
 	async getWorkflowOutput(workflow: Workflow, token: string) {
@@ -68,6 +68,7 @@ export class WorkflowRepository {
 
 	async healthDriverCheck(driverType: string, token: string) {
 		const driver = new Driver(driverType, token);
+		console.log('Health check on driver', driver);
 		return driver.health();
 	}
 }
