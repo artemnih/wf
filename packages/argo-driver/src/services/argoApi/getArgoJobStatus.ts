@@ -43,7 +43,6 @@ export async function getJobStatus(workflowId: string, jobName: string) {
 	try {
 		const workflow = (await axiosClient().get(`/${workflowId}`)) as ArgoJobStatus;
 		const pods = Object.values(workflow.data.status.nodes).filter(value => value.type === 'Pod') as Array<ArgoNodes>;
-		console.log('number of pods:', pods.length);
 		const sanitizedStepName = sanitizeStepName(jobName);
 		const pod = pods.find(pod => pod.templateName === sanitizedStepName);
 		if (!pod) {
