@@ -30,3 +30,14 @@ export enum WorkflowStatus {
 	SKIPPED = 'SKIPPED',
 	ERROR = 'ERROR',
 }
+
+export const DriverRoutes = {
+	ROOT: '/',
+	STATUS: '/:id/status',
+	LOGS: '/:id/logs',
+	ALL_JOBS_LOGS: '/:id/all-jobs-logs',
+	JOB_LOGS: '/:id/job/:jobname/logs',
+	OUTPUTS: '/:id/outputs',
+	JOBS: '/:id/jobs',
+	STOP: '/:id/stop',
+};

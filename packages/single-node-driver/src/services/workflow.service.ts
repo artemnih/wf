@@ -1,6 +1,6 @@
 import { Dictionary, IWorkflowService, WorkflowStatus } from '@polusai/compute-common';
-
-const fs = require('fs');
+import { buildId, getGuid, getPid } from '../utils';
+import fs from 'fs';
 const spawn = require('child_process').spawn;
 
 interface ComputePayload {
@@ -28,7 +28,7 @@ class WorkflowService implements IWorkflowService {
 
 		console.log('Starting cwltool');
 
-		const myProcess = spawn('cwltool', [`./temp/${temp}.json`, `./temp/${temp}-inputs.json`], {
+		const myProcess = spawn('cwltool', [`--verbose`, `./temp/${temp}.json`, `./temp/${temp}-inputs.json`], {
 			detached: true,
 		});
 
@@ -36,12 +36,12 @@ class WorkflowService implements IWorkflowService {
 		if (!pid) {
 			return null;
 		}
-		console.log(`Process started with pid ${pid}`);
+		console.log(`Process started with pid ${temp}`);
 
-		fs.writeFileSync(`./loggings/stdout-${pid}.log`, '', 'utf-8');
+		fs.writeFileSync(`./logs/stdout-${temp}.log`, '', 'utf-8');
 
 		myProcess.stderr.on('data', (data: any) => {
-			fs.appendFileSync(`./loggings/stdout-${pid}.log`, data, 'utf-8');
+			fs.appendFileSync(`./logs/stdout-${temp}.log`, data, 'utf-8');
 			console.error(`${data}`);
 		});
 
@@ -49,11 +49,11 @@ class WorkflowService implements IWorkflowService {
 			console.error('Failed to start child process.', error);
 		});
 
-		return pid;
+		return buildId(pid.toString(), temp);
 	}
 
-	async getStatus(pids: string) {
-		const pid = parseInt(pids);
+	async getStatus(id: string) {
+		const pid = parseInt(getPid(id));
 		console.log('Checking status of process', pid);
 
 		try {
@@ -77,8 +77,31 @@ class WorkflowService implements IWorkflowService {
 	}
 
 	async getLogs(id: string) {
+		const guid = getGuid(id);
 		try {
-			const log = fs.readFileSync(`./loggings/stdout-${id}.log`, 'utf-8');
+			const log = await fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			return log;
+		} catch (error) {
+			return 'No logs available';
+		}
+	}
+
+	async getJobLogs(id: string, jobName: string) {
+		const guid = getGuid(id);
+		try {
+			const log = fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			const lines = log.split('\n');
+			const jobLogs = lines.filter(line => line.includes(jobName));
+			return jobLogs.join('\n');
+		} catch (error) {
+			return 'No logs available';
+		}
+	}
+
+	async getAllJobsLogs(id: string) {
+		const guid = getGuid(id);
+		try {
+			const log = fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
 			return log;
 		} catch (error) {
 			return 'No logs available';
@@ -86,14 +109,17 @@ class WorkflowService implements IWorkflowService {
 	}
 
 	async getOutputs(id: string): Promise<Dictionary<any>> {
+		const guid = getGuid(id);
 		throw new Error('Method not implemented.');
 	}
 
 	async getJobs(id: string): Promise<Dictionary<any>> {
+		const guid = getGuid(id);
 		throw new Error('Method not implemented.');
 	}
 
-	async stop(pid: string) {
+	async stop(id: string) {
+		const pid = getPid(id);
 		try {
 			const result = process.kill(parseInt(pid), 'SIGTERM');
 			return 'Process stopped';
