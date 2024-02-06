@@ -27,7 +27,7 @@ jobs:
         needs: install
         strategy:
             matrix:
-                package: [common, api, argo, single-node, slurm]
+                package: [api, argo, single-node, slurm]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3

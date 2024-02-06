@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start:dev": "tsc -w -p tsconfig.json"
+    "start:dev": "tsc -w -p tsconfig.json",
+    "test": "echo \"No tests yet\" && exit 0"
   },
   "author": "@polusai",
   "license": "ISC"

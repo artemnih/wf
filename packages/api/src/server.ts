@@ -10,14 +10,15 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
 
 export class ExpressServer {
-	private app: express.Application;
-	private server: http.Server;
+	app: express.Application;
+	server: http.Server;
 
 	constructor(private options: any) {
 		const dbName = this.options.compute.db.name;
 		const connectionString = this.options.compute.db.connectionString;
 		const authUrl = this.options.services.auth.authUrl;
 
+		console.log(`Connecting to database: ${dbName} at ${connectionString}`);
 		mongoose.connect(connectionString, {
 			dbName: dbName,
 		});

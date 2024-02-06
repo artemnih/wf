@@ -18,14 +18,15 @@
     "start": "npm run build:common && npm run watch",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "noauth": "NO_AUTH=true npm run start"
+    "noauth": "NO_AUTH=true npm run start",
+    "test": "npm run test --ws"
   },
   "author": "",
   "license": "MIT",
   "workspaces": [
+    "packages/common",
     "packages/api",
     "packages/argo-driver",
-    "packages/common",
     "packages/slurm-driver",
     "packages/single-node-driver"
   ],
