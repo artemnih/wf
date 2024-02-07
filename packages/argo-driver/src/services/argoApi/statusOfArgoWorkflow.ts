@@ -28,8 +28,8 @@ export interface ArgoWorkflowStatus {
 	startedAt: string;
 	finishedAt: string;
 	progress: string;
-	pods: {
-		templateName: string;
+	jobs: {
+		id: string;
 		status: string;
 		startedAt: string;
 		finishedAt: string;
@@ -42,11 +42,11 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string): Promise<Ar
 	const response = await axiosClient().get(`/${argoWorkflowName}`);
 	const nodes = response.data.status.nodes as Dict<any>;
 
-	const pods = Object.values(nodes)
+	const jobs = Object.values(nodes)
 		.filter(node => node.type === 'Pod')
 		.map(node => {
 			return {
-				templateName: node.templateName || '',
+				id: node.templateName || '',
 				status: translateStatus(node.phase),
 				startedAt: node.startedAt || '',
 				finishedAt: node.finishedAt || '',
@@ -59,6 +59,6 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string): Promise<Ar
 		startedAt: response.data.status.startedAt || '',
 		finishedAt: response.data.status.finishedAt || '',
 		progress: response.data.status.progress || '',
-		pods,
+		jobs: jobs,
 	};
 }
