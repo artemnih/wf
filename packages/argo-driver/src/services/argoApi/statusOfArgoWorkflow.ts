@@ -44,6 +44,7 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string): Promise<Ar
 
 	const jobs = Object.values(nodes)
 		.filter(node => node.type === 'Pod')
+		.filter(node => node.templateName !== 'path-creator')
 		.map(node => {
 			return {
 				id: node.templateName || '',
