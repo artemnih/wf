@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+    db:
+        image: mongo
+        restart: always
+        networks:
+            - mongo-compose-network
+        ports:
+            - '27017:27017'
+    api:
+        restart: always
+        build:
+            dockerfile: Dockerfile.api
+            context: ./
+        depends_on:
+            - db
+        ports:
+            - '8000:8000'
+        networks:
+            - mongo-compose-network
+        environment:
+            - SERVICES_AUTH_URL=
+            - MONGO_CONNECTION_STRING=mongodb://db:27017
+            - NO_AUTH=true
+networks:
+    mongo-compose-network:
+        driver: bridge
