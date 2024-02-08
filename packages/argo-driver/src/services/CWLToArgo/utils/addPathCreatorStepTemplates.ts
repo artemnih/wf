@@ -1,6 +1,5 @@
 import { pathCreatorTaskTemplate } from '../../../operators/pathCreator/templates/pathCreatorTaskTemplate';
 import { pathCreatorContainerTemplate } from '../../../operators/pathCreator/templates/pathCreatorContainerTemplate';
-
 import { ArgoTaskTemplate, ArgoContainerTemplate, ArgoTaskParameterType } from '../../../types';
 
 /**
@@ -16,7 +15,7 @@ export function addPathCreatorStep(
 ) {
 	const stepName = 'path-creator';
 
-	let _pathsToCreate: String[] = [];
+	const _pathsToCreate: String[] = [];
 	for (let { argoTaskTemplate: argoDagTemplate } of generatedTemplates) {
 		let params = argoDagTemplate.arguments?.parameters;
 		if (params != undefined) {
@@ -32,9 +31,9 @@ export function addPathCreatorStep(
 		}
 	}
 
-	let pathsToCreate = _pathsToCreate.join(',');
-	let pathCreatorTask = pathCreatorTaskTemplate(stepName, pathsToCreate);
-	let pathCreatorContainer = pathCreatorContainerTemplate();
+	const pathsToCreate = _pathsToCreate.join(',');
+	const pathCreatorTask = pathCreatorTaskTemplate(stepName, pathsToCreate);
+	const pathCreatorContainer = pathCreatorContainerTemplate();
 
 	generatedTemplates.push({
 		argoTaskTemplate: pathCreatorTask,
