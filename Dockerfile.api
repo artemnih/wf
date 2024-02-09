@@ -1,0 +1,21 @@
+FROM node:20-alpine as builder
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm i --w=packages/common
+RUN npm i --w=packages/api
+
+RUN npm run build:common
+RUN npm run build:api
+
+FROM node:20-alpine
+
+WORKDIR /usr/src/app
+COPY --from=builder /app/packages/api/dist .
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/packages/api/config ./config
+EXPOSE 8000
+
+CMD [ "node", "." ]

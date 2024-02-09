@@ -1,7 +1,6 @@
-import { ArgoContainerTemplate, ArgoTaskTemplate } from '../../../types';
+import { ArgoContainerTemplate } from '../../../types';
 
 export function pathCreatorContainerTemplate(): ArgoContainerTemplate {
-	// retrieve configuration
 	require('dotenv').config();
 	const argoConfig = require('config');
 

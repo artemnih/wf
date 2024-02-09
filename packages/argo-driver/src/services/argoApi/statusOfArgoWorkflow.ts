@@ -1,4 +1,4 @@
-import { WorkflowStatus } from '@polusai/compute-common';
+import { WorkflowStatus, WorkflowStatusPayload } from '@polusai/compute-common';
 import { axiosClient } from '.';
 
 type Dict<T> = { [key: string]: T };
@@ -23,34 +23,21 @@ export function translateStatus(phase: string) {
 	}
 }
 
-export interface ArgoWorkflowStatus {
-	status: string;
-	startedAt: string;
-	finishedAt: string;
-	progress: string;
-	pods: {
-		templateName: string;
-		status: string;
-		startedAt: string;
-		finishedAt: string;
-		progress: string;
-	}[];
-}
-
-export async function statusOfArgoWorkflow(argoWorkflowName: string): Promise<ArgoWorkflowStatus> {
+export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 	console.log('Getting status of Argo workflow', argoWorkflowName);
 	const response = await axiosClient().get(`/${argoWorkflowName}`);
 	const nodes = response.data.status.nodes as Dict<any>;
 
-	const pods = Object.values(nodes)
+	const jobs = Object.values(nodes)
 		.filter(node => node.type === 'Pod')
+		.filter(node => node.templateName !== 'path-creator') // temp
 		.map(node => {
+			const id = (node.templateName || '').replace(/-/g, '_');
 			return {
-				templateName: node.templateName || '',
+				id: id,
 				status: translateStatus(node.phase),
 				startedAt: node.startedAt || '',
 				finishedAt: node.finishedAt || '',
-				progress: node.progress || '',
 			};
 		});
 
@@ -58,7 +45,6 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string): Promise<Ar
 		status: translateStatus(response.data.status.phase),
 		startedAt: response.data.status.startedAt || '',
 		finishedAt: response.data.status.finishedAt || '',
-		progress: response.data.status.progress || '',
-		pods,
-	};
+		jobs: jobs,
+	} as WorkflowStatusPayload;
 }
