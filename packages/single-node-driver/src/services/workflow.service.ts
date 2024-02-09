@@ -2,6 +2,7 @@ import { Dictionary, IWorkflowService, WorkflowStatus } from '@polusai/compute-c
 import { buildId, getGuid, getPid } from '../utils';
 import fs from 'fs';
 import { statusFromLogs } from '../helpers/status-from-logs';
+import { getSingleJobLogs } from '../helpers/get-single-job-logs';
 const spawn = require('child_process').spawn;
 
 interface ComputePayload {
@@ -59,40 +60,12 @@ class WorkflowService implements IWorkflowService {
 	}
 
 	async getStatus(id: string) {
-		const pid = parseInt(getPid(id));
 		const guid = getGuid(id);
-		// console.log('Checking status of process', pid);
-
-		// let runStatus = WorkflowStatus.PENDING;
-		// try {
-		// 	process.kill(pid, 0); // dont kill, just check if process exists
-		// 	runStatus = WorkflowStatus.RUNNING;
-		// } catch (error) {
-
-		// 	// process not found
-		// 	if (error.code === 'ESRCH') {
-		// 		console.log('Process does not exist, it may have finished running');
-		// 		runStatus = WorkflowStatus.SUCCEEDED;
-		// 	}
-
-		// 	// permission denied
-		// 	if (error.code === 'EPERM') {
-		// 		console.log('Permission denied, process exists but we dont have permission to signal it');
-		// 		runStatus = WorkflowStatus.ERROR;
-		// 	}
-
-		// 	runStatus = WorkflowStatus.ERROR;
-		// }
-
-		// now that we have the status, we can check the logs to build the payload
 
 		console.log('Checking logs for status');
 		try {
 			const log = await fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
-			console.log('Log file exists');
 			const statusPayload = statusFromLogs(log);
-			console.log('Status payload');
-			console.log(JSON.stringify(statusPayload, null, 2));
 			return statusPayload;
 		} catch (error) {
 			console.log('Log file does not exist');
@@ -119,9 +92,7 @@ class WorkflowService implements IWorkflowService {
 		const guid = getGuid(id);
 		try {
 			const log = fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
-			const lines = log.split('\n');
-			const jobLogs = lines.filter(line => line.includes(jobName));
-			return jobLogs.join('\n');
+			return getSingleJobLogs(log, jobName);
 		} catch (error) {
 			return 'No logs available';
 		}

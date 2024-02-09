@@ -7,8 +7,8 @@ export function statusFromLogs(log: string): WorkflowStatusPayload {
 
 	// extract the timestamp and message from each record
 	const records = rowRecords.map(r => {
-		var time = r.match(/\[time: (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)\]/);
-		var message = r.replace(time[0], '');
+		const time = r.match(/\[time: (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)\]/);
+		const message = r.replace(time[0], '');
 		return { time: time[1], message };
 	});
 
