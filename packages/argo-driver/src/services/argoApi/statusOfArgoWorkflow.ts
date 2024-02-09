@@ -23,8 +23,6 @@ export function translateStatus(phase: string) {
 	}
 }
 
-
-
 export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 	console.log('Getting status of Argo workflow', argoWorkflowName);
 	const response = await axiosClient().get(`/${argoWorkflowName}`);
@@ -32,14 +30,14 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 
 	const jobs = Object.values(nodes)
 		.filter(node => node.type === 'Pod')
-		.filter(node => node.templateName !== 'path-creator')
+		.filter(node => node.templateName !== 'path-creator') // temp
 		.map(node => {
+			const id = (node.templateName || '').replace(/-/g, '_');
 			return {
-				id: node.templateName || '',
+				id: id,
 				status: translateStatus(node.phase),
 				startedAt: node.startedAt || '',
 				finishedAt: node.finishedAt || '',
-				progress: node.progress || '',
 			};
 		});
 
@@ -47,7 +45,6 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 		status: translateStatus(response.data.status.phase),
 		startedAt: response.data.status.startedAt || '',
 		finishedAt: response.data.status.finishedAt || '',
-		progress: response.data.status.progress || '',
 		jobs: jobs,
 	} as WorkflowStatusPayload;
 }

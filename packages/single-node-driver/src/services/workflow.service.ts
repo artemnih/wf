@@ -1,6 +1,7 @@
 import { Dictionary, IWorkflowService, WorkflowStatus } from '@polusai/compute-common';
 import { buildId, getGuid, getPid } from '../utils';
 import fs from 'fs';
+import { statusFromLogs } from '../helpers/status-from-logs';
 const spawn = require('child_process').spawn;
 
 interface ComputePayload {
@@ -34,15 +35,20 @@ class WorkflowService implements IWorkflowService {
 
 		const pid = myProcess.pid;
 		if (!pid) {
+			// process failed to start
+			// todo: log error
 			return null;
 		}
+
 		console.log(`Process started with pid ${temp}`);
 
 		fs.writeFileSync(`./logs/stdout-${temp}.log`, '', 'utf-8');
 
 		myProcess.stderr.on('data', (data: any) => {
+			const date = new Date().toISOString();
+			data = `[time: ${date}]: ${data}`;
 			fs.appendFileSync(`./logs/stdout-${temp}.log`, data, 'utf-8');
-			console.error(`${data}`);
+			console.log(`${data}`);
 		});
 
 		myProcess.on('error', (error: any) => {
@@ -54,25 +60,48 @@ class WorkflowService implements IWorkflowService {
 
 	async getStatus(id: string) {
 		const pid = parseInt(getPid(id));
-		console.log('Checking status of process', pid);
+		const guid = getGuid(id);
+		// console.log('Checking status of process', pid);
 
+		// let runStatus = WorkflowStatus.PENDING;
+		// try {
+		// 	process.kill(pid, 0); // dont kill, just check if process exists
+		// 	runStatus = WorkflowStatus.RUNNING;
+		// } catch (error) {
+
+		// 	// process not found
+		// 	if (error.code === 'ESRCH') {
+		// 		console.log('Process does not exist, it may have finished running');
+		// 		runStatus = WorkflowStatus.SUCCEEDED;
+		// 	}
+
+		// 	// permission denied
+		// 	if (error.code === 'EPERM') {
+		// 		console.log('Permission denied, process exists but we dont have permission to signal it');
+		// 		runStatus = WorkflowStatus.ERROR;
+		// 	}
+
+		// 	runStatus = WorkflowStatus.ERROR;
+		// }
+
+		// now that we have the status, we can check the logs to build the payload
+
+		console.log('Checking logs for status');
 		try {
-			const result = process.kill(pid, 0);
-			return { status: WorkflowStatus.RUNNING };
+			const log = await fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			console.log('Log file exists');
+			const statusPayload = statusFromLogs(log);
+			console.log('Status payload');
+			console.log(JSON.stringify(statusPayload, null, 2));
+			return statusPayload;
 		} catch (error) {
-			// process no longer exists
-			if (error.code === 'ESRCH') {
-				console.log('Process does not exist, it may have finished');
-				return { status: WorkflowStatus.SUCCEEDED };
-			}
-
-			// permission denied
-			if (error.code === 'EPERM') {
-				console.log('Permission denied, process exists but we dont have permission to signal it');
-				return { status: WorkflowStatus.ERROR };
-			}
-
-			return { status: WorkflowStatus.ERROR };
+			console.log('Log file does not exist');
+			return {
+				status: WorkflowStatus.ERROR,
+				startedAt: '',
+				finishedAt: '',
+				jobs: [],
+			};
 		}
 	}
 

@@ -46,12 +46,10 @@ export interface WorkflowStatusPayload {
 	status: string;
 	startedAt: string;
 	finishedAt: string;
-	progress: string;
 	jobs: {
 		id: string;
 		status: string;
 		startedAt: string;
 		finishedAt: string;
-		progress: string;
 	}[];
 }
