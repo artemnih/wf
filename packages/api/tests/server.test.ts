@@ -23,6 +23,7 @@ describe('ExpressServer', () => {
 		const uri = mongod.getUri();
 		config.compute.db.connectionString = uri;
 		config.rest.noAuth = true;
+		config.rest.port = 8001;
 
 		driverServer.listen();
 	});
