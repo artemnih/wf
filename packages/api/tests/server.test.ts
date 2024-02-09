@@ -39,6 +39,7 @@ describe('ExpressServer', () => {
 
 	describe('Simple api', () => {
 		beforeAll(async () => {
+			console.log(`Starting TEST server at port ${config.rest.port}`)
 			server = new ExpressServer(config);
 			await server.start();
 		});
