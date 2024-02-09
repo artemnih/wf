@@ -1,4 +1,4 @@
-import { WorkflowStatus } from '@polusai/compute-common';
+import { WorkflowStatus, WorkflowStatusPayload } from '@polusai/compute-common';
 import { axiosClient } from '.';
 
 type Dict<T> = { [key: string]: T };
@@ -23,21 +23,9 @@ export function translateStatus(phase: string) {
 	}
 }
 
-export interface ArgoWorkflowStatus {
-	status: string;
-	startedAt: string;
-	finishedAt: string;
-	progress: string;
-	jobs: {
-		id: string;
-		status: string;
-		startedAt: string;
-		finishedAt: string;
-		progress: string;
-	}[];
-}
 
-export async function statusOfArgoWorkflow(argoWorkflowName: string): Promise<ArgoWorkflowStatus> {
+
+export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 	console.log('Getting status of Argo workflow', argoWorkflowName);
 	const response = await axiosClient().get(`/${argoWorkflowName}`);
 	const nodes = response.data.status.nodes as Dict<any>;
@@ -61,5 +49,5 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string): Promise<Ar
 		finishedAt: response.data.status.finishedAt || '',
 		progress: response.data.status.progress || '',
 		jobs: jobs,
-	};
+	} as WorkflowStatusPayload;
 }

@@ -15,7 +15,7 @@ export interface IControllerController {
 
 export interface IWorkflowService {
 	submit(cwl: any): Promise<string>;
-	getStatus(id: string): Promise<{ status: WorkflowStatus }>;
+	getStatus(id: string): Promise<WorkflowStatusPayload>;
 	getLogs(id: string): Promise<string>;
 	getOutputs(id: string): Promise<Dictionary<any>>;
 	getJobs(id: string): Promise<Dictionary<any>>;
@@ -41,3 +41,17 @@ export const DriverRoutes = {
 	JOBS: '/:id/jobs',
 	STOP: '/:id/stop',
 };
+
+export interface WorkflowStatusPayload {
+	status: string;
+	startedAt: string;
+	finishedAt: string;
+	progress: string;
+	jobs: {
+		id: string;
+		status: string;
+		startedAt: string;
+		finishedAt: string;
+		progress: string;
+	}[];
+}
