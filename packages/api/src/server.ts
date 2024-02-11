@@ -17,6 +17,8 @@ export class ExpressServer {
 
 	constructor() {
 		this.options = ConfigService.config;
+
+		console.log('Config:', JSON.stringify(this.options, null, 2));
 		const dbName = this.options.compute.db.name;
 		const connectionString = this.options.compute.db.connectionString;
 		const authUrl =  this.options.rest.noAuth ? '' : this.options.services.auth.authUrl;

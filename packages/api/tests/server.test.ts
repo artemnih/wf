@@ -41,9 +41,6 @@ describe('ExpressServer', () => {
 		mongod = await MongoMemoryServer.create();
 		const uri = mongod.getUri();
 		config.compute.db.connectionString = uri;
-		config.rest.noAuth = true;
-		config.rest.port = 8001;
-
 		ConfigService.config = config;
 
 		driverServer.listen();
