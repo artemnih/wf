@@ -4,7 +4,7 @@ import ConfigService from './services/config.service';
 // Load environment variables from .env file
 require('dotenv').config();
 const config = require('config');
-ConfigService.config = config;
+ConfigService.setConfig(config);
 
 const server = new ExpressServer();
 server.start();
