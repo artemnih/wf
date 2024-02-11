@@ -11,7 +11,7 @@ export class Driver {
 		private token: string,
 	) {
 		console.log('Driver:', driver);
-		const config = ConfigService.config;
+		const config = ConfigService.getConfig();
 		const driverInfo = config.compute.drivers[`${driver.toLowerCase()}Driver`];
 		if (!driverInfo) {
 			console.log('Driver not found');

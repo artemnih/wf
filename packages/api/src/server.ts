@@ -16,7 +16,7 @@ export class ExpressServer {
 	options: any;
 
 	constructor() {
-		this.options = ConfigService.config;
+		this.options = ConfigService.getConfig();
 
 		console.log('Config:', JSON.stringify(this.options, null, 2));
 		const dbName = this.options.compute.db.name;

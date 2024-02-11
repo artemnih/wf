@@ -41,7 +41,8 @@ describe('ExpressServer', () => {
 		mongod = await MongoMemoryServer.create();
 		const uri = mongod.getUri();
 		config.compute.db.connectionString = uri;
-		ConfigService.config = config;
+		console.log('about to set config', uri);
+		ConfigService.setConfig(config);
 
 		driverServer.listen();
 	});
