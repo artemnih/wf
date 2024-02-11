@@ -1,8 +1,7 @@
 import { WorkflowStatus } from '@polusai/compute-common';
 import { Job } from '../models';
 import { default as axios } from 'axios';
-require('dotenv').config();
-const config = require('config');
+import ConfigService from '../services/config.service';
 
 export class Driver {
 	private driverUrl = '';
@@ -12,6 +11,7 @@ export class Driver {
 		private token: string,
 	) {
 		console.log('Driver:', driver);
+		const config = ConfigService.config;
 		const driverInfo = config.compute.drivers[`${driver.toLowerCase()}Driver`];
 		if (!driverInfo) {
 			console.log('Driver not found');
@@ -31,10 +31,7 @@ export class Driver {
 
 	async health() {
 		console.log(`Health check on ${this.driver}`);
-
 		const healthUrl = this.driverUrl + `/health`;
-		console.log('health url: ', healthUrl);
-
 		console.log('Getting health at url', healthUrl);
 		const result = await axios.get(`${healthUrl}`, { headers: { authorization: this.token } });
 		return result.data;

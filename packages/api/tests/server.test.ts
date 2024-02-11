@@ -3,13 +3,32 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 const request = require('supertest');
 import { setupServer } from 'msw/node';
 import { HttpResponse, http } from 'msw';
+import ConfigService from '../src/services/config.service';
 
-require('dotenv').config();
-const config = require('config');
+const config = {
+	rest: {
+		port: 8001,
+		noAuth: true,
+	},
+	compute: {
+		db: {
+			connectionString: '',
+			name: 'test',
+		},
+		basePath: '/compute',
+		drivers: {
+			singlenodeDriver: {
+				scheme: 'http',
+				host: 'localhost',
+				port: 7997,
+			},
+		},
+	},
+};
 
 // URLs is hardcoded for now, but should be read from the DB. not even from the config file
 const driverServer = setupServer(
-	http.get('http://127.0.0.1:7997/compute/health', () => {
+	http.get('http://localhost:7997/compute/health', () => {
 		return HttpResponse.json({ greeting: 'Hello, world!' });
 	})
 );
@@ -24,6 +43,8 @@ describe('ExpressServer', () => {
 		config.compute.db.connectionString = uri;
 		config.rest.noAuth = true;
 		config.rest.port = 8001;
+
+		ConfigService.config = config;
 
 		driverServer.listen();
 	});
@@ -40,7 +61,7 @@ describe('ExpressServer', () => {
 	describe('Simple api', () => {
 		beforeAll(async () => {
 			console.log(`Starting TEST server at port ${config.rest.port}`)
-			server = new ExpressServer(config);
+			server = new ExpressServer();
 			await server.start();
 		});
 
@@ -65,7 +86,7 @@ describe('ExpressServer', () => {
 		let server: ExpressServer;
 
 		beforeAll(async () => {
-			server = new ExpressServer(config);
+			server = new ExpressServer();
 			await server.start();
 		});
 

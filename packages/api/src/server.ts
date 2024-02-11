@@ -8,15 +8,19 @@ import { expressjwt } from 'express-jwt';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
+import ConfigService from './services/config.service';
 
 export class ExpressServer {
 	app: express.Application;
 	server: http.Server;
+	options: any;
 
-	constructor(private options: any) {
+	constructor() {
+		this.options = ConfigService.config;
 		const dbName = this.options.compute.db.name;
 		const connectionString = this.options.compute.db.connectionString;
-		const authUrl = this.options.services.auth.authUrl;
+		const authUrl =  this.options.rest.noAuth ? '' : this.options.services.auth.authUrl;
+
 
 		console.log(`Connecting to database: ${dbName} at ${connectionString}`);
 		mongoose.connect(connectionString, {
