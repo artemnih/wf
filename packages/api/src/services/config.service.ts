@@ -6,6 +6,7 @@ class ConfigService {
     }
 
     set config(config: any) {
+        console.log('Setting config:', config);
         this.#config = config;
     }
 }
