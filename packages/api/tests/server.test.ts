@@ -38,16 +38,12 @@ describe('ExpressServer', () => {
 	let server: ExpressServer;
 
 	beforeAll(async () => {
-		console.log('beforeAll');
-
 		console.log('Starting MongoMemoryServer');
 		mongod = await MongoMemoryServer.create();
 		console.log('MongoMemoryServer started');
 		const uri = mongod.getUri();
 		config.compute.db.connectionString = uri;
-		console.log('about to set config', uri);
 		ConfigService.setConfig(config);
-		console.log('Starting driverServer');
 		driverServer.listen();
 	});
 
