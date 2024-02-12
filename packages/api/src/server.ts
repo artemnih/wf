@@ -8,16 +8,23 @@ import { expressjwt } from 'express-jwt';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
+import ConfigService from './services/config.service';
 
 export class ExpressServer {
-	private app: express.Application;
-	private server: http.Server;
+	app: express.Application;
+	server: http.Server;
+	options: any;
 
-	constructor(private options: any) {
+	constructor() {
+		this.options = ConfigService.getConfig();
+
+		console.log('Config:', JSON.stringify(this.options, null, 2));
 		const dbName = this.options.compute.db.name;
 		const connectionString = this.options.compute.db.connectionString;
-		const authUrl = this.options.services.auth.authUrl;
+		const authUrl =  this.options.rest.noAuth ? '' : this.options.services.auth.authUrl;
 
+
+		console.log(`Connecting to database: ${dbName} at ${connectionString}`);
 		mongoose.connect(connectionString, {
 			dbName: dbName,
 		});
@@ -57,6 +64,7 @@ export class ExpressServer {
 
 		this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
 			if (err) {
+				console.error(err.message);
 				const status = err.status || 500;
 				const message = err.message || 'Something went wrong';
 				res.status(status).send(message);

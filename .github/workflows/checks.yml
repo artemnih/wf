@@ -23,11 +23,11 @@ jobs:
             - if: steps.cache.outputs.cache-hit != 'true'
               run: npm ci
 
-    build-package:
+    build:
         needs: install
         strategy:
             matrix:
-                package: [common, api, argo, single-node, slurm]
+                package: [api, argo, single-node, slurm]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
@@ -41,3 +41,22 @@ jobs:
                   key: modules-${{ hashFiles('package-lock.json') }}
             - run: npm run build:common
             - run: npm run build:${{ matrix.package }}
+
+    test:
+        needs: install
+        strategy:
+            matrix:
+                package: [api, argo-driver, single-node-driver, slurm-driver]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 20.9.0
+            - id: cache
+              uses: actions/cache@v3
+              with:
+                  path: ./node_modules
+                  key: modules-${{ hashFiles('package-lock.json') }}
+            - run: npm run build:common
+            - run: npm run test --w=packages/${{ matrix.package }}
