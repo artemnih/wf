@@ -11,7 +11,7 @@
     "build": "tsc",
     "clean": "rm rf dist",
     "test": "npx jest --runInBand --detectOpenHandles --forceExit",
-    "test:watch": "npx jest --watch",
+    "test:watch": "npx jest --watch --detectOpenHandles",
     "docker:build": "docker build -t compute .",
     "docker:run": "docker run -p 3000:3000 -d compute",
     "start": "ts-node ./index.ts",

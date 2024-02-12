@@ -1,0 +1,57 @@
+{
+	"name": "echo-test",
+	"driver": "test",
+	"inputs": {
+		"hello1": "string"
+	},
+	"outputs": {
+		"echoStdOut": {
+			"type": "File",
+			"outputSource": "echo/echoStdOut"
+		},
+		"echoStdErr": {
+			"type": "File",
+			"outputSource": "echo/echoStdErr"
+		}
+	},
+	"cwlJobInputs": {
+		"hello1": "hello kevin"
+	},
+	"steps": {
+		"echo": {
+			"run": {
+				"cwlVersion": "v1.0",
+				"id": "echo",
+				"class": "CommandLineTool",
+				"requirements": {
+					"DockerRequirement": {
+						"dockerPull": "busybox"
+					}
+				},
+				"baseCommand": ["echo"],
+				"stdout": "echo.out",
+				"stderr": "echo.err",
+				"inputs": {
+					"message": {
+						"type": "string",
+						"inputBinding": {
+							"position": 1
+						}
+					}
+				},
+				"outputs": {
+					"echoStdOut": {
+						"type": "stdout"
+					},
+					"echoStdErr": {
+						"type": "stderr"
+					}
+				}
+			},
+			"in": {
+				"message": "hello1"
+			},
+			"out": ["echoStdOut", "echoStdErr"]
+		}
+	}
+}
