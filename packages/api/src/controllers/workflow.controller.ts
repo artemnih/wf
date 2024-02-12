@@ -205,8 +205,7 @@ export class WorkflowController {
 	async checkHealth(req: Request, res: Response, next: NextFunction) {
 		try {
 			const driver = req.params.driver;
-			console.log('Checking health', driver);
-
+			console.log('Checking Driver health:', driver);
 			const health = await WorkflowRepository.healthDriverCheck(driver, req.headers.authorization as string);
 			res.status(200).json(health);
 		} catch (error) {
