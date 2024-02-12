@@ -1,14 +1,13 @@
 class ConfigService {
-    #config: any;
+	#config: any;
 
-    getConfig() {
-        return this.#config;
-    }
+	getConfig() {
+		return this.#config;
+	}
 
-    setConfig(config: any) {
-        console.log('Setting config:', config);
-        this.#config = config;
-    }
+	setConfig(config: any) {
+		this.#config = config;
+	}
 }
 
 export default new ConfigService();
