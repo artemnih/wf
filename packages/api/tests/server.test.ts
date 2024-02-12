@@ -18,10 +18,8 @@ const config = {
 		},
 		basePath: '/compute',
 		drivers: {
-			testDriver: {
-				scheme: 'http',
-				host: 'localhost',
-				port: 7997,
+			test: {
+				url: 'http://localhost:7997',
 			},
 		},
 	},
@@ -29,7 +27,7 @@ const config = {
 
 // URLs is hardcoded for now, but should be read from the DB. not even from the config file
 const driverServer = setupServer(
-	http.get('http://localhost:7997/compute/health', () => {
+	http.get('http://localhost:7997/health/check', () => {
 		return HttpResponse.json({ greeting: 'Hello, world!' });
 	}),
 	http.post('http://localhost:7997/compute', () => {

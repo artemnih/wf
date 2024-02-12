@@ -9,6 +9,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
 import ConfigService from './services/config.service';
+import DriverRepository from './repositories/driver.repository';
 
 export class ExpressServer {
 	app: express.Application;
@@ -68,8 +69,9 @@ export class ExpressServer {
 		});
 	}
 
-	public start() {
+	public async start() {
 		this.server = this.app.listen(this.options.rest.port, this.options.rest.host);
+		await DriverRepository.loadDrivers();
 	}
 
 	public stop() {

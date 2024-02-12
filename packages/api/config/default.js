@@ -46,20 +46,14 @@ module.exports = {
 			to: process.env.TEMPLATE_EMAIL_TO,
 		},
 		drivers: {
-			argoDriver: {
-				scheme: process.env.ARGO_DRIVER_SCHEME || 'http',
-				host: process.env.ARGO_DRIVER_URL || '127.0.0.1',
-				port: process.env.ARGO_DRIVER_PORT || '7999',
+			argo: {
+				url: process.env.ARGO_DRIVER_URL || 'http://127.0.0.1:7999',
 			},
-			slurmDriver: {
-				scheme: process.env.SLURM_DRIVER_SCHEME || 'http',
-				host: process.env.SLURM_DRIVER_URL || '127.0.0.1',
-				port: process.env.SLURM_DRIVER_PORT || '7998',
+			slurm: {
+				url: process.env.SLURM_DRIVER_URL || 'http://127.0.0.1:7998',
 			},
-			singlenodeDriver: {
-				scheme: process.env.SINGLENODE_DRIVER_SCHEME || 'http',
-				host: process.env.SINGLENODE_DRIVER_URL || '127.0.0.1',
-				port: process.env.SINGLENODE_DRIVER_PORT || '7997',
+			singlenode: {
+				url: process.env.SINGLENODE_DRIVER_URL || 'http://127.0.0.1:7997',
 			},
 		},
 		computeName: process.env.COMPUTE_SERVICE_NAME || '127.0.0.1',

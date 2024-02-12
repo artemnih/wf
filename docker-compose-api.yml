@@ -25,6 +25,7 @@ services:
             - NO_AUTH=true
             - ARGO_DRIVER_URL=host.docker.internal
             - SLURM_DRIVER_URL=host.docker.internal
+            - SINGLENODE_DRIVER_URL=host.docker.internal
 networks:
     mongo-compose-network:
         driver: bridge

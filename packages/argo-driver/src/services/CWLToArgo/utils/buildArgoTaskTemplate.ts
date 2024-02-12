@@ -1,8 +1,6 @@
 import { ArgoTaskTemplate, Step, BoundOutput, WorkflowInput, ArgoTaskParameter, ArgoTaskParameterType } from '../../../types';
-
 import { determineDependencies } from './determineDependencies';
 import { sanitizeStepName } from './sanitize-step-name';
-
 import path from 'path';
 
 /**
