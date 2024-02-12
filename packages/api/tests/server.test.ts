@@ -1,6 +1,6 @@
 import { ExpressServer } from '../src/server';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import request from 'supertest';
+const request = require('supertest');
 import { setupServer } from 'msw/node';
 import { HttpResponse, http } from 'msw';
 import ConfigService from '../src/services/config.service';
