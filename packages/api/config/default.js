@@ -59,7 +59,7 @@ module.exports = {
 		computeName: process.env.COMPUTE_SERVICE_NAME || '127.0.0.1',
 		db: {
 			connectionString: process.env.MONGO_CONNECTION_STRING || 'mongodb://localhost:27017',
-			name: 'workflowDb',
+			name: 'workflowdb',
 		},
 	},
 };
