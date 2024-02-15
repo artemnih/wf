@@ -18,7 +18,8 @@ export class ExpressServer {
 
 	constructor() {
 		this.options = ConfigService.getConfig();
-		const dbName = this.options.compute.db.name;
+		// const dbName = this.options.compute.db.name;
+		const dbName = 'workflowdb';
 		const connectionString = this.options.compute.db.connectionString;
 		const authUrl = this.options.rest.noAuth ? '' : this.options.services.auth.authUrl;
 		mongoose.connect(connectionString, {
