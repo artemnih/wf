@@ -16,7 +16,7 @@ WORKDIR /usr/src/app
 COPY --from=builder /app/packages/argo-driver/dist .
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/packages/argo-driver/config ./config
-COPY /app/packages/argo-driver/src/operators/argo-file-pattern-operator.json /usr/src/app/src/operators/argo-file-pattern-operator.json
+COPY --from=builder /app/packages/argo-driver/src/operators/argo-file-pattern-operator.json /usr/src/app/src/operators/argo-file-pattern-operator.json
 EXPOSE 7999
 
 CMD [ "node", "." ]
