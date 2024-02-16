@@ -8,13 +8,9 @@ compute:
         host: null
     drivers:
         argo:
-            scheme: http
-            url: null
-            port: 7999
+            url: http://argo-driver:7999
         slurm:
-            scheme: http
-            url: null
-            port: 7998
+            url: http://slurm-driver:7998
     auth:
         url: null
     cors:
