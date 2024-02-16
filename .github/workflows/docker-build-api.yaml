@@ -1,9 +1,6 @@
 name: Build Compute API Docker images
 
 on:
-    push:
-        branches:
-            - docker
     pull_request:
         branches:
             - main
@@ -13,7 +10,7 @@ on:
 
 jobs:
     docker-build-api:
-        # if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+        if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
@@ -39,7 +36,7 @@ jobs:
 
             - name: Build Docker image
               uses: docker/build-push-action@v2
-            #   if: steps.changes.outputs.api == 'true'
+              if: steps.changes.outputs.api == 'true'
               with:
                   context: .
                   file: ./Dockerfile.api
