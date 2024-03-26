@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"composite": true,
 		"rootDir": "src",
-		"outDir": "dist"
+		"outDir": "dist",
+		"declarationMap": true
 	}
 }

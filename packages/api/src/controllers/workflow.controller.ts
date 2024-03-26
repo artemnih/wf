@@ -101,9 +101,36 @@ export class WorkflowController {
 	async getWorkflowOutput(req: Request, res: Response, next: NextFunction) {
 		try {
 			const id = req.params.id;
+
+			if (!id) {
+				throw new Error('Workflow id is required');
+			}
+
+			const splitStr = `${id}/output/`;
+			const index = req.url.indexOf(splitStr);
+
+			if (index === -1) {
+				throw new Error('Url is not correct');
+			}
+
+			const url = req.url.substring(index + splitStr.length);
+			console.log('Getting workflow output:', id, 'url:', url);
+
 			const foundWorkflow = await WorkflowCrud.findById(id);
-			const outputs = await WorkflowRepository.getWorkflowOutput(foundWorkflow, req.headers.authorization as string);
-			res.status(200).json(outputs);
+
+			if (!foundWorkflow) {
+				throw new Error(`Workflow with id ${id} not found`);
+			}
+
+			const streamPromise = WorkflowRepository.getWorkflowOutput(foundWorkflow, url, req.headers.authorization as string);
+			streamPromise.then(response => {
+				response.data.pipe(res);
+			});
+
+			streamPromise.catch(error => {
+				console.log('Error while getting workflow output:', error);
+				res.status(500).send('Error while getting workflow output');
+			});
 		} catch (error) {
 			next(error);
 		}
