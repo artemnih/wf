@@ -6,7 +6,7 @@ To install and run the project, run the following commands:
 
 ```bash
 npm install
-npm start #w ill build and run all the services at different ports.
+npm start #will build and run all the services at different ports.
 ```
 
 To run project in no-auth mode
