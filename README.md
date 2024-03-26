@@ -10,6 +10,7 @@ npm start #w ill build and run all the services at different ports.
 ```
 
 To run project in no-auth mode
+
 ```
 npm run noauth
 ```

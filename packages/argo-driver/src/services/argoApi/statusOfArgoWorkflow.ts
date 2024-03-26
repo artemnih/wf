@@ -27,14 +27,34 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 	console.log('Getting status of Argo workflow', argoWorkflowName);
 	const response = await axiosClient().get(`/${argoWorkflowName}`);
 	const nodes = response.data.status.nodes as Dict<any>;
+	const wfId = response.data.metadata.name;
 
 	const jobs = Object.values(nodes)
 		.filter(node => node.type === 'Pod')
 		.filter(node => node.templateName !== 'path-creator') // temp
 		.map(node => {
 			const id = (node.templateName || '').replace(/-/g, '_');
+			// extract input parameters
+			const inputs = node.inputs.parameters as Array<{ name: string; value: string; isDir: boolean }>;
+
+			// if param value contains wfId, then it is a directory path, remove everyting before wfId
+			// so that we do not expose the full path
+			inputs.forEach(param => {
+				if (param.value.includes(wfId)) {
+					// split using regex positive lookahead by wfId, keep the wfId in the parts
+					const parts = param.value.split(new RegExp(`(?=${wfId})`));
+
+					// store it
+					param.value = parts[1];
+
+					// mark it as directory reference
+					param.isDir = true;
+				}
+			});
+
 			return {
 				id: id,
+				inputs: inputs,
 				status: translateStatus(node.phase),
 				startedAt: node.startedAt || '',
 				finishedAt: node.finishedAt || '',
@@ -42,6 +62,7 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 		});
 
 	return {
+		id: wfId,
 		status: translateStatus(response.data.status.phase),
 		startedAt: response.data.status.startedAt || '',
 		finishedAt: response.data.status.finishedAt || '',

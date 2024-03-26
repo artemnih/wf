@@ -37,7 +37,7 @@ export const DriverRoutes = {
 	LOGS: '/:id/logs',
 	ALL_JOBS_LOGS: '/:id/all-jobs-logs',
 	JOB_LOGS: '/:id/job/:jobname/logs',
-	OUTPUTS: '/:id/outputs',
+	OUTPUTS: '/:id/outputs/:url*?',
 	JOBS: '/:id/jobs',
 	STOP: '/:id/stop',
 };

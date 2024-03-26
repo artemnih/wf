@@ -22,10 +22,12 @@ export class WorkflowRepository {
 		return result.data;
 	}
 
-	async getWorkflowOutput(workflow: Workflow, token: string) {
+	getWorkflowOutput(workflow: Workflow, url: string, token: string) {
 		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
-		const result = await axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/outputs`, { headers: { authorization: token } });
-		return result.data;
+		return axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/outputs/${url}`, {
+			headers: { authorization: token },
+			responseType: 'stream',
+		});
 	}
 
 	async getWorkflowLogs(workflow: Workflow, token: string) {
