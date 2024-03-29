@@ -22,7 +22,7 @@ export class WorkflowRepository {
 		return result.data;
 	}
 
-	getWorkflowOutput(workflow: Workflow, url: string, token: string) {
+	async getWorkflowOutput(workflow: Workflow, url: string, token: string) {
 		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
 		return axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/outputs/${url}`, {
 			headers: { authorization: token },

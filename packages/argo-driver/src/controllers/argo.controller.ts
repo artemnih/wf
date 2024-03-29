@@ -109,6 +109,7 @@ class ArgoController implements IControllerController {
 			}
 
 			const parentPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath;
+			// const parentPath = '/'
 			const fullPath = parentPath + '/' + decodedPath;
 			console.log('ARGO: full path:', fullPath);
 

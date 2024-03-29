@@ -10,6 +10,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
 import ConfigService from './services/config.service';
 import DriverRepository from './repositories/driver.repository';
+import { handleHttpError } from './handlers/axios-error';
 
 export class ExpressServer {
 	app: express.Application;
@@ -51,6 +52,7 @@ export class ExpressServer {
 		this.app.use('/compute', WorkflowRoutes);
 		this.app.use('/compute', JobRoutes);
 		this.app.use('/health', HealthRoutes);
+		this.app.use(handleHttpError);
 
 		// Serve static files in the public folder
 		this.app.use(express.static('public'));
