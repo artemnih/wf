@@ -114,24 +114,31 @@ export class WorkflowController {
 			}
 
 			const url = req.url.substring(index + splitStr.length);
-			console.log('Getting workflow output:', id, 'url:', url);
+			console.log('Extracted url:', url);
 
 			const foundWorkflow = await WorkflowCrud.findById(id);
 
 			if (!foundWorkflow) {
 				throw new Error(`Workflow with id ${id} not found`);
 			}
+			console.log('Starting stream from driver at url:', url);
+			const responseAxios = await WorkflowRepository.getWorkflowOutput(foundWorkflow, url, req.headers.authorization as string);
+			const stream = responseAxios.data;
 
-			const streamPromise = WorkflowRepository.getWorkflowOutput(foundWorkflow, url, req.headers.authorization as string);
-			streamPromise.then(response => {
-				response.data.pipe(res);
+			stream.on('data', (chunk: any) => {
+				res.write(chunk);
 			});
 
-			streamPromise.catch(error => {
-				console.log('Error while getting workflow output:', error);
+			stream.on('end', () => {
+				res.end();
+			});
+
+			stream.on('error', (error: any) => {
+				console.log('Error while streaming:', error);
 				res.status(500).send('Error while getting workflow output');
 			});
 		} catch (error) {
+			res.status(500).send('Error while getting workflow output');
 			next(error);
 		}
 	}
