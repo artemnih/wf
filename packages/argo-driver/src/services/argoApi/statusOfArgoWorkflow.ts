@@ -41,8 +41,8 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 			// so that we do not expose the full path
 			inputs.forEach(param => {
 				if (param.value.includes(wfId)) {
-					// split using regex positive lookahead by wfId, keep the wfId in the parts
-					const parts = param.value.split(new RegExp(`(?=${wfId})`));
+					// split it
+					const parts = param.value.split(wfId);
 
 					// store it
 					param.value = parts[1];
