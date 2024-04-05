@@ -31,7 +31,7 @@ export class ExpressServer {
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
 		if (!this.options.rest.noAuth) {
-			console.log('Enabling JWT authentication');
+			console.log('Compute API: Enabling JWT authentication');
 			this.app.use(
 				'/compute',
 				expressjwt({
@@ -46,7 +46,7 @@ export class ExpressServer {
 				}),
 			);
 		} else {
-			console.log('NO_AUTH=true detected: Disabling JWT authentication');
+			console.log('Compute API: NO_AUTH=true detected: Disabling JWT authentication');
 		}
 
 		this.app.use('/compute', WorkflowRoutes);

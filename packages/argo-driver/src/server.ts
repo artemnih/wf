@@ -20,7 +20,7 @@ export class ExpressServer {
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
 		if (!this.options.rest.noAuth) {
-			console.log('Enabling JWT authentication');
+			console.log('Argo Driver: Enabling JWT authentication');
 			this.app.use(
 				'/compute',
 				expressjwt({
@@ -35,7 +35,7 @@ export class ExpressServer {
 				}),
 			);
 		} else {
-			console.log('NO_AUTH=true detected: Disabling JWT authentication');
+			console.log('Argo Driver: NO_AUTH=true detected: Disabling JWT authentication');
 		}
 
 		// Expose the front-end assets via Express, not as LB4 route
