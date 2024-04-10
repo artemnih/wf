@@ -15,7 +15,7 @@
     "build:slurm": "npm run build --w=packages/slurm-driver",
     "build:single-node": "npm run build --w=packages/single-node-driver",
     "build": "npm run build --ws",
-    "start": "unset NO_AUTH && npm run watch",
+    "start": "npm run watch",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "noauth": "NO_AUTH=true npm run start",
