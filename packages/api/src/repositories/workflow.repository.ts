@@ -117,6 +117,14 @@ export class WorkflowRepository {
 		const result = await axios.get(`${driverUrl}/health/check`);
 		return result.data;
 	}
+
+	async getDrivers() {
+		return DriverRepository.getDrivers();
+	}
+
+	async getListOfDrivers() {
+		return Object.keys(DriverRepository.getDrivers());
+	}
 }
 
 export default new WorkflowRepository();

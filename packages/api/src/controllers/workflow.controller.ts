@@ -251,6 +251,15 @@ export class WorkflowController {
 			}
 		}
 	}
+
+	async getDrivers(req: Request, res: Response, next: NextFunction) {
+		try {
+			const drivers = await WorkflowRepository.getListOfDrivers();
+			res.status(200).json(drivers);
+		} catch (error) {
+			next(error);
+		}
+	}
 }
 
 export default new WorkflowController();
