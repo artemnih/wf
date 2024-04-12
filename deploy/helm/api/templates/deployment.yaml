@@ -36,5 +36,7 @@ spec:
                         value: '{{ .Values.compute.cors.origin }}'
                       - name: SERVICES_AUTH_URL
                         value: '{{ .Values.compute.auth.url }}'
+                      - name: NO_AUTH
+                        value: '{{ .Values.compute.auth.noauth }}'
             imagePullSecrets:
                 - name: {{ .Values.compute.image.secret }}
