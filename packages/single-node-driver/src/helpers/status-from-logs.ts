@@ -1,4 +1,4 @@
-import { WorkflowStatusPayload } from '@polusai/compute-common';
+import { WorkflowStatus, WorkflowStatusPayload } from '@polusai/compute-common';
 import { translateCwlStatus } from './translate-status';
 
 export function statusFromLogs(log: string): WorkflowStatusPayload {
@@ -17,11 +17,11 @@ export function statusFromLogs(log: string): WorkflowStatusPayload {
 		records.find(r => r.message.includes('[workflow ] start') && !r.message.includes('[workflow ] starting step')).time || '';
 
 	// workflow end time - find the last record that contains [workflow ] completed success
-	const workflowEnd = records.reverse().find(r => r.message.includes('[workflow ] completed success')).time || '';
+	const workflowEnd = records.reverse().find(r => r.message.includes('[workflow ] completed success'))?.time || '';
 
 	// determine status from the message 'Final process status is success'
 	const status =
-		records.find(r => r.message.includes('Final process status is success')).message.match(/Final process status is (.+)/)[1] ||
+		records.find(r => r.message.includes('Final process status is success'))?.message.match(/Final process status is (.+)/)[1] ||
 		'error';
 
 	// get each step id, start time, end time, and status
@@ -30,9 +30,9 @@ export function statusFromLogs(log: string): WorkflowStatusPayload {
 	const jobs = rowJobs.map(step => {
 		const id = step.message.match(/\[workflow \] starting step (.+)/)[1];
 		const startedAt = step.time;
-		const finishedAt = records.find(r => r.message.includes(`[step ${id}] completed success`)).time || '';
+		const finishedAt = records.find(r => r.message.includes(`[step ${id}] completed success`))?.time || '';
 		const statusRow =
-			records.find(r => r.message.includes(`[step ${id}] completed success`)).message.match(/\[step .+\] completed (.+)/)[1] ||
+			records.find(r => r.message.includes(`[step ${id}] completed success`))?.message.match(/\[step .+\] completed (.+)/)[1] ||
 			'pending';
 		const jobStatus = translateCwlStatus(statusRow);
 		return { id, status: jobStatus, startedAt, finishedAt };
@@ -44,6 +44,14 @@ export function statusFromLogs(log: string): WorkflowStatusPayload {
 		finishedAt: workflowEnd,
 		jobs: jobs,
 	} as WorkflowStatusPayload;
+
+	if (payload.status === WorkflowStatus.ERROR) {
+		jobs.forEach(job => {
+			if (job.status === WorkflowStatus.PENDING) {
+				job.status = WorkflowStatus.ERROR;
+			}
+		});
+	}
 
 	return payload;
 }
