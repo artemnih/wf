@@ -7,14 +7,14 @@ export function statusFromLogs(log: string): WorkflowStatusPayload {
 
 	// extract the timestamp and message from each record
 	const records = rowRecords.map(r => {
-		const time = r.match(/\[time: (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)\]/);
+		const time = r.match(/\[time: (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)\]/) || ['', ''];
 		const message = r.replace(time[0], '');
 		return { time: time[1], message };
 	});
 
 	// workflow start time - find the first record that contains [workflow ] start and not [workflow ] starting step
 	const workflowStart =
-		records.find(r => r.message.includes('[workflow ] start') && !r.message.includes('[workflow ] starting step')).time || '';
+		records.find(r => r.message.includes('[workflow ] start') && !r.message.includes('[workflow ] starting step'))?.time || '';
 
 	// workflow end time - find the last record that contains [workflow ] completed success
 	const workflowEnd = records.reverse().find(r => r.message.includes('[workflow ] completed success'))?.time || '';
