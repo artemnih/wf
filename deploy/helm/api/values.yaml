@@ -17,8 +17,8 @@ compute:
         origin: '*'
 
 mongodb:
-    name: workflowdb
-    connectionString: null
+    name: WorkflowDb
+    connectionString: connectionString
     port: 27017
     persistence:
         enabled: false
