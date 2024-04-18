@@ -9,25 +9,21 @@ interface ComputePayload {
 	cwlWorkflow: any;
 	cwlJobInputs: {
 		[key: string]: any;
-	}
+	};
 	jobs: any;
 }
 
 class WorkflowService implements IWorkflowService {
 	async submit(cwl: ComputePayload) {
-
 		// todo: work path
 		// todo: run in k8s
-		Object.values(cwl.cwlJobInputs).forEach((input) => {
+		Object.values(cwl.cwlJobInputs).forEach(input => {
 			if (input.class === 'Directory' && input.location) {
 				console.log('Creating directory', `./temp/${input.location}`);
 				fs.mkdirSync(`./temp`, { recursive: true });
 				fs.mkdirSync(`./temp/${input.location}`, { recursive: true });
 			}
 		});
-
-
-
 
 		// there is no need for the baseCommand in the cwlWorkflow if we are using dockerPull
 		Object.values(cwl.cwlWorkflow.steps).forEach((step: any) => {

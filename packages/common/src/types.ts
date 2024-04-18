@@ -40,6 +40,7 @@ export const DriverRoutes = {
 	OUTPUTS: '/:id/outputs/:url*?',
 	JOBS: '/:id/jobs',
 	STOP: '/:id/stop',
+	FILES_CONTENT: '/files/content/*',
 };
 
 export interface WorkflowStatusPayload {

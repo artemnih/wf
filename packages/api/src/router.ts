@@ -2,6 +2,7 @@ import express from 'express';
 import WorkflowController from './controllers/workflow.controller';
 import JobController from './controllers/job.controller';
 import HealthController from './controllers/health.controller';
+import ExplorerController from './controllers/explorer.controller';
 
 export const WorkflowRoutes = express
 	.Router()
@@ -25,3 +26,5 @@ export const WorkflowRoutes = express
 export const JobRoutes = express.Router().get('/jobs', JobController.find).get('/jobs/:jobId', JobController.findById);
 
 export const HealthRoutes = express.Router().get('/check/:driver', WorkflowController.checkHealth).get('/check', HealthController.ping);
+
+export const ExplorerRoutes = express.Router().get('/files/content/:driver/*', ExplorerController.getContent);
