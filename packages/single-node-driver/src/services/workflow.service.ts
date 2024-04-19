@@ -7,12 +7,24 @@ const spawn = require('child_process').spawn;
 
 interface ComputePayload {
 	cwlWorkflow: any;
-	cwlJobInputs: any;
+	cwlJobInputs: {
+		[key: string]: any;
+	};
 	jobs: any;
 }
 
 class WorkflowService implements IWorkflowService {
 	async submit(cwl: ComputePayload) {
+		// todo: work path
+		// todo: run in k8s
+		Object.values(cwl.cwlJobInputs).forEach(input => {
+			if (input.class === 'Directory' && input.location) {
+				console.log('Creating directory', `./temp/${input.location}`);
+				fs.mkdirSync(`./temp`, { recursive: true });
+				fs.mkdirSync(`./temp/${input.location}`, { recursive: true });
+			}
+		});
+
 		// there is no need for the baseCommand in the cwlWorkflow if we are using dockerPull
 		Object.values(cwl.cwlWorkflow.steps).forEach((step: any) => {
 			if (step.run?.requirements?.DockerRequirement.dockerPull) {
@@ -62,13 +74,16 @@ class WorkflowService implements IWorkflowService {
 	async getStatus(id: string) {
 		const guid = getGuid(id);
 
-		console.log('Checking logs for status');
+		console.log('Checking logs for status', guid);
 		try {
+			//  stdout-0mmpmekewaz.log
+			// 0mmpmekewaz
 			const log = await fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			console.log('Log file exists', log.length);
 			const statusPayload = statusFromLogs(log);
 			return statusPayload;
 		} catch (error) {
-			console.log('Log file does not exist');
+			console.log('Error while reading log file', error);
 			return {
 				status: WorkflowStatus.ERROR,
 				startedAt: '',
