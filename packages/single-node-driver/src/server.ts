@@ -38,9 +38,6 @@ export class ExpressServer {
 			console.log('Single Node Driver: NO_AUTH=true detected: Disabling JWT authentication');
 		}
 
-		// Expose the front-end assets via Express, not as LB4 route
-		// this.app.use(this.options.singleNodeCompute.basePath, this.api.requestHandler);
-
 		this.app.use('/compute', WorkflowRoutes);
 		this.app.use('/health', HealthRoutes);
 

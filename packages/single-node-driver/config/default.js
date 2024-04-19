@@ -9,7 +9,7 @@ module.exports = {
 			authUrl: process.env.SERVICES_AUTH_URL,
 		},
 	},
-	singleNodeCompute: {
-		basePath: '/',
+	volume: {
+		basePath: process.env.VOLUME_BASE_PATH || '/',
 	},
 };

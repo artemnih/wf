@@ -3,7 +3,12 @@ import { buildId, getGuid, getPid } from '../utils';
 import fs from 'fs';
 import { statusFromLogs } from '../helpers/status-from-logs';
 import { getSingleJobLogs } from '../helpers/get-single-job-logs';
+require('dotenv').config();
+
 const spawn = require('child_process').spawn;
+const config = require('config');
+const tempAssetsDir = config.volume.basePath + '/temp';
+const logsDir = config.volume.basePath + '/logs';
 
 interface ComputePayload {
 	cwlWorkflow: any;
@@ -15,16 +20,6 @@ interface ComputePayload {
 
 class WorkflowService implements IWorkflowService {
 	async submit(cwl: ComputePayload) {
-		// todo: work path
-		// todo: run in k8s
-		Object.values(cwl.cwlJobInputs).forEach(input => {
-			if (input.class === 'Directory' && input.location) {
-				console.log('Creating directory', `./temp/${input.location}`);
-				fs.mkdirSync(`./temp`, { recursive: true });
-				fs.mkdirSync(`./temp/${input.location}`, { recursive: true });
-			}
-		});
-
 		// there is no need for the baseCommand in the cwlWorkflow if we are using dockerPull
 		Object.values(cwl.cwlWorkflow.steps).forEach((step: any) => {
 			if (step.run?.requirements?.DockerRequirement.dockerPull) {
@@ -32,17 +27,50 @@ class WorkflowService implements IWorkflowService {
 			}
 		});
 
-		const temp = Math.random().toString(36).substring(2, 15);
+		// get the base path from the config
+		const basePath = config.volume.basePath;
 
-		console.log('Saving workflow to file');
-		fs.writeFileSync(`./temp/${temp}.json`, JSON.stringify(cwl.cwlWorkflow, null, 2), 'utf-8');
+		// generate a random id for the workflow
+		const tempId = Math.random().toString(36).substring(2, 15);
 
-		console.log('Saving job inputs to file');
-		fs.writeFileSync(`./temp/${temp}-inputs.json`, JSON.stringify(cwl.cwlJobInputs, null, 2), 'utf-8');
+		// create a directory for temp files based on tempId
+		const workflowPath = `${basePath}/${tempId}`;
+		fs.mkdirSync(workflowPath, { recursive: true });
+		console.log('Creating workflow directory', workflowPath);
+
+		// create dir for temp files such as cwl json
+		fs.mkdirSync(tempAssetsDir, { recursive: true });
+
+		// create dir for logs
+		fs.mkdirSync(logsDir, { recursive: true });
+
+		Object.values(cwl.cwlJobInputs).forEach(input => {
+			if (input.class === 'Directory' && input.location) {
+				// change value of location to workflow directory or basePath if location is not a temp directory
+				const isTempDir = !input.location.startsWith('/');
+				const outputDir = isTempDir ? `${workflowPath}/${input.location}` : `${basePath}${input.location}`;
+				if (isTempDir) {
+					fs.mkdirSync(outputDir, { recursive: true });
+				}
+				console.log('Change input location to', outputDir);
+				input.location = outputDir;
+			}
+		});
+
+		// save the cwl workflow and job inputs to files
+		console.log('Saving workflow to file to', `${tempAssetsDir}/${tempId}.json`);
+		fs.writeFileSync(`${tempAssetsDir}/${tempId}.json`, JSON.stringify(cwl.cwlWorkflow, null, 2), 'utf-8');
+
+		// save the cwl job inputs to files
+		console.log('Saving job inputs to file to', `${tempAssetsDir}/${tempId}-inputs.json`);
+		fs.writeFileSync(`${tempAssetsDir}/${tempId}-inputs.json`, JSON.stringify(cwl.cwlJobInputs, null, 2), 'utf-8');
+
+		// change directory to workflow directory so that all temp files are created in the workflow directory
+		process.chdir(workflowPath);
+		console.log(`Change dir to: ${process.cwd()}`);
 
 		console.log('Starting cwltool');
-
-		const myProcess = spawn('cwltool', [`--verbose`, `./temp/${temp}.json`, `./temp/${temp}-inputs.json`], {
+		const myProcess = spawn('cwltool', [`--verbose`, `${tempAssetsDir}/${tempId}.json`, `${tempAssetsDir}/${tempId}-inputs.json`], {
 			detached: true,
 		});
 
@@ -53,14 +81,14 @@ class WorkflowService implements IWorkflowService {
 			return null;
 		}
 
-		console.log(`Process started with pid ${temp}`);
+		console.log(`Process started with pid ${tempId}`);
 
-		fs.writeFileSync(`./logs/stdout-${temp}.log`, '', 'utf-8');
+		fs.writeFileSync(`${logsDir}/stdout-${tempId}.log`, '', 'utf-8');
 
 		myProcess.stderr.on('data', (data: any) => {
 			const date = new Date().toISOString();
 			data = `[time: ${date}]: ${data}`;
-			fs.appendFileSync(`./logs/stdout-${temp}.log`, data, 'utf-8');
+			fs.appendFileSync(`${logsDir}/stdout-${tempId}.log`, data, 'utf-8');
 			console.log(`${data}`);
 		});
 
@@ -68,7 +96,7 @@ class WorkflowService implements IWorkflowService {
 			console.error('Failed to start child process.', error);
 		});
 
-		return buildId(pid.toString(), temp);
+		return buildId(pid.toString(), tempId);
 	}
 
 	async getStatus(id: string) {
@@ -76,7 +104,7 @@ class WorkflowService implements IWorkflowService {
 
 		console.log('Checking logs for status', guid);
 		try {
-			const log = await fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			const log = await fs.readFileSync(`${logsDir}/stdout-${guid}.log`, 'utf-8');
 			console.log('Log file exists', log.length);
 			const statusPayload = statusFromLogs(log);
 			return statusPayload;
@@ -94,7 +122,7 @@ class WorkflowService implements IWorkflowService {
 	async getLogs(id: string) {
 		const guid = getGuid(id);
 		try {
-			const log = await fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			const log = await fs.readFileSync(`${logsDir}/stdout-${guid}.log`, 'utf-8');
 			return log;
 		} catch (error) {
 			return 'No logs available';
@@ -104,7 +132,7 @@ class WorkflowService implements IWorkflowService {
 	async getJobLogs(id: string, jobName: string) {
 		const guid = getGuid(id);
 		try {
-			const log = fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			const log = fs.readFileSync(`${logsDir}/stdout-${guid}.log`, 'utf-8');
 			return getSingleJobLogs(log, jobName);
 		} catch (error) {
 			return 'No logs available';
@@ -114,7 +142,7 @@ class WorkflowService implements IWorkflowService {
 	async getAllJobsLogs(id: string) {
 		const guid = getGuid(id);
 		try {
-			const log = fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
+			const log = fs.readFileSync(`${logsDir}/stdout-${guid}.log`, 'utf-8');
 			return log;
 		} catch (error) {
 			return 'No logs available';
