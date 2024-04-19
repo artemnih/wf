@@ -6,9 +6,14 @@ class ExplorerController {
 		try {
 			const driver = req.params.driver;
 			console.log('Getting content for workflow:', req.url);
-			const path = req.url.split(`/files/content/${driver}/`)[1];
+			const search = `/files/content/${driver}/`;
+			const index = req.url.indexOf(search);
+			if (index === -1) {
+				throw new Error('Invalid path');
+			}
+			const path = req.url.substring(index + search.length);
 			const decodedPath = decodeURIComponent(path);
-			
+
 			if (decodedPath.includes('..')) {
 				throw new Error('Invalid path');
 			}
