@@ -76,8 +76,6 @@ class WorkflowService implements IWorkflowService {
 
 		console.log('Checking logs for status', guid);
 		try {
-			//  stdout-0mmpmekewaz.log
-			// 0mmpmekewaz
 			const log = await fs.readFileSync(`./logs/stdout-${guid}.log`, 'utf-8');
 			console.log('Log file exists', log.length);
 			const statusPayload = statusFromLogs(log);
