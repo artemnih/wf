@@ -5,6 +5,7 @@ import { DriverRoutes } from '@polusai/compute-common';
 
 export const ComputeRoutes = express
 	.Router()
+	.get(DriverRoutes.FILES_CONTENT, Controller.getContent)
 	.post(DriverRoutes.ROOT, Controller.createWorkflow)
 	.get(DriverRoutes.STATUS, Controller.getWorkflowStatus)
 	.get(DriverRoutes.LOGS, Controller.getWorkflowLogs)
