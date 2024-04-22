@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import fs from 'fs';
 
-const ROOT_PATH = '/Users/admin/r';
-// const ROOT_PATH = '/';
+require('dotenv').config();
+const config = require('config');
 
 class ExplorerController {
 	async getContent(req: Request, res: Response, next: NextFunction) {
@@ -17,10 +17,9 @@ class ExplorerController {
 				throw new Error('Invalid path');
 			}
 
-			const fullPath = ROOT_PATH + decodedPath;
+			const fullPath = config.volume.basePath + decodedPath;
 			console.log('Full path:', fullPath);
 
-			// check if path is a file
 			if (fs.lstatSync(fullPath).isFile()) {
 				const fileStream = fs.createReadStream(fullPath);
 				fileStream.pipe(res);
@@ -28,23 +27,11 @@ class ExplorerController {
 			}
 
 			const content = fs.readdirSync(fullPath, { withFileTypes: true });
-			const files = content
-				.filter(item => item.isFile())
-				.map(item => ({
-					name: item.name,
-					type: 'file',
-				}));
-			const dirs = content
-				.filter(item => item.isDirectory())
-				.map(item => ({
-					name: item.name,
-					type: 'directory',
-				}));
+			const filesAndDirs = content.map(item => ({
+				name: item.name,
+				type: item.isFile() ? 'file' : 'directory',
+			}));
 
-			// concat files and dirs
-			const filesAndDirs = files.concat(dirs);
-
-			// stream the response
 			res.writeHead(200, {
 				'Content-Type': 'application/json',
 			});
@@ -52,6 +39,7 @@ class ExplorerController {
 			res.write(JSON.stringify(filesAndDirs));
 			res.end();
 		} catch (error) {
+			res.status(500).send(`Error while reading file: ${error.message}`);
 			next(error);
 		}
 	}

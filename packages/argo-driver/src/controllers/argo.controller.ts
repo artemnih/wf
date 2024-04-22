@@ -1,6 +1,6 @@
 import { WorkflowExecutionRequest } from '../types';
 import { NextFunction, Request, Response } from 'express';
-import { IControllerController } from '@polusai/compute-common';
+import { DriverRoutes, IControllerController } from '@polusai/compute-common';
 import {
 	createWorkflow,
 	statusOfArgoWorkflow,
@@ -12,8 +12,7 @@ import {
 	getJobStatus,
 } from '../services/argoApi';
 import fs from 'fs';
-require('dotenv').config();
-const argoConfig = require('config');
+import { getContent } from '../services/argoApi/get-content';
 
 class ArgoController implements IControllerController {
 	/**
@@ -86,64 +85,26 @@ class ArgoController implements IControllerController {
 
 	async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
 		try {
+			console.log('Getting outputs:', req.url);
 			const id = req.params.id;
-
 			if (!id) {
 				throw new Error('Workflow id is required');
 			}
-
-			const splitStr = `/${id}/outputs/`;
-			const index = req.url.indexOf(splitStr);
-
-			if (index === -1) {
-				throw new Error('Invalid output url');
-			}
-
-			const url = req.url.substring(index + splitStr.length);
-			console.log('ARGO: Getting workflow output:', id, 'url:', url);
-
-			const decodedPath = decodeURIComponent(url);
-
-			if (decodedPath.includes('..')) {
-				throw new Error('Invalid path');
-			}
-
-			// const parentPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath;
-			const parentPath = '/';
-			const fullPath = parentPath + '/' + decodedPath;
-			console.log('ARGO: full path:', fullPath);
-
-			// check if path is a file
-			if (fs.lstatSync(fullPath).isFile()) {
-				const fileStream = fs.createReadStream(fullPath);
-				fileStream.pipe(res);
-				return;
-			}
-
-			const content = fs.readdirSync(fullPath, { withFileTypes: true });
-			const files = content
-				.filter(item => item.isFile())
-				.map(item => ({
-					name: item.name,
-					type: 'file',
-				}));
-			const dirs = content
-				.filter(item => item.isDirectory())
-				.map(item => ({
-					name: item.name,
-					type: 'directory',
-				}));
-
-			// concat files and dirs
-			const filesAndDirs = files.concat(dirs);
-
-			res.writeHead(200, {
-				'Content-Type': 'application/json',
-			});
-
-			res.write(JSON.stringify(filesAndDirs));
-			res.end();
+			const search = `/${id}/outputs/`;
+			getContent(res, req.url, search);
 		} catch (error) {
+			next(error);
+		}
+	}
+
+	async getContent(req: Request, res: Response, next: NextFunction) {
+		try {
+			console.log('Getting content:', req.url);
+			const search = DriverRoutes.FILES_CONTENT.split('*')[0]; // '/files/content/'
+			getContent(res, req.url, search);
+		} catch (error) {
+			console.log('Error while getting content:', error);
+			res.status(500).send('Error while getting content: ' + error.message);
 			next(error);
 		}
 	}
