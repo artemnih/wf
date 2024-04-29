@@ -1,5 +1,10 @@
 import { WorkflowStatus, WorkflowStatusPayload } from '@polusai/compute-common';
 import { axiosClient } from '.';
+import fs from 'fs';
+import path from 'path';
+
+require('dotenv').config();
+const argoConfig = require('config');
 
 type Dict<T> = { [key: string]: T };
 
@@ -35,7 +40,7 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 		.map(node => {
 			const id = (node.templateName || '').replace(/-/g, '_');
 			// extract input parameters
-			const inputs = node.inputs.parameters as Array<{ name: string; value: string; isDir: boolean }>;
+			const inputs = node.inputs.parameters as Array<{ name: string; value: string; isDir: boolean; metadata: any }>;
 
 			// if param value contains wfId, then it is a directory path, remove everyting before wfId
 			// so that we do not expose the full path
@@ -49,6 +54,31 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 
 					// mark it as directory reference
 					param.isDir = true;
+
+					// get metadata of the folder
+					const fullPath = path.join(argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath, wfId, parts[1]);
+					if (fs.existsSync(fullPath)) {
+						const metadata = fs.lstatSync(fullPath);
+						const files = fs.readdirSync(fullPath);
+						const formatCounts: Dict<number> = files.reduce((counts, file) => {
+							const format = path.extname(file);
+							if (format) {
+								const formatWithoutDot = format.slice(1);
+								counts[formatWithoutDot] = (counts[formatWithoutDot as keyof Dict<number>] || 0) + 1;
+							}
+							return counts;
+						}, {} as Dict<number>);
+
+						param.metadata = {
+							size: metadata.size,
+							created: metadata.birthtime,
+							modified: metadata.mtime,
+							numberOfFiles: files.length,
+							formatCounts: formatCounts,
+						};
+					} else {
+						console.log(`Path does not exist: ${fullPath}`);
+					}
 				}
 			});
 
