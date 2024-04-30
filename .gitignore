@@ -135,3 +135,5 @@ packages/argo-driver/token-path.pem
 # compiled python files 
 __pycache__
 
+# temp single node test files
+wfs
