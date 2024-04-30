@@ -39,6 +39,13 @@ spec:
                         value: {{ .Values.driver.auth.url }}
                   ports:
                       - containerPort: {{ .Values.driver.port }}
+                  volumeMounts:
+                    - name: argo-driver-volume
+                      mountPath: '{{.Values.driver.volume.mountPath}}'     
+            volumes:
+              - name: argo-driver-volume
+                persistentVolumeClaim:
+                  claimName: '{{.Values.driver.volume.pvcName}}'
             imagePullSecrets:
                 - name: {{ .Values.driver.image.pullSecret }}
             serviceAccount: {{ .Release.Name }}

@@ -106,7 +106,7 @@ class WorkflowService {
 		console.log('Checking logs for status', guid);
 		try {
 			const log = await fs.readFileSync(`${logsDir}/stdout-${guid}.log`, 'utf-8');
-			console.log('Log file found');
+			console.log('Log file exists', log.length);
 			const statusPayload = statusFromLogs(log);
 			console.log('Status payload', statusPayload);
 
