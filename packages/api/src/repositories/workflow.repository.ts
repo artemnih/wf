@@ -26,8 +26,7 @@ export class WorkflowRepository {
 		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
 		const workflowId = workflow.driverWorkflowId;
 
-		const url = DriverRoutes.OUTPUTS.replace('/:id/', `/${workflowId}/`)
-			.replace('/*', `/${path}`);
+		const url = DriverRoutes.OUTPUTS.replace('/:id/', `/${workflowId}/`).replace('/*', `/${path}`);
 
 		const fullUrl = `${driverUrl}/compute/${url}`;
 

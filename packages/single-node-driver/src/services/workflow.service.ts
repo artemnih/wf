@@ -227,7 +227,7 @@ class WorkflowService {
 	async getOutputs(id: string, path: string) {
 		const guid = getGuid(id);
 		console.log('Getting outputs for', guid, path);
-		
+
 		const fullPath = `${config.volume.basePath}/${guid}/${path}`;
 		console.log('Full path:', fullPath);
 

@@ -120,11 +120,7 @@ export class WorkflowController {
 				throw new Error(`Workflow with id ${id} not found`);
 			}
 
-			const responseAxios = await WorkflowRepository.getWorkflowOutput(
-				foundWorkflow,
-				path,
-				req.headers.authorization as string,
-			);
+			const responseAxios = await WorkflowRepository.getWorkflowOutput(foundWorkflow, path, req.headers.authorization as string);
 			const stream = responseAxios.data;
 
 			stream.on('data', (chunk: any) => {
