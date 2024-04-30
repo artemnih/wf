@@ -22,13 +22,11 @@ export class WorkflowRepository {
 		return result.data;
 	}
 
-	async getWorkflowOutput(workflow: Workflow, job: string, output: string, path: string, token: string) {
+	async getWorkflowOutput(workflow: Workflow, path: string, token: string) {
 		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
 		const workflowId = workflow.driverWorkflowId;
 
 		const url = DriverRoutes.OUTPUTS.replace('/:id/', `/${workflowId}/`)
-			.replace('/:job/', `/${job}/`)
-			.replace('/:output/', `/${output}/`)
 			.replace('/*', `/${path}`);
 
 		const fullUrl = `${driverUrl}/compute/${url}`;

@@ -100,13 +100,13 @@ export class WorkflowController {
 
 	async getWorkflowOutput(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { id, job, output } = req.params;
+			const { id } = req.params;
 
-			if (!id || !job || !output) {
-				throw new Error('Missing parameters');
+			if (!id) {
+				throw new Error('Missing parameter: id');
 			}
 
-			const splitStr = `${id}/output/${job}/${output}/`;
+			const splitStr = `${id}/output/`;
 			const index = req.url.indexOf(splitStr);
 
 			if (index === -1) {
@@ -122,8 +122,6 @@ export class WorkflowController {
 
 			const responseAxios = await WorkflowRepository.getWorkflowOutput(
 				foundWorkflow,
-				job,
-				output,
 				path,
 				req.headers.authorization as string,
 			);

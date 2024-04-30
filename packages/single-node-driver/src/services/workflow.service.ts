@@ -144,9 +144,9 @@ class WorkflowService {
 					if (isDir) {
 						const fullPath = inputObj.location;
 						value = fullPath;
-						if (value.startsWith(basePath)) {
-							value = value.replace(basePath, '');
-						}
+
+						const baseWorkflowPath = `${basePath}/${guid}`;
+						value = value.replace(baseWorkflowPath, '');
 
 						if (fs.existsSync(fullPath)) {
 							const dirMetadata = fs.lstatSync(fullPath);
@@ -224,29 +224,11 @@ class WorkflowService {
 		}
 	}
 
-	async getOutputs(id: string, job: string, output: string, path: string) {
+	async getOutputs(id: string, path: string) {
 		const guid = getGuid(id);
-		console.log('Getting outputs for', guid, job, output, path);
-
-		// read workflow file to get the output directory and jobs
-		const inputsJson = fs.readFileSync(`${tempAssetsDir}/${guid}-inputs.json`, 'utf-8');
-		if (!inputsJson) {
-			throw new Error('Inputs json not found');
-		}
-
-		const inputs = JSON.parse(inputsJson);
-		const key = `${job}_${output}`;
-		const outputObj = inputs[key];
-		if (!outputObj) {
-			throw new Error('Output not found');
-		}
-
-		const outputDir = outputObj.location;
-		if (!outputDir) {
-			throw new Error('Output directory property value not found');
-		}
-
-		const fullPath = `${outputDir}/${path}`;
+		console.log('Getting outputs for', guid, path);
+		
+		const fullPath = `${config.volume.basePath}/${guid}/${path}`;
 		console.log('Full path:', fullPath);
 
 		if (fs.lstatSync(fullPath).isFile()) {

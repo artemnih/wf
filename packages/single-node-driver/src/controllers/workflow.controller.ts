@@ -73,10 +73,10 @@ class WorkflowController implements IControllerController {
 
 	async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { id, job, output } = req.params;
-			const splitString = `/${id}/outputs/${job}/${output}/`;
+			const { id } = req.params;
+			const splitString = `/${id}/outputs/`;
 			const path = req.path.split(splitString)[1];
-			const outputStream = await WorkflowService.getOutputs(id, job, output, path);
+			const outputStream = await WorkflowService.getOutputs(id, path);
 			outputStream.stream.pipe(res);
 		} catch (error) {
 			next(error);
