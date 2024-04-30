@@ -1,6 +1,7 @@
-import { Dictionary, IWorkflowService, WorkflowStatus } from '@polusai/compute-common';
+import { Dictionary, WorkflowStatus } from '@polusai/compute-common';
 import { buildId, getGuid, getPid } from '../utils';
-import fs from 'fs';
+import * as fs from 'fs';
+import * as stream from 'stream';
 import { statusFromLogs } from '../helpers/status-from-logs';
 import { getSingleJobLogs } from '../helpers/get-single-job-logs';
 require('dotenv').config();
@@ -18,7 +19,7 @@ interface ComputePayload {
 	jobs: any;
 }
 
-class WorkflowService implements IWorkflowService {
+class WorkflowService {
 	async submit(cwl: ComputePayload) {
 		// there is no need for the baseCommand in the cwlWorkflow if we are using dockerPull
 		Object.values(cwl.cwlWorkflow.steps).forEach((step: any) => {
@@ -105,8 +106,12 @@ class WorkflowService implements IWorkflowService {
 		console.log('Checking logs for status', guid);
 		try {
 			const log = await fs.readFileSync(`${logsDir}/stdout-${guid}.log`, 'utf-8');
-			console.log('Log file exists', log.length);
+			console.log('Log file found');
 			const statusPayload = statusFromLogs(log);
+			console.log('Status payload', statusPayload);
+
+			// include paths from cwl json per each step/job
+
 			return statusPayload;
 		} catch (error) {
 			console.log('Error while reading log file', error);
@@ -149,9 +154,47 @@ class WorkflowService implements IWorkflowService {
 		}
 	}
 
-	async getOutputs(id: string): Promise<Dictionary<any>> {
+	async getOutputs(id: string, job: string, output: string, path: string) {
 		const guid = getGuid(id);
-		throw new Error('Method not implemented.');
+		console.log('Getting outputs for', guid, job, output, path);
+
+		// read workflow file to get the output directory and jobs
+		const inputsJson = fs.readFileSync(`${tempAssetsDir}/${guid}-inputs.json`, 'utf-8');
+		if (!inputsJson) {
+			throw new Error('Inputs json not found');
+		}
+
+		const inputs = JSON.parse(inputsJson);
+		const key = `${job}_${output}`;
+		const outputObj = inputs[key];
+		if (!outputObj) {
+			throw new Error('Output not found');
+		}
+
+		const outputDir = outputObj.location;
+		if (!outputDir) {
+			throw new Error('Output directory property value not found');
+		}
+
+		const fullPath = `${outputDir}/${path}`;
+		console.log('Full path:', fullPath);
+
+		if (fs.lstatSync(fullPath).isFile()) {
+			const fileStream = fs.createReadStream(fullPath);
+			return { stream: fileStream };
+		}
+
+		const content = fs.readdirSync(fullPath, { withFileTypes: true });
+		const filesAndDirs = content.map(item => ({
+			name: item.name,
+			type: item.isFile() ? 'file' : 'directory',
+		}));
+
+		// return json as a stream
+		const ts = new stream.Transform();
+		ts.push(JSON.stringify(filesAndDirs));
+		ts.push(null);
+		return { stream: ts };
 	}
 
 	async getJobs(id: string): Promise<Dictionary<any>> {

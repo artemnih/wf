@@ -3,7 +3,7 @@ import { workflowToCwl } from '../utils/CWLConvertors';
 import { workflowToJobs } from '../utils';
 import DriverRepository from './driver.repository';
 import { default as axios } from 'axios';
-import { Dictionary } from '@polusai/compute-common';
+import { Dictionary, DriverRoutes } from '@polusai/compute-common';
 
 export class WorkflowRepository {
 	async submitWorkflowToDriver(workflow: Workflow, token: string) {
@@ -22,9 +22,20 @@ export class WorkflowRepository {
 		return result.data;
 	}
 
-	async getWorkflowOutput(workflow: Workflow, url: string, token: string) {
+	async getWorkflowOutput(workflow: Workflow, job: string, output: string, path: string, token: string) {
 		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
-		return axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/outputs/${url}`, {
+		const workflowId = workflow.driverWorkflowId;
+
+		const url = DriverRoutes.OUTPUTS.replace('/:id/', `/${workflowId}/`)
+			.replace('/:job/', `/${job}/`)
+			.replace('/:output/', `/${output}/`)
+			.replace('/*', `/${path}`);
+
+		const fullUrl = `${driverUrl}/compute/${url}`;
+
+		console.log('Getting output from url', fullUrl);
+
+		return axios.get(fullUrl, {
 			headers: { authorization: token },
 			responseType: 'stream',
 		});

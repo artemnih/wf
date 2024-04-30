@@ -100,29 +100,33 @@ export class WorkflowController {
 
 	async getWorkflowOutput(req: Request, res: Response, next: NextFunction) {
 		try {
-			const id = req.params.id;
+			const { id, job, output } = req.params;
 
-			if (!id) {
-				throw new Error('Workflow id is required');
+			if (!id || !job || !output) {
+				throw new Error('Missing parameters');
 			}
 
-			const splitStr = `${id}/output/`;
+			const splitStr = `${id}/output/${job}/${output}/`;
 			const index = req.url.indexOf(splitStr);
 
 			if (index === -1) {
 				throw new Error('Url is not correct');
 			}
 
-			const url = req.url.substring(index + splitStr.length);
-			console.log('Extracted url:', url);
-
+			const path = req.url.substring(index + splitStr.length);
 			const foundWorkflow = await WorkflowCrud.findById(id);
 
 			if (!foundWorkflow) {
 				throw new Error(`Workflow with id ${id} not found`);
 			}
-			console.log('Starting stream from driver at url:', url);
-			const responseAxios = await WorkflowRepository.getWorkflowOutput(foundWorkflow, url, req.headers.authorization as string);
+
+			const responseAxios = await WorkflowRepository.getWorkflowOutput(
+				foundWorkflow,
+				job,
+				output,
+				path,
+				req.headers.authorization as string,
+			);
 			const stream = responseAxios.data;
 
 			stream.on('data', (chunk: any) => {
