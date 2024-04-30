@@ -34,6 +34,12 @@ export const DriverRoutes = {
 	FILES_CONTENT: '/files/content/*',
 };
 
+export interface WorkflowStatusPayloadParam {
+	name: string;
+	value: string;
+	isDir?: boolean;
+	metadata: Dictionary<any>;
+}
 export interface WorkflowStatusPayload {
 	status: string;
 	startedAt: string;
@@ -43,5 +49,6 @@ export interface WorkflowStatusPayload {
 		status: string;
 		startedAt: string;
 		finishedAt: string;
+		params: WorkflowStatusPayloadParam[];
 	}[];
 }
