@@ -40,11 +40,11 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 		.map(node => {
 			const id = (node.templateName || '').replace(/-/g, '_');
 			// extract input parameters
-			const inputs = node.inputs.parameters as Array<{ name: string; value: string; isDir: boolean; metadata: any }>;
+			const params = node.inputs.parameters as Array<{ name: string; value: string; isDir: boolean; metadata: any }>;
 
 			// if param value contains wfId, then it is a directory path, remove everyting before wfId
 			// so that we do not expose the full path
-			inputs.forEach(param => {
+			params.forEach(param => {
 				if (param.value.includes(wfId)) {
 					// split it
 					const parts = param.value.split(wfId);
@@ -84,7 +84,7 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 
 			return {
 				id: id,
-				inputs: inputs,
+				params: params,
 				status: translateStatus(node.phase),
 				startedAt: node.startedAt || '',
 				finishedAt: node.finishedAt || '',
@@ -92,7 +92,6 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 		});
 
 	return {
-		id: wfId,
 		status: translateStatus(response.data.status.phase),
 		startedAt: response.data.status.startedAt || '',
 		finishedAt: response.data.status.finishedAt || '',

@@ -13,15 +13,6 @@ export interface IControllerController {
 	stopWorkflow(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
 
-export interface IWorkflowService {
-	submit(cwl: any): Promise<string>;
-	getStatus(id: string): Promise<WorkflowStatusPayload>;
-	getLogs(id: string): Promise<string>;
-	getOutputs(id: string): Promise<Dictionary<any>>;
-	getJobs(id: string): Promise<Dictionary<any>>;
-	stop(id: string): Promise<string>;
-}
-
 export enum WorkflowStatus {
 	PENDING = 'PENDING',
 	RUNNING = 'RUNNING',
@@ -37,12 +28,18 @@ export const DriverRoutes = {
 	LOGS: '/:id/logs',
 	ALL_JOBS_LOGS: '/:id/all-jobs-logs',
 	JOB_LOGS: '/:id/job/:jobname/logs',
-	OUTPUTS: '/:id/outputs/:url*?',
+	OUTPUTS: '/:id/outputs/*',
 	JOBS: '/:id/jobs',
 	STOP: '/:id/stop',
 	FILES_CONTENT: '/files/content/*',
 };
 
+export interface WorkflowStatusPayloadParam {
+	name: string;
+	value: string;
+	isDir?: boolean;
+	metadata: Dictionary<any>;
+}
 export interface WorkflowStatusPayload {
 	status: string;
 	startedAt: string;
@@ -52,5 +49,6 @@ export interface WorkflowStatusPayload {
 		status: string;
 		startedAt: string;
 		finishedAt: string;
+		params: WorkflowStatusPayloadParam[];
 	}[];
 }

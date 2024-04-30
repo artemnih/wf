@@ -86,12 +86,18 @@ class ArgoController implements IControllerController {
 	async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
 		try {
 			console.log('Getting outputs:', req.url);
-			const id = req.params.id;
-			if (!id) {
-				throw new Error('Workflow id is required');
-			}
-			const search = `/${id}/outputs/`;
-			getContent(res, req.url, search);
+			const url = req.url;
+			const workflowId = req.params.id;
+			if (!workflowId) { throw new Error('Workflow id is required'); }
+			const search = `/${workflowId}/outputs/`;
+			const index = url.indexOf(search);
+			if (index === -1) { throw new Error('Invalid path'); }
+			const path = url.substring(index + search.length);
+			const decodedPath = decodeURIComponent(path);
+			if (decodedPath.includes('..')) { throw new Error('Invalid path'); }
+			const fullPath = `${workflowId}/${decodedPath}`;
+			const respo = await getContent(fullPath);
+			respo.stream.pipe(res);
 		} catch (error) {
 			next(error);
 		}
@@ -100,8 +106,15 @@ class ArgoController implements IControllerController {
 	async getContent(req: Request, res: Response, next: NextFunction) {
 		try {
 			console.log('Getting content:', req.url);
-			const search = DriverRoutes.FILES_CONTENT.split('*')[0]; // '/files/content/'
-			getContent(res, req.url, search);
+			const url = req.url;
+			const search = DriverRoutes.FILES_CONTENT.split('*')[0];
+			const index = url.indexOf(search);
+			if (index === -1) { throw new Error('Invalid path'); }
+			const path = url.substring(index + search.length);
+			const decodedPath = decodeURIComponent(path);
+			if (decodedPath.includes('..')) { throw new Error('Invalid path'); }
+			const respo = await getContent(decodedPath);
+			respo.stream.pipe(res);
 		} catch (error) {
 			console.log('Error while getting content:', error);
 			res.status(500).send('Error while getting content: ' + error.message);

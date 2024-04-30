@@ -72,7 +72,15 @@ class WorkflowController implements IControllerController {
 	}
 
 	async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
-		throw new Error('Method not implemented.');
+		try {
+			const { id } = req.params;
+			const splitString = `/${id}/outputs/`;
+			const path = req.path.split(splitString)[1];
+			const outputStream = await WorkflowService.getOutputs(id, path);
+			outputStream.stream.pipe(res);
+		} catch (error) {
+			next(error);
+		}
 	}
 
 	async getWorkflowJobs(req: Request, res: Response, next: NextFunction) {

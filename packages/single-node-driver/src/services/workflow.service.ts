@@ -1,6 +1,8 @@
-import { Dictionary, IWorkflowService, WorkflowStatus } from '@polusai/compute-common';
+import { Dictionary, WorkflowStatus, WorkflowStatusPayloadParam } from '@polusai/compute-common';
 import { buildId, getGuid, getPid } from '../utils';
-import fs from 'fs';
+import * as fs from 'fs';
+import * as stream from 'stream';
+import * as path from 'path';
 import { statusFromLogs } from '../helpers/status-from-logs';
 import { getSingleJobLogs } from '../helpers/get-single-job-logs';
 require('dotenv').config();
@@ -18,7 +20,7 @@ interface ComputePayload {
 	jobs: any;
 }
 
-class WorkflowService implements IWorkflowService {
+class WorkflowService {
 	async submit(cwl: ComputePayload) {
 		// there is no need for the baseCommand in the cwlWorkflow if we are using dockerPull
 		Object.values(cwl.cwlWorkflow.steps).forEach((step: any) => {
@@ -101,17 +103,90 @@ class WorkflowService implements IWorkflowService {
 
 	async getStatus(id: string) {
 		const guid = getGuid(id);
+		const basePath = config.volume.basePath;
 
-		console.log('Checking logs for status', guid);
 		try {
+			const cwlJson = await fs.readFileSync(`${tempAssetsDir}/${guid}.json`, 'utf-8');
+			const cwlInputsJson = await fs.readFileSync(`${tempAssetsDir}/${guid}-inputs.json`, 'utf-8');
 			const log = await fs.readFileSync(`${logsDir}/stdout-${guid}.log`, 'utf-8');
-			console.log('Log file exists', log.length);
+
+			const cwl = JSON.parse(cwlJson);
+			const cwlInputs = JSON.parse(cwlInputsJson);
 			const statusPayload = statusFromLogs(log);
+
+			// match jobIds with logsStatusPayload and exract records
+			statusPayload.jobs.forEach(job => {
+				const jobId = job.id;
+
+				// check if job exists in the workflow
+				const jobDef = cwl.steps[jobId];
+				if (!jobDef) {
+					throw new Error(`Job ${jobId} not found in the workflow CWL`);
+				}
+
+				const params = [] as WorkflowStatusPayloadParam[];
+				const jobIn = jobDef.in;
+				const inKeys = Object.keys(jobIn);
+				inKeys.forEach(key => {
+					const input = jobIn[key];
+					const inputId = input.source || input;
+					const inputObj = cwlInputs[inputId];
+
+					if (!inputObj) {
+						return;
+					} // indidcates dynamic value passed from previous step
+
+					const isDir = inputObj.class && inputObj.class === 'Directory';
+					let value = inputObj;
+
+					// remove basePath from the path from beginning if present
+					let metadata = undefined as Dictionary<any>;
+					if (isDir) {
+						const fullPath = inputObj.location;
+						value = fullPath;
+
+						const baseWorkflowPath = `${basePath}/${guid}`;
+						value = value.replace(baseWorkflowPath, '');
+
+						if (fs.existsSync(fullPath)) {
+							const dirMetadata = fs.lstatSync(fullPath);
+							const files = fs.readdirSync(fullPath);
+							const formatCounts = files.reduce((counts, file) => {
+								const format = path.extname(file);
+								if (format) {
+									const formatWithoutDot = format.slice(1);
+									counts[formatWithoutDot] = (counts[formatWithoutDot as keyof Dictionary<number>] || 0) + 1;
+								}
+								return counts;
+							}, {} as Dictionary<number>);
+
+							metadata = {
+								size: dirMetadata.size,
+								created: dirMetadata.birthtime,
+								modified: dirMetadata.mtime,
+								numberOfFiles: files.length,
+								formatCounts: formatCounts,
+							};
+						}
+					}
+
+					const param = {
+						name: key,
+						value,
+						isDir,
+						metadata,
+					} as WorkflowStatusPayloadParam;
+					params.push(param);
+				});
+
+				job.params = params;
+			});
+			console.log('Status payload', statusPayload);
 			return statusPayload;
 		} catch (error) {
 			console.log('Error while reading log file', error);
 			return {
-				status: WorkflowStatus.ERROR,
+				status: WorkflowStatus.PENDING,
 				startedAt: '',
 				finishedAt: '',
 				jobs: [],
@@ -149,9 +224,29 @@ class WorkflowService implements IWorkflowService {
 		}
 	}
 
-	async getOutputs(id: string): Promise<Dictionary<any>> {
+	async getOutputs(id: string, path: string) {
 		const guid = getGuid(id);
-		throw new Error('Method not implemented.');
+		console.log('Getting outputs for', guid, path);
+
+		const fullPath = `${config.volume.basePath}/${guid}/${path}`;
+		console.log('Full path:', fullPath);
+
+		if (fs.lstatSync(fullPath).isFile()) {
+			const fileStream = fs.createReadStream(fullPath);
+			return { stream: fileStream };
+		}
+
+		const content = fs.readdirSync(fullPath, { withFileTypes: true });
+		const filesAndDirs = content.map(item => ({
+			name: item.name,
+			type: item.isFile() ? 'file' : 'directory',
+		}));
+
+		// return json as a stream
+		const ts = new stream.Transform();
+		ts.push(JSON.stringify(filesAndDirs));
+		ts.push(null);
+		return { stream: ts };
 	}
 
 	async getJobs(id: string): Promise<Dictionary<any>> {
