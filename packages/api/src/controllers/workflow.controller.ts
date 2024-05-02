@@ -88,6 +88,7 @@ export class WorkflowController {
 	}
 
 	async getWorkflowLogs(req: Request, res: Response, next: NextFunction) {
+		console.log('Compute: Getting workflow logs');
 		try {
 			const id = req.params.id;
 			const foundWorkflow = await WorkflowCrud.findById(id);

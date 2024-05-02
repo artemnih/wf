@@ -43,6 +43,7 @@ class ArgoController implements IControllerController {
 
 	async getWorkflowLogs(req: Request, res: Response, next: NextFunction) {
 		try {
+			console.log('Argo Driver: getting logs');
 			const id = req.params.id;
 			const content = await getWorkflowLog(id);
 			res.status(201).send(content);
