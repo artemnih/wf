@@ -1,0 +1,12 @@
+driver:
+    image:
+        name: polusai/single-node-driver:0.0.1
+        pullSecret: null
+    ingress:
+        enabled: false
+        host: null
+    port: 7997
+    auth:
+        url: null
+    volume:
+      basePath: /path/to/volume
