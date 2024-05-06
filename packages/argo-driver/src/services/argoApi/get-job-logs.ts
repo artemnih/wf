@@ -9,8 +9,12 @@ export async function getJobLogs(workflowId: string, jobName: string) {
 	const pods = Object.values(workflow.data.status.nodes).filter(value => value.type === 'Pod') as Array<ArgoNodes>;
 	const sanitizedStepName = sanitizeStepName(jobName);
 	const pod = pods.find(pod => pod.templateName === sanitizedStepName);
+	if (!pod) {
+		return 'No logs found. Pod not found. Try again later or check pod name.';
+	}
 	const podId = pod.id;
-	const url = `/${workflowId}/log?logOptions.container=wait&logOptions.follow=true&podName=${podId}`;
+	const url = `/${workflowId}/log?logOptions.container=wait&podName=${podId}`;
+	console.log('Getting logs from:', url);
 	const results = await axiosClient().get(url);
 	const data = results.data;
 	const content = parseLogs(data);
