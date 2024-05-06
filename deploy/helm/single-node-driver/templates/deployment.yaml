@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    labels:
+        app: {{ .Release.Name }}
+    name: '{{ .Release.Name }}'
+spec:
+    selector:
+        matchLabels:
+            app: {{ .Release.Name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Release.Name }}
+            name: '{{ .Release.Name }}'
+        spec:
+            containers:
+                - name: single-node
+                  image: {{ .Values.driver.image.name }}
+                  imagePullPolicy: Always
+                  env:
+                      - name: VOLUME_BASE_PATH
+                        value: '{{.Values.driver.volume.basePath}}'
+                      - name: SERVICES_AUTH_URL
+                        value: {{ .Values.driver.auth.url }}
+                  ports:
+                      - containerPort: {{ .Values.driver.port }}
+                  volumeMounts:
+                    - name: single-node-driver-volume
+                      mountPath: '{{.Values.driver.volume.basePath}}'     
+            volumes:
+              - name: single-node-driver-volume
+                persistentVolumeClaim:
+                  claimName: '{{.Values.driver.volume.pvcName}}'
+            imagePullSecrets:
+                - name: {{ .Values.driver.image.pullSecret }}
+            serviceAccount: {{ .Release.Name }}
+            serviceAccountName: {{ .Release.Name }}
