@@ -26,11 +26,12 @@ export class ExpressServer {
 			dbName: dbName,
 		});
 
+		console.log('Config:', this.options);
 		this.app = express();
 		this.app.use(cors());
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
-		if (!this.options.rest.noAuth) {
+		if (typeof this.options.rest.noAuth === 'undefined' || !this.options.rest.noAuth) {
 			console.log('Compute API: Enabling JWT authentication');
 			this.app.use(
 				'/compute',
