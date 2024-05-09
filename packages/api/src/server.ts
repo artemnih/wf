@@ -22,7 +22,6 @@ export class ExpressServer {
 		const dbName = this.options.compute.db.name;
 		const connectionString = this.options.compute.db.connectionString;
 		const authUrl = this.options.rest.noAuth ? '' : this.options.services.auth.authUrl;
-		const noAuth = this.options.rest.noAuth;
 		mongoose.connect(connectionString, {
 			dbName: dbName,
 		});
@@ -32,7 +31,7 @@ export class ExpressServer {
 		this.app.use(cors());
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
-		if (noAuth === undefined || noAuth === false || noAuth === 'false') {
+		if (typeof this.options.rest.noAuth === 'undefined' || !this.options.rest.noAuth) {
 			console.log('Compute API: Enabling JWT authentication');
 			this.app.use(
 				'/compute',
