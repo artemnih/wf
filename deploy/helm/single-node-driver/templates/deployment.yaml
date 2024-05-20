@@ -23,16 +23,23 @@ spec:
                         value: '{{.Values.driver.volume.basePath}}'
                       - name: SERVICES_AUTH_URL
                         value: {{ .Values.driver.auth.url }}
+                      - name: SINGLE_NODE_DRIVER_SERVICE_PORT
+                        value: '{{ .Values.driver.port }}'
+                      - name: NO_AUTH
+                        value: '{{ .Values.driver.auth.noauth }}'
                   ports:
                       - containerPort: {{ .Values.driver.port }}
                   volumeMounts:
                     - name: single-node-driver-volume
-                      mountPath: '{{.Values.driver.volume.basePath}}'     
+                      mountPath: '{{.Values.driver.volume.basePath}}'
+                    - name: docker-socket
+                      mountPath: /var/run/docker.sock
             volumes:
               - name: single-node-driver-volume
                 persistentVolumeClaim:
                   claimName: '{{.Values.driver.volume.pvcName}}'
+              - name: docker-socket
+                hostPath:
+                  path: /var/run/docker.sock
             imagePullSecrets:
                 - name: {{ .Values.driver.image.pullSecret }}
-            serviceAccount: {{ .Release.Name }}
-            serviceAccountName: {{ .Release.Name }}
