@@ -223,39 +223,53 @@
 				"Workflow": {
 					"type": "object",
 					"properties": {
-						"cwlVersion": {
-							"type": "string",
-							"description": "CWL version",
-							"example": "v1.2"
-						},
-						"class": {
-							"type": "string",
-							"description": "CWL class",
-							"example": "CommandLineTool"
-						},
-						"baseCommand": {
-							"type": "string",
-							"description": "CWL base command",
-							"example": "echo"
-						},
-						"inputs": {
+						"cwlWorkflow": {
 							"type": "object",
-							"description": "CWL inputs",
-							"example": {
-								"message": {
+							"properties": {
+								"cwlVersion": {
 									"type": "string",
-									"default": "Hello World",
-									"inputBinding": {
-										"position": 1
+									"description": "CWL version",
+									"example": "v1.2"
+								},
+								"class": {
+									"type": "string",
+									"description": "CWL class",
+									"example": "CommandLineTool"
+								},
+								"baseCommand": {
+									"type": "string",
+									"description": "CWL base command",
+									"example": "echo"
+								},
+								"inputs": {
+									"type": "object",
+									"description": "CWL inputs",
+									"example": {
+										"message": {
+											"type": "string",
+											"default": "Hello World",
+											"inputBinding": {
+												"position": 1
+											}
+										}
 									}
+								},
+								"outputs": {
+									"type": "object",
+									"description": "CWL outputs",
+									"example": []
 								}
 							}
 						},
-						"outputs": {
+						"cwlJobInputs": {
 							"type": "object",
-							"description": "CWL outputs",
-							"example": []
+							"example": {"message": "Hello World"}
+						},
+						"jobs": {
+							"type": "object",
+							"example": {}
 						}
+
 					}
 				}
 			}
