@@ -3,10 +3,11 @@ import * as http from 'http';
 import cors from 'cors';
 import jwksRsa from 'jwks-rsa';
 import { expressjwt } from 'express-jwt';
-import { ComputeRoutes, HealthRoutes } from './router';
+import { ComputeRoutes, HealthRoutes, LoggerRoutes } from './router';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
+import { logger } from './services/logger';
 
 export class ExpressServer {
 	private app: express.Application;
@@ -14,6 +15,8 @@ export class ExpressServer {
 
 	constructor(private options: any) {
 		const authUrl = this.options.services.auth.authUrl;
+
+		logger.info('config', this.options);
 
 		this.app = express();
 		this.app.use(cors());
@@ -42,6 +45,7 @@ export class ExpressServer {
 		// this.app.use(this.options.argoCompute.basePath, this.api.requestHandler);
 
 		this.app.use('/compute', ComputeRoutes);
+		this.app.use('/compute', LoggerRoutes);
 		this.app.use('/health', HealthRoutes);
 
 		// Serve static files in the public folder
