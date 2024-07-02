@@ -1,9 +1,10 @@
+import { logger } from '../logger';
 import { axiosClient } from './axios-client';
 import { ArgoJobStatus, ArgoNodes } from './getArgoJobStatus';
 import { parseLogs } from './parse-logs';
 
 export async function getAllJobsLogs(workflowId: string) {
-	console.log('Getting Jobs Logs of Argo workflow', workflowId);
+	logger.info('Getting Jobs Logs of Argo workflow', workflowId);
 	const workflow = (await axiosClient().get(`/${workflowId}`)) as ArgoJobStatus;
 	const pods = Object.values(workflow.data.status.nodes).filter(value => value.type === 'Pod') as Array<ArgoNodes>;
 	const podNames = pods.map(pod => pod.id);

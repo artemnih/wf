@@ -2,6 +2,7 @@ import { ArgoTaskTemplate, Step, BoundOutput, WorkflowInput, ArgoTaskParameter, 
 import { determineDependencies } from './determineDependencies';
 import { sanitizeStepName } from './sanitize-step-name';
 import path from 'path';
+import { logger } from '../../logger';
 
 /**
  * Build the argo dag task template for the given step.
@@ -151,7 +152,7 @@ function createTaskParameters(step: Step, cwlJobInputs: WorkflowInput[], boundOu
 
 function warnAboutStringArrayParameters(value: string | string[] | undefined): void {
 	if (Array.isArray(value)) {
-		console.warn(
+		logger.warn(
 			"Argo driver does not handle array parameters in the dag spec.  Please remove square brackets and pass a string list ie 'r,xy'",
 		);
 	}
