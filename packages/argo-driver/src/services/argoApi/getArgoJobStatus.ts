@@ -3,6 +3,7 @@ import { axiosClient } from '.';
 import { sanitizeStepName } from '../CWLToArgo/utils/sanitize-step-name';
 import { getJobsFromArgoApi } from './getJobsFromArgoApi';
 import { translateStatus } from './statusOfArgoWorkflow';
+import { logger } from '../logger';
 
 export interface ArgoJobStatus {
 	data: {
@@ -39,15 +40,17 @@ export async function getArgoJobStatus(argoWorkflowName: string) {
 }
 
 export async function getJobStatus(workflowId: string, jobName: string) {
-	console.log(`Getting status for job "${jobName}" in workflow "${workflowId}"`);
+	logger.info(`Getting status for job "${jobName}" in workflow "${workflowId}"`);
 	try {
 		const workflow = (await axiosClient().get(`/${workflowId}`)) as ArgoJobStatus;
 		const pods = Object.values(workflow.data.status.nodes).filter(value => value.type === 'Pod') as Array<ArgoNodes>;
 		const sanitizedStepName = sanitizeStepName(jobName);
 		const pod = pods.find(pod => pod.templateName === sanitizedStepName);
 		if (!pod) {
-			throw new Error(`Pod "${sanitizedStepName}" not found in workflow "${workflowId}"`);
-		}
+			const errorMessage = `Pod "${sanitizedStepName}" not found in workflow "${workflowId}"`;
+			logger.error(errorMessage);
+			throw new Error(errorMessage);
+        }
 		return translateStatus(pod.phase);
 	} catch (err) {
 		return translateStatus(WorkflowStatus.ERROR);

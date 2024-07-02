@@ -13,6 +13,7 @@ import {
 } from '../services/argoApi';
 import fs from 'fs';
 import { getContent } from '../services/argoApi/get-content';
+import { logger } from '../services/logger';
 
 class ArgoController implements IControllerController {
 	/**
@@ -43,7 +44,7 @@ class ArgoController implements IControllerController {
 
 	async getWorkflowLogs(req: Request, res: Response, next: NextFunction) {
 		try {
-			console.log('Argo Driver: getting logs');
+			logger.info('Argo Driver: getting logs');
 			const id = req.params.id;
 			const content = await getWorkflowLog(id);
 			res.status(201).send(content);
@@ -86,16 +87,28 @@ class ArgoController implements IControllerController {
 
 	async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
 		try {
-			console.log('Getting outputs:', req.url);
+			logger.info('Getting outputs:' + req.url);
 			const url = req.url;
 			const workflowId = req.params.id;
-			if (!workflowId) { throw new Error('Workflow id is required'); }
+			if (!workflowId) { 
+				const errorMessage = 'Workflow id is required';
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
+            }
 			const search = `/${workflowId}/outputs/`;
 			const index = url.indexOf(search);
-			if (index === -1) { throw new Error('Invalid path'); }
+			if (index === -1) { 
+				const errorMessage = 'Invalid path';
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
+            }
 			const path = url.substring(index + search.length);
 			const decodedPath = decodeURIComponent(path);
-			if (decodedPath.includes('..')) { throw new Error('Invalid path'); }
+			if (decodedPath.includes('..')) { 
+				const errorMessage = 'Invalid path';
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
+            }
 			const fullPath = `${workflowId}/${decodedPath}`;
 			const respo = await getContent(fullPath);
 			respo.stream.pipe(res);
@@ -106,18 +119,26 @@ class ArgoController implements IControllerController {
 
 	async getContent(req: Request, res: Response, next: NextFunction) {
 		try {
-			console.log('Getting content:', req.url);
+			logger.info('Getting content:' + req.url);
 			const url = req.url;
 			const search = DriverRoutes.FILES_CONTENT.split('*')[0];
 			const index = url.indexOf(search);
-			if (index === -1) { throw new Error('Invalid path'); }
+			if (index === -1) { 
+				const errorMessage = 'Invalid path';
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
+            }
 			const path = url.substring(index + search.length);
 			const decodedPath = decodeURIComponent(path);
-			if (decodedPath.includes('..')) { throw new Error('Invalid path'); }
+			if (decodedPath.includes('..')) { 
+				const errorMessage = 'Invalid path';
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
+            }
 			const respo = await getContent(decodedPath);
 			respo.stream.pipe(res);
 		} catch (error) {
-			console.log('Error while getting content:', error);
+			logger.error('Error while getting content: ' + JSON.stringify(error));			
 			res.status(500).send('Error while getting content: ' + error.message);
 			next(error);
 		}

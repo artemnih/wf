@@ -1,4 +1,5 @@
 import { WorkflowInput, CwlJobInputs } from '../../../types';
+import { logger } from '../../../services/logger';
 
 /**
  *
@@ -28,8 +29,10 @@ export function parseCwlJobInputs(cwlJobInputs: CwlJobInputs): WorkflowInput[] {
 		}
 
 		if (parsedInputValue === undefined) {
-			console.log([inputName, inputValue]);
-			throw Error(`unable to parse cwlJobInput: ${cwlJobInput} `);
+			logger.info(JSON.stringify([inputName, inputValue]));
+            const errorMessage = `Unable to parse cwlJobInput:  ${JSON.stringify(cwlJobInput)}`;
+            logger.error(errorMessage);
+            throw new Error(errorMessage);
 		}
 
 		workflowInputs.push({ name: inputName, value: parsedInputValue });

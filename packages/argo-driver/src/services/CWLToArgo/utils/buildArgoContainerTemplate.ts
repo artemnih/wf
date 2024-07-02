@@ -1,5 +1,6 @@
 import { sanitizeStepName } from './sanitize-step-name';
 import { Step, ArgoContainerTemplate } from '../../../types';
+import { logger } from '../../logger';
 
 /**
  * Build the container template for a given step.
@@ -58,7 +59,9 @@ export function buildArgoContainerTemplate(step: Step) {
 function buildContainerArg(inputParam: string, step: Step): string[] {
 	// check if the step input is also defined in the clt definition
 	if (!step.clt.inputs[inputParam]) {
-		throw Error(`The value ${inputParam} was not found in ${step.clt.inputs}`);
+		const errorMessage = `The value ${inputParam} was not found in ${step.clt.inputs}`;
+        logger.error(errorMessage);
+        throw new Error(errorMessage);
 	}
 
 	//extract container argument name from the clt definition

@@ -110,23 +110,26 @@ function createTaskParameters(step: Step, cwlJobInputs: WorkflowInput[], boundOu
 			// The input parameter has the special syntax: previoustep/outputname
 			const dependentInput = step.in[stepInput].split('/');
 			if (dependentInput.length !== 2) {
-				throw Error(
-					`Invalid ${stepInput} for step ${templateName}. 
-            Should be a dependent input in the form dependentStepName/dependentInputName`,
-				);
+				const errorMessage = `Invalid ${stepInput} for step ${templateName}. Should be a dependent input in the form dependentStepName/dependentInputName`;
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
 			}
 			let [boundStep, boundOutput] = dependentInput;
 
 			const boundInput = boundOutputs.find(element => boundStep == element.stepName && boundOutput === element.outputName);
 
 			if (!boundInput) {
-				throw new Error(`boundInput ${boundStep}/${boundOutput} is incorrectly defined.`);
+				const errorMessage = `boundInput ${boundStep}/${boundOutput} is incorrectly defined.`;
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
 			}
 
 			const workflowInput = cwlJobInputs.find(cwlJobInput => boundInput.inputName === cwlJobInput.name);
 
 			if (!workflowInput) {
-				throw new Error(`boundInput ${boundInput.inputName} must be defined in cwlJobInputs.`);
+				const errorMessage = `boundInput ${boundInput.inputName} must be defined in cwlJobInputs.`;
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
 			}
 
 			inputValue = workflowInput.value;
