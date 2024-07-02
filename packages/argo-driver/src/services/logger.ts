@@ -3,7 +3,7 @@ import winston from 'winston';
 const { combine, timestamp, printf, align } = winston.format;
 
 export const logger = winston.createLogger({
-    level: 'info',
+    level: 'silly',
     format: combine(
         timestamp({
             format: 'YYYY-MM-DD hh:mm:ss.SSS A',
