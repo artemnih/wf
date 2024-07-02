@@ -30,9 +30,9 @@ export function parseCwlJobInputs(cwlJobInputs: CwlJobInputs): WorkflowInput[] {
 
 		if (parsedInputValue === undefined) {
 			logger.info(JSON.stringify([inputName, inputValue]));
-            const errorMessage = `Unable to parse cwlJobInput:  ${JSON.stringify(cwlJobInput)}`;
-            logger.error(errorMessage);
-            throw new Error(errorMessage);
+			const errorMessage = `Unable to parse cwlJobInput:  ${JSON.stringify(cwlJobInput)}`;
+			logger.error(errorMessage);
+			throw new Error(errorMessage);
 		}
 
 		workflowInputs.push({ name: inputName, value: parsedInputValue });

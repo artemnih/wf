@@ -90,25 +90,25 @@ class ArgoController implements IControllerController {
 			logger.info('Getting outputs:' + req.url);
 			const url = req.url;
 			const workflowId = req.params.id;
-			if (!workflowId) { 
+			if (!workflowId) {
 				const errorMessage = 'Workflow id is required';
 				logger.error(errorMessage);
 				throw new Error(errorMessage);
-            }
+			}
 			const search = `/${workflowId}/outputs/`;
 			const index = url.indexOf(search);
-			if (index === -1) { 
+			if (index === -1) {
 				const errorMessage = 'Invalid path';
 				logger.error(errorMessage);
 				throw new Error(errorMessage);
-            }
+			}
 			const path = url.substring(index + search.length);
 			const decodedPath = decodeURIComponent(path);
-			if (decodedPath.includes('..')) { 
+			if (decodedPath.includes('..')) {
 				const errorMessage = 'Invalid path';
 				logger.error(errorMessage);
 				throw new Error(errorMessage);
-            }
+			}
 			const fullPath = `${workflowId}/${decodedPath}`;
 			const respo = await getContent(fullPath);
 			respo.stream.pipe(res);
@@ -123,22 +123,22 @@ class ArgoController implements IControllerController {
 			const url = req.url;
 			const search = DriverRoutes.FILES_CONTENT.split('*')[0];
 			const index = url.indexOf(search);
-			if (index === -1) { 
+			if (index === -1) {
 				const errorMessage = 'Invalid path';
 				logger.error(errorMessage);
 				throw new Error(errorMessage);
-            }
+			}
 			const path = url.substring(index + search.length);
 			const decodedPath = decodeURIComponent(path);
-			if (decodedPath.includes('..')) { 
+			if (decodedPath.includes('..')) {
 				const errorMessage = 'Invalid path';
 				logger.error(errorMessage);
 				throw new Error(errorMessage);
-            }
+			}
 			const respo = await getContent(decodedPath);
 			respo.stream.pipe(res);
 		} catch (error) {
-			logger.error('Error while getting content: ' + JSON.stringify(error));			
+			logger.error('Error while getting content: ' + JSON.stringify(error));
 			res.status(500).send('Error while getting content: ' + error.message);
 			next(error);
 		}

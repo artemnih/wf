@@ -24,9 +24,11 @@ export function getOutputsFromArgoInputs(inputs: ArgoParameters[], stepName: str
 	}
 
 	if (Object.keys(actualOutput).length === 0) {
-        logger.warn(
-            `The inputs on ${stepName} did not have any output data. For argo, they must match our volume config: ${JSON.stringify(argoConfig.argoCompute.volumeDefinitions.outputPath)}`,
-        );
+		logger.warn(
+			`The inputs on ${stepName} did not have any output data. For argo, they must match our volume config: ${JSON.stringify(
+				argoConfig.argoCompute.volumeDefinitions.outputPath,
+			)}`,
+		);
 	}
 
 	return actualOutput;

@@ -7,9 +7,9 @@ const argoConfig = require('config');
 
 export async function getContent(path: string) {
 	const parentPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath;
-	let fullPath = parentPath + '/' +path;
+	let fullPath = parentPath + '/' + path;
 	fullPath = fullPath.replace(/\/\//g, '/');
-	
+
 	if (fs.lstatSync(fullPath).isFile()) {
 		const fileStream = fs.createReadStream(fullPath);
 		return { stream: fileStream };

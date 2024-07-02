@@ -15,9 +15,9 @@ export function stepsFromWorkflow(cwlWorkflow: CwlWorkflow, computeJobs: Compute
 		const job = computeJobs.find(job => job.stepName === stepName);
 
 		if (!job) {
-            const errorMessage = `Invalid request. Could not find a compute job for cwl workflow step : ${stepName}.`;
-            logger.error(errorMessage);
-            throw new Error(errorMessage);
+			const errorMessage = `Invalid request. Could not find a compute job for cwl workflow step : ${stepName}.`;
+			logger.error(errorMessage);
+			throw new Error(errorMessage);
 		}
 
 		// TODO CHECK CWL WORKFLOW

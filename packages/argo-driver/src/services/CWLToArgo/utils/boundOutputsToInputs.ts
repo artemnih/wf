@@ -26,10 +26,10 @@ export function boundOutputsToInputs(steps: Step[]) {
 			const outputValue = step.clt.outputs[output];
 
 			if (outputValue.type !== 'Directory') {
-                const errorMessage = `Unsupported Case. ${step.name} output ${output} is of type ${outputValue.type}, which is currently unsupported. If you think it is a bug, please file an issue to the developers.`;
-                logger.error(errorMessage);
-                throw new Error(errorMessage);
-            }
+				const errorMessage = `Unsupported Case. ${step.name} output ${output} is of type ${outputValue.type}, which is currently unsupported. If you think it is a bug, please file an issue to the developers.`;
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
+			}
 
 			// CWL format for directory:  $(inputs.outDir.basepath)
 			const [, inputParam] = outputValue.outputBinding.glob.split('.');

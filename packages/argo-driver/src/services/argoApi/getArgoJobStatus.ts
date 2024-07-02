@@ -50,7 +50,7 @@ export async function getJobStatus(workflowId: string, jobName: string) {
 			const errorMessage = `Pod "${sanitizedStepName}" not found in workflow "${workflowId}"`;
 			logger.error(errorMessage);
 			throw new Error(errorMessage);
-        }
+		}
 		return translateStatus(pod.phase);
 	} catch (err) {
 		return translateStatus(WorkflowStatus.ERROR);
