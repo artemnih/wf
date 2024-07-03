@@ -21,7 +21,8 @@ export const WorkflowRoutes = express
 	.put('/workflows/:id/stop', WorkflowController.stopWorkflow)
 	.put('/workflows/:id/restart', WorkflowController.restartWorkflow)
 	.put('/workflows/:id/pause', WorkflowController.pauseWorkflow)
-	.get('/drivers', WorkflowController.getDrivers);
+	.get('/drivers', WorkflowController.getDrivers)
+	.get('/drivers/:driver/logs', WorkflowController.getDriverLogs);
 
 export const JobRoutes = express.Router().get('/jobs', JobController.find).get('/jobs/:jobId', JobController.findById);
 

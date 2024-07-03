@@ -7,13 +7,18 @@ import { Dictionary, DriverRoutes } from '@polusai/compute-common';
 
 export class WorkflowRepository {
 	async submitWorkflowToDriver(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
-		const cwlWorkflow = workflowToCwl(workflow);
-		const cwlJobInputs = workflow.cwlJobInputs;
-		const jobs = workflowToJobs(cwlWorkflow, workflow.cwlJobInputs);
-		const url = `${driverUrl}/compute`;
-		const result = await axios.post(`${url}`, { cwlWorkflow, cwlJobInputs, jobs }, { headers: { authorization: token } });
-		return result.data;
+		try {
+			const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+			const cwlWorkflow = workflowToCwl(workflow);
+			const cwlJobInputs = workflow.cwlJobInputs;
+			const jobs = workflowToJobs(cwlWorkflow, workflow.cwlJobInputs);
+			const url = `${driverUrl}/compute`;
+			const result = await axios.post(`${url}`, { cwlWorkflow, cwlJobInputs, jobs }, { headers: { authorization: token } });
+			return result.data;
+		} catch (error) {
+			console.error('Error submitting workflow to driver', error);
+			throw error;
+		}
 	}
 
 	async getWorkflowStatus(workflow: Workflow, token: string) {
@@ -132,6 +137,13 @@ export class WorkflowRepository {
 
 	async getListOfDrivers() {
 		return Object.keys(DriverRepository.getDrivers());
+	}
+
+	async getDriverLogs(driver: string, token: string) {
+		console.log('Getting driver logs for', driver);
+		const driverUrl = DriverRepository.getDriver(driver).url;
+		const result = await axios.get(`${driverUrl}/compute/logs`, { headers: { authorization: token } });
+		return result.data;
 	}
 }
 
