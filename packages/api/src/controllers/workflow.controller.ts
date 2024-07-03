@@ -270,7 +270,6 @@ export class WorkflowController {
 			next(error);
 		}
 	}
-
 }
 
 export default new WorkflowController();
