@@ -2,6 +2,7 @@ import { WorkflowStatus, WorkflowStatusPayload } from '@polusai/compute-common';
 import { axiosClient } from '.';
 import fs from 'fs';
 import path from 'path';
+import { logger } from '../logger';
 
 require('dotenv').config();
 const argoConfig = require('config');
@@ -29,7 +30,7 @@ export function translateStatus(phase: string) {
 }
 
 export async function statusOfArgoWorkflow(argoWorkflowName: string) {
-	console.log('Getting status of Argo workflow', argoWorkflowName);
+	logger.info('Getting status of Argo workflow', argoWorkflowName);
 	const response = await axiosClient().get(`/${argoWorkflowName}`);
 	const nodes = response.data.status.nodes as Dict<any>;
 	const wfId = response.data.metadata.name;
@@ -77,7 +78,7 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 							formatCounts: formatCounts,
 						};
 					} else {
-						console.log(`Path does not exist: ${fullPath}`);
+						logger.info(`Path does not exist: ${fullPath}`);
 					}
 				}
 			});

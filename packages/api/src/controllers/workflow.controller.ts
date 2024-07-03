@@ -259,6 +259,17 @@ export class WorkflowController {
 			next(error);
 		}
 	}
+
+	async getDriverLogs(req: Request, res: Response, next: NextFunction) {
+		try {
+			const driver = req.params.driver;
+			console.log('Fetching logs for driver:', driver);
+			const logs = await WorkflowRepository.getDriverLogs(driver, req.headers.authorization as string);
+			res.status(200).json(logs);
+		} catch (error) {
+			next(error);
+		}
+	}
 }
 
 export default new WorkflowController();

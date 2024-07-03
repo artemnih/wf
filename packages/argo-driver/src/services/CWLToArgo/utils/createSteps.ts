@@ -1,4 +1,5 @@
 import { CwlWorkflow, CLT, Step, ComputeJob } from '../../../types';
+import { logger } from '../../../services/logger';
 
 /**
  * Create Steps from the CwlWorkflows steps and the ComputeJobs.
@@ -14,10 +15,9 @@ export function stepsFromWorkflow(cwlWorkflow: CwlWorkflow, computeJobs: Compute
 		const job = computeJobs.find(job => job.stepName === stepName);
 
 		if (!job) {
-			throw Error(
-				`Invalid request. 
-        Could not find a compute job for cwl workflow step : ${stepName}.`,
-			);
+			const errorMessage = `Invalid request. Could not find a compute job for cwl workflow step : ${stepName}.`;
+			logger.error(errorMessage);
+			throw new Error(errorMessage);
 		}
 
 		// TODO CHECK CWL WORKFLOW

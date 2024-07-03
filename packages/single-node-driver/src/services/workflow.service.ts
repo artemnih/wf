@@ -23,7 +23,7 @@ interface ComputePayload {
 class WorkflowService {
 	async submit(cwl: ComputePayload) {
 		// there is no need for the baseCommand in the cwlWorkflow if we are using dockerPull
-		if (cwl.cwlWorkflow.class === "Workflow") {
+		if (cwl.cwlWorkflow.class === 'Workflow') {
 			Object.values(cwl.cwlWorkflow.steps).forEach((step: any) => {
 				if (step.run?.requirements?.DockerRequirement.dockerPull) {
 					delete step.run.baseCommand;

@@ -1,10 +1,11 @@
 import { sanitizeStepName } from '../CWLToArgo/utils/sanitize-step-name';
+import { logger } from '../logger';
 import { axiosClient } from './axios-client';
 import { ArgoJobStatus, ArgoNodes } from './getArgoJobStatus';
 import { parseLogs } from './parse-logs';
 
 export async function getJobLogs(workflowId: string, jobName: string) {
-	console.log(`Getting logs for job "${jobName}" in workflow "${workflowId}"`);
+	logger.info(`Getting logs for job "${jobName}" in workflow "${workflowId}"`);
 	const workflow = (await axiosClient().get(`/${workflowId}`)) as ArgoJobStatus;
 	const pods = Object.values(workflow.data.status.nodes).filter(value => value.type === 'Pod') as Array<ArgoNodes>;
 	const sanitizedStepName = sanitizeStepName(jobName);
@@ -14,7 +15,7 @@ export async function getJobLogs(workflowId: string, jobName: string) {
 	}
 	const podId = pod.id;
 	const url = `/${workflowId}/log?logOptions.container=wait&podName=${podId}`;
-	console.log('Getting logs from:', url);
+	logger.info('Getting logs from:', url);
 	const results = await axiosClient().get(url);
 	const data = results.data;
 	const content = parseLogs(data);

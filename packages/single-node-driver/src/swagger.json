@@ -263,13 +263,12 @@
 						},
 						"cwlJobInputs": {
 							"type": "object",
-							"example": {"message": "Hello World"}
+							"example": { "message": "Hello World" }
 						},
 						"jobs": {
 							"type": "object",
 							"example": {}
 						}
-
 					}
 				}
 			}

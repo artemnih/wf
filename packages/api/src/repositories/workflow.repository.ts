@@ -133,6 +133,16 @@ export class WorkflowRepository {
 	async getListOfDrivers() {
 		return Object.keys(DriverRepository.getDrivers());
 	}
+
+	async getDriverLogs(driver: string, token: string) {
+		console.log('Getting driver logs for', driver);
+		const driverUrl = DriverRepository.getDriver(driver).url;
+		const result = await axios.get(`${driverUrl}/compute/logs`, { headers: { authorization: token } });
+		let rawLogs = result.data;
+		rawLogs = rawLogs.replace(/\t/g, ' ');
+		const logLines = rawLogs.split('\n').filter((line: string) => line.trim() !== '');
+		return logLines;
+	}
 }
 
 export default new WorkflowRepository();
