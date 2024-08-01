@@ -30,11 +30,17 @@ class ExplorerController {
 			});
 
 			stream.on('error', (error: any) => {
-				console.log('Error while streaming:', error);
-				res.status(500).send('Error while getting workflow output');
+				console.error('Error while streaming:', error);
+				res.status(500).send('Error while streaming');
 			});
 		} catch (error) {
-			res.status(500).send('Error while getting workflow output');
+			if (error?.response?.status === 404) {
+				console.error('File not found:', error);
+				res.status(404).send('File not found');
+			} else {
+				console.error('Error while getting workflow output:', error);
+				res.status(500).send('Error while getting workflow output');
+			}
 			next(error);
 		}
 	}
