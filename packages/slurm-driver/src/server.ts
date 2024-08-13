@@ -3,7 +3,7 @@ import * as http from 'http';
 import cors from 'cors';
 import jwksRsa from 'jwks-rsa';
 import { expressjwt } from 'express-jwt';
-import { SlurmRoutes, HealthRoutes } from './router';
+import { SlurmRoutes, SlurmRoutes2, HealthRoutes } from './router';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
@@ -19,7 +19,7 @@ export class ExpressServer {
 		this.app.use(cors());
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
-		if (!this.options.rest.noAuth) {
+		if (false) {
 			console.log('Slurm Driver: Enabling JWT authentication');
 			this.app.use(
 				'/compute',
@@ -42,6 +42,7 @@ export class ExpressServer {
 		// this.app.use(this.options.slurmCompute.basePath, this.api.requestHandler);
 
 		this.app.use('/compute', SlurmRoutes);
+		this.app.use('/compute2', SlurmRoutes2);
 		this.app.use('/health', HealthRoutes);
 
 		// Serve static files in the public folder
