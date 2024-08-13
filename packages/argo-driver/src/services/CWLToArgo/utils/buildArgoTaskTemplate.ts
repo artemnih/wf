@@ -2,7 +2,7 @@ import { ArgoTaskTemplate, Step, BoundOutput, WorkflowInput, ArgoTaskParameter, 
 import { determineDependencies } from './determineDependencies';
 import { sanitizeStepName } from './sanitize-step-name';
 import path from 'path';
-import { logger } from '../../logger';
+import { logger } from '@polusai/compute-common';
 
 /**
  * Build the argo dag task template for the given step.

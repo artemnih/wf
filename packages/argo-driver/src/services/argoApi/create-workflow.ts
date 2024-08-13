@@ -2,7 +2,7 @@ import { cwlToArgo } from '../CWLToArgo';
 import { CwlWorkflow, ComputeJob, CwlJobInputs } from '../../types';
 import { axiosClient } from '.';
 import { AxiosResponse } from 'axios';
-import { logger } from '../logger';
+import { logger } from '@polusai/compute-common';
 
 export async function createWorkflow(cwlWorkflow: CwlWorkflow, cwlJobInputs: CwlJobInputs, computeJobs: ComputeJob[]) {
 	const argoWorkflow = cwlToArgo(cwlWorkflow, cwlJobInputs, computeJobs);

@@ -1,5 +1,5 @@
 import { CwlWorkflow, CLT, Step, ComputeJob } from '../../../types';
-import { logger } from '../../../services/logger';
+import { logger } from '@polusai/compute-common';
 
 /**
  * Create Steps from the CwlWorkflows steps and the ComputeJobs.

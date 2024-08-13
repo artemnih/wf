@@ -1,5 +1,5 @@
 import { axiosClient } from '.';
-import { logger } from '../logger';
+import { logger } from '@polusai/compute-common';
 
 export async function stopArgoWorkflow(workflowName: string): Promise<void> {
 	const response = await axiosClient().put(`/${workflowName}/terminate`);

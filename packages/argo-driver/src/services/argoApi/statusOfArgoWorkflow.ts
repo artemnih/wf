@@ -2,7 +2,7 @@ import { WorkflowStatus, WorkflowStatusPayload } from '@polusai/compute-common';
 import { axiosClient } from '.';
 import fs from 'fs';
 import path from 'path';
-import { logger } from '../logger';
+import { logger } from '@polusai/compute-common';
 
 require('dotenv').config();
 const argoConfig = require('config');

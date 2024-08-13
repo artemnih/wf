@@ -7,7 +7,7 @@ import { ComputeRoutes, HealthRoutes, LoggerRoutes } from './router';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
-import { logger } from './services/logger';
+import { logger } from '@polusai/compute-common';
 
 export class ExpressServer {
 	private app: express.Application;
