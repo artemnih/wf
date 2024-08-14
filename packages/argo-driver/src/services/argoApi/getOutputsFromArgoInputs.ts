@@ -1,5 +1,5 @@
 import { ArgoParameters } from '.';
-import { logger } from '@polusai/compute-common';
+import { logger } from '../logger';
 
 function checkIfOutput(inputValue: string): boolean {
 	require('dotenv').config();

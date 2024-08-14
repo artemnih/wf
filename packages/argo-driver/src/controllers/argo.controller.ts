@@ -13,7 +13,7 @@ import {
 } from '../services/argoApi';
 import fs from 'fs';
 import { getContent } from '../services/argoApi/get-content';
-import { logger } from '@polusai/compute-common';
+import { logger } from '../services/logger';
 
 class ArgoController implements IControllerController {
 	/**

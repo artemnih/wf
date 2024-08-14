@@ -4,7 +4,7 @@ import { readFile } from 'fs/promises';
 export class LoggerController {
 	async getServerLogs(req: Request, res: Response, next: NextFunction) {
 		try {
-			const logs = await readFile('combined.log', 'utf-8');
+			const logs = await readFile('argo-driver.log', 'utf-8');
 			res.status(200).send(logs);
 		} catch (error) {
 			next(error);

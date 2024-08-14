@@ -1,5 +1,5 @@
 import { WorkflowInput, CwlJobInputs } from '../../../types';
-import { logger } from '@polusai/compute-common';
+import { logger } from '../../logger';
 
 /**
  *

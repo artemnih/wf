@@ -3,7 +3,7 @@ import { axiosClient } from '.';
 import { sanitizeStepName } from '../CWLToArgo/utils/sanitize-step-name';
 import { getJobsFromArgoApi } from './getJobsFromArgoApi';
 import { translateStatus } from './statusOfArgoWorkflow';
-import { logger } from '@polusai/compute-common';
+import { logger } from '../logger';
 
 export interface ArgoJobStatus {
 	data: {

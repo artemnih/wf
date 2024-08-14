@@ -1,5 +1,5 @@
 import { ExpressServer } from './server';
-import { logger } from '@polusai/compute-common';
+import { logger } from './services/logger';
 
 require('dotenv').config();
 const config = require('config');

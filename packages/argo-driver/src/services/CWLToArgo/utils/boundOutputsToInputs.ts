@@ -1,5 +1,5 @@
 import { BoundOutput, Step } from '../../../types';
-import { logger } from '@polusai/compute-common';
+import { logger } from '../../logger';
 
 /**
  * Check if each step output is bounded to a step input.

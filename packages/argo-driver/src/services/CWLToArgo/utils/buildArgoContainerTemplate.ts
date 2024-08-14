@@ -1,6 +1,6 @@
 import { sanitizeStepName } from './sanitize-step-name';
 import { Step, ArgoContainerTemplate } from '../../../types';
-import { logger } from '@polusai/compute-common';
+import { logger } from '../../logger';
 
 /**
  * Build the container template for a given step.

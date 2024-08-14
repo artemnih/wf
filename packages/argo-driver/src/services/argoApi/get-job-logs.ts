@@ -1,5 +1,5 @@
 import { sanitizeStepName } from '../CWLToArgo/utils/sanitize-step-name';
-import { logger } from '@polusai/compute-common';
+import { logger } from '../logger';
 import { axiosClient } from './axios-client';
 import { ArgoJobStatus, ArgoNodes } from './getArgoJobStatus';
 import { parseLogs } from './parse-logs';
