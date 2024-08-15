@@ -141,7 +141,7 @@ class ArgoController implements IControllerController {
 			if (error.code === 'ENOENT') {
 				res.status(404).send('File not found');
 			} else {
-				console.log('Error while getting content:', error);
+				logger.error(`Error while getting content: ${error.message}`);
 				res.status(500).send('Error while getting content: ' + error.message);
 			}
 			next(error);
