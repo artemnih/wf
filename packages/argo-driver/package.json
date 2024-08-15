@@ -38,8 +38,7 @@
     "jwks-rsa": "^3.0.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "tslib": "^2.6.2",
-    "winston": "^3.13.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.14",

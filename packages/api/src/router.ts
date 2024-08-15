@@ -3,6 +3,7 @@ import WorkflowController from './controllers/workflow.controller';
 import JobController from './controllers/job.controller';
 import HealthController from './controllers/health.controller';
 import ExplorerController from './controllers/explorer.controller';
+import LoggerController from './controllers/logger.controller';
 
 export const WorkflowRoutes = express
 	.Router()
@@ -29,3 +30,5 @@ export const JobRoutes = express.Router().get('/jobs', JobController.find).get('
 export const HealthRoutes = express.Router().get('/check/:driver', WorkflowController.checkHealth).get('/check', HealthController.ping);
 
 export const ExplorerRoutes = express.Router().get('/files/content/:driver/*', ExplorerController.getContent);
+
+export const LoggerRoutes = express.Router().get('/logs', LoggerController.getServerLogs);

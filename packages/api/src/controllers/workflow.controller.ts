@@ -2,6 +2,7 @@ import { JobCrud, Workflow } from '../models';
 import WorkflowRepository from '../repositories/workflow.repository';
 import { WorkflowCrud } from '../models';
 import { NextFunction, Request, Response } from 'express';
+import { logger } from '../utils';
 
 export class WorkflowController {
 	async create(req: Request, res: Response, next: NextFunction) {
@@ -11,10 +12,10 @@ export class WorkflowController {
 			workflow.dateCreated = new Date().toISOString();
 			const workflowCreated = await WorkflowCrud.create(workflow);
 
-			console.log('Workflow has been created, id:', workflowCreated.id);
+			logger.info(`Workflow has been created, id: ${workflowCreated.id}`);
 
 			const driverWorkflowId = await WorkflowRepository.submitWorkflowToDriver(workflowCreated, token);
-			console.log('Driver workflow id:', driverWorkflowId);
+			logger.info(`Driver workflow id: ${driverWorkflowId}`);
 
 			workflowCreated.driverWorkflowId = driverWorkflowId as string;
 			await workflowCreated.save();
@@ -88,7 +89,7 @@ export class WorkflowController {
 	}
 
 	async getWorkflowLogs(req: Request, res: Response, next: NextFunction) {
-		console.log('Compute: Getting workflow logs');
+		logger.info('Compute: Getting workflow logs');
 		try {
 			const id = req.params.id;
 			const foundWorkflow = await WorkflowCrud.findById(id);
@@ -104,21 +105,27 @@ export class WorkflowController {
 			const { id } = req.params;
 
 			if (!id) {
-				throw new Error('Missing parameter: id');
+				const errorMessage = 'Missing parameter: id';
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
 			}
 
 			const splitStr = `${id}/output/`;
 			const index = req.url.indexOf(splitStr);
 
 			if (index === -1) {
-				throw new Error('Url is not correct');
+				const errorMessage = 'Url is not correct';
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
 			}
 
 			const path = req.url.substring(index + splitStr.length);
 			const foundWorkflow = await WorkflowCrud.findById(id);
 
 			if (!foundWorkflow) {
-				throw new Error(`Workflow with id ${id} not found`);
+				const errorMessage = `Workflow with id ${id} not found`;
+				logger.error(errorMessage);
+				throw new Error(errorMessage);
 			}
 
 			const responseAxios = await WorkflowRepository.getWorkflowOutput(foundWorkflow, path, req.headers.authorization as string);
@@ -133,7 +140,7 @@ export class WorkflowController {
 			});
 
 			stream.on('error', (error: any) => {
-				console.log('Error while streaming:', error);
+				logger.error(`Error while streaming: ${error.message}`);
 				res.status(500).send('Error while getting workflow output');
 			});
 		} catch (error) {
@@ -189,7 +196,7 @@ export class WorkflowController {
 			const jobId = req.params.jobId;
 			const foundWorkflow = await WorkflowCrud.findById(id);
 			const status = await WorkflowRepository.getWorkflowJobStatus(foundWorkflow, jobId, req.headers.authorization as string);
-			console.log(status);
+			logger.info(`Status of job ${jobId} is ${status}`);
 			res.status(200).json(status);
 		} catch (error) {
 			next(error);
@@ -238,12 +245,12 @@ export class WorkflowController {
 	async checkHealth(req: Request, res: Response, next: NextFunction) {
 		try {
 			const driver = req.params.driver;
-			console.log('Checking Driver health:', driver);
+			logger.info(`Checking Driver health: ${driver}`);
 			const health = await WorkflowRepository.healthDriverCheck(driver, req.headers.authorization as string);
 			res.status(200).json(health);
 		} catch (error) {
 			if (error) {
-				console.log(error.message);
+				logger.error(`Error while checking health: ${error.message}`);
 				res.status(500).send('Something went wrong: ' + error.message);
 			} else {
 				next(error);
@@ -263,7 +270,7 @@ export class WorkflowController {
 	async getDriverLogs(req: Request, res: Response, next: NextFunction) {
 		try {
 			const driver = req.params.driver;
-			console.log('Fetching logs for driver:', driver);
+			logger.info(`Fetching logs for driver: ${driver}`);
 			const logs = await WorkflowRepository.getDriverLogs(driver, req.headers.authorization as string);
 			res.status(200).json(logs);
 		} catch (error) {
