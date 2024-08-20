@@ -2,6 +2,7 @@ import express from 'express';
 import SlurmController from './controllers/slurm.controller';
 import SlurmController2 from './controllers/slurm.controller2';
 import HealthController from './controllers/health.controller';
+import { DriverRoutes } from '@polusai/compute-common';
 
 export const SlurmRoutes = express
 	.Router()
@@ -14,11 +15,11 @@ export const SlurmRoutes = express
 
 export const SlurmRoutes2 = express
 	.Router()
-	.post('/', SlurmController2.create)
-	.get('/:id/status', SlurmController2.getWorkflowStatus)
-	.get('/:id/logs', SlurmController2.getWorkflowLogs)
+	.post(DriverRoutes.ROOT, SlurmController2.create)
+	.get(DriverRoutes.STATUS, SlurmController2.getWorkflowStatus)
+	.get(DriverRoutes.LOGS, SlurmController2.getWorkflowLogs)
 	.get('/:id/outputs', SlurmController2.getWorkflowOutputs)
-	.get('/:id/jobs', SlurmController2.getWorkflowJobs)
-	.put('/:id/stop', SlurmController2.stopWorkflow);
+	.get(DriverRoutes.JOBS, SlurmController2.getWorkflowJobs)
+	.put(DriverRoutes.STOP, SlurmController2.stopWorkflow);
 
 export const HealthRoutes = express.Router().get('/check', HealthController.ping);
