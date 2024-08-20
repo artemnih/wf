@@ -1,6 +1,6 @@
 import { Job, Workflow } from '../models';
 import { workflowToCwl } from '../utils/CWLConvertors';
-import { workflowToJobs } from '../utils';
+import { logger, workflowToJobs } from '../utils';
 import DriverRepository from './driver.repository';
 import { default as axios } from 'axios';
 import { Dictionary, DriverRoutes } from '@polusai/compute-common';
@@ -30,7 +30,7 @@ export class WorkflowRepository {
 
 		const fullUrl = `${driverUrl}/compute/${url}`;
 
-		console.log('Getting output from url', fullUrl);
+		logger.info(`Getting output from url ${fullUrl}`);
 
 		return axios.get(fullUrl, {
 			headers: { authorization: token },
@@ -135,7 +135,7 @@ export class WorkflowRepository {
 	}
 
 	async getDriverLogs(driver: string, token: string) {
-		console.log('Getting driver logs for', driver);
+		logger.info(`Getting driver logs for ${driver}`);
 		const driverUrl = DriverRepository.getDriver(driver).url;
 		const result = await axios.get(`${driverUrl}/compute/logs`, { headers: { authorization: token } });
 		let rawLogs = result.data;

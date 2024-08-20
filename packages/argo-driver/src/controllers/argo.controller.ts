@@ -138,8 +138,12 @@ class ArgoController implements IControllerController {
 			const respo = await getContent(decodedPath);
 			respo.stream.pipe(res);
 		} catch (error) {
-			logger.error('Error while getting content: ' + JSON.stringify(error));
-			res.status(500).send('Error while getting content: ' + error.message);
+			if (error.code === 'ENOENT') {
+				res.status(404).send('File not found');
+			} else {
+				logger.error(`Error while getting content: ${error.message}`);
+				res.status(500).send('Error while getting content: ' + error.message);
+			}
 			next(error);
 		}
 	}

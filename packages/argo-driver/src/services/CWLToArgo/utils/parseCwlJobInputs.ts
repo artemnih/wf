@@ -1,5 +1,5 @@
 import { WorkflowInput, CwlJobInputs } from '../../../types';
-import { logger } from '../../../services/logger';
+import { logger } from '../../logger';
 
 /**
  *
