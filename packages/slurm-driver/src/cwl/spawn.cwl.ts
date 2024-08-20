@@ -1,4 +1,5 @@
 import { ChildProcess, spawn } from 'child_process';
+import { mkdir, mkdirSync } from 'fs';
 var fs = require("fs");
 
 export function spawnGenericCwlRunner(cwlWorkflow: string, cwlJobInputs: string, currentDir: string, workflowId: string): ChildProcess {
@@ -29,23 +30,42 @@ export function spawnGenericCwlRunner(cwlWorkflow: string, cwlJobInputs: string,
 }
 
 export function spawnGenericCwlRunner2(cwlWorkflow: string, cwlJobInputs: string, currentDir: string, workflowId: string, config: Array<string>): ChildProcess {
+
+	// create directory for workflow
+	if(!fs.existsSync(`${currentDir}/${workflowId}`,)) {
+		mkdirSync(`${currentDir}/${workflowId}`,);
+	}
+
+	// create output directory
+	if(!fs.existsSync(`${currentDir}/${workflowId}/out`,)) {
+		mkdirSync(`${currentDir}/${workflowId}/out`,);
+	}
+
+	// create log directory
+	if(!fs.existsSync(`${currentDir}/${workflowId}/logs`,)) {
+		mkdirSync(`${currentDir}/${workflowId}/logs`,);
+	}
+
+	// create log directory
+	if(!fs.existsSync(`${currentDir}/${workflowId}/job`,)) {
+		mkdirSync(`${currentDir}/${workflowId}/job`,);
+	}
+
+	// run toil from command line
 	const result = spawn(
 		'toil-cwl-runner',
 		[
-			'--batchSystem',
-			'slurm',
-			'--disableCaching',
-			'--jobStore',
-			`${currentDir}/${workflowId}`,
-			'--tmpdir-prefix',
-			`${currentDir}/${workflowId}`,
-			'--tmp-outdir-prefix',
-			`${currentDir}/${workflowId}`,
-			'--log-dir',
-			`${currentDir}/${workflowId}-logs`,
 			cwlWorkflow,
 			cwlJobInputs,
-		].concat(config) // add custom config
+			'--outdir',
+			`${currentDir}/${workflowId}/out`,
+			'--logFile',
+			`${currentDir}/${workflowId}/logs/toil_run_${workflowId}.log`,
+			'--batchSystem',
+			'slurm',
+			'--jobStore',
+			`${currentDir}/${workflowId}/job`,
+		].concat(config), // add custom configs to toil call
 	);
 
 	return result;
