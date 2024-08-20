@@ -19,7 +19,7 @@ export class ExpressServer {
 		this.app.use(cors());
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
-		if (false) { // temporarily disable for testing
+		if (!this.options.rest.noAuth) {
 			console.log('Slurm Driver: Enabling JWT authentication');
 			this.app.use(
 				'/compute',
