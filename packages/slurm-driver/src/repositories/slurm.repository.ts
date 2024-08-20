@@ -47,6 +47,18 @@ export class SlurmRepository {
 		return logs;
 	}
 
+	public async getWorkflowLogs2(id: string): Promise<Record<string, string | string[] | number | boolean>> {
+		require('dotenv').config();
+		const slurmConfig = require('config');
+		const logs = getWorkflowLogs(readCwlOutput(id));
+		if (Object.keys(logs).length === 0) {
+			return {
+				message: `Logs of running workflow can be found in the folder ${slurmConfig.slurmCompute.data}/${id}-logs`,
+			};
+		}
+		return logs;
+	}
+
 	public async getWorkflowOutputs(id: string) {
 		const outputs = getOutputOfJobs(readCwlOutput(id));
 		if (Object.keys(outputs).length === 0) {
