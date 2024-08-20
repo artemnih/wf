@@ -1,3 +1,3 @@
 import { createLogger } from '@polusai/compute-common';
 
-export const logger = createLogger('argo-driver.log');
+export const logger = createLogger('compute-api.log');
