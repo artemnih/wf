@@ -9,5 +9,5 @@ export interface Slurm2 {
 	id?: string;
 	cwlWorkflow: object;
 	cwlJobInputs: object;
-	config: string[];
+	config?: string[];
 }
