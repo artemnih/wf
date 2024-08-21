@@ -1,7 +1,7 @@
 import * as http from 'http';
 import express from 'express';
 import mongoose from 'mongoose';
-import { WorkflowRoutes, HealthRoutes, JobRoutes, ExplorerRoutes, LoggerRoutes } from './router';
+import { WorkflowRoutes, HealthRoutes, JobRoutes, ExplorerRoutes, LoggerRoutes, DriverRoutes } from './router';
 import cors from 'cors';
 import jwksRsa from 'jwks-rsa';
 import { expressjwt } from 'express-jwt';
@@ -9,7 +9,6 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
 import ConfigService from './services/config.service';
-import DriverRepository from './repositories/driver.repository';
 import { handleHttpError } from './handlers/axios-error';
 
 export class ExpressServer {
@@ -54,6 +53,7 @@ export class ExpressServer {
 		this.app.use('/compute', JobRoutes);
 		this.app.use('/compute', ExplorerRoutes);
 		this.app.use('/compute', LoggerRoutes);
+		this.app.use('/compute', DriverRoutes);
 		this.app.use('/health', HealthRoutes);
 		this.app.use(handleHttpError);
 
@@ -76,7 +76,6 @@ export class ExpressServer {
 
 	public async start() {
 		this.server = this.app.listen(this.options.rest.port, this.options.rest.host);
-		await DriverRepository.loadDrivers();
 	}
 
 	public stop() {
