@@ -50,7 +50,7 @@ export class DriverController {
 			assert(req.params.id, 'Driver id is required');
 			const id = req.params.id;
 			const driver = req.body as Driver;
-			const updatedDriver = await DriverRepository.udpate(id, driver);
+			const updatedDriver = await DriverRepository.update(id, driver);
 			res.status(200).json(updatedDriver);
 		} catch (error) {
 			logger.error(`Error while updating driver: ${error.message}`);

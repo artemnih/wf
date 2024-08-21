@@ -52,7 +52,7 @@ class DriverRepository {
 		return DriverCrud.create(driver);
 	}
 
-	async udpate(id: string, driver: Driver): Promise<Driver | null> {
+	async update(id: string, driver: Driver): Promise<Driver | null> {
 		assert(id, 'Driver id is required');
 		assert(driver, 'Driver is required');
 		this.#driverCache.del(DRIVER_CACHE_KEY);
