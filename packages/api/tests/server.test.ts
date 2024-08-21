@@ -17,11 +17,6 @@ const config = {
 			name: 'test',
 		},
 		basePath: '/compute',
-		drivers: {
-			test: {
-				url: 'http://localhost:7997',
-			},
-		},
 	},
 };
 
@@ -97,6 +92,12 @@ describe('ExpressServer', () => {
 		beforeAll(async () => {
 			server = new ExpressServer();
 			await server.start();
+
+			const driver = {
+				name: 'test',
+				url: 'http://localhost:7997',
+			};
+			await request(server.app).post('/compute/drivers').send(driver);
 		});
 
 		afterAll(async () => {
