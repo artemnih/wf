@@ -1,29 +1,68 @@
-import { Dictionary } from '@polusai/compute-common';
-import ConfigService from '../services/config.service';
-import { IDriver } from '../types';
+import { assert } from 'console';
+import { DriverCrud, Driver } from '../models/driver.model';
+import NodeCache from 'node-cache';
 
-// for now get drivers from config. Later we can get from a database
+const DRIVER_CACHE_KEY = 'drivers';
+const DRIVER_CACHE_TTL = 3600;
+const DRIVER_CACHE_CHECK_PERIOD = 120;
+
 class DriverRepository {
-	#drivers: Dictionary<IDriver> = {};
+	#driverCache = new NodeCache({ stdTTL: DRIVER_CACHE_TTL, checkperiod: DRIVER_CACHE_CHECK_PERIOD });
 
-	async loadDrivers() {
-		// todo: get drivers from a database here
-		// const drivers = await Driver.getAll();
+	async getByName(name: string): Promise<Driver> {
+		assert(name, 'Driver name is required');
 
-		const drivers = ConfigService.getConfig().compute.drivers;
-		this.#drivers = drivers;
-	}
-
-	getDrivers() {
-		return this.#drivers;
-	}
-
-	getDriver(driverId: string) {
-		if (!this.#drivers[driverId]) {
-			console.log('Driver not found');
-			throw new Error('Driver not found');
+		const drivers = this.#driverCache.get(DRIVER_CACHE_KEY) as Driver[];
+		if (drivers) {
+			const driver = drivers.find(d => d.name === name);
+			if (driver) {
+				return driver;
+			}
 		}
-		return this.#drivers[driverId];
+
+		const allDrivers = await this.getAll();
+		this.#driverCache.set(DRIVER_CACHE_KEY, allDrivers);
+
+		const driver = allDrivers.find(d => d.name === name);
+		if (!driver) {
+			throw new Error(`Driver ${name} not found`);
+		}
+
+		return driver;
+	}
+
+	async getDriverUrl(name: string): Promise<string> {
+		assert(name, 'Driver name is required');
+		const driver = await this.getByName(name);
+		return driver.url;
+	}
+
+	async getAll(): Promise<Driver[]> {
+		const foundDrivers = await DriverCrud.find();
+		return foundDrivers;
+	}
+
+	async getById(id: string): Promise<Driver | null> {
+		assert(id, 'Driver id is required');
+		return DriverCrud.findById(id);
+	}
+
+	async create(driver: Driver): Promise<Driver> {
+		assert(driver, 'Driver is required');
+		return DriverCrud.create(driver);
+	}
+
+	async udpate(id: string, driver: Driver): Promise<Driver | null> {
+		assert(id, 'Driver id is required');
+		assert(driver, 'Driver is required');
+		this.#driverCache.del(DRIVER_CACHE_KEY);
+		return DriverCrud.findByIdAndUpdate(id, driver, { new: true });
+	}
+
+	async delete(id: string): Promise<Driver | null> {
+		assert(id, 'Driver id is required');
+		this.#driverCache.del(DRIVER_CACHE_KEY);
+		return DriverCrud.findByIdAndDelete(id);
 	}
 }
 

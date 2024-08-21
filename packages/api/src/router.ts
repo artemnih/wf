@@ -4,6 +4,7 @@ import JobController from './controllers/job.controller';
 import HealthController from './controllers/health.controller';
 import ExplorerController from './controllers/explorer.controller';
 import LoggerController from './controllers/logger.controller';
+import DriverController from './controllers/driver.controller';
 
 export const WorkflowRoutes = express
 	.Router()
@@ -22,7 +23,6 @@ export const WorkflowRoutes = express
 	.put('/workflows/:id/stop', WorkflowController.stopWorkflow)
 	.put('/workflows/:id/restart', WorkflowController.restartWorkflow)
 	.put('/workflows/:id/pause', WorkflowController.pauseWorkflow)
-	.get('/drivers', WorkflowController.getDrivers)
 	.get('/drivers/:driver/logs', WorkflowController.getDriverLogs);
 
 export const JobRoutes = express.Router().get('/jobs', JobController.find).get('/jobs/:jobId', JobController.findById);
@@ -32,3 +32,11 @@ export const HealthRoutes = express.Router().get('/check/:driver', WorkflowContr
 export const ExplorerRoutes = express.Router().get('/files/content/:driver/*', ExplorerController.getContent);
 
 export const LoggerRoutes = express.Router().get('/logs', LoggerController.getServerLogs);
+
+export const DriverRoutes = express
+	.Router()
+	.get('/drivers', DriverController.getAll)
+	.post('/drivers', DriverController.create)
+	.get('/drivers/:id', DriverController.findById)
+	.patch('/drivers/:id', DriverController.update)
+	.delete('/drivers/:id', DriverController.delete);
