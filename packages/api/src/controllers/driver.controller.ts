@@ -19,7 +19,7 @@ export class DriverController {
 
 	async getAll(req: Request, res: Response, next: NextFunction) {
 		try {
-			const drivers = await DriverRepository.getAll();=
+			const drivers = await DriverRepository.getAll();
 			res.status(200).json(drivers);
 		} catch (error) {
 			logger.error(`Error while finding drivers: ${error.message}`);
