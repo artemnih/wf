@@ -37,7 +37,7 @@ const schema = new Schema(
 		strict: false,
 		minimize: false,
 		timestamps: true,
-		collection: 'Workflow', //  todo: from config
+		collection: 'Workflow',
 	},
 );
 

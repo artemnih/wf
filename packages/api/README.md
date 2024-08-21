@@ -31,10 +31,6 @@ These are the relevant environment variables.
 | Env Variable          | Description               |
 | --------------------- | ------------------------- |
 | MONGO_CONNECTION_NAME | Name of mongodb container |
-| ARGO_DRIVER_URL       | Url of Argo driver        |
-| SLURM_DRIVER_URL      | Url of Slum driver        |
-| SINGLENODE_DRIVER_URL | Url of Singlenode driver  |
-| COMPUTE_SERVICE_NAME  | Name of compute container |
 | SERVICES_AUTH_URL     | LabShare Auth API URL     |
 
 For a local development, you only need to define SLURM_DRIVER_URL, SERVICES_AUTH_URL. The [defaults](config/default.js) assume localhost.

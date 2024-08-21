@@ -23,9 +23,6 @@ services:
             - SERVICES_AUTH_URL=
             - MONGO_CONNECTION_STRING=mongodb://db:27017
             - NO_AUTH=true
-            - ARGO_DRIVER_URL=host.docker.internal
-            - SLURM_DRIVER_URL=host.docker.internal
-            - SINGLENODE_DRIVER_URL=host.docker.internal
 networks:
     mongo-compose-network:
         driver: bridge
