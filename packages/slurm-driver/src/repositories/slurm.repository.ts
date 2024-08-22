@@ -11,8 +11,7 @@ export class SlurmRepository {
 	}
 
 	public async computeCwlFile(cwlFile: string, cwlJobInputs: string, workflowId: string, config: string[]) {
-		
-		const currentDir = slurmConfig.slurmCompute.data
+		const currentDir = slurmConfig.slurmCompute.data;
 
 		spawnGenericCwlRunner2(cwlFile, cwlJobInputs, currentDir, workflowId, config);
 	}

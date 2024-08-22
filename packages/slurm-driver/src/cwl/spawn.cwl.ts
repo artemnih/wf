@@ -1,6 +1,6 @@
 import { ChildProcess, spawn } from 'child_process';
 import { mkdir, mkdirSync } from 'fs';
-var fs = require("fs");
+var fs = require('fs');
 
 export function spawnGenericCwlRunner(cwlWorkflow: string, cwlJobInputs: string, currentDir: string, workflowId: string): ChildProcess {
 	return spawn(
@@ -29,26 +29,31 @@ export function spawnGenericCwlRunner(cwlWorkflow: string, cwlJobInputs: string,
 	);
 }
 
-export function spawnGenericCwlRunner2(cwlWorkflow: string, cwlJobInputs: string, currentDir: string, workflowId: string, config: Array<string>): ChildProcess {
-
+export function spawnGenericCwlRunner2(
+	cwlWorkflow: string,
+	cwlJobInputs: string,
+	currentDir: string,
+	workflowId: string,
+	config: Array<string>,
+): ChildProcess {
 	// create directory for workflow
-	if(!fs.existsSync(`${currentDir}/${workflowId}`,)) {
-		mkdirSync(`${currentDir}/${workflowId}`,);
+	if (!fs.existsSync(`${currentDir}/${workflowId}`)) {
+		mkdirSync(`${currentDir}/${workflowId}`);
 	}
 
 	// create output directory
-	if(!fs.existsSync(`${currentDir}/${workflowId}/out`,)) {
-		mkdirSync(`${currentDir}/${workflowId}/out`,);
+	if (!fs.existsSync(`${currentDir}/${workflowId}/out`)) {
+		mkdirSync(`${currentDir}/${workflowId}/out`);
 	}
 
 	// create log directory
-	if(!fs.existsSync(`${currentDir}/${workflowId}/logs`,)) {
-		mkdirSync(`${currentDir}/${workflowId}/logs`,);
+	if (!fs.existsSync(`${currentDir}/${workflowId}/logs`)) {
+		mkdirSync(`${currentDir}/${workflowId}/logs`);
 	}
 
 	// create log directory
-	if(!fs.existsSync(`${currentDir}/${workflowId}/job`,)) {
-		mkdirSync(`${currentDir}/${workflowId}/job`,);
+	if (!fs.existsSync(`${currentDir}/${workflowId}/job`)) {
+		mkdirSync(`${currentDir}/${workflowId}/job`);
 	}
 
 	// run toil from command line

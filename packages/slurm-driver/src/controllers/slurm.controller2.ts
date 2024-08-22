@@ -1,25 +1,23 @@
 import { Slurm2 } from '../models';
 import SlurmRepository from '../repositories/slurm.repository';
-import { NextFunction, Request, Response } from 'express'; 
+import { NextFunction, Request, Response } from 'express';
 import { HpcCli, SlurmCli, toilKillHandler } from '../hpc';
-const multer = require("multer");
-const path = require("path");
+import { IControllerController } from '@polusai/compute-common';
+const multer = require('multer');
+const path = require('path');
 var fs = require('fs');
 const slurmConfig = require('config');
 
-class SlurmController2 {
-
+class SlurmController2 implements IControllerController {
 	async create(req: Request, res: Response, next: NextFunction) {
-
 		try {
-			
 			// parse request
 			const slurm = req.body as Slurm2;
 
 			// ensure a CWL workflow is provided
 			if (!slurm.cwlWorkflow) {
 				res.status(400);
-				res.send("Key \"cwlWorkflow\" not found in request. A valid CWL workflow must be provided");
+				res.send('Key "cwlWorkflow" not found in request. A valid CWL workflow must be provided');
 			}
 
 			// store CWL to pass to toil
@@ -28,9 +26,9 @@ class SlurmController2 {
 			// ensure job inputs for CWL is provided
 			if (!slurm.cwlJobInputs) {
 				res.status(400);
-				res.send("Key \"cwlJobInputs\" not found in request. An input for the CWL job must be included.");
+				res.send('Key "cwlJobInputs" not found in request. An input for the CWL job must be included.');
 			}
-			
+
 			// write inputs for toil
 			fs.writeFileSync('command.json', JSON.stringify(slurm.cwlJobInputs));
 
@@ -38,10 +36,10 @@ class SlurmController2 {
 			const config: string[] = slurm.config ?? [];
 
 			// check if workflow id was supplied
-			const workflowId: string = slurm.id ? slurm.id : JSON.parse(JSON.stringify(slurm.cwlWorkflow)).id;;
+			const workflowId: string = slurm.id ? slurm.id : JSON.parse(JSON.stringify(slurm.cwlWorkflow)).id;
 
 			const result = SlurmRepository.computeCwlFile('cwl.json', 'command.json', workflowId, config);
-			
+
 			// return status that workflow is has started
 			res.status(201).json(result);
 		} catch (error) {
@@ -67,12 +65,11 @@ class SlurmController2 {
 		const id = req.params.id;
 
 		// working directory for toil
-		var currentDir = slurmConfig.slurmCompute.data
+		var currentDir = slurmConfig.slurmCompute.data;
 
 		try {
-			
 			// read contents from correct directory for the workflow id
-			const outputPath = `${currentDir}/${id}/logs`
+			const outputPath = `${currentDir}/${id}/logs`;
 			const fileList = fs.readdirSync(outputPath);
 
 			var result: JSON;
@@ -80,21 +77,16 @@ class SlurmController2 {
 
 			// read all files in the output directory and send as JSON
 			fileList.forEach((file: any) => {
-
 				try {
-
 					// read contents of file and add to JSON object with key as the filename
 					temp[file] = fs.readFileSync(`${outputPath}/${file}`, 'utf-8');
-
 				} catch (err) {
-
 					console.error(`Error reading ${file}:`, err);
 
 					res.status(500);
 					res.send(`Error reading ${file} for workflow id ${id}.`);
 				}
 			});
-
 		} catch (err) {
 			console.error(err);
 
@@ -111,17 +103,15 @@ class SlurmController2 {
 
 	async getWorkflowOutputs(req: Request, res: Response, next: NextFunction) {
 		try {
-
 			// get workflow id
 			const id = req.params.id;
 
 			// working directory for toil
-			var currentDir = slurmConfig.slurmCompute.data
+			var currentDir = slurmConfig.slurmCompute.data;
 
 			try {
-				
 				// read contents from correct directory for the workflow id
-				const outputPath = `${currentDir}/${id}/out`
+				const outputPath = `${currentDir}/${id}/out`;
 				const fileList = fs.readdirSync(outputPath);
 
 				var result: JSON;
@@ -129,21 +119,16 @@ class SlurmController2 {
 
 				// read all files in the output directory and send as JSON
 				fileList.forEach((file: any) => {
-
 					try {
-
 						// read contents of file and add to JSON object with key as the filename
 						temp[file] = fs.readFileSync(`${outputPath}/${file}`, 'utf-8');
-
 					} catch (err) {
-
 						console.error(`Error reading ${file}:`, err);
 
 						res.status(500);
 						res.send(`Error reading ${file} for workflow id ${id}.`);
 					}
 				});
-
 			} catch (err) {
 				console.error(err);
 
