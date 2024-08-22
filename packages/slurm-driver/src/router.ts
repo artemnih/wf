@@ -15,10 +15,13 @@ export const SlurmRoutes = express
 
 export const SlurmRoutes2 = express
 	.Router()
+	.get(DriverRoutes.FILES_CONTENT, SlurmController2.getContent)
 	.post(DriverRoutes.ROOT, SlurmController2.create)
 	.get(DriverRoutes.STATUS, SlurmController2.getWorkflowStatus)
 	.get(DriverRoutes.LOGS, SlurmController2.getWorkflowLogs)
-	.get('/:id/outputs', SlurmController2.getWorkflowOutputs)
+	.get(DriverRoutes.JOB_LOGS, SlurmController2.getJobLogs)
+	.get(DriverRoutes.ALL_JOBS_LOGS, SlurmController2.getAllJobsLogs)
+	.get(DriverRoutes.OUTPUTS, SlurmController2.getWorkflowOutputs)
 	.get(DriverRoutes.JOBS, SlurmController2.getWorkflowJobs)
 	.put(DriverRoutes.STOP, SlurmController2.stopWorkflow);
 
