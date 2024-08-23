@@ -1,28 +1,18 @@
 import express from 'express';
 import SlurmController from './controllers/slurm.controller';
-import SlurmController2 from './controllers/slurm.controller2';
 import HealthController from './controllers/health.controller';
 import { DriverRoutes } from '@polusai/compute-common';
 
 export const SlurmRoutes = express
 	.Router()
-	.post('/', SlurmController.create)
-	.get('/:id/status', SlurmController.getWorkflowStatus)
-	.get('/:id/logs', SlurmController.getWorkflowLogs)
-	.get('/:id/outputs', SlurmController.getWorkflowOutputs)
-	.get('/:id/jobs', SlurmController.getWorkflowJobs)
-	.put('/:id/stop', SlurmController.stopWorkflow);
-
-export const SlurmRoutes2 = express
-	.Router()
-	.get(DriverRoutes.FILES_CONTENT, SlurmController2.getContent)
-	.post(DriverRoutes.ROOT, SlurmController2.create)
-	.get(DriverRoutes.STATUS, SlurmController2.getWorkflowStatus)
-	.get(DriverRoutes.LOGS, SlurmController2.getWorkflowLogs)
-	.get(DriverRoutes.JOB_LOGS, SlurmController2.getJobLogs)
-	.get(DriverRoutes.ALL_JOBS_LOGS, SlurmController2.getAllJobsLogs)
-	.get(DriverRoutes.OUTPUTS, SlurmController2.getWorkflowOutputs)
-	.get(DriverRoutes.JOBS, SlurmController2.getWorkflowJobs)
-	.put(DriverRoutes.STOP, SlurmController2.stopWorkflow);
+	.get(DriverRoutes.FILES_CONTENT, SlurmController.getContent)
+	.post(DriverRoutes.ROOT, SlurmController.createWorkflow)
+	.get(DriverRoutes.STATUS, SlurmController.getWorkflowStatus)
+	.get(DriverRoutes.LOGS, SlurmController.getWorkflowLogs)
+	.get(DriverRoutes.JOB_LOGS, SlurmController.getJobLogs)
+	.get(DriverRoutes.ALL_JOBS_LOGS, SlurmController.getAllJobsLogs)
+	.get(DriverRoutes.OUTPUTS, SlurmController.getWorkflowOutputs)
+	.get(DriverRoutes.JOBS, SlurmController.getWorkflowJobs)
+	.put(DriverRoutes.STOP, SlurmController.stopWorkflow);
 
 export const HealthRoutes = express.Router().get('/check', HealthController.ping);
