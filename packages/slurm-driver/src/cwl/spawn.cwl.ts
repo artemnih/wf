@@ -41,21 +41,6 @@ export function spawnGenericCwlRunner2(
 		mkdirSync(`${currentDir}/${workflowId}`);
 	}
 
-	// create output directory
-	if (!fs.existsSync(`${currentDir}/${workflowId}/out`)) {
-		mkdirSync(`${currentDir}/${workflowId}/out`);
-	}
-
-	// create log directory
-	if (!fs.existsSync(`${currentDir}/${workflowId}/logs`)) {
-		mkdirSync(`${currentDir}/${workflowId}/logs`);
-	}
-
-	// create log directory
-	if (!fs.existsSync(`${currentDir}/${workflowId}/job`)) {
-		mkdirSync(`${currentDir}/${workflowId}/job`);
-	}
-
 	// run toil from command line
 	const result = spawn(
 		'toil-cwl-runner',
