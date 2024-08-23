@@ -12,7 +12,7 @@ class SlurmController implements IControllerController {
 		try {
 			// parse request
 			const slurm = req.body as Slurm;
-			
+
 			console.log(slurm);
 			// ensure a CWL workflow is provided
 			if (!slurm.cwlWorkflow) {
@@ -170,15 +170,15 @@ class SlurmController implements IControllerController {
 	}
 
 	async getAllJobsLogs(req: Request, res: Response, next: NextFunction) {
-		res.status(501).send("Job logs are not implemented for the Slurm driver");
+		res.status(501).send('Job logs are not implemented for the Slurm driver');
 	}
 
 	async getJobLogs(req: Request, res: Response, next: NextFunction) {
-		res.status(501).send("Job logs are not implemented for the Slurm driver");
+		res.status(501).send('Job logs are not implemented for the Slurm driver');
 	}
 
 	async getContent(req: Request, res: Response, next: NextFunction) {
-		res.status(501).send("Job logs are not implemented for the Slurm driver");
+		res.status(501).send('Job logs are not implemented for the Slurm driver');
 	}
 }
 
