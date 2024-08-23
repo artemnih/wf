@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { cwlCompute, Job, getWorkflowLogs, readCwlOutput, getOutputOfJobs } from '../cwl';
 import { HpcCli, stopWorkflow, statusOfJobs, statusOfEachJob, HPCStatus, toilKillHandler } from '../hpc';
 import { WorkflowStatus } from '../types';
-import { spawnGenericCwlRunner2 } from '../cwl/spawn.cwl';
+import { spawnGenericCwlRunner } from '../cwl/spawn.cwl';
 const slurmConfig = require('config');
 
 export class SlurmRepository {
@@ -13,7 +13,7 @@ export class SlurmRepository {
 	public async computeCwlFile(cwlFile: string, cwlJobInputs: string, workflowId: string, config: string[]) {
 		const currentDir = slurmConfig.slurmCompute.data;
 
-		spawnGenericCwlRunner2(cwlFile, cwlJobInputs, currentDir, workflowId, config);
+		return spawnGenericCwlRunner(cwlFile, cwlJobInputs, currentDir, workflowId, config);
 	}
 
 	public async stopWorkflow(id: string, hpcCli: HpcCli, toilHandler = toilKillHandler) {
