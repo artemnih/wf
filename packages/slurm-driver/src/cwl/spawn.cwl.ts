@@ -7,7 +7,7 @@ export function spawnGenericCwlRunner(
 	cwlJobInputs: string,
 	currentDir: string,
 	workflowId: string,
-	config: Array<string>,
+	config: Array<string>=[],
 ): ChildProcess {
 	// create directory for workflow
 	if (!fs.existsSync(`${currentDir}/${workflowId}`)) {
