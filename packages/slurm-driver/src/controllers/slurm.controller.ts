@@ -3,6 +3,8 @@ import SlurmRepository from '../repositories/slurm.repository';
 import { NextFunction, Request, Response } from 'express';
 import { HpcCli, SlurmCli, toilKillHandler } from '../hpc';
 import { IControllerController } from '@polusai/compute-common';
+import {toilOutputDir, toilLogsDir} from '../server';
+import path from 'path';
 
 var fs = require('fs');
 const slurmConfig = require('config');
@@ -13,7 +15,6 @@ class SlurmController implements IControllerController {
 			// parse request
 			const slurm = req.body as Slurm;
 
-			console.log(slurm);
 			// ensure a CWL workflow is provided
 			if (!slurm.cwlWorkflow) {
 				res.status(400);
@@ -38,7 +39,14 @@ class SlurmController implements IControllerController {
 			// check if workflow id was supplied
 			const workflowId: string = slurm.id ? slurm.id : JSON.parse(JSON.stringify(slurm.cwlWorkflow)).id;
 
-			const result = SlurmRepository.computeCwlFile('cwl.json', 'command.json', workflowId, config);
+			// create subdirectories in asset folders for specific workflow
+			const workflowOutputPath = path.join(toilOutputDir, workflowId.toString());
+			const logsOutputPath = path.join(toilLogsDir, workflowId.toString());
+
+			fs.mkdirSync(workflowOutputPath, { recursive: true });
+			fs.mkdirSync(logsOutputPath, { recursive: true });
+
+			const result = SlurmRepository.computeCwlFile('cwl.json', 'command.json', workflowId, workflowOutputPath, logsOutputPath, config);
 
 			// return status that workflow is has started
 			res.status(201).json(result);
@@ -64,12 +72,10 @@ class SlurmController implements IControllerController {
 		// get workflow id
 		const id = req.params.id;
 
-		// working directory for toil
-		var currentDir = slurmConfig.slurmCompute.data;
-
-		try {
+		try { 
 			// read contents from correct directory for the workflow id
-			const outputPath = `${currentDir}/${id}/logs`;
+			const outputPath = `${toilLogsDir}/${id}`;
+
 			const fileList = fs.readdirSync(outputPath);
 
 			var result: JSON;
@@ -94,8 +100,14 @@ class SlurmController implements IControllerController {
 			res.send(`Invalid workflow id ${id}. Make sure that id=${id} is a valid workflow`);
 		}
 
-		// cast results to JSON
-		result = <JSON>temp;
+		try {
+			// cast results to JSON
+			result = <JSON>temp;
+		} catch (err) {
+			console.error(err);
+
+			res.status(404);
+		}
 
 		// send contents of file
 		res.status(200).json(result);
@@ -106,12 +118,9 @@ class SlurmController implements IControllerController {
 			// get workflow id
 			const id = req.params.id;
 
-			// working directory for toil
-			var currentDir = slurmConfig.slurmCompute.data;
-
-			try {
+			try { 
 				// read contents from correct directory for the workflow id
-				const outputPath = `${currentDir}/${id}/out`;
+				const outputPath = `${toilOutputDir}/${id}`;
 				const fileList = fs.readdirSync(outputPath);
 
 				var result: JSON;

@@ -1,14 +1,18 @@
 import { ChildProcess, spawn } from 'child_process';
-import { mkdir, mkdirSync } from 'fs';
+import { mkdirSync } from 'fs';
 var fs = require('fs');
+import path from 'path';
 
 export function spawnGenericCwlRunner(
 	cwlWorkflow: string,
 	cwlJobInputs: string,
 	currentDir: string,
+	toilOutputDir: string,
+	toilLogsDir: string,
 	workflowId: string,
 	config: Array<string>=[],
 ): ChildProcess {
+
 	// create directory for workflow
 	if (!fs.existsSync(`${currentDir}/${workflowId}`)) {
 		mkdirSync(`${currentDir}/${workflowId}`);
@@ -21,15 +25,11 @@ export function spawnGenericCwlRunner(
 			cwlWorkflow,
 			cwlJobInputs,
 			'--outdir',
-			`${currentDir}/${workflowId}/out`,
+			toilOutputDir,
 			'--logFile',
-			`${currentDir}/${workflowId}/logs/toil_run_${workflowId}.log`,
-			'--batchSystem',
-			'slurm',
-			'--jobStore',
-			`${currentDir}/${workflowId}/job`,
+			path.join(toilLogsDir, `toil.log`),
 		].concat(config), // add custom configs to toil call
-	);
+	)
 
 	return result;
 }
