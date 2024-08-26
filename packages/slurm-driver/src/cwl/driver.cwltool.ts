@@ -21,62 +21,7 @@ export interface Job {
 	dateFinished: string;
 	scriptPath: string;
 }
-export function cwlCompute(cwlWorkflow: object, cwlJobInputs: object, jobs: Job[]): void {
-	const basePath = slurmConfig.slurmCompute.data;
-	let cwlWorkflowModified = updateStepsWithScripts(cwlWorkflow as CwlWorkflowTemplate, jobs);
-	cwlWorkflowModified = addOperators(
-		cwlWorkflow as CwlWorkflowTemplate,
-		'src/operators/cwl-filepattern-plugin.cwl',
-		basePath,
-		'cwl-filepattern-plugin.cwl',
-	);
-	const workflowId = jobs[0].workflowId;
-	writeFileSync(`${basePath}/${workflowId}-workflow.cwl`, JSON.stringify(cwlWorkflowModified));
-	writeFileSync(`${basePath}/${workflowId}-params.json`, JSON.stringify(cwlJobInputs));
-	runLocalCwl(`${basePath}/${workflowId}-workflow.cwl`, `${basePath}/${workflowId}-params.json`, jobs);
-}
 
-export function runLocalCwl(
-	cwlWorkflow: string,
-	cwlJobInputs: string,
-	jobs: Job[],
-	currentDir: string = slurmConfig.slurmCompute.data,
-): void {
-	const workflowId = jobs[0].workflowId;
-	const cwlTool = spawnGenericCwlRunner(cwlWorkflow, cwlJobInputs, currentDir, workflowId);
-	const outJson = `${currentDir}/${workflowId}.out.json`;
-	const dateCreated = new Date().toISOString();
-	let status: WorkflowStatus = {
-		status: 'PENDING',
-		dateCreated,
-		dateFinished: '',
-	};
-	updateStatus(workflowId, status, currentDir);
-
-	const logStream = createWriteStream(outJson, { flags: 'w' });
-	cwlTool.stdout.pipe(logStream);
-
-	cwlTool.stderr.on('data', (data: string) => {
-		updateStatus(workflowId, { status: 'RUNNING', dateCreated, dateFinished: '' }, currentDir);
-
-		console.log(`stderr: ${data}`);
-	});
-
-	cwlTool.on('close', (code: string) => {
-		let statusMessage = 'COMPLETED';
-		const conditionalCode = code ? code.toString() : '';
-		if (conditionalCode) {
-			console.log(`child process exited with code ${code.toString()}`);
-			statusMessage = code.toString() === '0' ? 'COMPLETED' : 'ERROR';
-		}
-		status = {
-			status: statusMessage,
-			dateCreated,
-			dateFinished: new Date().toISOString(),
-		};
-		updateStatus(workflowId, status, currentDir);
-	});
-}
 export const getOutputOfJobs = (cwlOutputs: OutputDict) => {
 	const allOutputs: Record<string, string | string[] | number | boolean> = {};
 	for (const [key, value] of Object.entries(cwlOutputs)) {
