@@ -1,11 +1,17 @@
 import { readFileSync } from 'fs';
-import { cwlCompute, Job, getWorkflowLogs, readCwlOutput, getOutputOfJobs } from '../cwl';
+import { Job, getWorkflowLogs, readCwlOutput, getOutputOfJobs } from '../cwl';
 import { HpcCli, stopWorkflow, statusOfJobs, statusOfEachJob, HPCStatus, toilKillHandler } from '../hpc';
 import { WorkflowStatus } from '../types';
+import { spawnGenericCwlRunner } from '../cwl/spawn.cwl';
+const slurmConfig = require('config');
 
 export class SlurmRepository {
-	public async compute(cwlWorkflow: object, cwlJobParams: object, jobs: object[]) {
-		cwlCompute(cwlWorkflow, cwlJobParams, jobs as Job[]);
+
+	public async computeCwlFile(cwlFile: string, cwlJobInputs: string,  workflowId: string, outputDir: string, logsDir: string, config: string[]) {
+
+		const currentDir = slurmConfig.slurmCompute.data;
+
+		return spawnGenericCwlRunner(cwlFile, cwlJobInputs, currentDir, outputDir, logsDir, workflowId, config);
 	}
 
 	public async stopWorkflow(id: string, hpcCli: HpcCli, toilHandler = toilKillHandler) {
@@ -27,6 +33,18 @@ export class SlurmRepository {
 	}
 
 	public async getWorkflowLogs(id: string): Promise<Record<string, string | string[] | number | boolean>> {
+		require('dotenv').config();
+		const slurmConfig = require('config');
+		const logs = getWorkflowLogs(readCwlOutput(id));
+		if (Object.keys(logs).length === 0) {
+			return {
+				message: `Logs of running workflow can be found in the folder ${slurmConfig.slurmCompute.data}/${id}-logs`,
+			};
+		}
+		return logs;
+	}
+
+	public async getWorkflowLogs2(id: string): Promise<Record<string, string | string[] | number | boolean>> {
 		require('dotenv').config();
 		const slurmConfig = require('config');
 		const logs = getWorkflowLogs(readCwlOutput(id));

@@ -1,6 +1,6 @@
 export interface Slurm {
-	id?: number;
+	id?: string;
 	cwlWorkflow: object;
 	cwlJobInputs: object;
-	jobs: object[];
+	config?: string[];
 }

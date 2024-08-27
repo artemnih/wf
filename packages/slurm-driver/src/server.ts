@@ -7,6 +7,13 @@ import { SlurmRoutes, HealthRoutes } from './router';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
+import path from 'path';
+
+// path for toil output to create an asset directory
+export const toilOutputDir = path.join(__dirname, 'out');
+
+// path for toil logs to create an asset directory
+export const toilLogsDir = path.join(__dirname, 'logs');
 
 export class ExpressServer {
 	private app: express.Application;
@@ -46,6 +53,11 @@ export class ExpressServer {
 
 		// Serve static files in the public folder
 		this.app.use(express.static('public'));
+
+		// Serve toil output files back to user
+		this.app.use(express.static(toilOutputDir));
+		// Serve toil logs files back to user
+		this.app.use(express.static(toilLogsDir));
 
 		const specs = swaggerJsdoc(swaggerSchema);
 		this.app.use('/explorer/', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
