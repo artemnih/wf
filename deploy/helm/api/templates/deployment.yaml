@@ -24,16 +24,6 @@ spec:
                         value: 'mongodb://{{ .Values.mongodb.connectionString }}-mongodb:{{ .Values.mongodb.port }}'
                       - name: MONGO_DB_NAME
                         value: '{{ .Values.mongodb.name }}'
-                      - name: ARGO_DRIVER_URL
-                        value: '{{ .Values.compute.drivers.argo.url }}'
-                      - name: SLURM_DRIVER_URL
-                        value: '{{ .Values.compute.drivers.slurm.url }}'
-                      - name: SINGLENODE_DRIVER_URL
-                        value: '{{ .Values.compute.drivers.singlenode.url }}'
-                      - name: COMPUTE_SERVICE_NAME
-                        value: '{{ .Values.compute.name }}'
-                      - name: CORS_ORIGIN
-                        value: '{{ .Values.compute.cors.origin }}'
                       - name: SERVICES_AUTH_URL
                         value: '{{ .Values.compute.auth.url }}'
                       - name: NO_AUTH

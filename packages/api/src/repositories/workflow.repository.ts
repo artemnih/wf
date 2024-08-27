@@ -7,7 +7,7 @@ import { Dictionary, DriverRoutes } from '@polusai/compute-common';
 
 export class WorkflowRepository {
 	async submitWorkflowToDriver(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const cwlWorkflow = workflowToCwl(workflow);
 		const cwlJobInputs = workflow.cwlJobInputs;
 		const jobs = workflowToJobs(cwlWorkflow, workflow.cwlJobInputs);
@@ -17,17 +17,15 @@ export class WorkflowRepository {
 	}
 
 	async getWorkflowStatus(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/status`, { headers: { authorization: token } });
 		return result.data;
 	}
 
 	async getWorkflowOutput(workflow: Workflow, path: string, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const workflowId = workflow.driverWorkflowId;
-
 		const url = DriverRoutes.OUTPUTS.replace('/:id/', `/${workflowId}/`).replace('/*', `/${path}`);
-
 		const fullUrl = `${driverUrl}/compute/${url}`;
 
 		logger.info(`Getting output from url ${fullUrl}`);
@@ -39,13 +37,13 @@ export class WorkflowRepository {
 	}
 
 	async getWorkflowLogs(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/logs`, { headers: { authorization: token } });
 		return result.data;
 	}
 
 	async getAllJobsLogs(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/all-jobs-logs`, {
 			headers: { authorization: token },
 		});
@@ -53,7 +51,7 @@ export class WorkflowRepository {
 	}
 
 	async getWorkflowJobLogs(workflow: Workflow, jobId: string, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/job/${jobId}/logs`, {
 			headers: { authorization: token },
 		});
@@ -61,7 +59,7 @@ export class WorkflowRepository {
 	}
 
 	async getWorkflowJobStatus(workflow: Workflow, jobId: string, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/job/${jobId}/status`, {
 			headers: { authorization: token },
 		});
@@ -69,19 +67,19 @@ export class WorkflowRepository {
 	}
 
 	async getWorkflowJobs(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.get(`${driverUrl}/compute/${workflow.driverWorkflowId}/jobs`, { headers: { authorization: token } });
 		return result.data as Dictionary<Job>;
 	}
 
 	async stopWorkflow(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.put(`${driverUrl}/compute/${workflow.driverWorkflowId}/stop`, {}, { headers: { authorization: token } });
 		return result.data;
 	}
 
 	async pauseWorkflow(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.put(
 			`${driverUrl}/compute/${workflow.driverWorkflowId}/pause`,
 			{},
@@ -91,7 +89,7 @@ export class WorkflowRepository {
 	}
 
 	async restartWorkflow(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.put(
 			`${driverUrl}/compute/${workflow.driverWorkflowId}/restart`,
 			{},
@@ -101,7 +99,7 @@ export class WorkflowRepository {
 	}
 
 	async resumeWorkflow(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.put(
 			`${driverUrl}/compute/${workflow.driverWorkflowId}/resume`,
 			{},
@@ -111,7 +109,7 @@ export class WorkflowRepository {
 	}
 
 	async resubmitWorkflow(workflow: Workflow, token: string) {
-		const driverUrl = DriverRepository.getDriver(workflow.driver).url;
+		const driverUrl = await DriverRepository.getDriverUrl(workflow.driver);
 		const result = await axios.put(
 			`${driverUrl}/compute/${workflow.driverWorkflowId}/resubmit`,
 			{},
@@ -120,23 +118,16 @@ export class WorkflowRepository {
 		return result.data;
 	}
 
-	async healthDriverCheck(driverType: string, token: string) {
-		const driverUrl = DriverRepository.getDriver(driverType).url;
+	async healthDriverCheck(driver: string, token: string) {
+		const driverUrl = await DriverRepository.getDriverUrl(driver);
 		const result = await axios.get(`${driverUrl}/health/check`);
 		return result.data;
 	}
 
-	async getDrivers() {
-		return DriverRepository.getDrivers();
-	}
-
-	async getListOfDrivers() {
-		return Object.keys(DriverRepository.getDrivers());
-	}
-
 	async getDriverLogs(driver: string, token: string) {
 		logger.info(`Getting driver logs for ${driver}`);
-		const driverUrl = DriverRepository.getDriver(driver).url;
+		const driverObj = await DriverRepository.getByName(driver);
+		const driverUrl = driverObj.url;
 		const result = await axios.get(`${driverUrl}/compute/logs`, { headers: { authorization: token } });
 		let rawLogs = result.data;
 		rawLogs = rawLogs.replace(/\t/g, ' ');
