@@ -11,7 +11,7 @@ module.exports = {
     },
   },
   argoCompute: {
-    basePath:'/',
+    baseDir: process.env.BASE_DIR || '/',
     test: 'TEST',
     email:{
       to: process.env.TEMPLATE_EMAIL_TO
@@ -28,12 +28,11 @@ module.exports = {
       namespace: process.env.ARGO_NAMESPACE || 'default',
     },
     volumeDefinitions: {
-      pvcName: process.env.VOLUME_PVC_NAME || 'compute-pv-claim',
-      name: 'compute-data-volume',
-      mountPath: process.env.VOLUME_MOUNT_PATH,
-      outputPath: process.env.VOLUME_OUTPUT_PATH,
+      pvcName: process.env.VOLUME_PVC_NAME,
+      name: process.env.INTERNAL_ARGO_VOLUME_NAME ||  'argo-internal-volume-name',
+      mountPath: process.env.VOLUME_MOUNT_PATH || '/inputs',
+      outputPath: process.env.VOLUME_OUTPUT_PATH || '/outputs',
       subPath: process.env.VOLUME_SUB_PATH,
-      absoluteOutputPath: process.env.VOLUME_ABSOLUTE_OUTPUT_PATH,
     }
   }
 };

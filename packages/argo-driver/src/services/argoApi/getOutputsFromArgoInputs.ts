@@ -17,7 +17,7 @@ export function getOutputsFromArgoInputs(inputs: ArgoParameters[], stepName: str
 		if (checkIfOutput(element.value)) {
 			const pathInArgo = element.value.replace(
 				`${argoConfig.argoCompute.volumeDefinitions.outputPath}`,
-				`${argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath}`,
+				`${argoConfig.argoCompute.volumeDefinitions.mountPath}`,
 			);
 			actualOutput[`${stepName}${element.name}`] = pathInArgo;
 		}

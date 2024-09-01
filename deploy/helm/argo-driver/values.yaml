@@ -10,10 +10,7 @@ driver:
         url: null
     volume:
         pvcName: 'compute-pv-claim'
-        mountPath: '/data/inputs'
-        outputPath: '/data/outputs'
         subPath: 'temp/jobs'
-        absoluteOutputPath: '/data/inputs/temp/jobs'
 argo:
     server:
         service:
