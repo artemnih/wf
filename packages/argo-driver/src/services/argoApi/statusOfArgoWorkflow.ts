@@ -57,7 +57,7 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 					param.isDir = true;
 
 					// get metadata of the folder
-					const fullPath = path.join(argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath, wfId, parts[1]);
+					const fullPath = path.join(argoConfig.argoCompute.baseDir, argoConfig.argoCompute.volumeDefinitions.subPath, wfId, parts[1]);
 					if (fs.existsSync(fullPath)) {
 						const metadata = fs.lstatSync(fullPath);
 						const files = fs.readdirSync(fullPath);

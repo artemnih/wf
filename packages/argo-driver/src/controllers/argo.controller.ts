@@ -11,9 +11,11 @@ import {
 	stopArgoWorkflow,
 	getJobStatus,
 } from '../services/argoApi';
-import fs from 'fs';
 import { getContent } from '../services/argoApi/get-content';
 import { logger } from '../services/logger';
+
+require('dotenv').config();
+const argoConfig = require('config');
 
 class ArgoController implements IControllerController {
 	/**
@@ -109,7 +111,8 @@ class ArgoController implements IControllerController {
 				logger.error(errorMessage);
 				throw new Error(errorMessage);
 			}
-			const fullPath = `${workflowId}/${decodedPath}`;
+			const subPath = argoConfig.argoCompute.volumeDefinitions.subPath;
+			const fullPath = `${subPath}/${workflowId}/${decodedPath}`;
 			const respo = await getContent(fullPath);
 			respo.stream.pipe(res);
 		} catch (error) {
