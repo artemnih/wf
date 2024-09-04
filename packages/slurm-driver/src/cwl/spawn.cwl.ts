@@ -6,17 +6,14 @@ import path from 'path';
 export function spawnGenericCwlRunner(
 	cwlWorkflow: string,
 	cwlJobInputs: string,
-	currentDir: string,
 	toilOutputDir: string,
 	toilLogsDir: string,
-	workflowId: string,
 	config: Array<string>=[],
 ): ChildProcess {
 
-	// create directory for workflow
-	if (!fs.existsSync(`${currentDir}/${workflowId}`)) {
-		mkdirSync(`${currentDir}/${workflowId}`);
-	}
+	const toilLogFile = path.join(toilLogsDir, `toil.log`)
+	//create log file
+	fs.writeFileSync(toilLogFile, '', { flag: 'w' });
 
 	// run toil from command line
 	const result = spawn(
@@ -27,7 +24,9 @@ export function spawnGenericCwlRunner(
 			'--outdir',
 			toilOutputDir,
 			'--logFile',
-			path.join(toilLogsDir, `toil.log`),
+			toilLogFile,
+			'--batchSystem',
+			'slurm',
 		].concat(config), // add custom configs to toil call
 	)
 
