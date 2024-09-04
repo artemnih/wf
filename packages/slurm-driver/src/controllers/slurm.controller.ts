@@ -3,11 +3,22 @@ import SlurmRepository from '../repositories/slurm.repository';
 import { NextFunction, Request, Response } from 'express';
 import { HpcCli, SlurmCli, toilKillHandler } from '../hpc';
 import { IControllerController } from '@polusai/compute-common';
-import {toilOutputDir, toilLogsDir} from '../server';
 import path from 'path';
+import { mkdirSync } from 'fs';
 
 var fs = require('fs');
 const slurmConfig = require('config');
+
+const basePath = slurmConfig.slurmCompute.data;
+mkdirSync(basePath, { recursive: true });
+
+// directory to store toil output
+const toilOutputDir = path.join(basePath, 'out')
+mkdirSync(toilOutputDir, { recursive: true });
+
+// directory to store toil logs
+const toilLogsDir = path.join(basePath, 'logs')
+mkdirSync(toilLogsDir, { recursive: true })
 
 class SlurmController implements IControllerController {
 	async createWorkflow(req: Request, res: Response, next: NextFunction) {
@@ -46,7 +57,7 @@ class SlurmController implements IControllerController {
 			fs.mkdirSync(workflowOutputPath, { recursive: true });
 			fs.mkdirSync(logsOutputPath, { recursive: true });
 
-			const result = SlurmRepository.computeCwlFile('cwl.json', 'command.json', workflowId, workflowOutputPath, logsOutputPath, config);
+			const result = SlurmRepository.computeCwlFile('cwl.json', 'command.json', workflowOutputPath, logsOutputPath, config);
 
 			// return status that workflow is has started
 			res.status(201).json(result);
