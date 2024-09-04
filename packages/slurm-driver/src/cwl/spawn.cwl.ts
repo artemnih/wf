@@ -27,10 +27,6 @@ export function spawnGenericCwlRunner(
 			toilLogFile,
 			'--batchSystem',
 			'slurm',
-			'--defaultCores',
-			'1',
-			'--defaultMemory',
-			'10M'
 		].concat(config), // add custom configs to toil call
 	)
 
