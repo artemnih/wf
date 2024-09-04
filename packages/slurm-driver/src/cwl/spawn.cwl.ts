@@ -34,7 +34,5 @@ export function spawnGenericCwlRunner(
 		].concat(config), // add custom configs to toil call
 	)
 
-	console.log(result.stdout)
-
 	return result;
 }
