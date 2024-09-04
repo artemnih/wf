@@ -7,11 +7,9 @@ const slurmConfig = require('config');
 
 export class SlurmRepository {
 
-	public async computeCwlFile(cwlFile: string, cwlJobInputs: string,  workflowId: string, outputDir: string, logsDir: string, config: string[]) {
+	public async computeCwlFile(cwlFile: string, cwlJobInputs: string, outputDir: string, logsDir: string, config: string[]) {
 
-		const currentDir = slurmConfig.slurmCompute.data;
-
-		return spawnGenericCwlRunner(cwlFile, cwlJobInputs, currentDir, outputDir, logsDir, workflowId, config);
+		return spawnGenericCwlRunner(cwlFile, cwlJobInputs, outputDir, logsDir, config);
 	}
 
 	public async stopWorkflow(id: string, hpcCli: HpcCli, toilHandler = toilKillHandler) {
