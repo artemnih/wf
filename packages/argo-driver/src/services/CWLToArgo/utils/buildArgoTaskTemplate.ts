@@ -59,7 +59,7 @@ function mountDirectories(taskArgumentsParameters: ArgoTaskParameter[]) {
 			param.value = path.join(argoMountPath, param.value);
 		} else if (param.type === ArgoTaskParameterType.InputPath) {
 			// inputs must be mounted from a read only location
-			let argoMountPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath;
+			let argoMountPath = argoConfig.argoCompute.volumeDefinitions.mountPath;
 			param.value = path.join(argoMountPath, param.value);
 		}
 	}

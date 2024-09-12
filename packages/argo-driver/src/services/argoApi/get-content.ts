@@ -1,4 +1,3 @@
-import { Response } from 'express';
 import fs from 'fs';
 import stream from 'stream';
 
@@ -6,7 +5,7 @@ require('dotenv').config();
 const argoConfig = require('config');
 
 export async function getContent(path: string) {
-	const parentPath = argoConfig.argoCompute.volumeDefinitions.absoluteOutputPath;
+	const parentPath = argoConfig.argoCompute.baseDir;
 	let fullPath = parentPath + '/' + path;
 	fullPath = fullPath.replace(/\/\//g, '/');
 
