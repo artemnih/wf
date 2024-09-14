@@ -18,7 +18,7 @@
     "config": "^3.3.9",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "express-jwt": "^8.4.1",
     "jwks-rsa": "^3.0.1",
     "mongoose": "^7.0.3",
