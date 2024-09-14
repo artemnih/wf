@@ -39,7 +39,7 @@ jobs:
           context: .
           file: ./Dockerfile.api
           push: true
-          tags: polusai/compute-api:${{ steps.release.outputs['packages/api--tag_name'] }}
+          tags: polusai/compute:${{ steps.release.outputs['packages/api--tag_name'] }}
 
       - name: Publish Argo Driver Docker image
         if: ${{ steps.release.outputs['packages/argo-driver--release_created'] == 'true'}}
