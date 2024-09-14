@@ -46,7 +46,7 @@ jobs:
           context: .
           file: ./Dockerfile.api
           push: true
-          tags: polusai/compute:${{ steps.release.outputs['packages/api--tag_name'] }}
+          tags: polusai/compute:${{ steps.release.outputs['packages/api--version'] }}
 
       - name: Publish Argo Driver Docker image
         if: ${{ steps.release.outputs['packages/argo-driver--release_created'] == 'true'}}
@@ -55,7 +55,7 @@ jobs:
           context: .
           file: ./Dockerfile.argo
           push: true
-          tags: polusai/compute-argo-driver:${{ steps.release.outputs['packages/argo-driver--tag_name'] }}
+          tags: polusai/compute-argo-driver:${{ steps.release.outputs['packages/argo-driver--version'] }}
 
       - name: Publish Single Node Driver Docker image
         if: ${{ steps.release.outputs['packages/single-node-driver--release_created'] == 'true'}}
@@ -64,7 +64,7 @@ jobs:
           context: .
           file: ./Dockerfile.sn
           push: true
-          tags: polusai/compute-single-node-driver:${{ steps.release.outputs['packages/single-node-driver--tag_name'] }}
+          tags: polusai/compute-single-node-driver:${{ steps.release.outputs['packages/single-node-driver--version'] }}
 
       - name: Publish Slurm Driver Docker image
         if: ${{ steps.release.outputs['packages/slurm-driver--release_created'] == 'true'}}
@@ -73,4 +73,4 @@ jobs:
           context: .
           file: ./Dockerfile.slurm
           push: true
-          tags: polusai/compute-slurm-driver:${{ steps.release.outputs['packages/slurm-driver--tag_name'] }}
+          tags: polusai/compute-slurm-driver:${{ steps.release.outputs['packages/slurm-driver--version'] }}
