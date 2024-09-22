@@ -47,6 +47,7 @@ export function buildArgoDagTaskTemplate(step: Step, cwlJobInputs: WorkflowInput
 	return argoDagTemplate;
 }
 
+// adds mount directories to the full paths of dir inputs
 function mountDirectories(taskArgumentsParameters: ArgoTaskParameter[]) {
 	// get configuration
 	require('dotenv').config();
@@ -70,18 +71,21 @@ function createTaskParameters(step: Step, cwlJobInputs: WorkflowInput[], boundOu
 	const taskArgumentsParameters: ArgoTaskParameter[] = [];
 	const templateName = step.name;
 
+	require('dotenv').config();
+	const argoConfig = require('config');
+
 	for (const stepInput in step.in) {
 		let inputValue: string = '';
 		let inputType = ArgoTaskParameterType.Value;
 
-		//for each input step, check if it is defined in the cwlJobInputs
+		// for each input step, check if it is defined in the cwlJobInputs
 		const workflowInput = cwlJobInputs.find(element => step.in[stepInput] === element.name);
 
-		//Input defined in cwlJobInputs
+		// Input defined in cwlJobInputs
 		if (workflowInput) {
 			inputValue = workflowInput.value;
 
-			//TODO CHECK SCATTER
+			// TODO CHECK SCATTER
 			if (step.scatter === stepInput) {
 				inputValue = '{{item}}';
 				scatterParam = workflowInput?.value;
@@ -137,7 +141,11 @@ function createTaskParameters(step: Step, cwlJobInputs: WorkflowInput[], boundOu
 			// If we have directory, it means we are depending on data created by a previous step.
 			// We need to mount the directory into a read-only location coming from the given step.
 			if (step.clt.inputs[stepInput]?.type == 'Directory') {
-				inputValue = path.join(pathPrefix, boundStep, inputValue as string);
+
+				// we add subPath because outputs are always in subpath
+				// but can't add subPath to inputs because it will not work with pre-existing data
+				let subPath = argoConfig.argoCompute.volumeDefinitions.subPath;
+				inputValue = path.join(subPath, pathPrefix, boundStep, inputValue as string);
 				inputType = ArgoTaskParameterType.InputPath;
 			}
 		}
