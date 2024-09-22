@@ -32,7 +32,7 @@ module.exports = {
       name: process.env.INTERNAL_ARGO_VOLUME_NAME ||  'argo-internal-volume-name',
       mountPath: process.env.VOLUME_MOUNT_PATH || '/inputs',
       outputPath: process.env.VOLUME_OUTPUT_PATH || '/outputs',
-      subPath: process.env.VOLUME_SUB_PATH,
+      subPath: process.env.VOLUME_SUB_PATH || 'workflows'
     }
   }
 };
