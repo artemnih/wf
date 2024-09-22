@@ -69,7 +69,6 @@ export class DriverController {
 			next(error);
 		}
 	}
-
 }
 
 export default new DriverController();

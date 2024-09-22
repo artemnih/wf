@@ -50,14 +50,22 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 					// split it
 					const parts = param.value.split(wfId);
 
+					// build relative path, excludes mount dir
+					const relativePath = path.join(argoConfig.argoCompute.volumeDefinitions.subPath, wfId, parts[1]);
+
 					// store it
-					param.value = parts[1];
+					param.value = relativePath;
 
 					// mark it as directory reference
 					param.isDir = true;
 
 					// get metadata of the folder
-					const fullPath = path.join(argoConfig.argoCompute.baseDir, argoConfig.argoCompute.volumeDefinitions.subPath, wfId, parts[1]);
+					const fullPath = path.join(
+						argoConfig.argoCompute.baseDir,
+						argoConfig.argoCompute.volumeDefinitions.subPath,
+						wfId,
+						parts[1],
+					);
 					if (fs.existsSync(fullPath)) {
 						const metadata = fs.lstatSync(fullPath);
 						const files = fs.readdirSync(fullPath);

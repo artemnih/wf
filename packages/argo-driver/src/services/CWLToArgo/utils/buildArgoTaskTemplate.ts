@@ -4,6 +4,9 @@ import { sanitizeStepName } from './sanitize-step-name';
 import path from 'path';
 import { logger } from '../../logger';
 
+require('dotenv').config();
+const argoConfig = require('config');
+
 /**
  * Build the argo dag task template for the given step.
  * @param step a worfklow step
@@ -49,10 +52,6 @@ export function buildArgoDagTaskTemplate(step: Step, cwlJobInputs: WorkflowInput
 
 // adds mount directories to the full paths of dir inputs
 function mountDirectories(taskArgumentsParameters: ArgoTaskParameter[]) {
-	// get configuration
-	require('dotenv').config();
-	const argoConfig = require('config');
-
 	for (let param of taskArgumentsParameters) {
 		if (param.type === ArgoTaskParameterType.OutputPath) {
 			// outputs should be mounted in writable location
@@ -70,9 +69,6 @@ function createTaskParameters(step: Step, cwlJobInputs: WorkflowInput[], boundOu
 	let scatterParam: string[] | string = '';
 	const taskArgumentsParameters: ArgoTaskParameter[] = [];
 	const templateName = step.name;
-
-	require('dotenv').config();
-	const argoConfig = require('config');
 
 	for (const stepInput in step.in) {
 		let inputValue: string = '';
@@ -141,7 +137,6 @@ function createTaskParameters(step: Step, cwlJobInputs: WorkflowInput[], boundOu
 			// If we have directory, it means we are depending on data created by a previous step.
 			// We need to mount the directory into a read-only location coming from the given step.
 			if (step.clt.inputs[stepInput]?.type == 'Directory') {
-
 				// we add subPath because outputs are always in subpath
 				// but can't add subPath to inputs because it will not work with pre-existing data
 				let subPath = argoConfig.argoCompute.volumeDefinitions.subPath;
