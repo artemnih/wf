@@ -1,6 +1,6 @@
 {
-  "packages/api": "1.0.0",
-  "packages/argo-driver": "1.0.0",
+  "packages/api": "1.1.0",
+  "packages/argo-driver": "1.1.0",
   "packages/single-node-driver": "1.0.0",
   "packages/slurm-driver": "1.0.0"
 }

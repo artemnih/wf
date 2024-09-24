@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.0](https://github.com/PolusAI/compute/compare/argo-compute-v1.0.0...argo-compute-v1.1.0) (2024-09-22)
+
+
+### Features
+
+* **argo-driver:** add default subpath ([8c0961a](https://github.com/PolusAI/compute/commit/8c0961a5390f7758d6db49d79924640f2df35272))
+* full argo content path in status ([f085de0](https://github.com/PolusAI/compute/commit/f085de0b91ba941b51aaa9b859250575bf426917))
+* **logger:** add logger prefix ([931e558](https://github.com/PolusAI/compute/commit/931e5584d95c7d338edefcc6178c8034f491b5f8))
+
+
+### Bug Fixes
+
+* **argo:** input and outputs paths bindings ([ca8810c](https://github.com/PolusAI/compute/commit/ca8810cfe0822aa4526a688f06c3b40fb6c83056))
+
 ## 1.0.0 (2024-09-14)
 
 
