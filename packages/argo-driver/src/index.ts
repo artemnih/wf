@@ -1,6 +1,8 @@
 import { ExpressServer } from './server';
 import { logger } from './services/logger';
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 require('dotenv').config();
 const config = require('config');
 const server = new ExpressServer(config);

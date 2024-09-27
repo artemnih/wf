@@ -4,6 +4,7 @@ import HealthController from './controllers/health.controller';
 import { DriverRoutes, ExplorerRoutes as ExplorerRoutePaths } from '@polusai/compute-common';
 import LoggerController from './controllers/logger.controller';
 import { ExplorerController } from './controllers/explorer.controller';
+import multer from 'multer';
 
 const explorerController = new ExplorerController();
 
@@ -21,7 +22,8 @@ export const ComputeRoutes = express
 export const ExplorerRoutes = express
 	.Router()
 	.get(ExplorerRoutePaths.GET_CONTENT, explorerController.getContent)
-	.post(ExplorerRoutePaths.CREATE_DIR, explorerController.createDir);
+	.post(ExplorerRoutePaths.CREATE_DIR, explorerController.createDir)
+	.post(ExplorerRoutePaths.UPLOAD_FILES, multer().array('files'), explorerController.uploadFiles);
 
 export const HealthRoutes = express.Router().get('/check', HealthController.ping);
 export const LoggerRoutes = express.Router().get('/logs', LoggerController.getServerLogs);

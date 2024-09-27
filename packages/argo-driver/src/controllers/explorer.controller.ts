@@ -13,8 +13,13 @@ export class ExplorerController implements IExplorerController {
 				logger.error('Invalid path');
 				throw new Error('Invalid path');
 			}
-			const respo = await ExplorerService.getContent(decodedPath);
-			respo.stream.pipe(res);
+			const result = await ExplorerService.getContent(decodedPath);
+			result.stream.pipe(res);
+
+			result.stream.on('error', streamError => {
+				logger.error(`Error while streaming file: ${streamError.message}`);
+				res.status(500).send('Error while streaming content');
+			});
 		} catch (error) {
 			if (error.code === 'ENOENT') {
 				res.status(404).send('File not found');
@@ -29,31 +34,70 @@ export class ExplorerController implements IExplorerController {
 	async createDir(req: Request, res: Response, next: NextFunction) {
 		try {
 			const path = req.params[0];
-			const name = req.params.name;
 
-			if (path.includes('..') || name.includes('..')) {
+			logger.info(`Creating new directory at: ${path}`);
+
+			if (path.includes('..')) {
 				logger.error('Invalid path');
-				throw new Error('Invalid path');
+				return res.status(400).send('Invalid path');
 			}
 
-			if (name === '') {
+			if (!path.trim()) {
+				logger.error('Directory name cannot be empty');
+				return res.status(400).send('Directory name cannot be empty');
+			}
+
+			if (path === '') {
 				logger.error('Name cannot be empty');
 				throw new Error('Name cannot be empty');
 			}
 
-			const illegalChars = ['/', '\\', '?', '%', '*', ':', '|', '"', '<', '>', '.'];
-
-			if (illegalChars.some(char => name.includes(char))) {
-				logger.error('Name contains illegal characters');
-				throw new Error('Name contains illegal characters');
+			const illegalChars = /[?%*:|"<>.]/;
+			if (illegalChars.test(path)) {
+				logger.error('Directory name contains illegal characters');
+				return res.status(400).send('Directory name contains illegal characters');
 			}
 
-			const respo = await ExplorerService.createDir(path, name);
-			res.status(200).json(respo.data);
+			// Call the service to create the directory
+			const result = await ExplorerService.createDir(path);
+
+			// Send success response
+			return res.status(200).json({ message: 'Directory created', data: result.data });
 		} catch (error) {
-			logger.error(`Error while creating new dir: ${error.message}`);
-			res.status(500).send('Error while creating new dir: ' + error.message);
-			next(error);
+			// Log and handle errors
+			logger.error(`Error while creating new directory: ${error.message}`);
+			return res.status(500).send('Error while creating new directory: ' + error.message);
+		}
+	}
+
+	async uploadFiles(req: Request, res: Response, next: NextFunction) {
+		try {
+			logger.info('Uploading files');
+
+			const pathToTarget = req.params[0]; // The path where files should be uploaded
+			const files = req.files as Express.Multer.File[]; // Files uploaded via Multer
+
+			// Validate that the path does not contain directory traversal sequences
+			if (pathToTarget.includes('..')) {
+				logger.error('Invalid path detected');
+				return res.status(400).send('Invalid path');
+			}
+
+			if (!files || files.length === 0) {
+				return res.status(400).send('No files were uploaded');
+			}
+
+			// Log the upload attempt
+			logger.info(`Received request to upload files to path: ${pathToTarget}`);
+
+			// Call the service to handle the file upload
+			const result = await ExplorerService.uploadFiles(pathToTarget, files);
+
+			// Return success response
+			return res.status(200).json(result);
+		} catch (error) {
+			logger.error(`Error in uploading files: ${error.message}`);
+			return res.status(500).send('Error while uploading files');
 		}
 	}
 }

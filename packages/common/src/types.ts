@@ -15,7 +15,8 @@ export interface IControllerController {
 
 export interface IExplorerController {
 	getContent(req: Request, res: Response, next: NextFunction): Promise<void>;
-	createDir(req: Request, res: Response, next: NextFunction): Promise<void>;
+	createDir(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+	uploadFiles(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
 }
 
 export enum WorkflowStatus {
@@ -40,7 +41,8 @@ export const DriverRoutes = {
 
 export const ExplorerRoutes = {
 	GET_CONTENT: '/content/*',
-	CREATE_DIR: '/newdir/*/:name',
+	CREATE_DIR: '/newdir/*',
+	UPLOAD_FILES: '/upload/*',
 };
 
 export interface WorkflowStatusPayloadParam {

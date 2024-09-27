@@ -4,6 +4,7 @@ import HealthController from './controllers/health.controller';
 import ExplorerController from './controllers/explorer.controller';
 import LoggerController from './controllers/logger.controller';
 import DriverController from './controllers/driver.controller';
+import multer from 'multer';
 
 export const WorkflowRoutes = express
 	.Router()
@@ -29,7 +30,8 @@ export const HealthRoutes = express.Router().get('/check/:driver', WorkflowContr
 export const ExplorerRoutes = express
 	.Router()
 	.get('/:driver/content/*', ExplorerController.getContent)
-	.post('/:driver/newdir/*/:name', ExplorerController.createDir);
+	.post('/:driver/newdir/*', ExplorerController.createDir)
+	.post('/:driver/upload/*', multer().array('files'), ExplorerController.uploadFiles);
 
 export const LoggerRoutes = express.Router().get('/logs', LoggerController.getServerLogs);
 
