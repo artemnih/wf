@@ -6,9 +6,7 @@ import { spawnGenericCwlRunner } from '../cwl/spawn.cwl';
 const slurmConfig = require('config');
 
 export class SlurmRepository {
-
 	public async computeCwlFile(cwlFile: string, cwlJobInputs: string, outputDir: string, logsDir: string, config: string[]) {
-
 		return spawnGenericCwlRunner(cwlFile, cwlJobInputs, outputDir, logsDir, config);
 	}
 

@@ -1,7 +1,7 @@
 import * as http from 'http';
 import express from 'express';
 import mongoose from 'mongoose';
-import { WorkflowRoutes, HealthRoutes, JobRoutes, ExplorerRoutes, LoggerRoutes, DriverRoutes } from './router';
+import { WorkflowRoutes, HealthRoutes, ExplorerRoutes, LoggerRoutes, DriverRoutes } from './router';
 import cors from 'cors';
 import jwksRsa from 'jwks-rsa';
 import { expressjwt } from 'express-jwt';
@@ -33,7 +33,7 @@ export class ExpressServer {
 		if (typeof this.options.rest.noAuth === 'undefined' || !this.options.rest.noAuth) {
 			console.log('Compute API: Enabling JWT authentication');
 			this.app.use(
-				'/compute',
+				['/compute', 'files', 'drivers', 'logger'],
 				expressjwt({
 					secret: jwksRsa.expressJwtSecret({
 						cache: true,
@@ -50,10 +50,9 @@ export class ExpressServer {
 		}
 
 		this.app.use('/compute', WorkflowRoutes);
-		this.app.use('/compute', JobRoutes);
-		this.app.use('/compute', ExplorerRoutes);
-		this.app.use('/compute', LoggerRoutes);
-		this.app.use('/compute', DriverRoutes);
+		this.app.use('/logger', LoggerRoutes);
+		this.app.use('/drivers', DriverRoutes);
+		this.app.use('/files', ExplorerRoutes);
 		this.app.use('/health', HealthRoutes);
 		this.app.use(handleHttpError);
 

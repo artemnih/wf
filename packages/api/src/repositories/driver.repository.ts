@@ -1,6 +1,7 @@
 import { assert } from 'console';
 import { DriverCrud, Driver } from '../models/driver.model';
 import NodeCache from 'node-cache';
+import { logger } from '../utils';
 
 const DRIVER_CACHE_KEY = 'drivers';
 const DRIVER_CACHE_TTL = 3600;
@@ -25,7 +26,8 @@ class DriverRepository {
 
 		const driver = allDrivers.find(d => d.name === name);
 		if (!driver) {
-			throw new Error(`Driver ${name} not found`);
+			logger.error(`Driver with name "${name}" was not found`);
+			throw new Error(`Driver with name "${name}" was not found`);
 		}
 
 		return driver;

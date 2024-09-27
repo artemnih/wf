@@ -3,7 +3,7 @@ import * as http from 'http';
 import cors from 'cors';
 import jwksRsa from 'jwks-rsa';
 import { expressjwt } from 'express-jwt';
-import { ComputeRoutes, HealthRoutes, LoggerRoutes } from './router';
+import { ComputeRoutes, ExplorerRoutes, HealthRoutes, LoggerRoutes } from './router';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
@@ -23,7 +23,7 @@ export class ExpressServer {
 		if (!this.options.rest.noAuth) {
 			logger.info('Argo Driver: Enabling JWT authentication');
 			this.app.use(
-				'/compute',
+				['/compute', 'files', 'logger'],
 				expressjwt({
 					secret: jwksRsa.expressJwtSecret({
 						cache: true,
@@ -43,7 +43,8 @@ export class ExpressServer {
 		// this.app.use(this.options.argoCompute.basePath, this.api.requestHandler);
 
 		this.app.use('/compute', ComputeRoutes);
-		this.app.use('/compute', LoggerRoutes);
+		this.app.use('/logger', LoggerRoutes);
+		this.app.use('/files', ExplorerRoutes);
 		this.app.use('/health', HealthRoutes);
 
 		// Serve static files in the public folder

@@ -13,6 +13,11 @@ export interface IControllerController {
 	stopWorkflow(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
 
+export interface IExplorerController {
+	getContent(req: Request, res: Response, next: NextFunction): Promise<void>;
+	createDir(req: Request, res: Response, next: NextFunction): Promise<void>;
+}
+
 export enum WorkflowStatus {
 	PENDING = 'PENDING',
 	RUNNING = 'RUNNING',
@@ -31,7 +36,11 @@ export const DriverRoutes = {
 	OUTPUTS: '/:id/outputs/*',
 	JOBS: '/:id/jobs',
 	STOP: '/:id/stop',
-	FILES_CONTENT: '/files/content/*',
+};
+
+export const ExplorerRoutes = {
+	GET_CONTENT: '/content/*',
+	CREATE_DIR: '/newdir/*/:name',
 };
 
 export interface WorkflowStatusPayloadParam {

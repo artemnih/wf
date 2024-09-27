@@ -1,6 +1,6 @@
 import { WorkflowExecutionRequest } from '../types';
 import { NextFunction, Request, Response } from 'express';
-import { DriverRoutes, IControllerController } from '@polusai/compute-common';
+import { IControllerController } from '@polusai/compute-common';
 import {
 	createWorkflow,
 	statusOfArgoWorkflow,
@@ -11,8 +11,8 @@ import {
 	stopArgoWorkflow,
 	getJobStatus,
 } from '../services/argoApi';
-import { getContent } from '../services/argoApi/get-content';
 import { logger } from '../services/logger';
+import ExplorerService from '../services/explorer.service';
 
 require('dotenv').config();
 const argoConfig = require('config');
@@ -113,40 +113,9 @@ class ArgoController implements IControllerController {
 			}
 			const subPath = argoConfig.argoCompute.volumeDefinitions.subPath;
 			const fullPath = `${subPath}/${workflowId}/${decodedPath}`;
-			const respo = await getContent(fullPath);
+			const respo = await ExplorerService.getContent(fullPath);
 			respo.stream.pipe(res);
 		} catch (error) {
-			next(error);
-		}
-	}
-
-	async getContent(req: Request, res: Response, next: NextFunction) {
-		try {
-			logger.info('Getting content:' + req.url);
-			const url = req.url;
-			const search = DriverRoutes.FILES_CONTENT.split('*')[0];
-			const index = url.indexOf(search);
-			if (index === -1) {
-				const errorMessage = 'Invalid path';
-				logger.error(errorMessage);
-				throw new Error(errorMessage);
-			}
-			const path = url.substring(index + search.length);
-			const decodedPath = decodeURIComponent(path);
-			if (decodedPath.includes('..')) {
-				const errorMessage = 'Invalid path';
-				logger.error(errorMessage);
-				throw new Error(errorMessage);
-			}
-			const respo = await getContent(decodedPath);
-			respo.stream.pipe(res);
-		} catch (error) {
-			if (error.code === 'ENOENT') {
-				res.status(404).send('File not found');
-			} else {
-				logger.error(`Error while getting content: ${error.message}`);
-				res.status(500).send('Error while getting content: ' + error.message);
-			}
 			next(error);
 		}
 	}

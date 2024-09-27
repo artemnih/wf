@@ -1,6 +1,5 @@
 import express from 'express';
 import WorkflowController from './controllers/workflow.controller';
-import JobController from './controllers/job.controller';
 import HealthController from './controllers/health.controller';
 import ExplorerController from './controllers/explorer.controller';
 import LoggerController from './controllers/logger.controller';
@@ -25,18 +24,19 @@ export const WorkflowRoutes = express
 	.put('/workflows/:id/pause', WorkflowController.pauseWorkflow)
 	.get('/drivers/:driver/logs', WorkflowController.getDriverLogs);
 
-export const JobRoutes = express.Router().get('/jobs', JobController.find).get('/jobs/:jobId', JobController.findById);
-
 export const HealthRoutes = express.Router().get('/check/:driver', WorkflowController.checkHealth).get('/check', HealthController.ping);
 
-export const ExplorerRoutes = express.Router().get('/files/content/:driver/*', ExplorerController.getContent);
+export const ExplorerRoutes = express
+	.Router()
+	.get('/:driver/content/*', ExplorerController.getContent)
+	.post('/:driver/newdir/*/:name', ExplorerController.createDir);
 
 export const LoggerRoutes = express.Router().get('/logs', LoggerController.getServerLogs);
 
 export const DriverRoutes = express
 	.Router()
-	.get('/drivers', DriverController.getAll)
-	.post('/drivers', DriverController.create)
-	.get('/drivers/:id', DriverController.findById)
-	.patch('/drivers/:id', DriverController.update)
-	.delete('/drivers/:id', DriverController.delete);
+	.get('/', DriverController.getAll)
+	.post('/', DriverController.create)
+	.get('/:id', DriverController.findById)
+	.patch('/:id', DriverController.update)
+	.delete('/:id', DriverController.delete);
