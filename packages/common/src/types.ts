@@ -14,9 +14,10 @@ export interface IControllerController {
 }
 
 export interface IExplorerController {
-	getContent(req: Request, res: Response, next: NextFunction): Promise<void>;
+	getContent(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
 	createDir(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
 	uploadFiles(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+	downloadFile(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
 }
 
 export enum WorkflowStatus {
@@ -43,6 +44,7 @@ export const ExplorerRoutes = {
 	GET_CONTENT: '/content/*',
 	CREATE_DIR: '/newdir/*',
 	UPLOAD_FILES: '/upload/*',
+	DOWNLOAD_FILE: '/download/*',
 };
 
 export interface WorkflowStatusPayloadParam {

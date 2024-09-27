@@ -92,6 +92,31 @@ class ExplorerController {
 			next(error);
 		}
 	}
+
+	async downloadFile(req: Request, res: Response, next: NextFunction) {
+		try {
+			const token = req.headers.authorization;
+			const driver = req.params.driver;
+			const path = req.params[0];
+
+			const responseAxios = await ExplorerRepository.downloadFile(driver, path, token);
+			responseAxios.data.pipe(res);
+
+			responseAxios.data.on('error', (error: any) => {
+				logger.error(`Error while streaming file: ${error.message}`);
+				res.status(500).send('Error while streaming file');
+			});
+		} catch (error) {
+			if (error?.response?.status === 404) {
+				logger.error(`File not found: ${error.message}`);
+				return res.status(404).send('File not found');
+			}
+
+			logger.error(`Error while downloading file: ${error.message}`);
+			res.status(500).send('Error while downloading file');
+			next(error);
+		}
+	}
 }
 
 export default new ExplorerController();

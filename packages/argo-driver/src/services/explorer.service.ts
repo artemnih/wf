@@ -77,6 +77,21 @@ class ExplorerService {
 			throw new Error(`Error uploading files: ${error.message}`);
 		}
 	}
+
+	async downloadFile(pathToTarget: string) {
+		const baseDir = CONFIG.argoCompute.baseDir;
+		const fullPath = path.join(baseDir, pathToTarget);
+
+		logger.info(`Downloading file: ${fullPath}`);
+
+		try {
+			const fileStream = fs.createReadStream(fullPath);
+			return { stream: fileStream };
+		} catch (error) {
+			logger.error(`Error downloading file: ${fullPath}, Error: ${error.message}`);
+			throw new Error(`Error downloading file: ${error.message}`);
+		}
+	}
 }
 
 export default new ExplorerService();

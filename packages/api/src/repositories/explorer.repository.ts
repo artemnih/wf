@@ -51,6 +51,15 @@ export class ExplorerRepository {
 			throw new Error(`Error while uploading files: ${error.message}`);
 		}
 	}
+
+	static async downloadFile(driver: string, path: string, token: string) {
+		const driverUrl = await DriverRepository.getDriverUrl(driver);
+
+		return axios.get(`${driverUrl}/files/download/${path}`, {
+			headers: { authorization: token },
+			responseType: 'stream',
+		});
+	}
 }
 
 export default new ExplorerRepository();

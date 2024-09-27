@@ -11,23 +11,23 @@ export class ExplorerController implements IExplorerController {
 			const decodedPath = decodeURIComponent(wildcard);
 			if (decodedPath.includes('..')) {
 				logger.error('Invalid path');
-				throw new Error('Invalid path');
+				return res.status(400).send('Invalid path');
 			}
 			const result = await ExplorerService.getContent(decodedPath);
 			result.stream.pipe(res);
 
 			result.stream.on('error', streamError => {
 				logger.error(`Error while streaming file: ${streamError.message}`);
-				res.status(500).send('Error while streaming content');
+				res.status(500).send('Error while streaming file');
 			});
 		} catch (error) {
 			if (error.code === 'ENOENT') {
-				res.status(404).send('File not found');
+				logger.error(`File not found: ${error.message}`);
+				return res.status(404).send('File not found');
 			} else {
 				logger.error(`Error while getting content: ${error.message}`);
-				res.status(500).send('Error while getting content: ' + error.message);
+				return res.status(500).send('Error while getting content: ' + error.message);
 			}
-			next(error);
 		}
 	}
 
@@ -98,6 +98,27 @@ export class ExplorerController implements IExplorerController {
 		} catch (error) {
 			logger.error(`Error in uploading files: ${error.message}`);
 			return res.status(500).send('Error while uploading files');
+		}
+	}
+
+	async downloadFile(req: Request, res: Response, next: NextFunction) {
+		try {
+			const pathToTarget = req.params[0];
+			const result = await ExplorerService.downloadFile(pathToTarget);
+			result.stream.pipe(res);
+
+			result.stream.on('error', streamError => {
+				logger.error(`Error while streaming file: ${streamError.message}`);
+				return res.status(500).send('Error while streaming file');
+			});
+		} catch (error) {
+			if (error.code === 'ENOENT') {
+				logger.error(`File not found: ${error.message}`);
+				return res.status(404).send('File not found');
+			} else {
+				logger.error(`Error while downloading file: ${error.message}`);
+				return res.status(500).send('Error while downloading file');
+			}
 		}
 	}
 }

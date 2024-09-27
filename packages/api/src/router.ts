@@ -31,7 +31,8 @@ export const ExplorerRoutes = express
 	.Router()
 	.get('/:driver/content/*', ExplorerController.getContent)
 	.post('/:driver/newdir/*', ExplorerController.createDir)
-	.post('/:driver/upload/*', multer().array('files'), ExplorerController.uploadFiles);
+	.post('/:driver/upload/*', multer().array('files'), ExplorerController.uploadFiles)
+	.get('/:driver/download/*', ExplorerController.downloadFile);
 
 export const LoggerRoutes = express.Router().get('/logs', LoggerController.getServerLogs);
 
