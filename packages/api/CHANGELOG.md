@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/PolusAI/compute/compare/compute-api-v1.0.0...compute-api-v1.1.0) (2024-09-22)
+
+
+### Features
+
+* full argo content path in status ([f085de0](https://github.com/PolusAI/compute/commit/f085de0b91ba941b51aaa9b859250575bf426917))
+* **logger:** add logger prefix ([931e558](https://github.com/PolusAI/compute/commit/931e5584d95c7d338edefcc6178c8034f491b5f8))
+
 ## 1.0.0 (2024-09-14)
 
 ### Features
