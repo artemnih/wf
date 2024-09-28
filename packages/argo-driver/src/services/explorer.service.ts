@@ -92,6 +92,39 @@ class ExplorerService {
 			throw new Error(`Error downloading file: ${error.message}`);
 		}
 	}
+
+	async deleteAssets(paths: string[]) {
+		const baseDir = CONFIG.argoCompute.baseDir;
+
+		try {
+			for (const pathToTarget of paths) {
+				const fullPath = path.join(baseDir, pathToTarget);
+				await fsPromises.rm(fullPath, { recursive: true });
+			}
+			return { message: 'Deleted successfully' };
+		} catch (error) {
+			logger.error(`Error white deleting: ${error.message}`);
+			throw new Error(`Error white deleting: ${error.message}`);
+		}
+	}
+
+	async rename(pathToFile: string, newName: string) {
+		const baseDir = CONFIG.argoCompute.baseDir;
+		const oldFullPath = path.join(baseDir, pathToFile);
+
+		const newPath = pathToFile.split('/');
+		newPath.pop();
+		newPath.push(newName);
+		const newFullPath = path.join(baseDir, newPath.join('/'));
+
+		try {
+			await fsPromises.rename(oldFullPath, newFullPath);
+			return { message: 'Renamed successfully' };
+		} catch (error) {
+			logger.error(`Error while renaming: ${error.message}`);
+			throw new Error(`Error while renaming: ${error.message}`);
+		}
+	}
 }
 
 export default new ExplorerService();

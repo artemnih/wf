@@ -18,6 +18,8 @@ export interface IExplorerController {
 	createDir(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
 	uploadFiles(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
 	downloadFile(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+	deleteAssets(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+	rename(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
 }
 
 export enum WorkflowStatus {
@@ -45,6 +47,8 @@ export const ExplorerRoutes = {
 	CREATE_DIR: '/newdir/*',
 	UPLOAD_FILES: '/upload/*',
 	DOWNLOAD_FILE: '/download/*',
+	DELETE: '/delete',
+	RENAME: '/rename',
 };
 
 export interface WorkflowStatusPayloadParam {

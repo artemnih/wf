@@ -32,7 +32,9 @@ export const ExplorerRoutes = express
 	.get('/:driver/content/*', ExplorerController.getContent)
 	.post('/:driver/newdir/*', ExplorerController.createDir)
 	.post('/:driver/upload/*', multer().array('files'), ExplorerController.uploadFiles)
-	.get('/:driver/download/*', ExplorerController.downloadFile);
+	.get('/:driver/download/*', ExplorerController.downloadFile)
+	.delete('/:driver/delete', ExplorerController.deleteAssets)
+	.patch('/:driver/rename', ExplorerController.rename);
 
 export const LoggerRoutes = express.Router().get('/logs', LoggerController.getServerLogs);
 

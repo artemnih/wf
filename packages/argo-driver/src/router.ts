@@ -24,7 +24,9 @@ export const ExplorerRoutes = express
 	.get(ExplorerRoutePaths.GET_CONTENT, explorerController.getContent)
 	.post(ExplorerRoutePaths.CREATE_DIR, explorerController.createDir)
 	.post(ExplorerRoutePaths.UPLOAD_FILES, multer().array('files'), explorerController.uploadFiles)
-	.get(ExplorerRoutePaths.DOWNLOAD_FILE, explorerController.downloadFile);
+	.get(ExplorerRoutePaths.DOWNLOAD_FILE, explorerController.downloadFile)
+	.delete(ExplorerRoutePaths.DELETE, explorerController.deleteAssets)
+	.patch(ExplorerRoutePaths.RENAME, explorerController.rename);
 
 export const HealthRoutes = express.Router().get('/check', HealthController.ping);
 export const LoggerRoutes = express.Router().get('/logs', LoggerController.getServerLogs);

@@ -2,8 +2,6 @@ import { ExpressServer } from './server';
 import ConfigService from './services/config.service';
 import { logger } from './utils';
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
 // Load environment variables from .env file
 require('dotenv').config();
 const config = require('config');

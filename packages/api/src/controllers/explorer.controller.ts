@@ -117,6 +117,39 @@ class ExplorerController {
 			next(error);
 		}
 	}
+
+	async deleteAssets(req: Request, res: Response, next: NextFunction) {
+		try {
+			logger.info('Deleting assets');
+
+			const token = req.headers.authorization;
+			const driver = req.params.driver;
+			const paths = req.body.paths as string[];
+
+			const responseAxios = await ExplorerRepository.deleteAssets(driver, paths, token);
+			res.status(200).json(responseAxios.data);
+		} catch (error) {
+			logger.error(`Error while deleting file: ${error.message}`);
+			res.status(500).send('Error while deleting file');
+			next(error);
+		}
+	}
+
+	async rename(req: Request, res: Response, next: NextFunction) {
+		try {
+			const token = req.headers.authorization;
+			const driver = req.params.driver;
+			const path = req.body.path;
+			const name = req.body.name;
+
+			const responseAxios = await ExplorerRepository.rename(driver, path, name, token);
+			res.status(200).json(responseAxios.data);
+		} catch (error) {
+			logger.error(`Error while renaming: ${error.message}`);
+			res.status(500).send('Error while renaming');
+			next(error);
+		}
+	}
 }
 
 export default new ExplorerController();

@@ -60,6 +60,21 @@ export class ExplorerRepository {
 			responseType: 'stream',
 		});
 	}
+
+	static async deleteAssets(driver: string, paths: string[], token: string) {
+		const driverUrl = await DriverRepository.getDriverUrl(driver);
+
+		return axios.delete(`${driverUrl}/files/delete`, {
+			headers: { authorization: token },
+			data: { paths },
+		});
+	}
+
+	static async rename(driver: string, path: string, name: string, token: string) {
+		const driverUrl = await DriverRepository.getDriverUrl(driver);
+
+		return axios.patch(`${driverUrl}/files/rename`, { path, name }, { headers: { authorization: token } });
+	}
 }
 
 export default new ExplorerRepository();

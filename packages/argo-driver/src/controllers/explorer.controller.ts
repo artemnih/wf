@@ -72,8 +72,6 @@ export class ExplorerController implements IExplorerController {
 
 	async uploadFiles(req: Request, res: Response, next: NextFunction) {
 		try {
-			logger.info('Uploading files');
-
 			const pathToTarget = req.params[0]; // The path where files should be uploaded
 			const files = req.files as Express.Multer.File[]; // Files uploaded via Multer
 
@@ -104,6 +102,12 @@ export class ExplorerController implements IExplorerController {
 	async downloadFile(req: Request, res: Response, next: NextFunction) {
 		try {
 			const pathToTarget = req.params[0];
+
+			if (pathToTarget.includes('..')) {
+				logger.error('Invalid path detected');
+				return res.status(400).send('Invalid path');
+			}
+
 			const result = await ExplorerService.downloadFile(pathToTarget);
 			result.stream.pipe(res);
 
@@ -119,6 +123,59 @@ export class ExplorerController implements IExplorerController {
 				logger.error(`Error while downloading file: ${error.message}`);
 				return res.status(500).send('Error while downloading file');
 			}
+		}
+	}
+
+	async deleteAssets(req: Request, res: Response, next: NextFunction) {
+		try {
+			const paths = req.body.paths;
+
+			for (const p of paths) {
+				if (p.includes('..')) {
+					logger.error('Invalid path detected');
+					return res.status(400).send('Invalid path');
+				}
+			}
+
+			const result = await ExplorerService.deleteAssets(paths);
+			return res.status(200).json(result);
+		} catch (error) {
+			logger.error(`Error while deleting file: ${error.message}`);
+			return res.status(500).send('Error while deleting file');
+		}
+	}
+
+	async rename(req: Request, res: Response, next: NextFunction) {
+		try {
+			const name = req.body.name;
+			const path = req.body.path;
+
+			if (name.includes('..') || path.includes('..')) {
+				logger.error('Invalid path detected');
+				return res.status(400).send('Invalid path');
+			}
+
+			if (!name.trim()) {
+				logger.error('Directory name cannot be empty');
+				return res.status(400).send('Directory name cannot be empty');
+			}
+
+			if (name === '') {
+				logger.error('Name cannot be empty');
+				throw new Error('Name cannot be empty');
+			}
+
+			const illegalChars = /[?%*:|"<>.]/;
+			if (illegalChars.test(name)) {
+				logger.error('Directory name contains illegal characters');
+				return res.status(400).send('Directory name contains illegal characters');
+			}
+
+			const result = await ExplorerService.rename(path, name);
+			return res.status(200).json(result);
+		} catch (error) {
+			logger.error(`Error while renaming file: ${error.message}`);
+			return res.status(500).send('Error while renaming file');
 		}
 	}
 }
