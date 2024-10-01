@@ -1,11 +1,11 @@
 import express from 'express';
 import SlurmController from './controllers/slurm.controller';
 import HealthController from './controllers/health.controller';
-import { DriverRoutes } from '@polusai/compute-common';
+import { DriverRoutes, ExplorerRoutes } from '@polusai/compute-common';
 
 export const SlurmRoutes = express
 	.Router()
-	.get(DriverRoutes.FILES_CONTENT, SlurmController.getContent)
+	.get(ExplorerRoutes.GET_CONTENT, SlurmController.getContent)
 	.post(DriverRoutes.ROOT, SlurmController.createWorkflow)
 	.get(DriverRoutes.STATUS, SlurmController.getWorkflowStatus)
 	.get(DriverRoutes.LOGS, SlurmController.getWorkflowLogs)

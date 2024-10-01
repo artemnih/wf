@@ -13,12 +13,12 @@ const basePath = slurmConfig.slurmCompute.data;
 mkdirSync(basePath, { recursive: true });
 
 // directory to store toil output
-const toilOutputDir = path.join(basePath, 'out')
+const toilOutputDir = path.join(basePath, 'out');
 mkdirSync(toilOutputDir, { recursive: true });
 
 // directory to store toil logs
-const toilLogsDir = path.join(basePath, 'logs')
-mkdirSync(toilLogsDir, { recursive: true })
+const toilLogsDir = path.join(basePath, 'logs');
+mkdirSync(toilLogsDir, { recursive: true });
 
 class SlurmController implements IControllerController {
 	async createWorkflow(req: Request, res: Response, next: NextFunction) {
@@ -83,7 +83,7 @@ class SlurmController implements IControllerController {
 		// get workflow id
 		const id = req.params.id;
 
-		try { 
+		try {
 			// read contents from correct directory for the workflow id
 			const outputPath = `${toilLogsDir}/${id}`;
 
@@ -129,7 +129,7 @@ class SlurmController implements IControllerController {
 			// get workflow id
 			const id = req.params.id;
 
-			try { 
+			try {
 				// read contents from correct directory for the workflow id
 				const outputPath = `${toilOutputDir}/${id}`;
 				const fileList = fs.readdirSync(outputPath);

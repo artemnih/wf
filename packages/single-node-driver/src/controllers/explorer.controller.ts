@@ -8,7 +8,7 @@ class ExplorerController {
 	async getContent(req: Request, res: Response, next: NextFunction) {
 		try {
 			console.log('Getting content for workflow:', req.url);
-			const path = req.url.split('/files/content')[1];
+			const path = req.url.split('/files')[1];
 			console.log('Path:', path);
 			const decodedPath = decodeURIComponent(path);
 			console.log('Decoded path:', decodedPath);

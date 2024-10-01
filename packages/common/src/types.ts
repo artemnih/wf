@@ -13,6 +13,15 @@ export interface IControllerController {
 	stopWorkflow(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
 
+export interface IExplorerController {
+	getContent(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+	createDir(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+	uploadFiles(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+	downloadFile(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+	deleteAssets(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+	rename(req: Request, res: Response, next: NextFunction): Promise<Record<string, any>>;
+}
+
 export enum WorkflowStatus {
 	PENDING = 'PENDING',
 	RUNNING = 'RUNNING',
@@ -31,7 +40,15 @@ export const DriverRoutes = {
 	OUTPUTS: '/:id/outputs/*',
 	JOBS: '/:id/jobs',
 	STOP: '/:id/stop',
-	FILES_CONTENT: '/files/content/*',
+};
+
+export const ExplorerRoutes = {
+	GET_CONTENT: '/content/*',
+	CREATE_DIR: '/newdir/*',
+	UPLOAD_FILES: '/upload/*',
+	DOWNLOAD_FILE: '/download/*',
+	DELETE: '/delete',
+	RENAME: '/rename',
 };
 
 export interface WorkflowStatusPayloadParam {

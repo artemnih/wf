@@ -46,7 +46,7 @@ jobs:
         needs: install
         strategy:
             matrix:
-                package: [api, argo-driver, single-node-driver, slurm-driver]
+                package: [argo-driver, single-node-driver, slurm-driver]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3

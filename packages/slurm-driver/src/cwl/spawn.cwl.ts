@@ -8,27 +8,17 @@ export function spawnGenericCwlRunner(
 	cwlJobInputs: string,
 	toilOutputDir: string,
 	toilLogsDir: string,
-	config: Array<string>=[],
+	config: Array<string> = [],
 ): ChildProcess {
-
-	const toilLogFile = path.join(toilLogsDir, `toil.log`)
+	const toilLogFile = path.join(toilLogsDir, `toil.log`);
 	//create log file
 	fs.writeFileSync(toilLogFile, '', { flag: 'w' });
 
 	// run toil from command line
 	const result = spawn(
 		'toil-cwl-runner',
-		[
-			cwlWorkflow,
-			cwlJobInputs,
-			'--outdir',
-			toilOutputDir,
-			'--logFile',
-			toilLogFile,
-			'--batchSystem',
-			'slurm',
-		].concat(config), // add custom configs to toil call
-	)
+		[cwlWorkflow, cwlJobInputs, '--outdir', toilOutputDir, '--logFile', toilLogFile, '--batchSystem', 'slurm'].concat(config), // add custom configs to toil call
+	);
 
 	return result;
 }

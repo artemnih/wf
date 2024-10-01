@@ -128,7 +128,7 @@ export class WorkflowRepository {
 		logger.info(`Getting driver logs for ${driver}`);
 		const driverObj = await DriverRepository.getByName(driver);
 		const driverUrl = driverObj.url;
-		const result = await axios.get(`${driverUrl}/compute/logs`, { headers: { authorization: token } });
+		const result = await axios.get(`${driverUrl}/logger/logs`, { headers: { authorization: token } });
 		let rawLogs = result.data;
 		rawLogs = rawLogs.replace(/\t/g, ' ');
 		const logLines = rawLogs.split('\n').filter((line: string) => line.trim() !== '');
