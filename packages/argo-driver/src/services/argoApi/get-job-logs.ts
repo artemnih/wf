@@ -14,8 +14,9 @@ export async function getJobLogs(workflowId: string, jobName: string) {
 		return 'No logs found. Pod not found. Try again later or check pod name.';
 	}
 	const podId = pod.id;
-	const url = `/${workflowId}/log?logOptions.container=wait&podName=${podId}`;
-	logger.info('Getting logs from:', url);
+	const url = `/${workflowId}/log?logOptions.container=main&podName=${podId}`;
+	const fullUrl = `${axiosClient().defaults.baseURL}${url}`;
+	console.log('Getting logs from:', fullUrl);
 	const results = await axiosClient().get(url);
 	const data = results.data;
 	const content = parseLogs(data);
