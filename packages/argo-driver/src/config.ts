@@ -1,5 +1,5 @@
-import { logger } from "./services";
-import { ArgoDriverConfig } from "./types";
+import { logger } from './services';
+import { ArgoDriverConfig } from './types';
 require('dotenv').config();
 
 if (!process.env.NO_AUTH && !process.env.SERVICES_AUTH_URL) {
