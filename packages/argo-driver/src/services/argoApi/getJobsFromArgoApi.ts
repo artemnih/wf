@@ -1,5 +1,4 @@
 import { ComputeJob } from '../../types';
-import { argoUrl } from './argoUrl';
 import { ArgoNodes, ArgoParameters } from './getArgoJobStatus';
 import { getOutputsFromArgoInputs } from './getOutputsFromArgoInputs';
 import { translateStatus } from './statusOfArgoWorkflow';
@@ -27,7 +26,6 @@ export function getJobsFromArgoApi(workflowId: string, argoNodes: Array<ArgoNode
 			stepName: argoNode.displayName,
 			outputs: {
 				...getOutputsFromArgoInputs(argoNode.inputs?.parameters as ArgoParameters[], argoNode.displayName),
-				...getPodLogUrls(argoNode.displayName, workflowId, argoNode.id),
 			},
 			inputs: mapArgoParametersToJobInputs(argoNode.inputs?.parameters),
 		};
@@ -35,13 +33,6 @@ export function getJobsFromArgoApi(workflowId: string, argoNodes: Array<ArgoNode
 		index = index + 1;
 	}
 	return jobs;
-}
-
-function getPodLogUrls(stepName: string, workflowId: string, argoPodName: string) {
-	const newOutputLogs: Record<string, string> = {};
-	newOutputLogs[`${stepName}Logs`] =
-		`${argoUrl()}/${workflowId}/log?logOptions.container=main&logOptions.follow=true&podName=${argoPodName}`;
-	return newOutputLogs;
 }
 
 function mapArgoParametersToJobInputs(argoParameters?: ArgoParameters[]) {

@@ -3,7 +3,6 @@ export * from './getArgoJobStatus';
 export * from './getJobsFromArgoApi';
 export * from './getOutputsFromArgoInputs';
 export * from './stopArgoWorkflow';
-export * from './argoUrl';
 export * from './axios-client';
 export * from './get-job-logs';
 export * from './get-workflow-log';
