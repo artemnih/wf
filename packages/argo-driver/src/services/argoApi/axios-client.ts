@@ -1,19 +1,17 @@
 import * as fs from 'fs';
 import { default as axios } from 'axios';
+import { CONFIG } from '../../config';
 
 export function axiosClient() {
-	require('dotenv').config();
-	const argoConfig = require('config');
-
-	if (argoConfig.argoCompute.argo.tokenPath !== '') {
-		const token = fs.readFileSync(argoConfig.argoCompute.argo.tokenPath).toString().trim();
+	if (CONFIG.argoCompute.argo.tokenPath !== '') {
+		const token = fs.readFileSync(CONFIG.argoCompute.argo.tokenPath).toString().trim();
 		return axios.create({
-			baseURL: argoConfig.argoCompute.argo.argoUrl,
+			baseURL: CONFIG.argoCompute.argo.argoUrl,
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
 		});
 	} else {
-		return axios.create({ baseURL: argoConfig.argoCompute.argo.argoUrl });
+		return axios.create({ baseURL: CONFIG.argoCompute.argo.argoUrl });
 	}
 }

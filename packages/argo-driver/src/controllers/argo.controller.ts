@@ -13,9 +13,7 @@ import {
 } from '../services/argoApi';
 import { logger } from '../services/logger';
 import ExplorerService from '../services/explorer.service';
-
-require('dotenv').config();
-const argoConfig = require('config');
+import { CONFIG } from '../config';
 
 class ArgoController implements IControllerController {
 	/**
@@ -111,7 +109,7 @@ class ArgoController implements IControllerController {
 				logger.error(errorMessage);
 				throw new Error(errorMessage);
 			}
-			const subPath = argoConfig.argoCompute.volumeDefinitions.subPath;
+			const subPath = CONFIG.argoCompute.volumeDefinitions.subPath;
 			const fullPath = `${subPath}/${workflowId}/${decodedPath}`;
 			const respo = await ExplorerService.getContent(fullPath);
 			respo.stream.pipe(res);

@@ -8,12 +8,13 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSchema from './swagger.json';
 import { logger } from './services/logger';
+import { ArgoDriverConfig } from './types';
 
 export class ExpressServer {
 	private app: express.Application;
 	private server: http.Server;
 
-	constructor(private options: any) {
+	constructor(private options: ArgoDriverConfig) {
 		const authUrl = this.options.services.auth.authUrl;
 
 		this.app = express();

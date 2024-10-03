@@ -3,9 +3,7 @@ import { determineDependencies } from './determineDependencies';
 import { sanitizeStepName } from './sanitize-step-name';
 import path from 'path';
 import { logger } from '../../logger';
-
-require('dotenv').config();
-const argoConfig = require('config');
+import { CONFIG } from '../../../config';
 
 /**
  * Build the argo dag task template for the given step.
@@ -55,11 +53,11 @@ function mountDirectories(taskArgumentsParameters: ArgoTaskParameter[]) {
 	for (let param of taskArgumentsParameters) {
 		if (param.type === ArgoTaskParameterType.OutputPath) {
 			// outputs should be mounted in writable location
-			let argoMountPath = argoConfig.argoCompute.volumeDefinitions.outputPath;
+			let argoMountPath = CONFIG.argoCompute.volumeDefinitions.outputPath;
 			param.value = path.join(argoMountPath, param.value);
 		} else if (param.type === ArgoTaskParameterType.InputPath) {
 			// inputs must be mounted from a read only location
-			let argoMountPath = argoConfig.argoCompute.volumeDefinitions.mountPath;
+			let argoMountPath = CONFIG.argoCompute.volumeDefinitions.mountPath;
 			param.value = path.join(argoMountPath, param.value);
 		}
 	}
@@ -139,7 +137,7 @@ function createTaskParameters(step: Step, cwlJobInputs: WorkflowInput[], boundOu
 			if (step.clt.inputs[stepInput]?.type == 'Directory') {
 				// we add subPath because outputs are always in subpath
 				// but can't add subPath to inputs because it will not work with pre-existing data
-				let subPath = argoConfig.argoCompute.volumeDefinitions.subPath;
+				let subPath = CONFIG.argoCompute.volumeDefinitions.subPath;
 				inputValue = path.join(subPath, pathPrefix, boundStep, inputValue as string);
 				inputType = ArgoTaskParameterType.InputPath;
 			}

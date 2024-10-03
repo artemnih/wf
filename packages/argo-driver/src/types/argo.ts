@@ -88,3 +88,31 @@ export interface ArgoVolumeMounts {
 export interface ArgoLogRecord {
 	result: { content: string; podName: string };
 }
+
+export interface ArgoDriverConfig {
+	rest: {
+		port: number;
+		host: string;
+		noAuth: boolean;
+	};
+	services: {
+		auth: {
+			authUrl: string;
+		};
+	};
+	argoCompute: {
+		baseDir: string;
+		argo: {
+			argoUrl: string;
+			tokenPath: string;
+			namespace: string;
+		};
+		volumeDefinitions: {
+			pvcName: string;
+			name: string;
+			mountPath: string;
+			outputPath: string;
+			subPath: string;
+		};
+	};
+}

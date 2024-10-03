@@ -1,9 +1,7 @@
+import { CONFIG } from '../../../config';
 import { ArgoContainerTemplate } from '../../../types';
 
 export function pathCreatorContainerTemplate(): ArgoContainerTemplate {
-	require('dotenv').config();
-	const argoConfig = require('config');
-
 	return {
 		name: 'path-creator',
 		inputs: {
@@ -15,14 +13,14 @@ export function pathCreatorContainerTemplate(): ArgoContainerTemplate {
 			args: ['--paths', '{{inputs.parameters.paths}}'],
 			volumeMounts: [
 				{
-					name: argoConfig.argoCompute.volumeDefinitions.name,
+					name: CONFIG.argoCompute.volumeDefinitions.name,
 					readOnly: true,
-					mountPath: argoConfig.argoCompute.volumeDefinitions.mountPath,
+					mountPath: CONFIG.argoCompute.volumeDefinitions.mountPath,
 				},
 				{
-					name: argoConfig.argoCompute.volumeDefinitions.name,
-					mountPath: `${argoConfig.argoCompute.volumeDefinitions.outputPath}`,
-					subPath: `${argoConfig.argoCompute.volumeDefinitions.subPath}`,
+					name: CONFIG.argoCompute.volumeDefinitions.name,
+					mountPath: `${CONFIG.argoCompute.volumeDefinitions.outputPath}`,
+					subPath: `${CONFIG.argoCompute.volumeDefinitions.subPath}`,
 					readOnly: false,
 				},
 			],

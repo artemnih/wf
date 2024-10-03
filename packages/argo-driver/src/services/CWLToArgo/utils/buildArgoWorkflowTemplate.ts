@@ -1,3 +1,4 @@
+import { CONFIG } from '../../../config';
 import { ArgoContainerTemplate, ArgoTaskTemplate, ArgoWorklow, CwlWorkflow } from '../../../types';
 
 /**
@@ -12,18 +13,15 @@ export function buildArgoWorkflowTemplate(
 	containers: Array<ArgoContainerTemplate>,
 	tasks: Array<ArgoTaskTemplate>,
 ): ArgoWorklow {
-	require('dotenv').config();
-	const argoConfig = require('config');
-
 	return {
-		namespace: argoConfig.argoCompute.namespace,
+		namespace: CONFIG.argoCompute.argo.namespace,
 		serverDryRun: false,
 		workflow: {
 			apiVersion: 'argoproj.io/v1alpha1',
 			kind: 'Workflow',
 			metadata: {
 				name: cwlWorkflow.id,
-				namespace: argoConfig.argoCompute.namespace,
+				namespace: CONFIG.argoCompute.argo.namespace,
 				labels: {
 					'workflows.argoproj.io/archive-strategy': 'false',
 				},
@@ -41,9 +39,9 @@ export function buildArgoWorkflowTemplate(
 				],
 				volumes: [
 					{
-						name: argoConfig.argoCompute.volumeDefinitions.name,
+						name: CONFIG.argoCompute.volumeDefinitions.name,
 						persistentVolumeClaim: {
-							claimName: argoConfig.argoCompute.volumeDefinitions.pvcName,
+							claimName: CONFIG.argoCompute.volumeDefinitions.pvcName,
 						},
 					},
 				],

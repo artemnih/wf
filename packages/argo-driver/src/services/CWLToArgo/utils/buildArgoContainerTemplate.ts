@@ -1,6 +1,7 @@
 import { sanitizeStepName } from './sanitize-step-name';
 import { Step, ArgoContainerTemplate } from '../../../types';
 import { logger } from '../../logger';
+import { CONFIG } from '../../../config';
 
 /**
  * Build the container template for a given step.
@@ -8,10 +9,6 @@ import { logger } from '../../logger';
  * @returns the container template for this step.
  */
 export function buildArgoContainerTemplate(step: Step) {
-	// retrieve configuration
-	require('dotenv').config();
-	const argoConfig = require('config');
-
 	const containerArgs: string[] = [];
 	const parameterNames: { name: string }[] = [];
 	const templateName = step.name;
@@ -33,14 +30,14 @@ export function buildArgoContainerTemplate(step: Step) {
 			args: containerArgs,
 			volumeMounts: [
 				{
-					name: argoConfig.argoCompute.volumeDefinitions.name,
+					name: CONFIG.argoCompute.volumeDefinitions.name,
 					readOnly: true,
-					mountPath: argoConfig.argoCompute.volumeDefinitions.mountPath,
+					mountPath: CONFIG.argoCompute.volumeDefinitions.mountPath,
 				},
 				{
-					name: argoConfig.argoCompute.volumeDefinitions.name,
-					mountPath: argoConfig.argoCompute.volumeDefinitions.outputPath,
-					subPath: argoConfig.argoCompute.volumeDefinitions.subPath,
+					name: CONFIG.argoCompute.volumeDefinitions.name,
+					mountPath: CONFIG.argoCompute.volumeDefinitions.outputPath,
+					subPath: CONFIG.argoCompute.volumeDefinitions.subPath,
 					readOnly: false,
 				},
 			],

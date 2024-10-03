@@ -3,9 +3,7 @@ import { axiosClient } from '.';
 import fs from 'fs';
 import path from 'path';
 import { logger } from '../logger';
-
-require('dotenv').config();
-const argoConfig = require('config');
+import { CONFIG } from '../../config';
 
 type Dict<T> = { [key: string]: T };
 
@@ -30,7 +28,7 @@ export function translateStatus(phase: string) {
 }
 
 export async function statusOfArgoWorkflow(argoWorkflowName: string) {
-	logger.info('Getting status of Argo workflow', argoWorkflowName);
+	logger.info('Getting status of Argo workflow ' + argoWorkflowName);
 	const response = await axiosClient().get(`/${argoWorkflowName}`);
 	const nodes = response.data.status.nodes as Dict<any>;
 	const wfId = response.data.metadata.name;
@@ -51,7 +49,7 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 					const parts = param.value.split(wfId);
 
 					// build relative path, excludes mount dir
-					const relativePath = path.join(argoConfig.argoCompute.volumeDefinitions.subPath, wfId, parts[1]);
+					const relativePath = path.join(CONFIG.argoCompute.volumeDefinitions.subPath, wfId, parts[1]);
 
 					// store it
 					param.value = relativePath;
@@ -60,12 +58,7 @@ export async function statusOfArgoWorkflow(argoWorkflowName: string) {
 					param.isDir = true;
 
 					// get metadata of the folder
-					const fullPath = path.join(
-						argoConfig.argoCompute.baseDir,
-						argoConfig.argoCompute.volumeDefinitions.subPath,
-						wfId,
-						parts[1],
-					);
+					const fullPath = path.join(CONFIG.argoCompute.baseDir, CONFIG.argoCompute.volumeDefinitions.subPath, wfId, parts[1]);
 					if (fs.existsSync(fullPath)) {
 						const metadata = fs.lstatSync(fullPath);
 						const files = fs.readdirSync(fullPath);
